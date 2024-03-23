@@ -1,3 +1,4 @@
+import './css/App.css';
 import LandingPage from './pages/LandingPage';
 import Banner from './components/Banner';
 import Navbar from './components/Navbar';
