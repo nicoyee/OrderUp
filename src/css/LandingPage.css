@@ -1,5 +1,16 @@
-h1 {
+.landing * {
 
-    font-family: 'Roboto Condensed';
+    margin: 0;
+
+}
+
+.landing {
+
+    width: 50%;
+    height: 500px;
+    background-color: #f05006;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.171) 2px, transparent 0);
+    background-size: 30px 30px;
+    background-position: -5px -5px
 
 }
