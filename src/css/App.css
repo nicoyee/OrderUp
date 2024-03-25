@@ -1,7 +1,11 @@
-.section-1, .section-2 {
+.landing section {
 
-    height: 500px;
+    height: 100vh;
+    scroll-snap-align: start;
 
-
+    color: white;
+    
+    
+      
 
 }

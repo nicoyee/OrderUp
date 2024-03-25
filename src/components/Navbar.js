@@ -1,27 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-scroll';
+import '../css/Navbar.css';
 
-function ScrollProgressBar() {
-  const [scroll, setScroll] = useState(0);
-
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollPercent = scrollTop / scrollHeight * 100;
-    setScroll(scrollPercent);
-  };
+const Navbar = () => {
+  
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top < window.innerHeight * 0.70) {
+          setActiveSection(section.id);
+        }
+      });
     };
-  }, [window]); // Add 'window' as dependency
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="navbar">
-      <div className="scroll-progress-bar" style={{ height: `${scroll}%` }} />
-    </div>
-  );
-}
+      <nav className="navbar1">
+        <ul>
 
-export default ScrollProgressBar;
+          <li className={activeSection === "home" ? "active" : ""}>
+
+            <a href = "#home">home</a>
+            
+          </li>
+
+          <li className={activeSection === "events" ? "active" : ""}>
+
+            <a href = "#events">events</a>
+            
+          </li>
+
+          <li className={activeSection === "about" ? "active" : ""}>
+
+            <a href = "#about">about</a>
+            
+          </li>
+
+        </ul>
+      </nav>
+    );
+};
+
+export default Navbar;
