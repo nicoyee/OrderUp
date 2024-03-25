@@ -1,29 +1,33 @@
 import './css/App.css';
-import LandingPage from './pages/LandingPage';
 import Banner from './components/Banner';
 import Navbar from './components/Navbar';
-import Testimonies from './pages/Testimonies';
 
 function App() {
   return (
     
-    <div>
+    <div className="landing">
 
       <Banner />
 
       <Navbar />
+        
+      <section id = "home">
 
-      <div className = "section-1">
-        
-        <h1>Lorem Ipsum</h1>
-        
-      </div>
+        <h1>HOME</h1>
 
-      <div className = "section-2">
-        
-        <h1>Lorem Ipsum</h1>
-        
-      </div>
+      </section>
+
+      <section id = "events">
+
+        <h1>EVENTS</h1>
+
+      </section>
+
+      <section id = "about">
+
+        <h1>ABOUT</h1>
+
+      </section>
 
     </div>
 
