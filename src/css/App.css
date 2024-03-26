@@ -5,7 +5,12 @@
 
     color: white;
     
-    
-      
+}
 
+.homebg {
+
+    position: absolute;
+    width: 750px;
+    align-self: center;
+    
 }

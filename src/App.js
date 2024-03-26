@@ -1,6 +1,7 @@
 import './css/App.css';
 import Banner from './components/Banner';
 import Navbar from './components/Navbar';
+import dishbig from './assets/home1.png';
 
 function App() {
   return (
@@ -14,6 +15,12 @@ function App() {
       <section id = "home">
 
         <h1>HOME</h1>
+
+      </section>
+
+      <section id = "menu">
+
+        <h1>MENU</h1>
 
       </section>
 

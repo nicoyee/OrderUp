@@ -1,7 +1,7 @@
 .navbar1 {
 
   height: 100%;
-  margin-left: 75px;
+  right: 30%;
   display: flex;
   align-items: center;
   position: fixed;
@@ -22,58 +22,78 @@
 
   display: flex;
   align-items: center;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  transition: margin-bottom 0.2s ease-out;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 1;
 
 }
 
 .navbar1 ul li.active {
 
-  align-items: center;
-  
-}
-
-.navbar1 ul li::after {
-
-  content: '';
-  width: 2px;
-  height: 34px;
-  left: -10px;
-  position: absolute;
-  
-  background: white;
-  
-}
-
-.navbar1 ul li.active::after {
-
-  height: 57px;
-  width: 4px;
-
-  background-color: red;
-  transition: height 0.2s ease;
+  animation: slide-out .5s forwards;
+  opacity: 0;
 
 }
 
-.navbar1 ul li:nth-child(3)::after {  /* targets the about section */
-  transition: height 0.2s ease-in;
+.navbar1 ul li:not(.active) {
+  animation: slide-in 0.5s forwards;
+  animation-fill-mode: forwards;
 }
 
 .navbar1 ul li a {
 
-  font-size: 18px;
+  font-family: "Abril Fatface";
+  font-size: 34px;
   color: white;
   text-decoration: none;
-  text-transform: uppercase;
-
-  transition: font-size 0.2s ease;
+  text-transform: lowercase;
 
 }
 
 .navbar1 li.active a {
 
-  font-size: 34px;
-  font-weight: 700;
+  color: #f05006;
 
 }
+
+@keyframes slide-out {
+  
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+
+    transform: translateX(+25%);
+
+  }
+  70% {
+
+    opacity: 1;
+
+  }
+  100% {
+
+    transform: translateX(-50%);
+    /* display: none; */
+
+  }
+
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(+10%);
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+

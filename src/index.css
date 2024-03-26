@@ -37,3 +37,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Kare';
+  src: url('../public/fonts/Kare.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kare-Shadow';
+  src: url('../public/fonts/Kare-Shadow.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kare-Gradient';
+  src: url('../public/fonts/Kare-Gradient.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kare-Light';
+  src: url('../public/fonts/Kare-Light.ttf') format('truetype');
+}

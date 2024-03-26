@@ -11,7 +11,9 @@ const Navbar = () => {
       const sections = document.querySelectorAll("section");
       sections.forEach((section) => {
         if (section.getBoundingClientRect().top < window.innerHeight * 0.70) {
+
           setActiveSection(section.id);
+         
         }
       });
     };
@@ -19,8 +21,11 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
+
       window.removeEventListener("scroll", handleScroll);
+
     };
+
   }, []);
 
   return (
@@ -30,6 +35,12 @@ const Navbar = () => {
           <li className={activeSection === "home" ? "active" : ""}>
 
             <a href = "#home">home</a>
+            
+          </li>
+
+          <li className={activeSection === "menu" ? "active" : ""}>
+
+            <a href = "#menu">menu</a>
             
           </li>
 
