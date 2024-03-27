@@ -1,10 +1,11 @@
 .navbar1 {
 
   height: 100%;
-  right: 30%;
+  right: 20%;
   display: flex;
   align-items: center;
   position: fixed;
+  color: #eff3f2;
 
   z-index: 100;
 
@@ -35,7 +36,7 @@
 }
 
 .navbar1 ul li:not(.active) {
-  animation: slide-in 0.5s forwards;
+  animation: slide-in 0.5s ease-in-out forwards;
   animation-fill-mode: forwards;
 }
 
@@ -43,7 +44,7 @@
 
   font-family: "Abril Fatface";
   font-size: 34px;
-  color: white;
+  color: #d5dbbd;
   text-decoration: none;
   text-transform: lowercase;
 
@@ -56,28 +57,20 @@
 }
 
 @keyframes slide-out {
-  
   0% {
     transform: translateX(0);
     opacity: 1;
   }
   50% {
-
     transform: translateX(+25%);
-
   }
   70% {
-
     opacity: 1;
-
   }
   100% {
-
     transform: translateX(-50%);
     /* display: none; */
-
   }
-
 }
 
 @keyframes slide-in {
@@ -96,4 +89,3 @@
     opacity: 1;
   }
 }
-

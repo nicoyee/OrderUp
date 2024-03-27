@@ -1,8 +1,7 @@
 .landing section {
 
-    height: 100vh;
+    min-height: 100vh;
     scroll-snap-align: start;
-
     color: white;
     
 }
@@ -14,3 +13,98 @@
     align-self: center;
     
 }
+
+#home {
+
+    padding-top: 150px;
+
+}
+
+.section-home {
+
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 35%;
+    margin-left: 15%;
+
+}
+
+.section-home h1 {
+
+    margin-left: 200px;
+
+    font-family: "Kare";
+    font-size: 78px;
+    font-weight: 900;
+    text-align: right;
+    text-transform: uppercase;
+    line-height: 90%;
+    color: #f05006;
+
+}
+
+.section-home h2 {
+
+    margin-bottom: -10px;
+    font-family: "Petit Formal Script";
+    font-size: 14px;
+    color:#d5dbbd;
+    text-transform: lowercase;
+
+}
+
+.cta {
+    margin-top: 50px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .cta span {
+    color: #d5dbbd;
+    padding-bottom: 7px;
+    letter-spacing: 4px;
+    font-size: 16px;
+    padding-right: 15px;
+    text-transform: uppercase;
+  }
+  
+  .cta svg {
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+    stroke: #f05006;
+  }
+  
+  .cta:hover svg {
+    transform: translateX(0);
+  }
+  
+  .cta:active svg {
+    transform: scale(0.9);
+  }
+  
+  .hover-underline-animation {
+    position: relative;
+    color: black;
+    padding-bottom: 20px;
+  }
+  
+  .hover-underline-animation:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #d5dbbd;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .cta:hover .hover-underline-animation:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  

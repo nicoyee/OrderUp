@@ -50,9 +50,9 @@ const Navbar = () => {
             
           </li>
 
-          <li className={activeSection === "about" ? "active" : ""}>
+          <li className={activeSection === "concept" ? "active" : ""}>
 
-            <a href = "#about">about</a>
+            <a href = "#concept">concept</a>
             
           </li>
 
