@@ -16,7 +16,7 @@
 
 #home {
 
-    padding-top: 150px;
+  padding-top: 100px;
 
 }
 
@@ -32,15 +32,16 @@
 
 .section-home h1 {
 
-    margin-left: 200px;
+    margin-left: 100px;
 
     font-family: "Kare";
-    font-size: 78px;
+    font-size: 116px;
     font-weight: 900;
     text-align: right;
     text-transform: uppercase;
     line-height: 90%;
     color: #f05006;
+    position: relative;
 
 }
 
@@ -55,7 +56,7 @@
 }
 
 .cta {
-    margin-top: 50px;
+    margin-top: 100px;
     border: none;
     background: none;
     cursor: pointer;
@@ -107,4 +108,70 @@
     transform: scaleX(1);
     transform-origin: bottom left;
   }
+
+#menu {
+
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-right: 35%;
+
+}
+
+#menu h3 {
+
+  color: #f05006;
+  font-family: "Kare";
+  font-size: 116px;
+  font-weight: 900;
+  opacity: 0;
+  animation: transform .5s ease-in opacity 0.5s ease-in;
+  animation: slide-out2 .5s backwards;
+
+}
+
+#menu h3.active {
+
+  animation: slide-in2 .5s forwards;
+
+}
+
+#menu h3:not(.active) {
+
   
+  animation-fill-mode: backwards;
+
+}
+.section-menu {
+
+  display: flex;
+
+}
+
+@keyframes slide-in2 {
+  70% {
+    transform: translateX(10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+}
+
+@keyframes slide-out2 {
+  0% {
+    opacity: 1;
+  }
+  
+  70% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100);
+    opacity: 0;
+  }
+
+}

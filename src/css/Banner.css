@@ -4,12 +4,12 @@
     position: absolute;
     margin-top: 20px;
     display: flex;
-    justify-content: center;
 
 }
 
 .banner img {
 
+    margin-left: 100px;
     width: 100px;
     height: 100px;
 

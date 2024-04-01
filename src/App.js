@@ -2,8 +2,34 @@ import './css/App.css';
 import Banner from './components/Banner';
 import Navbar from './components/Navbar';
 import dishbig from './assets/home1.png';
+import React, { useState, useEffect } from "react";
 
 function App() {
+
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top < window.innerHeight * 0.70) {
+
+          setActiveSection(section.id);
+         
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+
+      window.removeEventListener("scroll", handleScroll);
+
+    };
+
+  }, []);
+
   return (
     
     <div className="landing">
@@ -43,13 +69,17 @@ function App() {
 
       <section id = "menu">
 
-        <h1>MENU</h1>
+        <h3 className={activeSection === "menu" ? "active" : ""}>MENU</h3>
+        <div className = "section-menu">
+
+        </div>
 
       </section>
 
       <section id = "events">
 
         <h1>EVENTS</h1>
+
 
       </section>
 
