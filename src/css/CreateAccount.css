@@ -22,41 +22,35 @@ header{
     color: red;
 }
 
-.login-form{
+.create-account-form{
     margin-top: 50px;
     display: flex;
     flex-direction: column;
     padding: 50px;
     background-color: gray;
+    border-radius: 5%;
 }
 
-.login-form label{
+.create-account-form label{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     font-weight: bold;
     color: white;
 }
 
-.login-form input{
+.create-account-form input{
     border-radius: 10px;
     padding: 10px 50px;
     margin: 10px;
     border: none;
 }
 
-.login-form button{
+button{
     background-color: skyblue;
     color: white;
     border: none;
-    padding: 10px 50px;
+    padding: 10px 30px;
     border-radius: 10px;
-    margin-left: 80px;
-}
-
-
-.create-account-button {
-    background-color: lightgreen;
-    padding: 5px;
-    margin-top: 50px;
-    
+    margin-left: 65px;
+    margin-top: 5px;
 }
