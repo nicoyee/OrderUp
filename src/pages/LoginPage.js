@@ -2,27 +2,24 @@ import React, { useState } from 'react';
 import '../css/LoginPage.css';
 
 function LoginPage() {
-    // State variables to store username and password
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isCreatingAccount, setIsCreatingAccount] = useState(false);
 
-    // Function to handle form submission
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (isCreatingAccount) {
-            // Placeholder for account creation logic
-            // Here, you can add code to create a new account with the provided username and password
+         
             alert('Account created successfully');
-            setIsCreatingAccount(false); // Resetting the flag after account creation
+            setIsCreatingAccount(false); 
         } else {
-            // Placeholder for actual authentication logic
-            // For demonstration purposes, let's assume username is "admin" and password is "password"
+           
             if (username === 'admin' && password === 'password') {
                 alert('Login successful');
-                // Redirect to a new page or perform any other action upon successful login
-                // For example, history.push('/dashboard');
+              
             } else {
                 alert('Invalid username or password');
             }
@@ -31,7 +28,7 @@ function LoginPage() {
 
     return (
         <div className="container">
-            <header>{isCreatingAccount ? 'CREATE ACCOUNT' : 'LOGIN'}</header>
+            <header>Login</header>
             <div className="login-form">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username:</label><br />
