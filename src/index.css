@@ -53,7 +53,7 @@ body {
 }
  
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #d5dbbd;; 
   border-radius: 5px;
 }
 
