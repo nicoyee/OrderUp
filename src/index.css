@@ -1,20 +1,9 @@
-body {
+* {
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  background-color: #252525;
-
-}
-
-html, body {
-
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
+
 }
 
 html {
@@ -24,16 +13,52 @@ html {
 
 }
 
-* {
+body {
 
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  background-color: #252525;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
 
 }
 
-code {
 
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Fonts */
+@font-face {
+  font-family: 'Kare';
+  src: url('../public/fonts/Kare.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Kare-Shadow';
+  src: url('../public/fonts/Kare-Shadow.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kare-Gradient';
+  src: url('../public/fonts/Kare-Gradient.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kare-Light';
+  src: url('../public/fonts/Kare-Light.ttf') format('truetype');
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #252525; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::-webkit-scrollbar-corner {background-color: transparent;}

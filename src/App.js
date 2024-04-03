@@ -1,33 +1,20 @@
 import './css/App.css';
 import Banner from './components/Banner';
+import Landing from './pages/Landing';
 import Navbar from './components/Navbar';
+import dishbig from './assets/home1.png';
+import React, { useState, useEffect } from "react";
 
 function App() {
+
   return (
     
-    <div className="landing">
+    <div>
 
       <Banner />
 
-      <Navbar />
-        
-      <section id = "home">
+      <Landing />
 
-        <h1>HOME</h1>
-
-      </section>
-
-      <section id = "events">
-
-        <h1>EVENTS</h1>
-
-      </section>
-
-      <section id = "about">
-
-        <h1>ABOUT</h1>
-
-      </section>
 
     </div>
 

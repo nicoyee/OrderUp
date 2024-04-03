@@ -2,50 +2,42 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-scroll';
 import '../css/Navbar.css';
 
-const Navbar = () => {
-  
-  const [activeSection, setActiveSection] = useState("home");
+const Navbar = ( {activeSection} ) => {
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll("section");
-      sections.forEach((section) => {
-        if (section.getBoundingClientRect().top < window.innerHeight * 0.70) {
-          setActiveSection(section.id);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const [isNavOpen, expandNav] = useState(false);
 
   return (
-      <nav className="navbar1">
+      <nav className="navbar">
+
         <ul>
 
-          <li className={activeSection === "home" ? "active" : ""}>
-
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "home" ? 'active' : ''}`}>
             <a href = "#home">home</a>
-            
           </li>
 
-          <li className={activeSection === "events" ? "active" : ""}>
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "menu" ? 'active' : ''}`}>
+            <a href = "#menu">menu</a>
+          </li>
 
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "events" ? 'active' : ''}`}>
             <a href = "#events">events</a>
-            
           </li>
-
-          <li className={activeSection === "about" ? "active" : ""}>
-
-            <a href = "#about">about</a>
-            
+         
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "concept" ? 'active' : ''}`}>
+            <a href = "#concept">concept</a>
           </li>
 
         </ul>
+
+        <div id="menuToggle">
+          <input id="checkbox" type="checkbox" onClick={() => expandNav(!isNavOpen)} />
+          <label class="toggle" for="checkbox">
+            <div class="bar bar--top"></div>
+            <div class="bar bar--middle"></div>
+            <div class="bar bar--bottom"></div>
+          </label>
+        </div>
+        
       </nav>
     );
 };
