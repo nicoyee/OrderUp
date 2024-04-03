@@ -1,59 +1,161 @@
-.navbar1 {
+.navbar {
 
-  height: 100%;
-  right: 20%;
   display: flex;
-  align-items: center;
   position: fixed;
-  color: #eff3f2;
-
-  z-index: 100;
+  height: 100%;
+  right: 15%;
+  align-items: center;
+  z-index: 99;
 
 }
 
-.navbar1 ul {
+.navbar ul {
 
-  display: flex;
-  flex-direction: column;
   list-style-type: none;
 
 }
 
-.navbar1 ul li {
+.navbar ul li {
 
-  display: flex;
-  align-items: center;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-  opacity: 1;
+  
+  font-size: 42px;
+  
 
 }
 
-.navbar1 ul li.active {
+.navbar ul li.active {
 
   pointer-events: none;
   animation: slide-out .5s forwards;
 
 }
 
-.navbar1 ul li:not(.active) {
+.navbar ul li:not(.active) {
+
   animation: slide-in 0.5s ease-in-out forwards;
   animation-fill-mode: forwards;
+
 }
 
-.navbar1 ul li a {
+.navbar ul li a {
 
   font-family: "Abril Fatface";
-  font-size: 38px;
-  color: #d5dbbd;
+  color:#d5dbbd;
   text-decoration: none;
   text-transform: lowercase;
 
 }
 
-.navbar1 li.active a {
+.navbar ul li a:hover {
+
 
   color: #f05006;
 
+}
+
+/* Hamburger Menu */
+
+#menuToggle {
+
+  margin-top: 25px;
+  margin-bottom: 10px;
+  display: none;
+
+}
+
+#checkbox {
+  display: none;
+}
+
+.toggle {
+  position: relative;
+  width: 40px;
+  cursor: pointer;
+  margin: auto;
+  display: block;
+  height: calc(2px * 3 + 11px * 2);
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: calc(4px / 2);
+  background: #7b52b9;
+  color: inherit;
+  opacity: 1;
+  transition: none 0.35s cubic-bezier(.5,-0.35,.35,1.5) 0s;
+}
+
+/***** Tornado Animation *****/
+
+.bar--top {
+  bottom: calc(50% + 11px + 4px/ 2);
+  transition-property: bottom,transform;
+  transition-delay: calc(0s + 0.35s) * .6;
+}
+
+.bar--middle {
+  top: calc(50% - 4px/ 2);
+  transition-property: opacity,transform;
+  transition-delay: calc(0s + 0.35s * .3);
+}
+
+.bar--bottom {
+  top: calc(50% + 11px + 4px/ 2);
+  transition-property: top,transform;
+  transition-delay: 0s;
+}
+
+#checkbox:checked + .toggle .bar--top {
+  transform: rotate(-135deg);
+  transition-delay: 0s;
+  bottom: calc(50% - 4px/ 2);
+}
+
+#checkbox:checked + .toggle .bar--middle {
+  opacity: 0;
+  transform: rotate(-135deg);
+  transition-delay: calc(0s + 0.35s * .3);
+}
+
+#checkbox:checked + .toggle .bar--bottom {
+  top: calc(50% - 4px/ 2);
+  transform: rotate(-225deg);
+  transition-delay: calc(0s + 0.35s * .6);
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  80% {
+    transform: translateY(-15%);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(+25%);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%);
+    opacity: 0;
+    /* display: none; */ 
+  }
 }
 
 @keyframes slide-out {
@@ -89,3 +191,54 @@
     transform: translateX(0);
   }
 }
+
+/* Smartphones */
+@media only screen and (max-width: 768px) {
+
+  #menuToggle {
+
+    display: block;
+  
+  }
+
+  .navbar {
+
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    right: 20px;
+
+  }
+
+  .navbar ul li {
+
+    text-align: right;
+    font-size: 36px;
+    display: none;
+    opacity: 0;
+    
+  }
+  .navbar ul li.open {
+
+    display: block;
+    animation: slideUp 0.35s ease-in-out forwards;
+  
+  }
+  .navbar li.active a {
+
+    color: #f05006;
+  
+  }
+
+}
+
+/* Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+
+    right: 5%;
+
+  }
+
+}
+
