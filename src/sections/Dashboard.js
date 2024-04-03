@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactModal from 'react-modal';
 import '../css/Dashboard.css';
 
+import SignIn from '../components/SignIn';
+
 const DashNeutral = () => {
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+    document.body.classList.add('modal-open');
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    document.body.classList.remove('modal-open');
+  };
+
   return (
     <section id = "home"> 
 
       <h1>There's no better way to</h1>
       <h2>Embrace flavors in a bowl</h2>
 
-      <button class="order-now">
+      <button class="order-now" onClick={ openModal }>
         <span class="hover-underline-animation"> Order Now </span>
           <svg
             id="arrow-horizontal"
@@ -25,6 +41,12 @@ const DashNeutral = () => {
             ></path>
           </svg>
       </button>
+
+      <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
+
+        <SignIn closeModal={ closeModal } />
+
+      </ReactModal>
 
     </section>
 
