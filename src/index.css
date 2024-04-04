@@ -53,11 +53,12 @@ body.modal-open {
 }
 
 ::-webkit-scrollbar-track {
+  
   background: #252525; 
 }
  
 ::-webkit-scrollbar-thumb {
-  background: #d5dbbd;; 
+  background: #d5dbbd;
   border-radius: 5px;
 }
 
