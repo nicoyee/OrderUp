@@ -1,14 +1,14 @@
 import React from 'react';
 import '../css/Sign.css';
 
-const SignIn = ({ closeModal }) => {
+const SignUp = ({ closeModal }) => {
     
     return (
 
         <form class="form">
 
             <div className = "title">
-                <h1>Log In</h1>
+                <h1>Sign Up</h1>
                 
                 <button onClick = { closeModal } >
                     <svg
@@ -25,9 +25,26 @@ const SignIn = ({ closeModal }) => {
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
+
             </div>
             
-            <h2>Log in to your account for the full experience</h2>
+            <h2>Having an account ensures you get a streamlined experience. Don't worry, it's free!</h2>
+
+            <div class="flex-column">
+                <label>Name </label>
+            </div>
+
+            <div class="inputForm">
+                <input type="text" class="input" placeholder="Enter your Name"/ >      
+            </div>
+
+            <div class="flex-column">
+                <label>Phone Number</label>
+            </div>
+
+            <div class="inputForm">
+                <input type="text" class="input" placeholder="Enter your Phone Number"/ >      
+            </div>
 
             <div class="flex-column">           
                 <label>Email </label>        
@@ -47,48 +64,28 @@ const SignIn = ({ closeModal }) => {
                 <input type="password" class="input" placeholder="Enter your Password"/ >
                 <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path></svg>
             </div>
-    
+          
             <div class="flex-row">
 
                 <div>
                     <input type="checkbox" />
-                    <label> Remember me </label>
+                    <label> I agree to the terms and conditions</label>
                 </div>
 
-                <span class="span">Forgot password?</span>
-
             </div>
             
-            <button class="button-submit">Sign In</button>
-            
+            <button class="button-submit">Sign Up</button>
+
             <p class="p">
 
-                Don't have an account?
+                Already have an account?
 
-                <span class="span">Sign Up</span>
+                <span class="span">Log In</span>
 
             </p>
-
-            <p class="p line">Or</p>
-
-            <div class="flex-row">
-                <button class="btn google">
-
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                    <path fill="none" d="M0 0h48v48H0z"></path>
-                </svg>
-
-                Sign In with Google 
-
-                </button>
-            </div>
-
+            
         </form>
 
     );
 }
-export default SignIn;
+export default SignUp;

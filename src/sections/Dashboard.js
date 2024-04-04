@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import '../css/Dashboard.css';
 
 import SignIn from '../components/SignIn';
+import SignUp from '../components/SignUp';
 
 const DashNeutral = () => {
 
@@ -44,7 +45,7 @@ const DashNeutral = () => {
 
       <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
 
-        <SignIn closeModal={ closeModal } />
+       <SignUp closeModal={ closeModal } />
 
       </ReactModal>
 
