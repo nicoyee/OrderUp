@@ -1,6 +1,8 @@
+import '../css/Dashboard.css';
+
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import '../css/Dashboard.css';
+
 
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
@@ -25,8 +27,8 @@ const DashNeutral = () => {
       <h1>There's no better way to</h1>
       <h2>Embrace flavors in a bowl</h2>
 
-      <button class="order-now" onClick={ openModal }>
-        <span class="hover-underline-animation"> Order Now </span>
+      <button className="order-now" onClick={ openModal }>
+        <span className="hover-underline-animation"> Order Now </span>
           <svg
             id="arrow-horizontal"
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +47,7 @@ const DashNeutral = () => {
 
       <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
 
-       <SignUp closeModal={ closeModal } />
+        <SignUp closeModal={ closeModal } />
 
       </ReactModal>
 

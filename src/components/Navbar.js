@@ -1,6 +1,8 @@
+import '../css/Navbar.css';
+
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-scroll';
-import '../css/Navbar.css';
+
 
 const Navbar = ( {activeSection} ) => {
 
@@ -31,10 +33,10 @@ const Navbar = ( {activeSection} ) => {
 
         <div id="menuToggle">
           <input id="checkbox" type="checkbox" onClick={() => expandNav(!isNavOpen)} />
-          <label class="toggle" for="checkbox">
-            <div class="bar bar--top"></div>
-            <div class="bar bar--middle"></div>
-            <div class="bar bar--bottom"></div>
+          <label className="toggle" htmlFor="checkbox">
+            <div className="bar bar--top"></div>
+            <div className="bar bar--middle"></div>
+            <div className="bar bar--bottom"></div>
           </label>
         </div>
         

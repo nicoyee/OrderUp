@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
 import '../css/Landing.css';
+
+import React, { useState, useEffect } from "react";
+
 import Navbar from '../components/Navbar';
 import DashNeutral from '../sections/Dashboard';
 import Menu from '../sections/Menu';
-
+import SignIn from '../components/SignIn';
 
 const LandingPage = () => {
   
