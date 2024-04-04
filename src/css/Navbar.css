@@ -5,7 +5,7 @@
   height: 100%;
   right: 15%;
   align-items: center;
-  z-index: 99;
+  z-index: 69;
 
 }
 
@@ -16,11 +16,9 @@
 }
 
 .navbar ul li {
-
   
   font-size: 42px;
   
-
 }
 
 .navbar ul li.active {
@@ -48,7 +46,7 @@
 
 .navbar ul li a:hover {
 
-
+  transition: color 0.1s ease-in-out;
   color: #f05006;
 
 }
@@ -196,9 +194,8 @@
 @media only screen and (max-width: 768px) {
 
   #menuToggle {
-
     display: block;
-  
+
   }
 
   .navbar {
@@ -242,3 +239,13 @@
 
 }
 
+
+/* Small Screens */
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+  .navbar {
+
+    right: 10%;
+
+  }
+
+}

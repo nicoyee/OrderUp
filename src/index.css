@@ -22,6 +22,10 @@ body {
 
 }
 
+body.modal-open {
+  overflow-y: hidden; /* Disable vertical scrolling */
+  padding-right: 15px; /* Adjust for scrollbar width */
+}
 
 /* Fonts */
 @font-face {
