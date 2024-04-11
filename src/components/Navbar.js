@@ -13,11 +13,11 @@ const Navbar = ( {activeSection} ) => {
 
         <ul>
 
-          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "home" ? 'active' : ''} bump`}>
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "home" ? 'active' : ''}`}>
             <a href = "#home">home</a>
           </li>
 
-          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "menu" ? 'active' : ''} bump`}>
+          <li className={`${isNavOpen ? 'open' : ''} ${activeSection === "menu" ? 'active' : ''}`}>
             <a href = "#menu">menu</a>
           </li>
 
