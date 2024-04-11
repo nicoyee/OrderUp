@@ -6,7 +6,7 @@ import ReactModal from 'react-modal';
 
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
-
+import ForgotPassword from '../components/ForgotPassword';
 const DashNeutral = () => {
 
   const [showModal, setShowModal] = useState(false);
@@ -47,7 +47,7 @@ const DashNeutral = () => {
 
       <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
 
-        <SignUp closeModal={ closeModal } />
+        <ForgotPassword closeModal={ closeModal } />
 
       </ReactModal>
 
