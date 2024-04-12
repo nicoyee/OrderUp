@@ -28,9 +28,9 @@ const SignUp = ({ closeModal, setLogin }) => {
 
             setDoc(doc(db, "users", user.uid), {
                 name: name,
+                email: email,
                 userType: "customer"
             });
-
             setErrorMessage('');
         })
         .catch((error) => {

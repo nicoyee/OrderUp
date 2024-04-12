@@ -83,12 +83,10 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
             
 
             { emailSent ? 
-                <button className="email-sent" disabled = "true">Email Sent</button>    
+                <button className="email-sent" disabled = { true }>Email Sent</button>    
             :  
                 <button type="submit" name="submit" className="button-submit">Reset Password</button>
             }
-
-            
             
             <p className="p">
 
