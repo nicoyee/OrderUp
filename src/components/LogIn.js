@@ -35,6 +35,7 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
                 const firstName = nameParts[0];
                 await setDoc(doc(db, "users", user.uid), {
                     name: firstName,
+                    email: user.email,
                     userType: "customer",
                     profilePicture: user.photoURL
                 });
