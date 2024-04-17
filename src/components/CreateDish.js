@@ -24,14 +24,14 @@ const CreateDishModal = ({ closeModal }) => {
         await uploadBytes(storageRef, photo);
         photoURL = await getDownloadURL(storageRef);
       }
-  
+
       await addDoc(collection(db, 'dishes'), {
         name,
         description,
         price: parseFloat(price),
         photoURL,
       });
-  
+
       setName('');
       setDescription('');
       setPrice('');
@@ -43,52 +43,63 @@ const CreateDishModal = ({ closeModal }) => {
   };
 
   return (
-    !!closeModal && (
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={closeModal}>&times;</span>
-          <h2>ADD A DISH TO YOUR MENU</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Photo/Browse Photo:</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-              />
-            </div>
-            {photo && <img src={URL.createObjectURL(photo)} alt="Preview" />}
-            <div className="form-group">
-              <label>Name:</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Description:</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Price:</label>
-              <input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit">Add</button>
-          </form>
-        </div>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={closeModal}>&times;</span>
+        <h2>ADD A DISH TO YOUR MENU</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Dish Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              rows="5"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="price">Price</label>
+            <input
+              type="text"
+              id="price"
+              name="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="photo" className="add-photo-label">
+              Add Photo
+            </label>
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              required
+            />
+          </div>
+          <button type="submit" className="add-button">
+            Add Dish
+          </button>
+        </form>
       </div>
-    )
+    </div>
   );
 };
 
