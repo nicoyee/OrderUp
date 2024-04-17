@@ -1,12 +1,13 @@
 import '../css/Dashboard.css';
-
+import '../css/CreateDish.css'
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-
 
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import ForgotPassword from '../components/ForgotPassword';
+import CreateDishModal from '../components/CreateDish';
+
 const DashNeutral = () => {
 
   const [showModal, setShowModal] = useState(false);
@@ -46,11 +47,30 @@ const DashNeutral = () => {
       </button>
 
       <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
-
-        <ForgotPassword closeModal={ closeModal } />
-
+        <CreateDishModal closeModal={ closeModal } />
       </ReactModal>
 
+      <button className="create-dish" onClick={openModal}>
+        <span className="hover-underline-animation">Create Dish</span>
+        <svg
+            id="arrow-horizontal"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="10"
+            viewBox="0 0 46 16"
+          >
+            <path
+            id="Path_10"
+            data-name="Path 10"
+            d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+            transform="translate(30)"
+            ></path>
+          </svg>
+      </button>
+
+      <ReactModal isOpen={showModal} onRequestClose={closeModal} className="createdishmodal" overlayClassName="createdishoverlay">
+        <CreateDishModal closeModal={closeModal} />
+      </ReactModal>
     </section>
 
   );
