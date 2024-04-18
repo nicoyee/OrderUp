@@ -1,31 +1,17 @@
 import '../css/Dashboard.css';
 
-import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
+import '../css/CreateDish.css'
+import React, { useState } from 'react';
+import ReactModal from 'react-modal';
 
-import LogIn from '../components/LogIn';
+import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import ForgotPassword from '../components/ForgotPassword';
-
-const headerOptions = ['flavors', 'happiness', 'delights', 'awesomeness'];
-const headerColors = ['#f5a53f', '#39c0f9', '#fcf2f4', '#e84a2c', '#caceca'];
+import CreateDishModal from '../components/CreateDish';
 
 const DashNeutral = () => {
 
   const [index, setIndex] = useState(0);
-  const [color, setColor] = useState('#f05006');
-
-  useEffect(() => {
-
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % headerOptions.length);
-      setColor(headerOptions[(index + 1) % headerOptions.length] === 'flavors' ? '#f05006' : headerColors[(index + 1) % headerColors.length]);
-    }, 1500);
-
-    return () => clearInterval(interval);
-
-  }, [index]);
-
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("login");
 
@@ -78,6 +64,32 @@ const DashNeutral = () => {
           </svg>
       </button>
 
+      <ReactModal isOpen={showModal} onRequestClose={closeModal} className="signinmodal" overlayClassName="signinoverlay">
+        <CreateDishModal closeModal={ closeModal } />
+      </ReactModal>
+
+      <button className="create-dish" onClick={openModal}>
+        <span className="hover-underline-animation">Create Dish</span>
+        <svg
+            id="arrow-horizontal"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="10"
+            viewBox="0 0 46 16"
+          >
+            <path
+            id="Path_10"
+            data-name="Path 10"
+            d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+            transform="translate(30)"
+            ></path>
+          </svg>
+      </button>
+
+      <ReactModal isOpen={showModal} onRequestClose={closeModal} className="createdishmodal" overlayClassName="createdishoverlay">
+        <CreateDishModal closeModal={closeModal} />
+      </ReactModal>
+
       <Modal 
         isOpen = { showModal } 
         onRequestClose = { closeModal }
@@ -91,7 +103,6 @@ const DashNeutral = () => {
         
 
       </Modal>
-
     </section>
 
   );
