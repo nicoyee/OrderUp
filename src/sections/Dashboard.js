@@ -1,4 +1,5 @@
 import '../css/Dashboard.css';
+
 import '../css/CreateDish.css'
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
@@ -10,7 +11,9 @@ import CreateDishModal from '../components/CreateDish';
 
 const DashNeutral = () => {
 
+  const [index, setIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState("login");
 
   const openModal = () => {
     setShowModal(true);
@@ -19,14 +22,29 @@ const DashNeutral = () => {
 
   const closeModal = () => {
     setShowModal(false);
+    setModalContent('login');
     document.body.classList.remove('modal-open');
+  };
+
+  const setLogin = () => {
+    setModalContent('login');
+  };
+
+  const setSignup = () => {
+    setModalContent('signup');
+  };
+
+  const setForgot = () => {
+    setModalContent('forgotpass');
   };
 
   return (
     <section id = "home"> 
 
       <h1>There's no better way to</h1>
-      <h2>Embrace flavors in a bowl</h2>
+      <h2>Embrace</h2>
+      <h2 className = "alternating" style={{color: color}}>{headerOptions[index]}</h2>
+      <h2>in a bowl</h2>
 
       <button className="order-now" onClick={ openModal }>
         <span className="hover-underline-animation"> Order Now </span>
@@ -71,6 +89,20 @@ const DashNeutral = () => {
       <ReactModal isOpen={showModal} onRequestClose={closeModal} className="createdishmodal" overlayClassName="createdishoverlay">
         <CreateDishModal closeModal={closeModal} />
       </ReactModal>
+
+      <Modal 
+        isOpen = { showModal } 
+        onRequestClose = { closeModal }
+        className = "signinmodal"
+        overlayClassName="signinoverlay"
+      >
+
+      { modalContent === "login" && ( <LogIn closeModal={ closeModal } setSignup = { setSignup } setForgot = { setForgot } /> )}
+      { modalContent === "signup" && ( <SignUp closeModal={ closeModal } setLogin = { setLogin } /> )}
+      { modalContent === "forgotpass" && ( <ForgotPassword closeModal={ closeModal } setLogin = { setLogin } /> )}
+        
+
+      </Modal>
     </section>
 
   );
