@@ -4,7 +4,7 @@ import '../css/CreateDish.css'
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 
-import SignIn from '../components/SignIn';
+import LogIn from '../components/LogIn';
 import SignUp from '../components/SignUp';
 import ForgotPassword from '../components/ForgotPassword';
 import CreateDishModal from '../components/CreateDish';
@@ -43,7 +43,7 @@ const DashNeutral = () => {
 
       <h1>There's no better way to</h1>
       <h2>Embrace</h2>
-      <h2 className = "alternating" style={{color: color}}>{headerOptions[index]}</h2>
+      <h2>Flavors</h2>
       <h2>in a bowl</h2>
 
       <button className="order-now" onClick={ openModal }>
@@ -90,7 +90,7 @@ const DashNeutral = () => {
         <CreateDishModal closeModal={closeModal} />
       </ReactModal>
 
-      <Modal 
+      <ReactModal 
         isOpen = { showModal } 
         onRequestClose = { closeModal }
         className = "signinmodal"
@@ -102,7 +102,7 @@ const DashNeutral = () => {
       { modalContent === "forgotpass" && ( <ForgotPassword closeModal={ closeModal } setLogin = { setLogin } /> )}
         
 
-      </Modal>
+      </ReactModal>
     </section>
 
   );
