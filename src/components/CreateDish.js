@@ -9,6 +9,7 @@ const CreateDishModal = ({ closeModal }) => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [photo, setPhoto] = useState(null);
+  const [menuType, setMenuType] = useState('Meat');
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -30,6 +31,7 @@ const CreateDishModal = ({ closeModal }) => {
         description,
         price: parseFloat(price),
         photoURL,
+        menuType
       });
 
       setName('');
@@ -58,6 +60,18 @@ const CreateDishModal = ({ closeModal }) => {
               onChange={(e) => setName(e.target.value)}
               required
             />
+            <label htmlFor="menuType">Menu Type</label>
+            <select
+              id="menuType"
+              value={menuType}
+              onChange={(e) => setMenuType(e.target.value)}
+              required
+            >
+              <option value="Meat">Meat</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Seafood">Seafood</option>
+            </select>
           </div>
           <div className="form-group">
             <label htmlFor="description">Description</label>
