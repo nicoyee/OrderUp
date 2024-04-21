@@ -1,0 +1,50 @@
+.marquee {
+    z-index: -1;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.marquee-v {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    align-items: center;
+    height: 100%;
+    left: -20%;
+    transform: translateX(-10px);
+}
+.marquee-v2 {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    align-items: center;
+    height: 100%;
+    left: -20%;
+    transform: translateX(10px);
+}
+.marq {
+    font-size: 14px;
+    font-weight: 800;
+    color: #f05006;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: "Inter";
+    text-transform: uppercase;
+}
+.marq p {
+    letter-spacing: 2px;
+    transform: rotate(-90deg);
+}
+.doubleslash {
+    color: #d5dbbd;
+}
+
+@media only screen and (max-width: 1023px) {
+    .marquee-v, .marquee-v2 {
+        left: auto;
+        opacity: .5;
+    }
+}
+

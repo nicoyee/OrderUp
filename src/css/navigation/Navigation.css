@@ -1,0 +1,163 @@
+#titleSection { 
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    transition: all 1s ease;
+}
+
+.navigationBar {
+    width: 99.5%;
+}
+
+.navigationBar ul {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+}
+.navigationBar ul li {
+    z-index: 50;
+    font-family: "Abril Fatface";
+    text-transform: lowercase;
+    font-size: 1.75vw;
+    color: #d5dbbd;
+    cursor: pointer;
+    transition: transform 0.1s ease-out;
+}
+.navigationBar ul li:hover {
+    color: #f05006;
+    transform: translateY(-5%);
+    text-shadow: 0px 5px 5px rgba(213, 219, 189, 0.25);
+}
+.navigationBar ul li.activeNav {
+    animation: 1s navAnimation ease-in forwards;
+}
+.riceBoy {
+    margin-top: -10.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.riceBoy h1, h2 {
+    font-size: 7vw;
+    color: #f05006;
+    font-family: "Kare";
+    text-transform: uppercase;
+    user-select: none;
+}
+#titleSection h3 {
+    margin-top: -1%;
+    font-size: 1.5vw;
+    align-self: flex-start;
+    font-family: "Abril Fatface";
+    color: #f05006;
+    user-select: none;
+}
+#titleSection h3 span {
+    opacity: .8;
+    font-size: 1vw;
+    color: #d5dbbd;
+}
+
+#titleSection h4 {
+    margin-top: -16%;
+    font-family: "Abril Fatface";
+    color: #f05006;
+    font-size: 6vw;
+    align-self: flex-end;
+    opacity: 0;
+    display: none;
+}
+#titleSection h4.activeSectionLabel {
+    display: inline;
+    animation: 1s sectionLabelAnimation ease-in forwards;
+}
+@media only screen and (max-width: 1023px) {
+    #titleSection {
+        justify-content: flex-end;
+    }
+    .navigationBar ul {
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    .navigationBar ul li {
+        font-size: 5vw;
+    }
+    .riceBoy h1, .riceBoy h2 {
+        margin-top: 0;
+        font-size: 20vw;
+    }
+    .titleSection h3 {
+        font-size: 4vw;
+        margin-top: -1%;
+        margin-left: 3%;
+    }
+    #titleSection h3 span {
+        font-size: 3vw;
+    }
+    #titleSection h4.activeSectionLabel{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .riceBoy {
+        flex-direction: column;
+    }
+    .riceBoy h1 {
+        font-size: 35vw;
+    }
+    .riceBoy h2 {
+        margin-top: -27%;
+        font-size: 38.5vw;
+    }
+    #titleSection h3 {
+        font-size: 10vw;
+        margin-top: -3%;
+        margin-left: 7%;
+    }
+    #titleSection h3 span {
+        font-size: 8vw;
+    }
+}
+@keyframes navAnimation {
+    10% {
+        transform: translateY(-75%);
+        opacity: 1;
+        user-select: none;
+        cursor: default;
+    }
+    26% {
+        opacity: 0;
+    }
+    30% {
+        transform: translateY(+100%);
+    }
+    100% {
+        transform: translateY(+100%);
+        opacity: 0;
+        user-select: none;
+        cursor: default;
+    }
+}
+@keyframes sectionLabelAnimation {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }   
+    30% {
+        transform: translateY(+10%);
+        opacity: 1;
+    }
+    40% {
+        transform: translateY(0);     
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

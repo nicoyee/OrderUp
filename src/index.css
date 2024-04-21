@@ -1,23 +1,30 @@
 * {
-
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
 }
 
 html {
-
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
-
+  overflow-x: hidden;
 }
 
 body {
   background-color: #252525;
-  width: 100%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   height: 100%;
-  overflow: scroll;
+  width: 100%;
+  z-index: -1;                                                                                                                                                                                                                                                                                                                                
+  background-image: url("./assets/noise.png");
+  opacity: 0.1;
 }
 
 .material-symbols-outlined {
@@ -30,7 +37,12 @@ body {
 
 body.modal-open {
   overflow-y: hidden; /* Disable vertical scrolling */
-  padding-right: 15px; /* Adjust for scrollbar width */
+  padding-right: 6px; /* Adjust for scrollbar width */
+}
+
+button {
+  background-color: transparent;
+  border: none;
 }
 
 /* Fonts */
@@ -55,21 +67,12 @@ body.modal-open {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
-
-::-webkit-scrollbar-track {
-  
-  background: #252525; 
-}
- 
 ::-webkit-scrollbar-thumb {
-  background: #d5dbbd;
-  border-radius: 5px;
+  background: #f1f1f1;
+  border-radius: 20px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+::-webkit-scrollbar-track {
+  background: transparent; /* Customize track color */
 }
-
-::-webkit-scrollbar-corner {background-color: transparent;}
