@@ -1,26 +1,74 @@
-import './css/App.css';
+import React, { useEffect, useState, createContext, useContext } from 'react';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { auth, db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
-import React, { useState, useEffect } from "react";
-
-import Banner from './components/Banner';
 import Landing from './pages/Landing';
-import Navbar from './components/Navbar';
+import DashboardAdmin from './admin/DashboardAdmin';
+import DashboardCustomer from './customer/DashboardCustomer';
 
-import dishbig from './assets/home1.png';
+export const UserContext = createContext(null);
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        getDoc(doc(db, 'users', user.uid)).then((docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setUser(userData);
+            console.log('User logged in');
+          } else {
+            console.log('No such document!');
+            setUser(null);
+          }
+          setLoading(false);
+        }).catch((error) => {
+          console.log('Error getting document:', error);
+          setLoading(false);
+        });
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    
-    <div>
+    <UserContext.Provider value={ user }>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={ user ? <Navigate to="/dashboard" /> : <Landing />} />
+          <Route
+            path="/dashboard"
+            element={ user ? (
+              user.userType === 'admin' ? (
+                <DashboardAdmin />
+              ) : user.userType === 'customer' ? (
+                <DashboardCustomer />
+              ) : user.userType === 'staff' ? (
+                <Landing />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/" />
+            )}
+          />
 
-      <Banner />
-
-      <Landing />
-
-
-    </div>
-
+          
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

@@ -1,0 +1,151 @@
+.headerDashboard {
+    margin: 10px;
+    padding: 5px 30px 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #252525;
+}
+
+.headerDashboard div {
+    display: flex;
+    align-items: center;
+}
+
+.headerDashboardLeft {
+    gap: 20px;
+}
+
+.headerProfile {
+    gap: 15px;
+    align-items: center;
+}
+.headerProfile h1 {
+    color: #d5dbbd;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.headerProfile img {
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+}
+.hamburger {
+    cursor: pointer;
+}
+.hamburger input {
+    display: none;
+}
+.hamburger svg {
+    /* The size of the SVG defines the overall size */
+    height: 3em;
+    /* Define the transition for transforming the SVG */
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line {
+    fill: none;
+    stroke: #d5dbbd;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+    /* Define the transition for transforming the Stroke */
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line-top-bottom {
+    stroke-dasharray: 12 63;
+}
+.hamburger input:checked + svg {
+    transform: rotate(-45deg);
+}
+.hamburger input:checked + svg .line-top-bottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+}
+
+.container-input {
+    position: relative;
+    
+}
+.input {
+color: #d5dbbd;
+width: 150px;
+padding: 10px 0px 10px 40px;
+border-radius: 9999px;
+border: solid 1px #d5dbbd;
+transition: all .2s ease-in-out;
+outline: none;
+opacity: 0.8;
+background-color: transparent;
+}
+.container-input svg {
+position: absolute;
+top: 50%;
+left: 10px;
+transform: translate(0, -50%);
+fill: #d5dbbd;
+}
+.input:focus {
+opacity: 1;
+width: 250px;
+}
+
+.profileContext {
+    position: absolute;
+    transform: translateY(80%);
+    display: flex;
+    flex-direction: column;
+    background-color: #0D1117;
+    border-radius: 5px;
+    width: 150px;
+}
+.profileContext button {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    gap: 10px;
+    width: 100%;
+}
+.value {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    color: white;
+    display: flex;
+    position: relative;
+    gap: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.value:not(:active):hover,
+.value:focus {
+    background-color: #21262C;
+}
+.value:focus,
+.value:active {
+    background-color: #1A1F24;
+    outline: none;
+}
+.value::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 5px;
+    height: 80%;
+    background-color: #2F81F7;
+    border-radius: 5px;
+    opacity: 0;
+}
+.value:focus::before,
+.value:active::before {
+    opacity: 1;
+}
+.profileContext:hover > :not(.value:hover) {
+    transition: 300ms;
+    filter: blur(1px);
+    transform: scale(0.95,0.95);
+}

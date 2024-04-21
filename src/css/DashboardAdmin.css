@@ -1,0 +1,9 @@
+.dashboardAdmin {
+    width: 100%;
+    display: flex;
+}
+.adminContent {
+    width: 100%;
+    border: 1px solid white;
+}
+

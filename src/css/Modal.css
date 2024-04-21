@@ -1,0 +1,22 @@
+.modalOverlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    overflow-y: none;
+    overflow-x: hidden;
+}
+
+.authModal {
+    opacity: 1;
+    top: -100%;
+    transition: top 0.5s ease-out;
+    z-index: 101;
+    display: flex;
+}
