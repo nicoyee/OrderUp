@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { getAuth, signOut } from "firebase/auth";
 
 
-const DashboardCustomer = ({ user }) => {
+const HeaderCustomer = ({ user }) => {
 
     const [profileContext, showProfileContext] = useState(true);
     const profileContextBounds = useRef();
@@ -72,4 +72,4 @@ const DashboardCustomer = ({ user }) => {
         </div>
     );
 }
-export default DashboardCustomer;
+export default HeaderCustomer;

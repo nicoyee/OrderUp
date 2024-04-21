@@ -1,20 +1,29 @@
 import '../css/DashboardAdmin.css';
+import '../css/Dashboard.css';
 
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../App';
 
 import NavigationAdmin from './NavigationAdmin';
+import HeaderAdmin from './HeaderAdmin';
 
-const DashboardAdmin = () => {
-  return (
-    <div className='dashboardAdmin'>
+const DashboardCustomer = () => {
 
-      <NavigationAdmin />
+    const user = useContext(UserContext);
+    
+    const [customerSection, setCustomerSection] = useState('dashboard');
 
-      <div className='adminContent'>
-        <h1>Dashboard Admin</h1>
-      </div>
-    </div>
-  );
-};
+    return (
+        <div className='dashboardContainer'>
 
-export default DashboardAdmin;
+            <NavigationAdmin />
+
+            <div className='dashboardContent'>
+
+                <HeaderAdmin user={ user } />
+
+            </div>
+        </div>
+    );
+}
+export default DashboardCustomer;

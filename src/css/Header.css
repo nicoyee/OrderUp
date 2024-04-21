@@ -8,6 +8,10 @@
     background-color: #252525;
 }
 
+.adminHeader {
+    background-color: #000e1e;
+}
+
 .headerDashboard div {
     display: flex;
     align-items: center;
