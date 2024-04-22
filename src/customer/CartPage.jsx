@@ -1,0 +1,94 @@
+import React, { useState, useEffect } from 'react';
+import { db } from '../firebase'; 
+import '../css/CartPage.css';
+
+const CartPage = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const cartItemsSnapshot = await db.collection('dishes').get();
+        const itemsList = cartItemsSnapshot.docs.map(doc => {
+          const { Description, Name, Price } = doc.data();
+          return { id: doc.id, Description, Name, Price, selected: false };
+        });
+        setCartItems(itemsList);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
+
+  const handleCheckboxChange = (itemId) => {
+    const updatedItems = cartItems.map(item =>
+      item.id === itemId ? { ...item, selected: !item.selected } : item
+    );
+    setCartItems(updatedItems);
+  };
+
+  const handleSelectAll = () => {
+    const updatedItems = cartItems.map(item => ({
+      ...item,
+      selected: !selectAll
+    }));
+    setCartItems(updatedItems);
+    setSelectAll(!selectAll);
+  };
+
+  const handleRemoveItem = (itemId) => {
+    const updatedItems = cartItems.filter(item => item.id !== itemId);
+    setCartItems(updatedItems);
+  };
+
+  const handleSelectedItemCount = () => {
+    const selectedCount = cartItems.filter(item => item.selected).length;
+    return selectedCount;
+  };
+
+  const handleDeleteSelected = () => {
+    const updatedItems = cartItems.filter(item => !item.selected);
+    setCartItems(updatedItems);
+  };
+
+  return (
+    <div className="cart">
+      <h2>Your Cart</h2>
+      <div className="cart-controls">
+        <button className="select-all-btn" onClick={handleSelectAll}>
+          {selectAll ? 'Deselect All' : 'Select All'}
+        </button>
+        {handleSelectedItemCount() > 0 && (
+          <button className="delete-selected-btn" onClick={handleDeleteSelected}>
+            Delete Selected
+          </button>
+        )}
+        <p className="selected-count">
+          Item selected: {handleSelectedItemCount()}
+        </p>
+      </div>
+      <div className="cart-items">
+        {cartItems.map(item => (
+          <div key={item.id} className="cart-item">
+            <input
+              type="checkbox"
+              checked={item.selected}
+              onChange={() => handleCheckboxChange(item.id)}
+            />
+            <h3>{item.Name}</h3>
+            <p>{item.Description}</p>
+            <p>Price: ${item.Price}</p>
+            <button className="remove-item-btn" onClick={() => handleRemoveItem(item.id)}>
+              🗑️ Remove
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CartPage;
