@@ -3,11 +3,13 @@ import '../css/Header.css';
 import React, { useState, useRef } from 'react';
 import { getAuth, signOut } from "firebase/auth";
 
+import CartPage from './CartPage';
 
 const HeaderCustomer = ({ user }) => {
 
     const [profileContext, showProfileContext] = useState(true);
     const profileContextBounds = useRef();
+    const [showCartPage, setShowCartPage] = useState(false);
 
     const handleSignOut = () => {  // Add this function
         const auth = getAuth();
@@ -18,6 +20,10 @@ const HeaderCustomer = ({ user }) => {
             // An error happened.
             console.error('Error signing out', error);
         });
+    };
+
+    const handleShowCartPage = () => {
+        setShowCartPage(true); // Set showCartPage state to true to render CartPage
     };
 
     return (
