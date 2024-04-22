@@ -7,7 +7,7 @@ import { UserContext } from '../App';
 import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 
-const DashboardCustomer = () => {
+const DashboardAdmin = () => {
 
     const user = useContext(UserContext);
     
@@ -26,4 +26,4 @@ const DashboardCustomer = () => {
         </div>
     );
 }
-export default DashboardCustomer;
+export default DashboardAdmin;
