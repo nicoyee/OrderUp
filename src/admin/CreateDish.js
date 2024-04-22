@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db, storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
-import '../css/CreateDish.css';
+import '../css/authForms.css'
 
 const CreateDishModal = ({ closeModal }) => {
   const [name, setName] = useState('');
@@ -48,7 +48,7 @@ const CreateDishModal = ({ closeModal }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={closeModal}>&times;</span>
-        <h2>ADD A DISH TO YOUR MENU</h2>
+        <h1>ADD A DISH TO YOUR MENU</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Dish Name</label>

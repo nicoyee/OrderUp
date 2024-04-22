@@ -1,6 +1,6 @@
 .dashboardContainer {
-    display: flex;
+    display:flexbox;
 }
 .dashboardContent {
     width: 100%;
-}
+}   

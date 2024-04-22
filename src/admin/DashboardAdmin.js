@@ -3,15 +3,18 @@ import '../css/Dashboard.css';
 
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
-
+import Modal from 'react-modal';
 import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 
-const DashboardCustomer = () => {
+import MenuAdmin from './MenuAdmin';
+
+const DashboardAdmin = () => {
 
     const user = useContext(UserContext);
     
-    const [customerSection, setCustomerSection] = useState('dashboard');
+    const [adminSection, setAdminSection] = useState('dashboard');
+
 
     return (
         <div className='dashboardContainer'>
@@ -23,7 +26,11 @@ const DashboardCustomer = () => {
                 <HeaderAdmin user={ user } />
 
             </div>
+
+            <div className='menuList'>
+                <MenuAdmin />
+            </div>
         </div>
     );
 }
-export default DashboardCustomer;
+export default DashboardAdmin;
