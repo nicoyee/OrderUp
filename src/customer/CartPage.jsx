@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase'; 
+import { db } from '../firebase';
 import '../css/CartPage.css';
 
 const CartPage = () => {
@@ -23,7 +23,7 @@ const CartPage = () => {
     fetchCartItems();
   }, []);
 
-  const handleCheckboxChange = (itemId) => {
+  const handleCheckboxChange = itemId => {
     const updatedItems = cartItems.map(item =>
       item.id === itemId ? { ...item, selected: !item.selected } : item
     );
@@ -39,7 +39,7 @@ const CartPage = () => {
     setSelectAll(!selectAll);
   };
 
-  const handleRemoveItem = (itemId) => {
+  const handleRemoveItem = itemId => {
     const updatedItems = cartItems.filter(item => item.id !== itemId);
     setCartItems(updatedItems);
   };
@@ -56,6 +56,19 @@ const CartPage = () => {
 
   return (
     <div className="cart">
+      <div className="back-to-dashboard">
+        <a href="/dashboard">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="currentColor"
+          >
+            <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1 1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+          </svg>
+        </a>
+      </div>
       <h2>Your Cart</h2>
       <div className="cart-controls">
         <button className="select-all-btn" onClick={handleSelectAll}>
@@ -66,9 +79,7 @@ const CartPage = () => {
             Delete Selected
           </button>
         )}
-        <p className="selected-count">
-          Item selected: {handleSelectedItemCount()}
-        </p>
+        <p className="selected-count">Item selected: {handleSelectedItemCount()}</p>
       </div>
       <div className="cart-items">
         {cartItems.map(item => (
