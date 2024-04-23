@@ -39,7 +39,7 @@
     align-items: center;
     gap: 10px;
 }
-.riceBoy h1, h2 {
+.riceBoy h1, .riceBoy h2 {
     font-size: 7vw;
     color: #f05006;
     font-family: "Kare";

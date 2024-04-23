@@ -1,4 +1,4 @@
-import '../css/OrderNowButton.css';
+import '../css/sections/OrderNowButton.css';
 
 import React from 'react';
 

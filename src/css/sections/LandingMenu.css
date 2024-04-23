@@ -1,0 +1,57 @@
+#landingMenu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#landingMenu h1 {
+    font-family: "Kare";
+    color: #f05006;
+    font-size: 64px;
+    margin-top: -40px;
+}
+
+#landingMenu .landingMenuBox {
+    height: 100%;
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 5px solid red;
+    animation: 1s sectionLabelAnimation ease-in forwards;
+}
+
+#landingMenu .landingMenuItem {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#landingMenu .landingMenuItem h2 {
+    font-family: "Abril Fatface";
+    font-weight: 900;
+    font-size: 28px;
+    color: white;
+}
+
+#landingMenu .horizontalMenuLine {
+    height: 3px;
+    background-image: linear-gradient(to right, red 50%, transparent 50%);
+    background-size: 5px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+#landingMenu .landingMenuItem h3 {
+    text-wrap: nowrap;
+    font-family: "Roboto Condensed";
+    font-weight: 600;
+    color: #d5dbbd;
+    font-size: 20px;
+}
