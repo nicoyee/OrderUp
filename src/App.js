@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
+import CartPage from './customer/CartPage';
 
 export const UserContext = createContext(null);
 
@@ -24,40 +25,40 @@ function App() {
             console.log('User logged in');
           } else {
             const provider = user.providerData[0].providerId;
-          if (provider === 'google.com') {
-            let firstName = '';
-            if (user.displayName) {
-              const nameParts = user.displayName.split(' ');
-              firstName = nameParts[0];
-            }
-            setDoc(docRef, {
-              name: firstName,
-              email: user.email,
-              userType: "customer",
-              profilePicture: user.photoURL
-            }).then(() => {
-              console.log('User document created');
-              setUser({
+            if (provider === 'google.com') {
+              let firstName = '';
+              if (user.displayName) {
+                const nameParts = user.displayName.split(' ');
+                firstName = nameParts[0];
+              }
+              setDoc(docRef, {
                 name: firstName,
                 email: user.email,
                 userType: "customer",
                 profilePicture: user.photoURL
+              }).then(() => {
+                console.log('User document created');
+                setUser({
+                  name: firstName,
+                  email: user.email,
+                  userType: "customer",
+                  profilePicture: user.photoURL
+                });
+              }).catch((error) => {
+                console.log('Error creating document:', error);
               });
-            }).catch((error) => {
-              console.log('Error creating document:', error);
-            });
+            }
           }
-        }
+          setLoading(false);
+        }).catch((error) => {
+          console.log('Error getting document:', error);
+          setLoading(false);
+        });
+      } else {
+        setUser(null);
         setLoading(false);
-      }).catch((error) => {
-        console.log('Error getting document:', error);
-        setLoading(false);
-      });
-    } else {
-      setUser(null);
-      setLoading(false);
-    }
-  });
+      }
+    });
 
     return () => unsubscribe();
   }, []);
@@ -67,28 +68,30 @@ function App() {
   }
 
   return (
-    <UserContext.Provider value={ user }>
+    <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ user ? <Navigate to="/dashboard" /> : <Landing />} />
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
           <Route
             path="/dashboard"
-            element={ user ? (
-              user.userType === 'admin' ? (
-                <DashboardAdmin />
-              ) : user.userType === 'customer' ? (
-                <DashboardCustomer />
-              ) : user.userType === 'staff' ? (
-                <Landing />
+            element={
+              user ? (
+                user.userType === 'admin' ? (
+                  <DashboardAdmin />
+                ) : user.userType === 'customer' ? (
+                  <DashboardCustomer />
+                ) : user.userType === 'staff' ? (
+                  <Landing />
+                ) : (
+                  <Navigate to="/" />
+                )
               ) : (
                 <Navigate to="/" />
               )
-            ) : (
-              <Navigate to="/" />
-            )}
+            }
           />
-
-          
+          {/* Route for CartPage */}
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
