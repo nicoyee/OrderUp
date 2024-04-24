@@ -27,9 +27,7 @@ const DashboardAdmin = () => {
 
             </div>
 
-            <div className='menuList'>
-                <MenuAdmin />
-            </div>
+            <MenuAdmin />
         </div>
     );
 }

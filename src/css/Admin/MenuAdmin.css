@@ -1,130 +1,67 @@
 .menu-admin {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  .menu-admin h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 50px;
-  }
-  
-  .menu-admin table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .menu-admin th,
-  .menu-admin td {
-    padding: 15px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .menu-admin th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  .menu-admin tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .menu-admin .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-  }
-  
-  .menu-admin .pagination button {
-    padding: 10px 20px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .menu-admin .pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .menu-admin .pagination .active {
-    background-color: #4CAF50;
-  }
-  
-  .menu-admin .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-  }
-  
-  .menu-admin .button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .menu-admin .modal-open {
-    display: block;
-  }
-  
-  .menu-admin .createDishModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 999;
-    width: 50%;
-  }
-  
-  .menu-admin .createDishModal h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .menu-admin .createDishModal form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .menu-admin .createDishModal label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .menu-admin .createDishModal input[type="text"],
-  .menu-admin .createDishModal input[type="number"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .menu-admin .createDishModal input[type="submit"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .menu-admin .createDishModal input[type="submit"]:hover {
-    background-color: #3e8e41;
-  }
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+td {
+  vertical-align: middle;
+}
+
+button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.active {
+  background-color: #0056b3;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.button-container {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.button {
+  background-color: #28a745;
+}
+
+.button:hover {
+  background-color: #218838;
+}
