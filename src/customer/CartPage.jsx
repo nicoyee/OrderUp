@@ -54,6 +54,11 @@ const CartPage = () => {
     setCartItems(updatedItems);
   };
 
+  const handleCheckout = () => {
+    // Logic for checkout functionality
+    alert('Proceeding to checkout...');
+  };
+
   return (
     <div className="cart">
       <div className="back-to-dashboard">
@@ -98,6 +103,10 @@ const CartPage = () => {
           </div>
         ))}
       </div>
+      {/* Checkout button */}
+      <button className="checkout-btn" onClick={handleCheckout}>
+        Checkout
+      </button>
     </div>
   );
 };
