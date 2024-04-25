@@ -20,7 +20,7 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
     try {
       let photoURL = '';
       if (photo) {
-        const storageRef = ref(storage, `Dishes/${photo.name}`);
+        const storageRef = ref(storage, `dishes/${photo.name}`);
         await uploadBytes(storageRef, photo);
         photoURL = await getDownloadURL(storageRef);
       }
