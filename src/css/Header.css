@@ -1,15 +1,14 @@
 .headerDashboard {
-    margin: 10px;
-    padding: 5px 30px 5px 15px;
+    padding: 20px 10px 10px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
-    background-color: #252525;
+
 }
 
-.adminHeader {
-    background-color: #000e1e;
+#adminHeader {
+    color: #6caec8;
 }
 
 .headerDashboard div {
@@ -18,15 +17,29 @@
 }
 
 .headerDashboardLeft {
-    gap: 20px;
+    gap: 30px;
 }
+
+.headerDashboardLeft img {
+    width: 35px;
+    height: 35px;
+}
+
+.headerDashboardLeft h1 {
+    font-size: 28px;
+    font-family: "Kare";
+    color: #f05006;
+    margin-top: -15px;
+    letter-spacing: 1px;
+}
+
 
 .headerProfile {
     gap: 15px;
     align-items: center;
     padding-right: 15px;
 }
-.headerProfile h1 {
+.headerProfile h2 {
     color: #d5dbbd;
     font-family: 'Roboto';
     font-weight: 300;
@@ -38,65 +51,6 @@
     width: 35px;
     height: 35px;
     border-radius: 100%;
-}
-.hamburger {
-    cursor: pointer;
-}
-.hamburger input {
-    display: none;
-}
-.hamburger svg {
-    /* The size of the SVG defines the overall size */
-    height: 3em;
-    /* Define the transition for transforming the SVG */
-    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.line {
-    fill: none;
-    stroke: #d5dbbd;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 3;
-    /* Define the transition for transforming the Stroke */
-    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.line-top-bottom {
-    stroke-dasharray: 12 63;
-}
-.hamburger input:checked + svg {
-    transform: rotate(-45deg);
-}
-.hamburger input:checked + svg .line-top-bottom {
-    stroke-dasharray: 20 300;
-    stroke-dashoffset: -32.42;
-}
-
-.container-input {
-    position: relative;
-    
-}
-.input {
-color: #d5dbbd;
-width: 150px;
-padding: 10px 0px 10px 40px;
-border-radius: 9999px;
-border: solid 1px #d5dbbd;
-transition: all .2s ease-in-out;
-outline: none;
-opacity: 0.8;
-background-color: transparent;
-}
-.container-input svg {
-position: absolute;
-top: 50%;
-left: 10px;
-transform: translate(0, -50%);
-fill: #d5dbbd;
-}
-.input:focus {
-opacity: 1;
-width: 250px;
 }
 
 .profileContext {

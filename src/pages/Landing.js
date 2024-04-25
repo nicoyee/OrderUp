@@ -1,21 +1,24 @@
 import '../css/Landing.css';
 import '../css/Modal.css';
+import '../css/sections/Sections.css';
 
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
 import Modal from 'react-modal';
 
 import MarqueeVertical from '../components/Marquee-v';
-import OrderNowButton from '../sections/OrderNowButton';
+
 import ShareTab from '../components/ShareTab';
+import OrderNowButton from '../sections/OrderNowButton';
 import Navigation from '../sections/Navigation';
+import Menu from '../sections/LandingMenu';
 import LogIn from '../auth/LogIn';
 import SignUp from '../auth/SignUp';
 import ForgotPassword from '../auth/ForgotPassword';
 
 const sectionStyles = {
   home: { one: 'homeOne', two: 'homeTwo', /* ... */ },
-  menu: { one: 'menuOne', two: 'menuTwo', /* ... */ },
+  menu: { one: 'menuOne', two: 'menuTwo', three: 'menuThree' },
   events: { one: 'eventsOne', two: 'eventsTwo', /* ... */ },
   concept: { one: 'conceptOne', two: 'conceptTwo', /* ... */ },
 };
@@ -81,7 +84,8 @@ const LandingPage = () => {
           { !isDesktopOrLaptop && activeSection === "" && <OrderNowButton openModal={openModal} /> }
         </div>
         <div className={`three ${styles.three}`}>
-
+          { isDesktopOrLaptop && activeSection === "menu" && <Menu /> }
+          { !isDesktopOrLaptop && activeSection && <Menu /> }
         </div>
         <div className={`four ${styles.four}`}>
 

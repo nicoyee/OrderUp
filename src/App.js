@@ -68,6 +68,7 @@ function App() {
   }
 
   return (
+
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
@@ -95,6 +96,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
+
   );
 }
 

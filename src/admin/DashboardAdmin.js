@@ -22,6 +22,33 @@ const DashboardAdmin = () => {
 
                 <HeaderAdmin user={ user } />
 
+                <div className="dashboardCard cardAdmin">
+                    <div className="dashboardCardText">
+                        <span>Dashboard</span>
+                        <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName nameAdmin'>{ user.name }</span></p>
+                    </div>
+                    <div className="dashboardCardIcons">
+                        <a className="dashboardCardBtn" href="#">
+                            <span class="material-symbols-outlined">
+                                restaurant_menu
+                            </span>
+                            ADD DISH
+                        </a>
+                        <a className="dashboardCardBtn" href="#">
+                            <span class="material-symbols-outlined">
+                                person_add
+                            </span>
+                            ADD EMPLOYEE
+                        </a>
+                        <a className="dashboardCardBtn" href="#">
+                            <span class="material-symbols-outlined">
+                                event
+                            </span>
+                            CREATE EVENT   
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
