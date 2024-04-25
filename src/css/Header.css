@@ -1,57 +1,109 @@
 .headerDashboard {
-    padding: 20px 10px 10px 10px;
+    width: 80%;
+    padding: 15px 0px 15px 0px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
-
+    justify-content: space-between;
 }
 
 #adminHeader {
     color: #6caec8;
 }
 
-.headerDashboard div {
-    display: flex;
-    align-items: center;
-}
-
 .headerDashboardLeft {
-    gap: 30px;
-}
-
-.headerDashboardLeft img {
-    width: 35px;
-    height: 35px;
+    
 }
 
 .headerDashboardLeft h1 {
     font-size: 28px;
     font-family: "Kare";
     color: #f05006;
-    margin-top: -15px;
+    margin-top: -13px;
     letter-spacing: 1px;
 }
 
-
-.headerProfile {
-    gap: 15px;
+.headerDashboardRight {
+    position: relative;
+    display: flex;
     align-items: center;
-    padding-right: 15px;
+    gap: 20px;
 }
-.headerProfile h2 {
-    color: #d5dbbd;
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
+.profileHeader h2 {
+    font-size: 16px;
     font-family: 'Roboto';
     font-weight: 300;
-    font-size: 16px;
-    padding-right: 15px;
+    color: #d5dbbd;
 }
 
-.headerProfile img {
+.profileHeader:hover h2 {
+    color: white;
+}
+
+.headerDashboardRight img {
     width: 35px;
     height: 35px;
-    border-radius: 100%;
+    border-radius: 50%;
 }
+
+.profileContext {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #252525;
+    right: 0;
+    top: 0;
+    transform: translateY(60px);
+    border: 1px solid #4E4E4E;
+    border-radius: 5px;
+}
+
+.profileContextSelection {
+    padding: 10px 30px 10px 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #d5dbbd;
+    cursor: pointer;
+    border: 1px solid #4E4E4E;
+    z-index: 50;
+}
+
+.profileContextSelection:hover {
+    background-color: #3A3A3A;
+}
+
+.profileContext:hover > :not(.profileContextSelection:hover) {
+    transition: 300ms;
+    filter: blur(1px);
+    transform: scale(0.90,0.90);
+    border: 1px solid #252525;
+}
+
+@media only screen and (max-width: 768px) {
+    .profileHeader h2 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .headerDashboard{
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/*
 
 .profileContext {
     position: absolute;
@@ -115,3 +167,4 @@
     position: relative;
     padding-right: 20px;
 }
+*/

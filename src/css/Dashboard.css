@@ -1,17 +1,22 @@
 .dashboardContainer {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    
+    align-items: center;
 }
 .dashboardContent {
-    display: grid;
-    gap: 10px;
-    min-width: 80%;
+    width: 80%;
+    display: flex;
+    align-self: center;
+}
+
+.dashboardContent-main {
+    width: 60%;
 }
 
 .dashboardCard {
-    max-width: 60%;
+    width: 100%;
     height: 200px;
     border-radius: 15px;
     background: rgba(105, 13, 197, 0.103);
@@ -102,3 +107,16 @@
     left: 60%;
     filter: blur(0rem);
 }
+
+@media only screen and (max-width: 768px) {
+    .dashboardContent-main {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .dashboardContent {
+        width: 90%;
+    }
+}
+

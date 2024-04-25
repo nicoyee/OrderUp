@@ -11,6 +11,10 @@ const HeaderCustomer = ({ user }) => {
     const profileContextBounds = useRef();
     const navigate = useNavigate();
 
+    const toggleProfileContext = () => {
+        showProfileContext(!profileContext);
+    };
+
     const handleSignOut = () => {
         const auth = getAuth();
         signOut(auth).then(() => {
@@ -36,7 +40,7 @@ const HeaderCustomer = ({ user }) => {
 
             </div>
   
-            <div className='headerProfile'>
+            <div className='headerDashboardRight'>
 
                 <div className="cart-icon" onClick={handleCartClick}>
                     <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="white">
@@ -46,31 +50,34 @@ const HeaderCustomer = ({ user }) => {
                     </svg>
                 </div>
 
-                <h2>{ user.email }</h2>
-                <img src={ user.profilePicture }></img>
+                <div className='profileHeader' onClick={ toggleProfileContext }>
+                    <h2>{ user.email }</h2>
+                    <img src={ user.profilePicture }></img>
 
-                { profileContext && (
+                    { profileContext && (
                     <div className="profileContext">
-                        <button className="value">
-                            <span class="material-symbols-outlined">
+                        <div className="profileContextSelection">
+                            <span className="material-symbols-outlined">
                                 person
                             </span>
                             Profile
-                        </button>
-                        <button className="value">
-                            <span class="material-symbols-outlined">
+                        </div>
+                        <div className="profileContextSelection">
+                            <span className="material-symbols-outlined">
                                 settings
                             </span>
                             Settings
-                        </button>
-                        <button className="value" onClick={handleSignOut}>
-                            <span class="material-symbols-outlined">
+                        </div>
+                        <div className="profileContextSelection" onClick={handleSignOut}>
+                            <span className="material-symbols-outlined" style={{ color: '#f05006' }}>
                                 logout
                             </span>
                             Log Out
-                        </button>
+                        </div>
                     </div>
-                )}
+                    )}
+                </div>
+                
             </div>
         </div>
     );
