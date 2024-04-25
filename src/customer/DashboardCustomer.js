@@ -6,6 +6,7 @@ import { UserContext } from '../App';
 
 import NavigationCustomer from './NavigationCustomer';
 import HeaderCustomer from './HeaderCustomer';
+import CustomerMenu from './CustomerMenu';
 
 const DashboardCustomer = () => {
 
@@ -41,6 +42,9 @@ const DashboardCustomer = () => {
                             ADD VOUCHER
                         </a>
                     </div>
+                </div>
+                <div className="customerMenuContainer">
+                    <CustomerMenu /> {/* Render CustomerMenu component */}
                 </div>
 
             </div>
