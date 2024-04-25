@@ -22,6 +22,27 @@ const DashboardCustomer = () => {
 
                 <HeaderCustomer user={ user } />
 
+                <div className="dashboardCard">
+                    <div className="dashboardCardText">
+                        <span>Dashboard</span>
+                        <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName'>{ user.name }</span></p>
+                    </div>
+                    <div className="dashboardCardIcons">
+                        <a className="dashboardCardBtn" href="#">
+                            <span class="material-symbols-outlined">
+                                room_service
+                            </span>
+                            ORDER
+                        </a>
+                        <a className="dashboardCardBtn" href="#">
+                            <span class="material-symbols-outlined">
+                                confirmation_number
+                            </span>
+                            ADD VOUCHER
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

@@ -67,31 +67,29 @@ function App() {
   }
 
   return (
-    <UserContext.Provider value={ user }>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={ user ? <Navigate to="/dashboard" /> : <Landing />} />
-          <Route
-            path="/dashboard"
-            element={ user ? (
-              user.userType === 'admin' ? (
-                <DashboardAdmin />
-              ) : user.userType === 'customer' ? (
-                <DashboardCustomer />
-              ) : user.userType === 'staff' ? (
-                <Landing />
+      <UserContext.Provider value={ user }>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={ user ? <Navigate to="/dashboard" /> : <Landing />} />
+            <Route
+              path="/dashboard"
+              element={ user ? (
+                user.userType === 'admin' ? (
+                  <DashboardAdmin />
+                ) : user.userType === 'customer' ? (
+                  <DashboardCustomer />
+                ) : user.userType === 'staff' ? (
+                  <Landing />
+                ) : (
+                  <Navigate to="/" />
+                )
               ) : (
                 <Navigate to="/" />
-              )
-            ) : (
-              <Navigate to="/" />
-            )}
-          />
-
-          
-        </Routes>
-      </BrowserRouter>
-    </UserContext.Provider>
+              )}
+            />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
   );
 }
 

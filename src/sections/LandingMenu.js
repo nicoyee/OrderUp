@@ -32,33 +32,17 @@ const LandingMenu = () => {
                     <h2>120</h2>
                     <span className='horizontalMenuLine'/>
                     <h3>Spicy Cheesy Chicken</h3>
-                </div>
+                </div>    
                 <div className='landingMenuItem'>
                     <h2>120</h2>
                     <span className='horizontalMenuLine'/>
                     <h3>Spicy Cheesy Chicken</h3>
-                </div>
+                </div>    
                 <div className='landingMenuItem'>
                     <h2>120</h2>
                     <span className='horizontalMenuLine'/>
                     <h3>Spicy Cheesy Chicken</h3>
-                </div>
-                <div className='landingMenuItem'>
-                    <h2>120</h2>
-                    <span className='horizontalMenuLine'/>
-                    <h3>Spicy Cheesy Chicken</h3>
-                </div>
-                <div className='landingMenuItem'>
-                    <h2>120</h2>
-                    <span className='horizontalMenuLine'/>
-                    <h3>Spicy Cheesy Chicken</h3>
-                </div>
-                <div className='landingMenuItem'>
-                    <h2>120</h2>
-                    <span className='horizontalMenuLine'/>
-                    <h3>Spicy Cheesy Chicken</h3>
-                </div>
-                
+                </div>               
             </div>
         </section>
     );
