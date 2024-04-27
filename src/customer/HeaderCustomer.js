@@ -29,6 +29,10 @@ const HeaderCustomer = ({ user }) => {
         navigate('/cart');
     }; 
 
+    const handleProfileClick = (user) => {
+        navigate('/profile'); // Function to navigate to the profile page
+    };
+
     return (
         <div className='headerDashboard'>
 
@@ -55,7 +59,7 @@ const HeaderCustomer = ({ user }) => {
                     <img src={ user.profilePicture }></img>
 
                     { profileContext && (
-                    <div className="profileContext">
+                    <div className="profileContext" onClick={handleProfileClick}>
                         <div className="profileContextSelection">
                             <span className="material-symbols-outlined">
                                 person

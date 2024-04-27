@@ -7,6 +7,8 @@ import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
+import ProfileCustomer from './customer/ProfileCustomer'
+import ProfileAdmin from './admin/ProfileAdmin'
 
 export const UserContext = createContext(null);
 
@@ -93,6 +95,8 @@ function App() {
           />
           {/* Route for CartPage */}
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/profile" element={<ProfileCustomer/>}/>
+          <Route path="/profileAdmin" element={<ProfileAdmin/>}/>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

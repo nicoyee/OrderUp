@@ -2,12 +2,13 @@ import '../css/Header.css';
 
 import React, { useState, useRef } from 'react';
 import { getAuth, signOut } from "firebase/auth";
-
+import { useNavigate } from 'react-router-dom'; 
 
 const HeaderAdmin = ({ user }) => {
 
     const [profileContext, showProfileContext] = useState(true);
     const profileContextBounds = useRef();
+    const navigate = useNavigate();
 
     const handleSignOut = () => {  // Add this function
         const auth = getAuth();
@@ -18,6 +19,10 @@ const HeaderAdmin = ({ user }) => {
             // An error happened.
             console.error('Error signing out', error);
         });
+    };
+
+    const handleProfileClick = (user) => {
+        navigate('/profileAdmin'); // Function to navigate to the profile page
     };
 
     return (
@@ -37,7 +42,7 @@ const HeaderAdmin = ({ user }) => {
             <img src={ user.profilePicture }></img>
 
             { profileContext && (
-                <div className="profileContext">
+                <div className="profileContext" onClick={handleProfileClick}>
                     <button className="value">
                         <span class="material-symbols-outlined">
                             person
