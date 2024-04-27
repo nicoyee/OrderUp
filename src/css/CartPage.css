@@ -8,8 +8,7 @@
   height: auto; /* Set height to auto to adjust based on content */
   overflow: auto; /* Enable vertical scrolling if content exceeds height */
   margin-top: 20px;
-  border-style: solid;
-  border-color: red;
+  padding-bottom: auto;
 }
 
 .cart h2 {
