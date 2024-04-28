@@ -1,6 +1,5 @@
 import '../css/DashboardAdmin.css';
 import '../css/Dashboard.css';
-import '../css/CreateDish.css';
 
 import React, { useState, useContext, useEffect} from 'react';
 import { UserContext } from '../App';
@@ -72,7 +71,6 @@ const DashboardAdmin = () => {
 
                 <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />
                 <AddEmployee modalIsOpen={addEmployeeModalIsOpen} setModalIsOpen={setAddEmployeeModalIsOpen}/>
-                <MenuAdmin/>
 
             </div>
         </div>
