@@ -32,13 +32,13 @@ const DashboardCustomer = () => {
                                 <span class="material-symbols-outlined">
                                     room_service
                                 </span>
-                                ORDER
+                                Create Order
                             </a>
                             <a className="dashboardCardBtn" href="#">
                                 <span class="material-symbols-outlined">
                                     confirmation_number
                                 </span>
-                                ADD VOUCHER
+                                Add Voucher
                             </a>
                         </div>
                     </div>

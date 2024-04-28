@@ -1,6 +1,6 @@
 import '../css/DashboardAdmin.css';
 import '../css/Dashboard.css';
-import '../css/CreateDish.css'
+
 
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
@@ -30,40 +30,43 @@ const DashboardAdmin = () => {
     return (
         <div className='dashboardContainer'>
 
-            <NavigationAdmin />
+            <HeaderAdmin user={ user } />
 
             <div className='dashboardContent'>
 
-                <HeaderAdmin user={ user } />
+                <div className='dashboardContent-main '>
 
-                <div className="dashboardCard cardAdmin">
-                    <div className="dashboardCardText">
-                        <span>Dashboard</span>
-                        <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName nameAdmin'>{ user.name }</span></p>
+                    <div className="dashboardCard cardAdmin">
+                        <div className="dashboardCardText">
+                            <span>Dashboard</span>
+                            <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName nameAdmin'>{ user.name }</span></p>
+                        </div>
+                        <div className="dashboardCardIcons">
+                            <a className="dashboardCardBtn" href="#">
+                                <span class="material-symbols-outlined" onClick={setCreateDishModal}>
+                                    restaurant_menu
+                                </span>
+                                Create Dish
+                            </a>
+                            <a className="dashboardCardBtn" href="#">
+                                <span class="material-symbols-outlined">
+                                    person_add
+                                </span>
+                                Add Employee
+                            </a>
+                            <a className="dashboardCardBtn" href="#">
+                                <span class="material-symbols-outlined">
+                                    event
+                                </span>
+                                Create Event   
+                            </a>
+                        </div>
                     </div>
-                    <div className="dashboardCardIcons">
-                        <a className="dashboardCardBtn" href="#" onClick={setCreateDishModal}>
-                            <span class="material-symbols-outlined">
-                                restaurant_menu
-                            </span>
-                            ADD DISH
-                        </a>
-                        <a className="dashboardCardBtn" href="#">
-                            <span class="material-symbols-outlined">
-                                person_add
-                            </span>
-                            ADD EMPLOYEE
-                        </a>
-                        <a className="dashboardCardBtn" href="#">
-                            <span class="material-symbols-outlined">
-                                event
-                            </span>
-                            CREATE EVENT   
-                        </a>
-                    </div>
+
+                    <MenuAdmin/>
+
                 </div>
-                <CreateDish modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
-                <MenuAdmin/>
+
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 .headerDashboard {
     width: 80%;
-    padding: 15px 0px 15px 0px;
+    padding: 15px 20px 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,10 +15,10 @@
 }
 
 .headerDashboardLeft h1 {
+    transform: translateY(2px);
     font-size: 28px;
     font-family: "Kare";
     color: #f05006;
-    margin-top: -13px;
     letter-spacing: 1px;
 }
 
@@ -55,12 +55,11 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: #252525;
+    background-color: #262626;
     right: 0;
     top: 0;
     transform: translateY(60px);
-    border: 1px solid #4E4E4E;
-    border-radius: 5px;
+    border: none;
 }
 
 .profileContextSelection {
@@ -69,13 +68,12 @@
     align-items: center;
     gap: 10px;
     font-size: 16px;
-    font-family: "Roboto Condensed";
-    font-weight: 500;
-    text-transform: uppercase;
+    font-family: "Montserrat";
+    font-weight: 400;
     color: #d5dbbd;
     cursor: pointer;
-    border: 1px solid #4E4E4E;
-    z-index: 50;
+    border: 1px solid #3F3F40;
+    z-index: 50;    
 }
 
 .profileContextSelection:hover {
@@ -98,8 +96,6 @@
 @media only screen and (max-width: 1024px) {
     .headerDashboard{
         width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
     }
 }
 

@@ -1,9 +1,11 @@
+import '../css/authForms.css';
+import '../css/DashboardComponents.css';
+
 import React, { useState, useEffect } from 'react';
 import { db, storage } from '../firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import '../css/authForms.css';
-import '../css/Admin/MenuAdmin.css'
+
 import CreateDish from './CreateDish';
 
 const MenuAdmin = () => {
@@ -59,15 +61,15 @@ const MenuAdmin = () => {
   };
 
   return (
-    <div className="menu-admin">
-      <h1>Menu Admin</h1>
-      <table>
+    <div className='menuTable'>
+      <h1>Menu</h1>
+      <table className='dataTable'>
         <thead>
           <tr>
+            <th>Image</th>
             <th>Name</th>
-            <th>Menu Type</th>
+            <th>Category</th>
             <th>Description</th>
-            <th>Photo</th>
             <th>Price</th>
             <th>Actions</th>
           </tr>
@@ -75,10 +77,10 @@ const MenuAdmin = () => {
         <tbody>
           {currentDishes.map((dish) => (
             <tr key={dish.id}>
+              <td id='dataTableImage'><img src={dish.photoURL} alt={dish.name}/></td>
               <td>{dish.name}</td>
               <td>{dish.menuType}</td>
               <td>{dish.description}</td>
-              <td><img src={dish.photoURL} alt={dish.name} width="100" height="100" /></td>
               <td>{dish.price}</td>
               <td>
                 <button onClick={() => handleEdit(dish)}>Edit</button>
