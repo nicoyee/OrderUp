@@ -6,6 +6,7 @@ import { UserContext } from '../App';
 
 import NavigationCustomer from './NavigationCustomer';
 import HeaderCustomer from './HeaderCustomer';
+import CustomerMenu from './CustomerMenu';
 
 const DashboardCustomer = () => {
 
@@ -47,6 +48,9 @@ const DashboardCustomer = () => {
 
                 <div className='dashboardContent-side'>
 
+                </div>
+                <div className="customerMenuContainer">
+                    <CustomerMenu /> {/* Render CustomerMenu component */}
                 </div>
 
             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase';
+import { auth,db } from '../firebase';
 import '../css/CartPage.css';
 
 const CartPage = () => {
@@ -9,17 +9,24 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const cartItemsSnapshot = await db.collection('dishes').get();
-        const itemsList = cartItemsSnapshot.docs.map(doc => {
-          const { Description, Name, Price } = doc.data();
-          return { id: doc.id, Description, Name, Price, selected: false };
-        });
-        setCartItems(itemsList);
+        const user = auth.currentUser; // Assuming 'auth' is your Firebase Auth instance
+        if (user) {
+          const cartItemsSnapshot = await db
+            .collection('cart')
+            .where('userId', '==', user.uid) // Assuming 'userId' field in cart items
+            .get();
+  
+          const itemsList = cartItemsSnapshot.docs.map(doc => {
+            const { Description, Name, Price } = doc.data();
+            return { id: doc.id, Description, Name, Price, selected: false };
+          });
+          setCartItems(itemsList);
+        }
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
     };
-
+  
     fetchCartItems();
   }, []);
 
