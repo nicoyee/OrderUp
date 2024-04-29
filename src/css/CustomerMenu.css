@@ -5,23 +5,23 @@
 
 .menu-items {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* Distribute items evenly */
-  gap: 20px; /* Add some gap between menu items */
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  gap: 10px; 
+  min-height: 600px; 
 }
 
 .menu-item {
-  flex: 1 1 300px; /* Allow items to grow to fill the space */
-  max-width: calc(33.33% - 20px); /* Set a maximum width for each item */
-}
-
-.menu-item {
-  width: calc(33.33% - 10px);
+  width: 300px;
+  height: 450px; 
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; 
+  display: flex; 
+  flex-direction: column;
 }
 
 .menu-title{
@@ -37,6 +37,7 @@
   height: 250px;
   overflow: hidden;
   border-radius: 8px;
+  margin-bottom: 16px; 
 }
 
 .menu-item-image {
@@ -50,7 +51,6 @@
 }
 
 .menu-item-name {
-  margin-top: 20px;
   font-size: 20px;
   margin-bottom: 10px;
   color: #333;
@@ -75,7 +75,7 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: auto; 
-  margin-left: 200px;
+  margin-left: 145px;
 }
 
 @media screen and (max-width: 768px) {
