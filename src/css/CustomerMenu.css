@@ -1,22 +1,35 @@
 .customer-menu {
   padding: 20px;
-  background-color: #f8f9fa;
+
 }
 
 .menu-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute items evenly */
+  gap: 20px; /* Add some gap between menu items */
 }
 
 .menu-item {
+  flex: 1 1 300px; /* Allow items to grow to fill the space */
+  max-width: calc(33.33% - 20px); /* Set a maximum width for each item */
+}
+
+.menu-item {
+  width: calc(33.33% - 10px);
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
+}
+
+.menu-title{
+  padding:20;
+  font-size: 50px;
+  color: #f05006;
+  margin-top: 50px;
+  margin-bottom: 20px;
 }
 
 .menu-item-image-container {
@@ -54,7 +67,6 @@
   color: #333;
 }
 
-/* Button design */
 .add-to-cart-btn {
   padding: 8px 16px; 
   background-color: green; 
@@ -63,7 +75,17 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: auto; 
-  align-self: center; 
-  margin-left: 150px;
+  margin-left: 200px;
 }
 
+@media screen and (max-width: 768px) {
+  .menu-item {
+    max-width: calc(50% - 20px); /* 2 items per row on smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .menu-item {
+    max-width: 100%; /* 1 item per row on mobile screens */
+  }
+}
