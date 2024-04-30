@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Admin from '../class/Admin';
+import { db, storage } from '../firebase';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { collection, addDoc } from 'firebase/firestore';
 
 const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
@@ -15,14 +17,29 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const admin = new Admin();
-    const success = await admin.createDish(name, description, price, photo, menuType);
-    if (success) {
+    try {
+      let photoURL = '';
+      if (photo) {
+        const storageRef = ref(storage, `dishes/${photo.name}`);
+        await uploadBytes(storageRef, photo);
+        photoURL = await getDownloadURL(storageRef);
+      }
+
+      await addDoc(collection(db, 'dishes'), {
+        name,
+        description,
+        price: parseFloat(price),
+        photoURL,
+        menuType
+      });
+
       setName('');
       setDescription('');
       setPrice('');
       setPhoto(null);
       setModalIsOpen(false);
+    } catch (error) {
+      console.error('Error adding dish:', error);
     }
   };
 
