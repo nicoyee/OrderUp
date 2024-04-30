@@ -95,8 +95,8 @@ function App() {
           />
           {/* Route for CartPage */}
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/profile" element={<ProfileCustomer/>}/>
-          <Route path="/profileAdmin" element={<ProfileAdmin/>}/>
+          <Route path="/customer/profile" element={<ProfileCustomer/>}/>
+          <Route path="/admin/profile" element={<ProfileAdmin/>}/>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

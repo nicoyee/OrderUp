@@ -30,7 +30,7 @@ const HeaderCustomer = ({ user }) => {
     }; 
 
     const handleProfileClick = (user) => {
-        navigate('/profile'); // Function to navigate to the profile page
+        navigate('/customer/profile'); // Function to navigate to the profile page
     };
 
     return (

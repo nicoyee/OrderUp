@@ -22,7 +22,7 @@ const HeaderAdmin = ({ user }) => {
     };
 
     const handleProfileClick = (user) => {
-        navigate('/profileAdmin'); // Function to navigate to the profile page
+        navigate('/admin/profile'); // Function to navigate to the profile page
     };
 
     return (
