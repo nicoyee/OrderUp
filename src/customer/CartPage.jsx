@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { getDoc, doc, updateDoc, deleteField, getFirestore } from "firebase/firestore";
-import firebase from 'firebase/compat/app';
+import { getDoc, doc, updateDoc } from "firebase/firestore";
 import '../css/CartPage.css';
 
 const CartPage = () => {
@@ -53,42 +52,6 @@ const CartPage = () => {
     });
   };
 
-  const handleRemoveItem = async (dishId) => {
-    try {
-      const user = auth.currentUser;
-      const cartRef = doc(db, 'cart', user.email);
-      const cartDoc = await getDoc(cartRef);
-  
-      if (cartDoc.exists()) {
-        const cartData = cartDoc.data();
-        let updatedItems = cartData.items || [];
-  
-        // Find the item index by matching with the dishId
-        const indexToRemove = updatedItems.findIndex(item => item.id === dishId);
-  
-        if (indexToRemove !== -1) {
-          // Remove the item from the array
-          updatedItems.splice(indexToRemove, 1);
-  
-          // Update the cart document in Firestore
-          await updateDoc(cartRef, {
-            items: updatedItems,
-          });
-        } else {
-          // If item not found in cart, display error message
-          alert('Item not found in cart.');
-        }
-      } else {
-        // If cart document doesn't exist, display error message
-        alert('Cart not found.');
-      }
-    } catch (error) {
-      console.error("Error removing item:", error);
-      // Display error message
-      alert('Error removing item from cart. Please try again later.');
-    }
-  };
-
   const handleSelectItem = (dishId) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedSelectedItems = new Set(prevSelectedItems);
@@ -134,10 +97,12 @@ const CartPage = () => {
     }
   };
 
+  const totalPrice = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
+
   return (
     <div className="cart-container">
       <div className="back-button" onClick={() => window.history.back()}>
-      <a href="/dashboard">
+        <a href="/dashboard">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -149,7 +114,7 @@ const CartPage = () => {
           </svg>
         </a>
       </div>
-      <h1>Cart</h1>
+      <h1>YOUR CART</h1>
       <form>
         <div className="select-all-container">
           <input
@@ -158,46 +123,49 @@ const CartPage = () => {
             onChange={handleSelectAll}
           />
           <label htmlFor="select-all">Select all</label>
+          <button type="button" onClick={handleDeleteSelectedItems}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="trash-icon"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2 0 002-2V9" />
+            </svg>
+          </button>
         </div>
-        <ul>
+        <ul className="cart-items">
           {Object.keys(cartItems).map((dishId) => (
             <li key={dishId} className="cart-item">
-              <input
-                type="checkbox"
-                checked={selectedItems.has(dishId)}
-                onChange={() => handleSelectItem(dishId)}
-              />
-              <span>{cartItems[dishId].name}</span>
-              <span>Price: {cartItems[dishId].price}</span>
-              <span>Quantity: {cartItems[dishId].quantity}</span>
-              <input
-                type="number"
-                value={cartItems[dishId].quantity}
-                onChange={(event) =>
-                  handleQuantityChange(dishId, parseInt(event.target.value))
-                }
-              />
-              <button type="button" onClick={() => handleRemoveItem(dishId)}>
-                Remove
-              </button>
+              <div className="item-details">
+                <input
+                  type="checkbox"
+                  checked={selectedItems.has(dishId)}
+                  onChange={() => handleSelectItem(dishId)}
+                  className="cart-item-checkbox"
+                />
+                <div>
+                  <span className="item-name">{cartItems[dishId].name}</span>
+                  <span className="item-quantity">Quantity: {cartItems[dishId].quantity}</span>
+                </div>
+              </div>
+              <span className="item-price">Price: ${cartItems[dishId].price.toFixed(2)}</span>
             </li>
           ))}
         </ul>
-        <button type="button" onClick={handleDeleteSelectedItems}>
-        <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className="trash-icon"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2 0 002-2V9" />
-  </svg>
-        </button>
       </form>
+      <div className="total-price">
+        Total:₱ {totalPrice.toFixed(2)}
+      </div>
+      <div className="checkout-container">
+        <button type="button" className="checkout-btn" onClick={() => window.history.push('/checkout')}>
+          Checkout
+        </button>
+      </div>
     </div>
   );
 };
