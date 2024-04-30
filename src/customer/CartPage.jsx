@@ -1,75 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import { auth,db } from '../firebase';
+import { auth, db } from '../firebase';
+import { getDoc, doc, updateDoc, deleteField, getFirestore } from "firebase/firestore";
+import firebase from 'firebase/compat/app';
 import '../css/CartPage.css';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [cartItems, setCartItems] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(new Set());
 
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchCartData = async () => {
       try {
-        const user = auth.currentUser; // Assuming 'auth' is your Firebase Auth instance
-        if (user) {
-          const cartItemsSnapshot = await db
-            .collection('cart')
-            .where('userId', '==', user.uid) // Assuming 'userId' field in cart items
-            .get();
-  
-          const itemsList = cartItemsSnapshot.docs.map(doc => {
-            const { Description, Name, Price } = doc.data();
-            return { id: doc.id, Description, Name, Price, selected: false };
-          });
-          setCartItems(itemsList);
+        const user = auth.currentUser;
+        if (!user) {
+          setError('User not authenticated.');
+          return;
+        }
+
+        const cartRef = doc(db, 'cart', user.email);
+        const cartDoc = await getDoc(cartRef);
+
+        if (cartDoc.exists()) {
+          const cartData = cartDoc.data();
+          setCartItems(cartData.items || {});
+        } else {
+          setError('Cart not found.');
         }
       } catch (error) {
-        console.error('Error fetching cart items:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
-  
-    fetchCartItems();
+
+    fetchCartData();
   }, []);
 
-  const handleCheckboxChange = itemId => {
-    const updatedItems = cartItems.map(item =>
-      item.id === itemId ? { ...item, selected: !item.selected } : item
-    );
-    setCartItems(updatedItems);
+  const handleQuantityChange = (dishId, newQuantity) => {
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = { ...prevCartItems };
+      updatedCartItems[dishId].quantity = newQuantity;
+      return updatedCartItems;
+    });
+
+    // Update quantity in database
+    const user = auth.currentUser;
+    const cartRef = doc(db, 'cart', user.email);
+    updateDoc(cartRef, {
+      items: { [dishId]: { quantity: newQuantity } },
+    });
   };
 
-  const handleSelectAll = () => {
-    const updatedItems = cartItems.map(item => ({
-      ...item,
-      selected: !selectAll
-    }));
-    setCartItems(updatedItems);
-    setSelectAll(!selectAll);
+  const handleRemoveItem = async (dishId) => {
+    try {
+      const user = auth.currentUser;
+      const cartRef = doc(db, 'cart', user.email);
+      const cartDoc = await getDoc(cartRef);
+  
+      if (cartDoc.exists()) {
+        const cartData = cartDoc.data();
+        let updatedItems = cartData.items || [];
+  
+        // Find the item index by matching with the dishId
+        const indexToRemove = updatedItems.findIndex(item => item.id === dishId);
+  
+        if (indexToRemove !== -1) {
+          // Remove the item from the array
+          updatedItems.splice(indexToRemove, 1);
+  
+          // Update the cart document in Firestore
+          await updateDoc(cartRef, {
+            items: updatedItems,
+          });
+        } else {
+          // If item not found in cart, display error message
+          alert('Item not found in cart.');
+        }
+      } else {
+        // If cart document doesn't exist, display error message
+        alert('Cart not found.');
+      }
+    } catch (error) {
+      console.error("Error removing item:", error);
+      // Display error message
+      alert('Error removing item from cart. Please try again later.');
+    }
   };
 
-  const handleRemoveItem = itemId => {
-    const updatedItems = cartItems.filter(item => item.id !== itemId);
-    setCartItems(updatedItems);
+  const handleSelectItem = (dishId) => {
+    setSelectedItems((prevSelectedItems) => {
+      const updatedSelectedItems = new Set(prevSelectedItems);
+      if (updatedSelectedItems.has(dishId)) {
+        updatedSelectedItems.delete(dishId);
+      } else {
+        updatedSelectedItems.add(dishId);
+      }
+      return updatedSelectedItems;
+    });
   };
 
-  const handleSelectedItemCount = () => {
-    const selectedCount = cartItems.filter(item => item.selected).length;
-    return selectedCount;
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      setSelectedItems(new Set(Object.keys(cartItems)));
+    } else {
+      setSelectedItems(new Set());
+    }
   };
 
-  const handleDeleteSelected = () => {
-    const updatedItems = cartItems.filter(item => !item.selected);
-    setCartItems(updatedItems);
-  };
+  const handleDeleteSelectedItems = async () => {
+    try {
+      const user = auth.currentUser;
+      const cartRef = doc(db, 'cart', user.email);
 
-  const handleCheckout = () => {
-    // Logic for checkout functionality
-    alert('Proceeding to checkout...');
+      // Filter out selected items from cartItems
+      const updatedCartItems = Object.fromEntries(
+        Object.entries(cartItems).filter(
+          ([dishId]) => !selectedItems.has(dishId)
+        )
+      );
+
+      // Update cartItems state and database
+      await updateDoc(cartRef, {
+        items: updatedCartItems,
+      });
+
+      // Update local state
+      setCartItems(updatedCartItems);
+      setSelectedItems(new Set());
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
-    <div className="cart">
-      <div className="back-to-dashboard">
-        <a href="/dashboard">
+    <div className="cart-container">
+      <div className="back-button" onClick={() => window.history.back()}>
+      <a href="/dashboard">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -81,39 +149,55 @@ const CartPage = () => {
           </svg>
         </a>
       </div>
-      <h2>Your Cart</h2>
-      <div className="cart-controls">
-        <button className="select-all-btn" onClick={handleSelectAll}>
-          {selectAll ? 'Deselect All' : 'Select All'}
+      <h1>Cart</h1>
+      <form>
+        <div className="select-all-container">
+          <input
+            type="checkbox"
+            checked={selectedItems.size === Object.keys(cartItems).length}
+            onChange={handleSelectAll}
+          />
+          <label htmlFor="select-all">Select all</label>
+        </div>
+        <ul>
+          {Object.keys(cartItems).map((dishId) => (
+            <li key={dishId} className="cart-item">
+              <input
+                type="checkbox"
+                checked={selectedItems.has(dishId)}
+                onChange={() => handleSelectItem(dishId)}
+              />
+              <span>{cartItems[dishId].name}</span>
+              <span>Price: {cartItems[dishId].price}</span>
+              <span>Quantity: {cartItems[dishId].quantity}</span>
+              <input
+                type="number"
+                value={cartItems[dishId].quantity}
+                onChange={(event) =>
+                  handleQuantityChange(dishId, parseInt(event.target.value))
+                }
+              />
+              <button type="button" onClick={() => handleRemoveItem(dishId)}>
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button type="button" onClick={handleDeleteSelectedItems}>
+        <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className="trash-icon"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2 0 002-2V9" />
+  </svg>
         </button>
-        {handleSelectedItemCount() > 0 && (
-          <button className="delete-selected-btn" onClick={handleDeleteSelected}>
-            Delete Selected
-          </button>
-        )}
-        <p className="selected-count">Item selected: {handleSelectedItemCount()}</p>
-      </div>
-      <div className="cart-items">
-        {cartItems.map(item => (
-          <div key={item.id} className="cart-item">
-            <input
-              type="checkbox"
-              checked={item.selected}
-              onChange={() => handleCheckboxChange(item.id)}
-            />
-            <h3>{item.Name}</h3>
-            <p>{item.Description}</p>
-            <p>Price: ${item.Price}</p>
-            <button className="remove-item-btn" onClick={() => handleRemoveItem(item.id)}>
-              🗑️ Remove
-            </button>
-          </div>
-        ))}
-      </div>
-      {/* Checkout button */}
-      <button className="checkout-btn" onClick={handleCheckout}>
-        Checkout
-      </button>
+      </form>
     </div>
   );
 };

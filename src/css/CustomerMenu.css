@@ -7,7 +7,8 @@
   display: flex;
   flex-wrap: wrap; 
   justify-content: space-between; 
-  gap: 10px; 
+  gap: 10px;
+  margin: 60px;
   min-height: 600px; 
 }
 
@@ -26,8 +27,9 @@
 
 .menu-title{
   padding:20;
-  font-size: 50px;
+  font-size: 80px;
   color: #f05006;
+  margin-left: 70px;
   margin-top: 50px;
   margin-bottom: 20px;
 }
@@ -76,6 +78,26 @@
   cursor: pointer;
   margin-top: auto; 
   margin-left: 145px;
+}
+
+.arrow-icon.small {
+  width: 24px; /* Adjust the width as needed */
+  height: 24px; /* Adjust the height as needed */
+}
+
+.trash-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: black; /* Change color as needed */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+
+.trash-icon:hover {
+  stroke: darkred; /* Change color on hover as needed */
 }
 
 @media screen and (max-width: 768px) {
