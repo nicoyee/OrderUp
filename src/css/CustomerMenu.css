@@ -1,32 +1,9 @@
 .customer-menu {
   padding: 20px;
-
 }
 
-.menu-items {
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: space-between; 
-  gap: 10px;
-  margin: 60px;
-  min-height: 600px; 
-}
-
-.menu-item {
-  width: 300px;
-  height: 450px; 
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.menu-title {
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; 
-  display: flex; 
-  flex-direction: column;
-}
-
-.menu-title{
-  padding:20;
   font-size: 80px;
   color: #f05006;
   margin-left: 70px;
@@ -34,12 +11,32 @@
   margin-bottom: 20px;
 }
 
+.menu-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 600px;
+}
+
+.menu-item {
+  width: calc(33.33% - 20px); /* Adjust the width to fit three items per row */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
 .menu-item-image-container {
   width: 100%;
   height: 250px;
   overflow: hidden;
   border-radius: 8px;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 
 .menu-item-image {
@@ -70,44 +67,11 @@
 }
 
 .add-to-cart-btn {
-  padding: 8px 16px; 
-  background-color: green; 
+  padding: 8px 16px;
+  background-color: green;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: auto; 
-  margin-left: 145px;
-}
-
-.arrow-icon.small {
-  width: 24px; /* Adjust the width as needed */
-  height: 24px; /* Adjust the height as needed */
-}
-
-.trash-icon {
-  width: 24px;
-  height: 24px;
-  fill: none;
-  stroke: black; /* Change color as needed */
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  cursor: pointer;
-}
-
-.trash-icon:hover {
-  stroke: darkred; /* Change color on hover as needed */
-}
-
-@media screen and (max-width: 768px) {
-  .menu-item {
-    max-width: calc(50% - 20px); /* 2 items per row on smaller screens */
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .menu-item {
-    max-width: 100%; /* 1 item per row on mobile screens */
-  }
+  margin-top: auto;
 }
