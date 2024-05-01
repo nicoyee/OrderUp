@@ -4,9 +4,11 @@
 }
 
 .menu-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  gap: 10px; 
+  min-height: 600px; 
 }
 
 .menu-item {
@@ -18,6 +20,8 @@
   display: flex;
   flex-direction: column;
 }
+
+
 
 .menu-item-image-container {
   width: 100%;
@@ -65,5 +69,25 @@
   margin-top: auto; 
   align-self: center; 
   margin-left: 150px;
+}
+
+.arrow-icon.small {
+  width: 24px; /* Adjust the width as needed */
+  height: 24px; /* Adjust the height as needed */
+}
+
+.trash-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: black; /* Change color as needed */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+
+.trash-icon:hover {
+  stroke: darkred; /* Change color on hover as needed */
 }
 
