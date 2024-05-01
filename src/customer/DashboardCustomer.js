@@ -49,13 +49,11 @@ const DashboardCustomer = () => {
                 <div className='dashboardContent-side'>
 
                 </div>
+                <div className="customerMenuContainer">
+                    <CustomerMenu /> {/* Render CustomerMenu component */}
+                </div>
 
             </div>
-            
-            <div className="customerMenuContainer">
-                <CustomerMenu /> {/* Render CustomerMenu component */}
-            </div>
-
         </div>
     );
 }
