@@ -22,7 +22,7 @@ const DashboardAdmin = () => {
     const closeModal = () => {
         setModalIsOpen(false);
       };
-    
+      
       const setCreateDishModal = () => {
         setModalContent('createDish');
         setModalIsOpen(true);
