@@ -10,6 +10,7 @@ import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
 import CreateDish from './CreateDish';
 import AddEmployee from './AddEmployee';
+import UserManagement from './UserManagement';
 import { Button } from 'react-scroll';
 import { db } from '../firebase';
 
@@ -19,6 +20,7 @@ const DashboardAdmin = () => {
     const user = useContext(UserContext);   
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
     const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
+    const [userManagementModalIsOpen, setUserManagementModalIsOpen] = useState(false);
     const [dishToEdit, setDishToEdit] = useState(null);
     const [customerSection, setCustomerSection] = useState('dashboard');
 
@@ -29,6 +31,9 @@ const DashboardAdmin = () => {
     const setAddEmployeeModal = () => {
         setAddEmployeeModalIsOpen(true);
     };
+    const setUserManagementModal = () => {
+        setUserManagementModalIsOpen(true);
+    }
     return (
         <div className='dashboardContainer'>
 
@@ -56,7 +61,7 @@ const DashboardAdmin = () => {
                             </span>
                             ADD EMPLOYEE
                         </a>
-                        <a className="dashboardCardBtn" href="#">
+                        <a className="dashboardCardBtn" href="#" onClick={setUserManagementModal}>
                             <span class="material-symbols-outlined">
                                 person
                             </span>
@@ -72,6 +77,7 @@ const DashboardAdmin = () => {
                 </div>
                 <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />
                 <AddEmployee modalIsOpen={addEmployeeModalIsOpen} setModalIsOpen={setAddEmployeeModalIsOpen}/>
+                <UserManagement modalIsOpen={userManagementModalIsOpen} setModalIsOpen={setUserManagementModalIsOpen}/>
                 <MenuAdmin/>
             </div>
         </div>
