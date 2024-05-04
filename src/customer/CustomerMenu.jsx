@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase'; // Assuming you have initialized Firebase and exported 'auth'
-import { collection,setDoc, getDocs,getDoc, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { collection, setDoc, getDocs, getDoc, updateDoc, doc } from 'firebase/firestore';
 import '../css/CustomerMenu.css';
 
 const CustomerMenu = () => {
@@ -32,21 +32,21 @@ const CustomerMenu = () => {
       if (!user) {
         throw new Error('User not authenticated.');
       }
-  
+
       const dishRef = doc(db, 'dishes', dishId);
       const dishDoc = await getDoc(dishRef);
-  
+
       if (dishDoc.exists()) {
         const dishData = dishDoc.data();
-  
+
         const cartRef = doc(db, 'cart', user.email); // Use user's email as cart document ID
         const cartDoc = await getDoc(cartRef);
-  
+
         if (cartDoc.exists()) {
           // Cart document exists for the user, update the cart item or add new item
           const cartData = cartDoc.data();
           const cartItems = cartData.items || {};
-  
+
           if (cartItems[dishId]) {
             // Increment quantity if the dish is already in the cart
             cartItems[dishId].quantity += 1;
@@ -59,7 +59,7 @@ const CustomerMenu = () => {
               quantity: 1
             };
           }
-  
+
           // Update the cart document with updated cart items
           await updateDoc(cartRef, { items: cartItems });
         } else {
@@ -72,10 +72,10 @@ const CustomerMenu = () => {
               quantity: 1
             }
           };
-  
+
           await setDoc(cartRef, { items: newCartItems });
         }
-  
+
         alert('Item added to cart!');
       } else {
         alert('Dish not found.');

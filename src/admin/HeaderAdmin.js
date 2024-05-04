@@ -9,6 +9,10 @@ const HeaderAdmin = ({ user }) => {
     const [profileContext, showProfileContext] = useState(true);
     const profileContextBounds = useRef();
 
+    const toggleProfileContext = () => {
+        showProfileContext(!profileContext);
+    };
+
     const handleSignOut = () => {  // Add this function
         const auth = getAuth();
         signOut(auth).then(() => {
@@ -23,44 +27,46 @@ const HeaderAdmin = ({ user }) => {
     return (
         <div className='headerDashboard'>
 
-        <div className='headerDashboardLeft'>
-            <h1 id='adminHeader'>RiceBoy</h1>
-        </div>
+            <div className='headerDashboardLeft'>
+                <h1 id='adminHeader'>RiceBoy</h1>
+            </div>
 
-        <div className='headerDashboardCenter'>
+            <div className='headerDashboardCenter'>
 
-        </div>
+            </div>
+  
+            <div className='headerDashboardRight'>
 
-        <div className='headerProfile'>
+                <div className='profileHeader' onClick={ toggleProfileContext }>
+                    <h2>{ user.email }</h2>
+                    <img src={ user.profilePicture }></img>
 
-            <h2>{ user.email }</h2>
-            <img src={ user.profilePicture }></img>
-
-            { profileContext && (
-                <div className="profileContext">
-                    <button className="value">
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-                        Profile
-                    </button>
-                    <button className="value">
-                        <span class="material-symbols-outlined">
-                            settings
-                        </span>
-                        Settings
-                    </button>
-                    <button className="value" onClick={handleSignOut}>
-                        <span class="material-symbols-outlined">
-                            logout
-                        </span>
-                        Log Out
-                    </button>
+                    { profileContext && (
+                    <div className="profileContext">
+                        <div className="profileContextSelection">
+                            <span className="material-symbols-outlined">
+                                person
+                            </span>
+                            Profile
+                        </div>
+                        <div className="profileContextSelection">
+                            <span className="material-symbols-outlined">
+                                settings
+                            </span>
+                            Settings
+                        </div>
+                        <div className="profileContextSelection" onClick={handleSignOut}>
+                            <span className="material-symbols-outlined" style={{ color: '#f05006' }}>
+                                logout
+                            </span>
+                            Log Out
+                        </div>
+                    </div>
+                    )}
                 </div>
-            )}
-
+                
+            </div>
         </div>
-    </div>
     );
 }
 export default HeaderAdmin;
