@@ -1,9 +1,11 @@
+// ManageUsers.js
+
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-import '../css/Admin/UserManagement.css';
+import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import '../css/Admin/ManageUsers.css'; // Import the CSS file
 
-const UserManagement = ({ modalIsOpen, setModalIsOpen }) => {
+const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -29,6 +31,21 @@ const UserManagement = ({ modalIsOpen, setModalIsOpen }) => {
     }
   }, [modalIsOpen]);
 
+  const handleBanUser = async (userId) => {
+    try {
+      await deleteDoc(doc(db, 'users', userId));
+      setUsers(users.filter(user => user.id !== userId));
+      console.log('User banned successfully');
+    } catch (error) {
+      console.error('Error banning user:', error);
+    }
+  };
+
+  const handleViewOrderHistory = (userId) => {
+    // Implement view order history functionality here
+    console.log('Viewing order history for user:', userId);
+  };
+
   const handleAddEmployee = async (userId) => {
     try {
       const userRef = doc(db, 'users', userId);
@@ -53,10 +70,10 @@ const UserManagement = ({ modalIsOpen, setModalIsOpen }) => {
 
   return (
     modalIsOpen && (
-      <div className="modal">
+      <div className="manage-users-modal">
         <div className='modal-content'>
           <span className='close' onClick={() => setModalIsOpen(false)}> &times;</span>
-          <h1>User Management</h1>
+          <h1>Manage Users</h1>
           <div className="user-list">
             <table>
               <thead>
@@ -75,11 +92,13 @@ const UserManagement = ({ modalIsOpen, setModalIsOpen }) => {
                     <td>{user.userType}</td>
                     <td>
                       {user.userType === 'customer' && (
-                        <button onClick={() => handleAddEmployee(user.id)}>Add Employee</button>
+                        <button className="add-employee-button" onClick={() => handleAddEmployee(user.id)}>Add Employee</button>
                       )}
                       {user.userType === 'staff' && (
-                        <button onClick={() => handleRemoveEmployee(user.id)}>Remove Employee</button>
+                        <button className="remove-employee-button" onClick={() => handleRemoveEmployee(user.id)}>Remove Employee</button>
                       )}
+                      <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
+                      <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.id)}>View Order History</button>
                     </td>
                   </tr>
                 ))}
@@ -92,4 +111,4 @@ const UserManagement = ({ modalIsOpen, setModalIsOpen }) => {
   );
 };
 
-export default UserManagement;
+export default ManageUsers;
