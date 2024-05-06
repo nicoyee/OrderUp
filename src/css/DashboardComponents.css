@@ -19,6 +19,10 @@
 
 .dataTable td {
     text-align: center;
+    /* Ensure descriptions wrap within table cell */
+    word-wrap: break-word;
+    /* Set maximum width for table cell */
+    max-width: 300px; /* Adjust the value as needed */
 }
 
 .dataTable td button {

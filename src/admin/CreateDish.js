@@ -1,7 +1,6 @@
+// CreateDish.js
 import React, { useState } from 'react';
-import { db, storage } from '../firebase';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { collection, addDoc } from 'firebase/firestore';
+import Admin from '../class/Admin';
 
 const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
@@ -18,20 +17,8 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let photoURL = '';
-      if (photo) {
-        const storageRef = ref(storage, `dishes/${photo.name}`);
-        await uploadBytes(storageRef, photo);
-        photoURL = await getDownloadURL(storageRef);
-      }
-
-      await addDoc(collection(db, 'dishes'), {
-        name,
-        description,
-        price: parseFloat(price),
-        photoURL,
-        menuType
-      });
+      const newDish = Admin.createDish(name, menuType, description, price, photo);
+      await newDish.saveToDatabase();
 
       setName('');
       setDescription('');
@@ -39,7 +26,7 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
       setPhoto(null);
       setModalIsOpen(false);
     } catch (error) {
-      console.error('Error adding dish:', error);
+      console.error('Error creating dish:', error);
     }
   };
 
