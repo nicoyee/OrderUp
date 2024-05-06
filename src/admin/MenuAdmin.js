@@ -1,29 +1,27 @@
 import '../css/authForms.css';
 import '../css/DashboardComponents.css';
-
+import '../css/MenuTable.css'
 import React, { useState, useEffect } from 'react';
-import { db, storage } from '../firebase';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-
-import CreateDish from './CreateDish';
+import { db } from '../firebase';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 const MenuAdmin = () => {
   const [dishes, setDishes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const dishesPerPage = 10;
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('createDish');
-  const [dishToEdit, setDishToEdit] = useState(null);
 
   useEffect(() => {
     const fetchDishes = async () => {
-      const querySnapshot = await getDocs(collection(db, 'dishes'));
-      const dishesData = [];
-      querySnapshot.forEach((doc) => {
-        dishesData.push({ id: doc.id, ...doc.data() });
-      });
-      setDishes(dishesData);
+      try {
+        const querySnapshot = await getDocs(collection(db, 'dishes'));
+        const dishesData = [];
+        querySnapshot.forEach((doc) => {
+          dishesData.push({ id: doc.id, ...doc.data() });
+        });
+        setDishes(dishesData);
+      } catch (error) {
+        console.error('Error fetching dishes:', error);
+      }
     };
 
     fetchDishes();
@@ -36,9 +34,7 @@ const MenuAdmin = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleEdit = (dish) => {
-    setModalContent('editDish');
-    setDishToEdit(dish);
-    setModalIsOpen(true);
+    // Handle editing of dish
   };
 
   const handleDelete = async (id) => {
@@ -49,15 +45,6 @@ const MenuAdmin = () => {
     } catch (error) {
       console.error('Error deleting dish:', error);
     }
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const setCreateDishModal = () => {
-    setModalContent('createDish');
-    setModalIsOpen(true);
   };
 
   return (
