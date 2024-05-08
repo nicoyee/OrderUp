@@ -1,5 +1,5 @@
 import { auth } from "../firebase.js";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
 
 class User {
     constructor(name, email, userType, profilePicture) {
@@ -40,6 +40,16 @@ class User {
             await sendPasswordResetEmail(auth, email);
             console.log('Password reset email sent!');
         } catch (error) {
+            throw error;
+        }
+    }
+
+    static async signOut() {
+        try {
+            await signOut(auth);
+            console.log('User signed out');
+        } catch (error) {
+            console.error('Error signing out', error);
             throw error;
         }
     }

@@ -1,13 +1,16 @@
 import '../css/authForms.css';
 import '../css/DashboardComponents.css';
-import '../css/MenuTable.css'
+import '../css/MenuTable.css';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { Dish } from '../class/Dish.js';
+import Admin from '../class/admin/Admin.js';
 
 const MenuAdmin = () => {
   const [dishes, setDishes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [editRowIndex, setEditRowIndex] = useState(-1); // Track index of row being edited
   const dishesPerPage = 10;
 
   useEffect(() => {
@@ -33,13 +36,35 @@ const MenuAdmin = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleEdit = (dish) => {
-    // Handle editing of dish
+  const handleEdit = (index) => {
+    setEditRowIndex(index === editRowIndex ? -1 : index);
+  };
+
+  const handleConfirmEdit = async (index) => {
+    try {
+      const dishToUpdate = currentDishes[index];
+      await Admin.updateDish(dishToUpdate.id, {
+        name: document.getElementById(`name_${index}`).value,
+        menuType: document.getElementById(`menuType_${index}`).value,
+        description: document.getElementById(`description_${index}`).value,
+        price: document.getElementById(`price_${index}`).value,
+      });
+    } catch (error) {
+      console.error('Error updating dish:', error);
+    }
+    // Exit edit mode
+    setEditRowIndex(-1);
+  };
+
+  const handleCancelEdit = () => {
+    // Exit edit mode
+    setEditRowIndex(-1);
   };
 
   const handleDelete = async (id) => {
+    console.log('Deleting dish with ID:', id);
     try {
-      await deleteDoc(doc(db, 'dishes', id));
+      await Admin.deleteDish(id); // Use Admin.deleteDish instead of Dish.delete
       const newDishes = dishes.filter((dish) => dish.id !== id);
       setDishes(newDishes);
     } catch (error) {
@@ -62,16 +87,33 @@ const MenuAdmin = () => {
           </tr>
         </thead>
         <tbody>
-          {currentDishes.map((dish) => (
+          {currentDishes.map((dish, index) => (
             <tr key={dish.id}>
               <td id='dataTableImage'><img src={dish.photoURL} alt={dish.name}/></td>
-              <td>{dish.name}</td>
-              <td>{dish.menuType}</td>
-              <td>{dish.description}</td>
-              <td>{dish.price}</td>
               <td>
-                <button onClick={() => handleEdit(dish)}>Edit</button>
-                <button onClick={() => handleDelete(dish.id)}>Delete</button>
+                {editRowIndex === index ? <input type="text" id={`name_${index}`} defaultValue={dish.name} /> : dish.name}
+              </td>
+              <td>
+                {editRowIndex === index ? <input type="text" id={`menuType_${index}`} defaultValue={dish.menuType} /> : dish.menuType}
+              </td>
+              <td>
+                {editRowIndex === index ? <input type="text" id={`description_${index}`} defaultValue={dish.description} /> : dish.description}
+              </td>
+              <td>
+                {editRowIndex === index ? <input type="text" id={`price_${index}`} defaultValue={dish.price} /> : dish.price}
+              </td>
+              <td className='actionBtns'>
+                {editRowIndex === index ? (
+                  <div>
+                    <button className='editBtn' onClick={() => handleConfirmEdit(index)}>Confirm</button>
+                    <button className='deleteBtn' onClick={() => handleCancelEdit()}>Cancel</button>
+                  </div>
+                ) : (
+                  <div>
+                    <button className='editBtn' onClick={() => handleEdit(index)}>Edit</button>
+                    <button className='deleteBtn' onClick={() => handleDelete(dish.id)}>Delete</button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}

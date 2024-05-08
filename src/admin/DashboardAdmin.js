@@ -15,6 +15,7 @@ const DashboardAdmin = () => {
     const user = useContext(UserContext);   
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
     const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
+    const [editDishModalIsOpen, setEditDishModalIsOpen] = useState(false); // State for edit dish modal
 
     // Function to open Create Dish modal
     const openCreateDishModal = () => {
@@ -34,6 +35,16 @@ const DashboardAdmin = () => {
     // Function to close Add Employee modal
     const closeAddEmployeeModal = () => {
         setAddEmployeeModalIsOpen(false);
+    };
+
+    // Function to open Edit Dish modal
+    const openEditDishModal = () => {
+        setEditDishModalIsOpen(true);
+    };
+
+    // Function to close Edit Dish modal
+    const closeEditDishModal = () => {
+        setEditDishModalIsOpen(false);
     };
 
     return (
@@ -65,6 +76,7 @@ const DashboardAdmin = () => {
                 </div>
                 {createDishModalIsOpen && <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={closeCreateDishModal} />}
                 {addEmployeeModalIsOpen && <AddEmployee modalIsOpen={addEmployeeModalIsOpen} setModalIsOpen={closeAddEmployeeModal} />}
+            
             </div>
         </div>
     );

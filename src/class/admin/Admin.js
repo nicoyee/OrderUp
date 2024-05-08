@@ -1,5 +1,7 @@
-import User from './User';
-import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from './Dish';
+import User from '../User';
+import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import  {db}  from '../../firebase';
 
 class Admin extends User {
     constructor(name, email, profilePicture) {
@@ -23,12 +25,22 @@ class Admin extends User {
 
     static async deleteDish(id) {
         try {
-            const dish = await Dish.getById(id);
-            await dish.delete();
-            console.log('Dish deleted successfully');
+          await deleteDoc(doc(db, 'dishes', id));
+          console.log('Dish deleted successfully');
         } catch (error) {
-            console.error('Error deleting dish:', error);
-            throw error;
+          console.error('Error deleting dish:', error);
+          throw error;
+        }
+    }
+
+    static async updateDish(id, newData) {
+        try {
+          const dishDocRef = doc(db, 'dishes', id);
+          await updateDoc(dishDocRef, newData);
+          console.log('Dish updated successfully');
+        } catch (error) {
+          console.error('Error updating dish:', error);
+          throw error;
         }
     }
 }

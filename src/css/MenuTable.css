@@ -1,62 +1,96 @@
-/* MenuTable.css */
-
 .dataTable {
-    width: 100%;
-    margin-top: 10px;
-    padding: 1em;
-    font-family: "Roboto", sans-serif;
-    color: #f2f2f2;
-    border: 1px solid #29292c;
-    border-radius: 15px;
-  }
-  
-  .dataTable th {
-    color: #d5dbbd;
-    padding: 10px 0;
-  }
-  
-  .dataTable thead tr {
-    margin-bottom: 20px;
-  }
-  
-  .dataTable td {
-    text-align: center;
-  }
-  
-  .dataTable td button {
-    color: #d5dbbd;
-    margin: 0px 10px;
-  }
-  
-  #dataTableImage {
-    padding: 5px;
-  }
-  
-  .pagination {
-    margin-top: 20px;
-  }
-  
-  .pagination button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  .pagination button:hover {
-    background-color: #45a049;
-  }
-  
-  .pagination button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination .active {
-    background-color: #45a049;
-  }
-  
-  
+  background-color: whitesmoke;
+  width: 100%;
+  margin-top: 10px;
+  padding: 1em;
+  font-family: "Roboto", sans-serif;
+  color: #333; /* Dark gray text color */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 15px;
+  overflow: hidden; /* Hide overflowing content */
+}
+
+.dataTable th, .dataTable td {
+  padding: 15px;
+  text-align: left;
+}
+
+.dataTable th {
+  background-color: #f5f5f5; /* Light gray background for headers */
+  color: #555; /* Dark gray text color for headers */
+}
+
+.dataTable td {
+  border-bottom: 1px solid #eee; /* Light gray border between rows */
+}
+
+.dataTable tbody tr:hover {
+  background-color: #f0f0f0; /* Slightly darker gray on hover */
+}
+
+.dataTable td button {
+  color: #666; /* Dark gray button text color */
+  margin: 0px 5px; /* Reduce margin for the buttons */
+}
+
+#dataTableImage {
+  padding: 5px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #4CAF50; /* Green pagination button background */
+  color: white; /* White pagination button text color */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.pagination button:hover {
+  background-color: #45a049; /* Darker shade of green on hover */
+}
+
+.pagination button:disabled {
+  background-color: #ccc; /* Light gray pagination button when disabled */
+  cursor: not-allowed;
+}
+
+.pagination .active {
+  background-color: #45a049; /* Active page button color */
+}
+
+.actionBtns{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+}
+.actionBtns button {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.actionBtns button.editBtn {
+  background-color: #2196f3; /* Blue color for edit button */
+  color: white;
+}
+
+.actionBtns button.editBtn:hover {
+  background-color: #1976d2; /* Darker shade of blue on hover */
+}
+
+.actionBtns button.deleteBtn {
+  background-color: #f44336; /* Red color for delete button */
+  color: white;
+}
+
+.actionBtns button.deleteBtn:hover {
+  background-color: #d32f2f; /* Darker shade of red on hover */
+}

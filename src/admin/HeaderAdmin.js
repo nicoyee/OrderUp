@@ -2,6 +2,7 @@ import '../css/Header.css';
 
 import React, { useState, useRef } from 'react';
 import { getAuth, signOut } from "firebase/auth";
+import User from "../class/User.js"
 
 
 const HeaderAdmin = ({ user }) => {
@@ -13,15 +14,12 @@ const HeaderAdmin = ({ user }) => {
         showProfileContext(!profileContext);
     };
 
-    const handleSignOut = () => {  // Add this function
-        const auth = getAuth();
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            console.log('User signed out');
-        }).catch((error) => {
-            // An error happened.
+    const handleSignOut = async () => {
+        try {
+            await User.signOut();
+        } catch (error) {
             console.error('Error signing out', error);
-        });
+        }
     };
 
     return (
