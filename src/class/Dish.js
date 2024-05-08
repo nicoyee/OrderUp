@@ -25,30 +25,21 @@ class Dish {
     }
   }
 
-    async saveToDatabase() {
-        try {
-        const photoURL = await this.uploadPhoto();
-        await addDoc(collection(db, 'dishes'), {
-            name: this.name,
-            description: this.description,
-            price: this.price,
-            photoURL,
-            menuType: this.menuType
-        });
-        } catch (error) {
-        console.error('Error saving dish to database:', error);
-        throw error;
-        }
-    }
-
-    async deleteDish(id) {
-    try {
-        await deleteDoc(doc(db, 'dishes', id));
-    } catch (error) {
-        console.error('Error deleting dish:', error);
-        throw error;
-        }
-    }
+  async saveToDatabase() {
+      try {
+      const photoURL = await this.uploadPhoto();
+      await addDoc(collection(db, 'dishes'), {
+          name: this.name,
+          description: this.description,
+          price: this.price,
+          photoURL,
+          menuType: this.menuType
+      });
+      } catch (error) {
+      console.error('Error saving dish to database:', error);
+      throw error;
+      }
+  }
 }
 
 class MeatDish extends Dish {

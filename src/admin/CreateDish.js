@@ -1,6 +1,5 @@
-// CreateDish.js
 import React, { useState } from 'react';
-import Admin from '../class/Admin';
+import Admin from '../class/admin/Admin';
 
 const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');

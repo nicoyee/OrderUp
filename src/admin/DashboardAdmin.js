@@ -14,6 +14,7 @@ import ManageUsers from './ManageUsers';
 const DashboardAdmin = () => {
     const user = useContext(UserContext);   
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
+
     const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
 
     // Function to open Create Dish modal
@@ -34,6 +35,16 @@ const DashboardAdmin = () => {
     // Function to close Add Employee modal
     const closeManageUsersModal = () => {
         setManageUsersModalIsOpen(false);
+    };
+
+    // Function to open Edit Dish modal
+    const openEditDishModal = () => {
+        setEditDishModalIsOpen(true);
+    };
+
+    // Function to close Edit Dish modal
+    const closeEditDishModal = () => {
+        setEditDishModalIsOpen(false);
     };
 
     return (
