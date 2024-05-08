@@ -9,13 +9,13 @@ import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
 import CreateDish from './CreateDish';
-import AddEmployee from './AddEmployee';
+import ManageUsers from './ManageUsers';
 
 const DashboardAdmin = () => {
     const user = useContext(UserContext);   
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
-    const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
-    const [editDishModalIsOpen, setEditDishModalIsOpen] = useState(false); // State for edit dish modal
+
+    const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
 
     // Function to open Create Dish modal
     const openCreateDishModal = () => {
@@ -28,13 +28,13 @@ const DashboardAdmin = () => {
     };
 
     // Function to open Add Employee modal
-    const openAddEmployeeModal = () => {
-        setAddEmployeeModalIsOpen(true);
+    const openManageUsersModal = () => {
+        setManageUsersModalIsOpen(true);
     };
 
     // Function to close Add Employee modal
-    const closeAddEmployeeModal = () => {
-        setAddEmployeeModalIsOpen(false);
+    const closeManageUsersModal = () => {
+        setManageUsersModalIsOpen(false);
     };
 
     // Function to open Edit Dish modal
@@ -62,9 +62,9 @@ const DashboardAdmin = () => {
                                 <span className="material-symbols-outlined">restaurant_menu</span>
                                 Create Dish
                             </button>
-                            <button className="dashboardCardBtn" onClick={openAddEmployeeModal}>
+                            <button className="dashboardCardBtn" onClick={openManageUsersModal}>
                                 <span className="material-symbols-outlined">person_add</span>
-                                Add Employee
+                                Manage Users
                             </button>
                             <button className="dashboardCardBtn" >
                                 <span className="material-symbols-outlined">event</span>
@@ -75,8 +75,7 @@ const DashboardAdmin = () => {
                     <MenuAdmin/>
                 </div>
                 {createDishModalIsOpen && <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={closeCreateDishModal} />}
-                {addEmployeeModalIsOpen && <AddEmployee modalIsOpen={addEmployeeModalIsOpen} setModalIsOpen={closeAddEmployeeModal} />}
-            
+                {manageUsersModalIsOpen && <ManageUsers modalIsOpen={manageUsersModalIsOpen} setModalIsOpen={closeManageUsersModal} />}
             </div>
         </div>
     );
