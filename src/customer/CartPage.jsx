@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
 import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 import '../css/CartPage.css';
+import { addDoc, collection, Timestamp, deleteDoc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid library for generating reference number
+
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -97,6 +102,45 @@ const CartPage = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        // Handle user not authenticated
+        return;
+      }
+  
+      // Generate reference number using UUID
+      const referenceNumber = uuidv4();
+  
+      // Record the current date and time
+      const currentDate = Timestamp.now();
+  
+      // Fetch cart data from Firestore
+      const cartRef = doc(db, 'cart', user.email);
+      const cartDoc = await getDoc(cartRef);
+      const cartData = cartDoc.data();
+  
+      // Add checkout information to checkout collection
+      console.log(user.email)
+      const checkoutInfoRef = collection(db, `checkouts`);
+      await addDoc(checkoutInfoRef, {
+        referenceNumber,
+        date: currentDate,
+        items: cartData.items
+      });
+  
+      // Delete the cart document
+      await deleteDoc(cartRef);
+  
+      // Navigate to the checkout page with cartData, referenceNumber, and currentDate
+      navigate('/checkout', { state: { cartData, referenceNumber, currentDate } });
+    } catch (error) {
+      // Handle error
+      console.error("Error handling checkout:", error);
+    }
+  };
+
   const totalPrice = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
@@ -162,7 +206,7 @@ const CartPage = () => {
         Total:₱ {totalPrice.toFixed(2)}
       </div>
       <div className="checkout-container">
-        <button type="button" className="checkout-btn" onClick={() => window.history.push('/checkout')}>
+        <button type="button" className="checkout-btn" onClick={() => handleCheckout()}>
           Checkout
         </button>
       </div>
