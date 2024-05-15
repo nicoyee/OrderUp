@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth, db } from '../firebase';
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import Cart from '../class/Cart';
 import '../css/CartPage.css';
 
 const CartPage = () => {
@@ -8,25 +7,13 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const cart = new Cart();
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const user = auth.currentUser;
-        if (!user) {
-          setError('User not authenticated.');
-          return;
-        }
-
-        const cartRef = doc(db, 'cart', user.email);
-        const cartDoc = await getDoc(cartRef);
-
-        if (cartDoc.exists()) {
-          const cartData = cartDoc.data();
-          setCartItems(cartData.items || {});
-        } else {
-          setError('Cart not found.');
-        }
+        await cart.fetchCartData();
+        setCartItems(cart.items);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -37,19 +24,17 @@ const CartPage = () => {
     fetchCartData();
   }, []);
 
-  const handleQuantityChange = (dishId, newQuantity) => {
-    setCartItems((prevCartItems) => {
-      const updatedCartItems = { ...prevCartItems };
-      updatedCartItems[dishId].quantity = newQuantity;
-      return updatedCartItems;
-    });
+  const handleQuantityChange = async (dishId, newQuantity) => {
+    const updatedCartItems = { ...cartItems };
+    updatedCartItems[dishId].quantity = newQuantity;
+    setCartItems(updatedCartItems);
 
-    // Update quantity in database
-    const user = auth.currentUser;
-    const cartRef = doc(db, 'cart', user.email);
-    updateDoc(cartRef, {
-      items: { [dishId]: { quantity: newQuantity } },
-    });
+    try {
+      cart.updateItemQuantity(dishId, newQuantity);
+      await cart.persistItemQuantity(dishId, newQuantity);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleSelectItem = (dishId) => {
@@ -74,22 +59,15 @@ const CartPage = () => {
 
   const handleDeleteSelectedItems = async () => {
     try {
-      const user = auth.currentUser;
-      const cartRef = doc(db, 'cart', user.email);
-
-      // Filter out selected items from cartItems
       const updatedCartItems = Object.fromEntries(
         Object.entries(cartItems).filter(
           ([dishId]) => !selectedItems.has(dishId)
         )
       );
 
-      // Update cartItems state and database
-      await updateDoc(cartRef, {
-        items: updatedCartItems,
-      });
+      cart.deleteSelectedItems(selectedItems);
+      await cart.persistDeletedItems();
 
-      // Update local state
       setCartItems(updatedCartItems);
       setSelectedItems(new Set());
     } catch (error) {
@@ -97,7 +75,12 @@ const CartPage = () => {
     }
   };
 
-  const totalPrice = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = Object.values(cartItems).reduce(
+    (acc, item) => acc + item.price * item.quantity, 0
+  );
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="cart-container">
@@ -110,7 +93,7 @@ const CartPage = () => {
             height="24"
             fill="currentColor"
           >
-            <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1 1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+            <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
           </svg>
         </a>
       </div>
@@ -159,7 +142,7 @@ const CartPage = () => {
         </ul>
       </form>
       <div className="total-price">
-        Total:₱ {totalPrice.toFixed(2)}
+        Total: ₱ {totalPrice.toFixed(2)}
       </div>
       <div className="checkout-container">
         <button type="button" className="checkout-btn" onClick={() => window.history.push('/checkout')}>
