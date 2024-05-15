@@ -37,16 +37,6 @@ const DashboardAdmin = () => {
         setManageUsersModalIsOpen(false);
     };
 
-    // Function to open Edit Dish modal
-    const openEditDishModal = () => {
-        setEditDishModalIsOpen(true);
-    };
-
-    // Function to close Edit Dish modal
-    const closeEditDishModal = () => {
-        setEditDishModalIsOpen(false);
-    };
-
     return (
         <div className='dashboardContainer'>
             <HeaderAdmin user={ user } />
