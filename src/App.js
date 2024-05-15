@@ -12,10 +12,10 @@ export const UserContext = createContext(null);
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+  const onAuthStateChanged = ()=>{
+    auth.onAuthStateChanged((user) => {
       if (user) {
         const docRef = doc(db, 'users', user.uid);
         getDoc(doc(db, 'users', user.uid)).then((docSnap) => {
@@ -24,41 +24,28 @@ function App() {
             setUser(userData);
             console.log('User logged in');
           } else {
-            const provider = user.providerData[0].providerId;
-            if (provider === 'google.com') {
-              let firstName = '';
-              if (user.displayName) {
-                const nameParts = user.displayName.split(' ');
-                firstName = nameParts[0];
-              }
-              setDoc(docRef, {
-                name: firstName,
-                email: user.email,
-                userType: "customer",
-                profilePicture: user.photoURL
-              }).then(() => {
-                console.log('User document created');
-                setUser({
-                  name: firstName,
-                  email: user.email,
-                  userType: "customer",
-                  profilePicture: user.photoURL
-                });
-              }).catch((error) => {
-                console.log('Error creating document:', error);
-              });
+            const newUserDoc = {
+              name: user?.displayName?.split(' ')?.[0] ?? "",
+              email: user.email,
+              userType: "customer",
+              profilePicture: user.photoURL
             }
+            setDoc(docRef, newUserDoc).then(() => {
+              console.log('User document created');
+              setUser(newUserDoc);
+            }).catch((error) => {
+              console.log('Error creating document:', error);
+            });
           }
-          setLoading(false);
-        }).catch((error) => {
-          console.log('Error getting document:', error);
-          setLoading(false);
-        });
+        })
       } else {
         setUser(null);
-        setLoading(false);
       }
     });
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged
 
     return () => unsubscribe();
   }, []);
@@ -72,7 +59,7 @@ function App() {
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing onAuthStateChanged={onAuthStateChanged}/>} />
           <Route
             path="/dashboard"
             element={
