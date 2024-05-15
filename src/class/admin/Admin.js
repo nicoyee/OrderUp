@@ -2,6 +2,7 @@ import User from '../User';
 import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import  {db}  from '../../firebase';
+import { MenuType } from '../../constants';
 
 class Admin extends User {
     constructor(name, email, profilePicture) {
@@ -10,13 +11,13 @@ class Admin extends User {
 
     static createDish(name, menuType, description, price, photo) {
         switch (menuType) {
-            case 'Meat':
+            case MenuType.MEAT:
                 return new MeatDish(name, description, price, photo);
-            case 'Vegetarian':
+            case MenuType.VEGETARIAN:
                 return new VegetarianDish(name, description, price, photo);
-            case 'Dessert':
+            case MenuType.DESSERT:
                 return new DessertDish(name, description, price, photo);
-            case 'Seafood':
+            case MenuType.SEAFOOD:
                 return new SeafoodDish(name, description, price, photo);
             default:
                 throw new Error('Invalid menu type');

@@ -8,6 +8,9 @@ import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
 
+import { UserType } from './constants';
+
+
 export const UserContext = createContext(null);
 
 function App() {
@@ -27,7 +30,7 @@ function App() {
             const newUserDoc = {
               name: user?.displayName?.split(' ')?.[0] ?? "",
               email: user.email,
-              userType: "customer",
+              userType: UserType.CUSTOMER,
               profilePicture: user.photoURL
             }
             setDoc(docRef, newUserDoc).then(() => {

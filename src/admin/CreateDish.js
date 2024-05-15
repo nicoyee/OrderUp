@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';
+import { MenuType } from '../constants';
 
 const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
@@ -55,10 +56,10 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
                 onChange={(e) => setMenuType(e.target.value)}
                 required
               >
-                <option value="Meat">Meat</option>
-                <option value="Vegetarian">Vegetarian</option>
-                <option value="Dessert">Dessert</option>
-                <option value="Seafood">Seafood</option>
+                <option value={MenuType.MEAT}>{MenuType.MEAT}</option>
+                <option value={MenuType.VEGETARIAN}>{MenuType.VEGETARIAN}</option>
+                <option value={MenuType.DESSERT}>{MenuType.DESSERT}</option>
+                <option value={MenuType.SEAFOOD}>{MenuType.SEAFOOD}</option>
               </select>
             </div>
             <div className="form-group">
