@@ -1,0 +1,51 @@
+.customerOrdersTopPanel {
+    display: flex;
+    align-items: center;
+    padding: 0 0 5px 0;
+}
+
+.customerOrdersTopPanel-left, .customerOrdersTopPanel-right {
+    display: flex;
+    align-items: center;
+}
+
+.customerOrdersTopPanel-left { 
+    gap: 10px;
+}
+
+.customerOrdersTopPanel-right {
+
+}
+
+.customerOrderListItem {
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 10px;
+    border: 1px solid #d5dbbd;
+}
+
+.customerOrderListItem-left, .customerOrderListItem-center, .customerOrderListItem-right {
+    display: flex;
+    align-items: center;
+
+}
+
+.customerOrderListItem-left {
+    gap: 15px;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.customerOrderListItem-left p {
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customerOrderListItem-right {
+
+}

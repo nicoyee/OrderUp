@@ -1,0 +1,54 @@
+.customerViewOrders {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.customerViewOrders-header {
+    display: flex;
+    background-color: #d5dbbd;
+    padding: 0 20px 0 20px;
+    border-radius: 10px 10px 0 0;
+}
+
+.customerViewOrders-header h1 {
+    color: #252525;
+    font-size: 4rem;
+    font-family: 'Abril Fatface';
+}
+
+#customerViewOrdersTab .chakra-tabs__tablist{
+    display: flex;
+    justify-content: space-around;
+    background-color: #d5dbbd;
+}
+
+#customerViewOrdersTab .chakra-tabs__tab {
+    padding-bottom: 5px;
+    color: #252525;
+    font-family: 'Inter';
+    font-size: 1vw;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+}
+
+#customerViewOrdersTab .chakra-tabs__tab[aria-selected=true] {
+    color: #d5dbbd;
+    background-color: #252525;
+    border-bottom: none;
+    font-weight: 300;
+}
+
+#customerViewOrdersTab .chakra-tabs__tab-panels {
+    
+    background-color: #252525;
+    border: 1px solid #d5dbbd;
+
+}
+
+#customerViewOrdersTab .chakra-tabs__tab-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

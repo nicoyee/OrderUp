@@ -1,24 +1,20 @@
 import './index.css';
 
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Modal from 'react-modal';
+import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react'
 
 import App from './App';
-
-
-
+import theme from "./chakraTheme";
 import reportWebVitals from './reportWebVitals';
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-Modal.setAppElement('#root'); 
-
 root.render(
   <React.StrictMode>
-     <App />  
- 
+    <ChakraProvider theme={ theme }>
+      <App />  
+    </ChakraProvider> 
   </React.StrictMode>
 );
 
