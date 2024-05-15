@@ -11,6 +11,7 @@ const MenuAdmin = () => {
   const [dishes, setDishes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [editRowIndex, setEditRowIndex] = useState(-1); // Track index of row being edited
+  const [editedDishDetails, setEditedDishDetails] = useState({})
   const dishesPerPage = 10;
 
   useEffect(() => {
@@ -43,15 +44,26 @@ const MenuAdmin = () => {
   const handleConfirmEdit = async (index) => {
     try {
       const dishToUpdate = currentDishes[index];
-      await Admin.updateDish(dishToUpdate.id, {
-        name: document.getElementById(`name_${index}`).value,
-        menuType: document.getElementById(`menuType_${index}`).value,
-        description: document.getElementById(`description_${index}`).value,
-        price: document.getElementById(`price_${index}`).value,
-      });
+
+      await Admin.updateDish(dishToUpdate.id, editedDishDetails);
+
+      //TODO: Update dish details if successful.
+      // currently, it only updates the data in firebase, 
+      // but does the changes do not reflect in frontend
+      setDishes((state)=>{
+        const newState = JSON.parse(JSON.stringify(dishes))
+        newState[index] = {
+          ...newState[index],
+          ...editedDishDetails
+        }
+
+        return newState
+      })
+
     } catch (error) {
       console.error('Error updating dish:', error);
     }
+    setEditedDishDetails({})
     // Exit edit mode
     setEditRowIndex(-1);
   };
@@ -72,6 +84,11 @@ const MenuAdmin = () => {
     }
   };
 
+  //TODO: Delete useless console.logs and useEffects
+  useEffect(()=>{
+    console.log("editedDishDetails", editedDishDetails)
+  }, [editedDishDetails])
+
   return (
     <div className='menuTable'>
       <h1>Menu</h1>
@@ -91,16 +108,49 @@ const MenuAdmin = () => {
             <tr key={dish.id}>
               <td id='dataTableImage'><img src={dish.photoURL} alt={dish.name}/></td>
               <td>
-                {editRowIndex === index ? <input type="text" id={`name_${index}`} defaultValue={dish.name} /> : dish.name}
+                {editRowIndex === index 
+                  ? <input 
+                      type="text" 
+                      id={`name_${index}`} 
+                      defaultValue={dish.name} 
+                      onChange={(event)=>{
+                        setEditedDishDetails({
+                          ...editedDishDetails,
+                          name: event?.target?.value
+                        })
+                      }}  
+                    /> 
+                  : dish.name}
               </td>
               <td>
-                {editRowIndex === index ? <input type="text" id={`menuType_${index}`} defaultValue={dish.menuType} /> : dish.menuType}
+                {editRowIndex === index 
+                  ? <input 
+                      type="text" 
+                      id={`menuType_${index}`} 
+                      defaultValue={dish.menuType} 
+                      onChange={(event)=>{
+                        setEditedDishDetails({
+                          ...editedDishDetails,
+                          menuType: event?.target?.value
+                        })
+                      }}  
+                    /> : dish.menuType}
               </td>
               <td>
-                {editRowIndex === index ? <input type="text" id={`description_${index}`} defaultValue={dish.description} /> : dish.description}
+                {editRowIndex === index ? <input type="text" id={`description_${index}`} defaultValue={dish.description} onChange={(event)=>{
+                        setEditedDishDetails({
+                          ...editedDishDetails,
+                          description: event?.target?.value
+                        })
+                      }}  /> : dish.description}
               </td>
               <td>
-                {editRowIndex === index ? <input type="text" id={`price_${index}`} defaultValue={dish.price} /> : dish.price}
+                {editRowIndex === index ? <input type="text" id={`price_${index}`} defaultValue={dish.price} onChange={(event)=>{
+                        setEditedDishDetails({
+                          ...editedDishDetails,
+                          price: event?.target?.value
+                        })
+                      }}  /> : dish.price}
               </td>
               <td className='actionBtns'>
                 {editRowIndex === index ? (
