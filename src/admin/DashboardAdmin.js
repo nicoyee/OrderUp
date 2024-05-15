@@ -17,6 +17,8 @@ const DashboardAdmin = () => {
 
     const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
 
+    const [dishes, setDishes] = useState([])
+
     // Function to open Create Dish modal
     const openCreateDishModal = () => {
         setCreateDishModalIsOpen(true);
@@ -62,9 +64,9 @@ const DashboardAdmin = () => {
                             </button>
                         </div>
                     </div>
-                    <MenuAdmin/>
+                    <MenuAdmin dishes={dishes} setDishes={setDishes}/>
                 </div>
-                {createDishModalIsOpen && <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={closeCreateDishModal} />}
+                {createDishModalIsOpen && <CreateDish setDishes={setDishes} modalIsOpen={createDishModalIsOpen} setModalIsOpen={closeCreateDishModal} />}
                 {manageUsersModalIsOpen && <ManageUsers modalIsOpen={manageUsersModalIsOpen} setModalIsOpen={closeManageUsersModal} />}
             </div>
         </div>

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';
 import { MenuType } from '../constants';
 
-const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
+const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
+  //TODO do not hardcode State
   const [menuType, setMenuType] = useState('Meat');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -17,9 +18,12 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newDish = Admin.createDish(name, menuType, description, price, photo);
-      await newDish.saveToDatabase();
+      const newDish = await Admin.createDish(name, menuType, description, price, photo);
 
+      //TODO: DECIDE how to sort dishes, by name? by created date?
+      setDishes((state)=>{
+        return [newDish, ...state]
+      })
       setName('');
       setDescription('');
       setPrice('');

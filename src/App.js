@@ -9,7 +9,7 @@ import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
 
 import { UserType } from './constants';
-
+import { Firebase } from "./class/firebase.ts"
 
 export const UserContext = createContext(null);
 
@@ -17,11 +17,16 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const firebase = new Firebase()
+
   const onAuthStateChanged = ()=>{
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async(user) => {
+      const path = 'users'
+      const identifier = user.uid
       if (user) {
         const docRef = doc(db, 'users', user.uid);
-        getDoc(doc(db, 'users', user.uid)).then((docSnap) => {
+        // getDoc(doc(db, 'users', user.uid)).then((docSnap) => {
+        await firebase.getDocument(path, identifier).then((docSnap) => {
           if (docSnap.exists()) {
             const userData = docSnap.data();
             setUser(userData);
@@ -33,7 +38,7 @@ function App() {
               userType: UserType.CUSTOMER,
               profilePicture: user.photoURL
             }
-            setDoc(docRef, newUserDoc).then(() => {
+            firebase.setDocument(path, identifier, newUserDoc).then(() => {
               console.log('User document created');
               setUser(newUserDoc);
             }).catch((error) => {

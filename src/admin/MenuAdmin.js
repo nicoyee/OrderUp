@@ -7,8 +7,7 @@ import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { Dish } from '../class/Dish.js';
 import Admin from '../class/admin/Admin.js';
 
-const MenuAdmin = () => {
-  const [dishes, setDishes] = useState([]);
+const MenuAdmin = ({dishes, setDishes}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editRowIndex, setEditRowIndex] = useState(-1); // Track index of row being edited
   const [editedDishDetails, setEditedDishDetails] = useState({})
