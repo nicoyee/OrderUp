@@ -1,0 +1,84 @@
+.dashboardContainer {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboardContent {
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 100%;
+    display: flex;
+}
+
+.dasboardContent-main {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    gap: 10px;
+}
+
+.customerDashboard-side {
+    flex: 50%;
+}
+
+#dashboardCard {
+    border-radius: 15px;
+    background-color: rgba(105, 13, 197, 0.103);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+#dashboardCard::before {
+    content: "";
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    border-radius: 50%;
+    border: 35px solid rgba(255, 255, 255, 0.102);
+    transition: all .8s ease;
+    filter: blur(.5rem);
+}
+
+#dashboardCard div {
+    padding: 20px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+#dashboardCard h1 {
+    color: white;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+#dashboardCard p {
+    font-size: 1em;
+    font-weight: 400;
+    color: #d5dbbd;
+}
+
+#dashboardCard:hover::before {
+    width: 140px;
+    height: 140px;
+    top: -30%;
+    left: 50%;
+    filter: blur(0rem);
+}
+
+@media only screen and (max-width: 768px) {
+    .dashboardContainer {
+        height: auto;
+    }
+
+    .dashboardContent {
+        flex-direction: column;
+    }
+}

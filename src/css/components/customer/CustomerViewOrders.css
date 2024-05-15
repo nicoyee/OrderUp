@@ -1,54 +1,60 @@
-.customerViewOrders {
-    width: 100%;
+#customerViewOrders {
     display: flex;
     flex-direction: column;
 }
 
-.customerViewOrders-header {
+#customerViewOrders .customerViewOrders-header {
     display: flex;
-    background-color: #d5dbbd;
-    padding: 0 20px 0 20px;
-    border-radius: 10px 10px 0 0;
+    justify-content: space-between;
 }
 
-.customerViewOrders-header h1 {
-    color: #252525;
-    font-size: 4rem;
+#customerViewOrders .customerViewOrders-header h1 {
     font-family: 'Abril Fatface';
+    font-size: 2.5rem;
 }
 
-#customerViewOrdersTab .chakra-tabs__tablist{
+#customerViewOrdersTab .chakra-tabs__tablist {
     display: flex;
-    justify-content: space-around;
-    background-color: #d5dbbd;
+    justify-content: space-between;
 }
 
 #customerViewOrdersTab .chakra-tabs__tab {
-    padding-bottom: 5px;
-    color: #252525;
-    font-family: 'Inter';
-    font-size: 1vw;
-    font-weight: 600;
+    padding: 5px 15px 5px 15px;
+    font-size: 1rem;
+    color: #d5dbbd;
+    font-weight: 500;
     text-transform: uppercase;
-    border: none;
 }
 
 #customerViewOrdersTab .chakra-tabs__tab[aria-selected=true] {
-    color: #d5dbbd;
-    background-color: #252525;
-    border-bottom: none;
-    font-weight: 300;
-}
-
-#customerViewOrdersTab .chakra-tabs__tab-panels {
-    
-    background-color: #252525;
-    border: 1px solid #d5dbbd;
-
+    color: #252525;
+    background-color: #d5dbbd;
+    border-radius: 12px;
 }
 
 #customerViewOrdersTab .chakra-tabs__tab-panel {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.customerOrderListItem {
+    border: 1px solid #d5dbbd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    padding: 10px 15px 10px 15px;
+}
+
+.customerOrderListItem-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #customerViewOrdersTab .chakra-tabs__tab {
+        font-size: .5rem;
+    }
 }

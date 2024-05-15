@@ -1,5 +1,4 @@
 import '../../css/components/customer/CustomerViewOrders.css';
-import '../../css/components/customer/CustomerViewOrders2.css';
 import '../../css/orderInfo.css';
 
 import React from "react";
@@ -7,15 +6,15 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 const CustomerViewOrders = () => {
   return (
-    <div className='customerViewOrders'>
+    <div id='customerViewOrders'>
 
-        <div className='customerViewOrders-header'>
-            <div className='customerViewOrder-header-left'>
-              <h1>Orders</h1>
-            </div>
-        </div>
+      <div className='customerViewOrders-header'>
+          <div className='customerViewOrders-header-left'>
+            <h1>Orders</h1>
+          </div>
+      </div>
 
-        <Tabs variant='enclosed' id='customerViewOrdersTab'>
+      <Tabs variant='soft-rounded' id='customerViewOrdersTab'>
           
           <TabList>
             <Tab>All</Tab>
@@ -44,13 +43,16 @@ const CustomerViewOrders = () => {
               </div>
 
               <div className='customerOrderListItem'>
+
                 <div className='customerOrderListItem-left'>
-                  <span className='orderStatus-Ongoing'></span>
-                  
+                  <span className='orderStatus-Pending'></span>
+                  24 May 04:30 PM
                 </div>
+                
                 <div className='customerOrderListItem-right'>
                   <h5>Cancel</h5>
                 </div>
+
               </div>
 
             </TabPanel>

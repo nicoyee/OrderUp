@@ -52,6 +52,14 @@ const theme = extendTheme({
                 },
             },
         },
+        Avatar: {
+            baseStyle: {
+              container: {
+                boxSize: '2.5rem',
+                '--avatar-font-size': '1px',
+              },
+            },
+          },
     },
 });
 

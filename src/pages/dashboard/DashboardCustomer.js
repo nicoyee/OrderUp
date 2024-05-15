@@ -1,12 +1,11 @@
-import '../../css/pages/dashboard/DashboardCustomer.css';
+import '../../css/pages/dashboard/Dashboard.css';
 
 import React from "react";
 
 import Header from "./DashboardHeader";
-import MenuButton from '../../components/MenuButton';
-import EventsButton from '../../components/EventsButton';
+import Footer from "./DashboardFooter";
+import ViewOrders from "../../components/customer/CustomerViewOrders";
 
-import ViewOrders from '../../components/customer/CustomerViewOrders';
 
 const DashboardCustomer = () => {
   return (
@@ -14,23 +13,28 @@ const DashboardCustomer = () => {
 
       <Header />
 
-      <div className='dashboardCustomer'>
-        <div className='dashboardCustomer-left'>
+      <div className='dashboardContent'>
 
-          <MenuButton />
+        <div className='dasboardContent-main'>
 
-        </div>
-        <div className='dashboardCustomer-center'>
-          
+          <div id="dashboardCard">
+            <div>
+              <h1>Welcome Back, JohnLord</h1>
+              <p>TUE 17 May 2024</p>
+            </div>
+          </div>
+
           <ViewOrders />
 
         </div>
-        <div className='dashboardCustomer-right'>
 
-          <EventsButton />
+        <div className='customerDashboard-side'>
 
         </div>
+
       </div>
+
+      <Footer />
 
     </div>
   );

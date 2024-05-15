@@ -1,0 +1,49 @@
+#dashboardFooter {
+    padding: 30px 50px 30px 50px;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#dashboardFooter {
+    pointer-events: all;
+}
+
+#dashboardFooter h1 {
+    color: #f05006;
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#dashboardFooter h1:hover {
+    text-decoration: underline;
+}
+
+#dashboardFooter h2 {
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+#dashboardFooter h3 {
+    color: #f05006;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+#dashboardFooter h3 span {
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 768px) {
+    #dashboardFooter {
+        padding: 30px;
+        position: relative;
+    }
+
+}

@@ -17,7 +17,7 @@ const DashboardHeader = () => {
         <div className='dashboardHeader-right'>
           <span>
             <h2>nicholasyee159@gmail.com</h2>
-            <Avatar name='John Doe' size='md' />
+            <Avatar name='John Doe' sx={{ '--avatar-font-size': '1rem' }} />
           </span>
         </div>
 
