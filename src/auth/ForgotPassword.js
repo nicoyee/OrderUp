@@ -1,24 +1,25 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import User from "../class/User.js";
+import AuthService from "../class/AuthService.js";
 
 const ForgotPassword = ({ closeModal, setLogin }) => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailSent, setEmailSent] = useState(false);
 
-    const resetPassword = async (e) => {
+    const resetPassword = (e) => {
         e.preventDefault();
-        try {
-            await User.resetPassword(email);
-            setEmailSent(true);
-            setErrorMessage('');
-            console.log('Password reset email sent!');
-        } catch (error) {
-            setErrorMessage('An error has occurred');
-            console.error(error);
-        }
-    }
+        AuthService.resetPassword(email)
+            .then(() => {
+                setEmailSent(true);
+                setErrorMessage('');
+                console.log('Password reset email sent!');
+            })
+            .catch((error) => {
+                setErrorMessage('An error has occurred');
+                console.error(error);
+            });
+    };
 
     return (
         <form className="form" onSubmit={resetPassword}>

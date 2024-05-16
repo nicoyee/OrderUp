@@ -2,8 +2,9 @@ import '../css/Header.css';
 import siteLogo from '../assets/icon.png';
 
 import React, { useState, useRef } from 'react';
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom'; 
+import { getAuth } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../class/AuthService'; 
 
 const HeaderCustomer = ({ user }) => {
 
@@ -17,7 +18,7 @@ const HeaderCustomer = ({ user }) => {
 
     const handleSignOut = () => {
         const auth = getAuth();
-        signOut(auth).then(() => {
+        AuthService.signOut(auth).then(() => {
             console.log('User signed out');
         }).catch((error) => {
             console.error('Error signing out', error);
