@@ -1,6 +1,3 @@
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc,doc, deleteDoc } from 'firebase/firestore';
-import { storage, db } from '../firebase';
 import { MenuType } from '../constants';
 
 class Dish {
