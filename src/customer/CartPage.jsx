@@ -136,7 +136,9 @@ const CartPage = () => {
                   <span className="item-quantity">Quantity: {cartItems[dishId].quantity}</span>
                 </div>
               </div>
-              <span className="item-price">Price: ${cartItems[dishId].price.toFixed(2)}</span>
+              <span className="item-price">
+                Price: ₱{Number(cartItems[dishId].price).toFixed(2)}
+              </span>
             </li>
           ))}
         </ul>
