@@ -2,15 +2,25 @@ import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';
 
 const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
-    const [name, setName] = useState(dish.name);
-    const [menuType, setMenuType] = useState(dish.menuType);
-    const [description, setDescription] = useState(dish.description);
-    const [price, setPrice] = useState(dish.price);
-    const [photo, setPhoto] = useState(null);
+    // const [name, setName] = useState(dish.name);
+    // const [menuType, setMenuType] = useState(dish.menuType);
+    // const [description, setDescription] = useState(dish.description);
+    // const [price, setPrice] = useState(dish.price);
+    // const [photo, setPhoto] = useState(null);
+    const initialDish = {
+        name: dish.name,
+        menuType: dish.menuType,
+        description: dish.description,
+        price: dish.price, 
+        photo: null
+    }
+
+    const [editedDish, setEditedDish] = useState({...initialDish})
 
     const handlePhotoChange = (e) => {
-        const file = e.target.files[0];
-        setPhoto(file);
+        //TODO: To all object accessing, add "?"
+        const file = e?.target?.files[0];
+        setEditedDish({...editedDish, photo: file})
     };
 
     const handleSubmit = async (e) => {
@@ -18,11 +28,6 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
         try {
             const updatedDish = Admin.createDish(name, menuType, description, price, photo);
             await updatedDish.saveToDatabase();
-
-            setName('');
-            setDescription('');
-            setPrice('');
-            setPhoto(null);
             setModalIsOpen(false);
         } catch (error) {
             console.error('Error updating dish:', error);
@@ -43,7 +48,7 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
                                 id="name"
                                 name="name"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setEditedDish({...editedDish, name: e.target.value})}
                                 required
                             />
                         </div>
@@ -52,9 +57,10 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
                             <select
                                 id="menuType"
                                 value={menuType}
-                                onChange={(e) => setMenuType(e.target.value)}
+                                onChange={(e) => setEditedDish({...editedDish, menuType: e.target.value})}
                                 required
                             >
+                            {/* TODO: USE ENUM MENUTYPE INSTEAD OF HARDCODE */}
                                 <option value="Meat">Meat</option>
                                 <option value="Vegetarian">Vegetarian</option>
                                 <option value="Dessert">Dessert</option>
@@ -67,7 +73,7 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
                                 id="description"
                                 name="description"
                                 value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                onChange={(e) => setEditedDish({...editedDish, description: e.target.value})}
                                 required
                                 rows="5"
                             />
@@ -79,7 +85,7 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
                                 id="price"
                                 name="price"
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) => setEditedDish({...editedDish, price: e.target.value})}
                                 required
                             />
                         </div>

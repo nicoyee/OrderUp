@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import User from "../class/User.js";
+import AuthService from '../class/AuthService';
 
 const SignUp = ({ closeModal, setLogin }) => {
     const [name, setName] = useState('');
@@ -13,17 +13,18 @@ const SignUp = ({ closeModal, setLogin }) => {
         setPasswordShown(!passwordShown);
     };
 
-    const signUp = async (e) => {
+    const signUp = (e) => {
         e.preventDefault();
-        try {
-            await User.signUp(name, email, password);
-            console.log("User successfully signed up!");
-            setErrorMessage('');
-            // Handle navigation or other actions upon successful sign up
-        } catch (error) {
-            setErrorMessage("An Error has occurred");
-            console.error(error);
-        }
+        AuthService.signUp(name, email, password)
+            .then(() => {
+                console.log("User successfully signed up!");
+                setErrorMessage('');
+                // Handle navigation or other actions upon successful sign up
+            })
+            .catch(error => {
+                setErrorMessage("An error occurred while signing up. Please try again later.");
+                console.error(error);
+            });
     }
 
     return (

@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import User from '../class/User.js';
+import AuthService from '../class/AuthService'
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [email, setEmail] = useState('');
@@ -8,21 +8,22 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
 
-    const togglePasswordVisiblity = () => {
+    const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
     };
 
-    const signIn = async (e) => {
+    const signIn = (e) => {
         e.preventDefault();
-        try {
-            const user = await User.logIn(email, password);
-            console.log("User Successfully Logged In!");
-            setErrorMessage('');
-            // Handle navigation or other actions upon successful login
-        } catch (error) {
-            setErrorMessage("An Error has occurred");
-            console.error(error);
-        }
+        AuthService.logIn(email, password)
+            .then((user) => {
+                console.log("User Successfully Logged In!");
+                setErrorMessage('');
+                // Handle navigation or other actions upon successful login
+            })
+            .catch((error) => {
+                setErrorMessage("An Error has occurred");
+                console.error(error);
+            });
     }
 
     return (
@@ -71,7 +72,7 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
                 </svg>
                 <input type={passwordShown ? "text" : "password"} className="authInput" placeholder="Enter your Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <button type="button" onClick={togglePasswordVisiblity}>
+                <button type="button" onClick={togglePasswordVisibility}>
                     <span className="material-symbols-outlined">
                         {passwordShown ? 'visibility' : 'visibility_off'}
                     </span>
@@ -94,4 +95,5 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
         </form>
     );
 }
+
 export default LogIn;
