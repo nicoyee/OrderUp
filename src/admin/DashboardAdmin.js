@@ -1,16 +1,17 @@
 import '../css/DashboardAdmin.css';
 import '../css/Dashboard.css';
 
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, /*useEffect*/} from 'react';
 import { UserContext } from '../App';
 
-import NavigationAdmin from './NavigationAdmin';
+//import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
+import OrderHistoryAdmin from './OrderHistoryAdmin';
 import CreateDish from './CreateDish';
 import AddEmployee from './AddEmployee';
-import { Button } from 'react-scroll';
-import { db } from '../firebase';
+// import { Button } from 'react-scroll';
+// import { db } from '../firebase';
 
 
 const DashboardAdmin = () => {
@@ -18,16 +19,16 @@ const DashboardAdmin = () => {
     const user = useContext(UserContext);   
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
     const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
-    const [dishToEdit, setDishToEdit] = useState(null);
-    const [customerSection, setCustomerSection] = useState('dashboard');
+//    const [dishToEdit, setDishToEdit] = useState(null);
+//    const [customerSection, setCustomerSection] = useState('dashboard');
 
     const setCreateDishModal = () => {
         setCreateDishModalIsOpen(true);
     };
 
-    const setAddEmployeeModal = () => {
+    /*const setAddEmployeeModal = () => {
         setAddEmployeeModalIsOpen(true);
-    };
+    };*/
     return (
         <div className='dashboardContainer'>
 
@@ -66,7 +67,7 @@ const DashboardAdmin = () => {
                     </div>
 
                     <MenuAdmin/>
-
+                    <OrderHistoryAdmin/>
                 </div>
 
                 <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />

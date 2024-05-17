@@ -7,16 +7,20 @@ import { UserContext } from '../App';
 import { storage, db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, collection, getDocs } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 
 const CustomerProfile = () => {
     const user = useContext(UserContext);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('Cash');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [uid, setUid] = useState(null);
     const navigate = useNavigate();
+    const [userOrders, setUserOrders] = useState([]);
+
 
     useEffect(() => {
         const auth = getAuth();
@@ -35,9 +39,49 @@ const CustomerProfile = () => {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        const fetchUserOrders = async () => {
+            try {
+                // Fetch all documents from the 'checkouts' collection
+                const checkoutsRef = collection(db, 'checkouts');
+                const snapshot = await getDocs(checkoutsRef);
+
+                // Filter the documents where the ID matches the user's email
+                const orders = snapshot.docs.filter(doc => doc.id === user.email);
+
+                // Extract data from the filtered documents
+                const orderData = orders.map(order => ({
+                    id: order.id,
+                    ...order.data()
+                }));
+
+                setUserOrders(orderData);
+            } catch (error) {
+                console.error('Error fetching user orders:', error);
+            }
+        };
+
+        // Fetch user orders only if user email is available
+        if (user && user.email) {
+            fetchUserOrders();
+        }
+    }, [user]);
+
+
+
     if (!user) {
         return <div>Loading...</div>; // or any other placeholder or redirect logic
     }
+
+    const openViewModal = (order) => {
+        setSelectedOrder(order);
+        setIsViewModalOpen(true);
+    };
+    
+    const closeViewModal = () => {
+        setSelectedOrder(null);
+        setIsViewModalOpen(false);
+    };
 
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
@@ -141,6 +185,29 @@ const CustomerProfile = () => {
                     <option value="Credit">Credit</option>
                     <option value="GCash">GCash</option>
             </select>
+            <div className='menuTable'>
+            <h1>User Orders</h1>
+            <table className='dataTable'>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {userOrders.map(order => (
+                        <tr key={order.id}>
+                            <td>{order.id}</td>
+                            <td>{order.displayName}</td>
+                            <td>
+                                <button onClick={() => openViewModal(order)}>View</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+
         </div>
         {isModalOpen && (
                 <div className="modal">
@@ -157,12 +224,33 @@ const CustomerProfile = () => {
                             Email:
                             <input type="email" name='email' defaultValue={user.email} />
                         </label>
-                        {/* Add more form elements as needed */}
                         <button type="submit">Save</button>
                     </form>
                     </div>
                 </div>
             )}
+            {isViewModalOpen && selectedOrder && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={closeViewModal}>&times;</span>
+                        <h2>Order Details</h2>
+                        <p>Date: {selectedOrder.date.toDate().toLocaleString()}</p>
+                        <p>Reference Number: {selectedOrder.referenceNumber}</p>
+                        <h3>Items:</h3>
+                        <ul>
+                            {Object.values(selectedOrder.items).map(item => (
+                                <li key={item.id}>
+                                    <p>Name: {item.name}</p>
+                                    <p>Description: {item.description}</p>
+                                    <p>Price: ${item.price}</p>
+                                    <p>Quantity: {item.quantity}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
+             
     </div>);
 }
 

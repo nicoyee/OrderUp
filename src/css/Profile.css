@@ -4,7 +4,7 @@
     border-radius: 4px;
     padding: 20px;
     width: 500px;
-    height: 10000px;
+    height: 800px;
 }
 
 .avatar{
@@ -40,7 +40,7 @@
 
 /* Close Button */
 .close {
-    color: #aaa;
+    color: #000000;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -51,4 +51,42 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.dataTable {
+    width: 100%;
+    margin-top: 10px;
+    padding: 1em;
+    font-family: "Roboto";
+    color: #000000;
+    border: 1px solid #29292c;
+    border-radius: 15px;
+}
+
+.dataTable th {
+    color: #000000;
+    padding: 10px 0 10px 0;
+}
+
+.dataTable thead tr {
+    margin-bottom: 20px;
+}
+
+.dataTable td {
+    text-align: center;
+}
+
+.dataTable td button {
+    color: #000000;
+    margin: 0px 10px 0px 10px;
+}
+
+.menuTable {
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+.menuTable h1 {
+    font-family: "Inter";
+    color: rgb(0, 0, 0);
 }

@@ -3,7 +3,7 @@ import { auth, db } from '../firebase';
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import '../css/CartPage.css';
-import { addDoc, collection, Timestamp, deleteDoc } from 'firebase/firestore';
+import { addDoc, collection, Timestamp, deleteDoc, setDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid'; // Import uuid library for generating reference number
 
 
@@ -123,13 +123,14 @@ const CartPage = () => {
   
       // Add checkout information to checkout collection
       console.log(user.email)
-      const checkoutInfoRef = collection(db, `checkouts`);
-      await addDoc(checkoutInfoRef, {
+      console.log(user)
+      const checkoutRef = doc(db, 'checkouts', user.email);
+      await setDoc(checkoutRef, {
         referenceNumber,
         date: currentDate,
-        items: cartData.items
+        items: cartData.items,
       });
-  
+
       // Delete the cart document
       await deleteDoc(cartRef);
   
