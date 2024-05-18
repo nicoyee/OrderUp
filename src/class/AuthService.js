@@ -2,10 +2,11 @@ import User from './User';
 import Firebase from './firebase.ts';
 
 class AuthService {
-    static signUp(name, email, password) {
+    static signUp(name, email, password, userType) {
         const firebase = Firebase.getInstance();
-        firebase.signUp(name, email, password);
+        firebase.signUp(name, email, password, userType);
     }
+    
 
     static logIn(email, password) {
         const firebase = Firebase.getInstance();

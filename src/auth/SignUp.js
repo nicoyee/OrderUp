@@ -15,7 +15,7 @@ const SignUp = ({ closeModal, setLogin }) => {
 
     const signUp = (e) => {
         e.preventDefault();
-        AuthService.signUp(name, email, password);
+        AuthService.signUp(name, email, password, 'customer');
     }
 
     return (

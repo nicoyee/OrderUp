@@ -117,11 +117,11 @@ class Firebase implements IFirebase{
             })
     }
 
-    async signUp(name, email, password){
+    async signUp(name, email, password, userType){
         return await createUserWithEmailAndPassword(this.auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                return new User(user.uid, name, email, 'customer', '')
+                return new User(user.uid, name, email, userType, '')
             })
             .catch((error) => {
                 throw error;
