@@ -3,6 +3,8 @@ import '../../css/pages/dashboard/DashboardHeader.css';
 import React from "react";
 import { Avatar } from '@chakra-ui/react';
 
+import { MdShoppingCart } from "react-icons/md";
+
 const DashboardHeader = () => {
   
   return (
@@ -15,6 +17,7 @@ const DashboardHeader = () => {
         </div>
 
         <div className='dashboardHeader-right'>
+          <MdShoppingCart />
           <span>
             <h2>nicholasyee159@gmail.com</h2>
             <Avatar name='John Doe' sx={{ '--avatar-font-size': '1rem' }} />

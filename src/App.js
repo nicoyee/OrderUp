@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import Landing from './pages/landing/Landing';
 import DashboardCustomer from './pages/dashboard/DashboardCustomer';
+import DashboardAdmin from './pages/dashboard/DashboardAdmin';
 
 export const UserContext = createContext(null);
 
@@ -16,7 +17,7 @@ function App() {
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <DashboardCustomer /> } />
+          <Route path="/" element={ <DashboardAdmin /> } />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

@@ -5,12 +5,11 @@ import React from "react";
 import Header from "./DashboardHeader";
 import Footer from "./DashboardFooter";
 import ViewOrders from "../../components/customer/CustomerViewOrders";
-import CustomerSideContent from "../../components/customer/CustomerSideContent";
 
-import { MdPostAdd } from "react-icons/md";
-import { TbTicket } from "react-icons/tb";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { MdOutlineLibraryAdd } from "react-icons/md";
 
-const DashboardCustomer = () => {
+const DashboardAdmin = () => {
   return (
     <div className='dashboardContainer'>
 
@@ -19,6 +18,11 @@ const DashboardCustomer = () => {
       <div className='dashboardContent'>
 
         <div className='dashboardContent-side'>
+
+          <div className='dashboardContent-adminnav'>
+
+          </div>
+
           <div id="dashboardCard">
             <div className="dashboardCard-header">
               <h1>Welcome Back, <span>John</span></h1>
@@ -26,24 +30,26 @@ const DashboardCustomer = () => {
             </div>
             <div className="dashboardCard-buttons">
               <div className='dashboardCard-btn'>
-                <MdPostAdd />
-                <h1>Order Again</h1>
+                <AiOutlineUsergroupAdd />
+                <h1>Create Staff</h1>
               </div>
               <div className='dashboardCard-btn'>
-                <TbTicket />
-                <h1>Add Voucher</h1>
+                <MdOutlineLibraryAdd />
+                <h1>Add Dish</h1>
               </div>
             </div>
           </div>
 
+          
+
           <div className='dashboardContent-sub'>
-            <CustomerSideContent />
+
           </div>
 
         </div>
 
         <div className='dashboardContent-main'>
-          <ViewOrders />
+
         </div>
 
       </div>
@@ -54,4 +60,4 @@ const DashboardCustomer = () => {
   );
 };
 
-export default DashboardCustomer;
+export default DashboardAdmin;

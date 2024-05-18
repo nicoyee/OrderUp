@@ -6,72 +6,110 @@
 }
 
 .dashboardContent {
+    height: 100%;
     padding-left: 50px;
     padding-right: 50px;
-    height: 100%;
     display: flex;
+    gap: 20px;
+    overflow: hidden;
 }
 
-.dasboardContent-main {
-    overflow: hidden;
+.dashboardContent-side {
     display: flex;
     flex-direction: column;
-    flex: 50%;
-    gap: 10px;
+    flex: 40%;
+    gap: 20px;
 }
-
-.customerDashboard-side {
-    flex: 50%;
-}
-
 #dashboardCard {
     border-radius: 15px;
-    background-color: rgba(105, 13, 197, 0.103);
+    background-color: #d5dbbd;
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
 }
-
 #dashboardCard::before {
     content: "";
     height: 100px;
     width: 100px;
     position: absolute;
-    top: -40%;
+    top: -60%;
     left: -20%;
     border-radius: 50%;
-    border: 35px solid rgba(255, 255, 255, 0.102);
+    border: 35px solid #252525;
     transition: all .8s ease;
-    filter: blur(.5rem);
+    filter: blur(2rem);
 }
-
-#dashboardCard div {
+#dashboardCard .dashboardCard-header {
     padding: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: column;
 }
-
 #dashboardCard h1 {
-    color: white;
+    color: #252525;
     font-weight: 700;
     font-size: 1.5em;
+    z-index: 2;
 }
-
+#dashboardCard h1 span {
+    color: #f05006;
+}
 #dashboardCard p {
     font-size: 1em;
     font-weight: 400;
-    color: #d5dbbd;
+    color: #252525;
 }
-
 #dashboardCard:hover::before {
     width: 140px;
     height: 140px;
     top: -30%;
-    left: 50%;
+    left: 60%;
     filter: blur(0rem);
 }
+#dashboardCard .dashboardCard-buttons {
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    border-radius: 0 0 15px 15px;
+}
+#dashboardCard .dashboardCard-buttons .dashboardCard-btn {
+    background-color: #151717;
+    padding: 10px;
+    flex: 50%;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    opacity: 1;
+    z-index: 2;
+    cursor: pointer;
+}
+#dashboardCard .dashboardCard-buttons .dashboardCard-btn:hover {
+    background-color: #252727;
+}
+#dashboardCard .dashboardCard-buttons .dashboardCard-btn svg {
+    height: 20px;
+    width: 20px;
+}
+#dashboardCard .dashboardCard-buttons .dashboardCard-btn h1 {
+    color: #d5dbbd;
+    font-size: 1em;
+    font-weight: 400;
+}
+.dashboardContent-sub {
+    height: 100%;
+}
+
+.dashboardContent-main {
+    display: flex;
+    flex: 60%;
+}
+
 
 @media only screen and (max-width: 768px) {
     .dashboardContainer {
@@ -80,5 +118,7 @@
 
     .dashboardContent {
         flex-direction: column;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }

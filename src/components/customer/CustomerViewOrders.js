@@ -1,8 +1,11 @@
 import '../../css/components/customer/CustomerViewOrders.css';
+import '../../css/components/customer/CustomerViewOrders.css';
 import '../../css/orderInfo.css';
 
 import React from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+
+import { HiLocationMarker } from "react-icons/hi";
 
 const CustomerViewOrders = () => {
   return (
@@ -43,22 +46,26 @@ const CustomerViewOrders = () => {
               </div>
 
               <div className='customerOrderListItem'>
-
-                <div className='customerOrderListItem-left'>
                   <span className='orderStatus-Pending'></span>
-                  24 May 04:30 PM
-                </div>
-                
-                <div className='customerOrderListItem-right'>
-                  <h5>Cancel</h5>
-                </div>
-
+                  <div className='customerOrderListItemInfo'>
+                    <span>
+                      <h2>05/16/2024</h2>
+                      <h3>02:30 PM</h3>
+                    </span>
+                    <span id='customerOrderListItemInfoLoc'>
+                      <HiLocationMarker />
+                      <h4>Gov. M. Cuenco Ave., Talamban, Talamban, Cebu City 6000</h4>
+                    </span>
+                    <span id='customerOrderListItemInfoLoc'>
+                      <h5>700.99</h5>
+                    </span>
+                  </div>
               </div>
 
             </TabPanel>
             <TabPanel>
 
-              <p>Hello2</p>
+              
 
             </TabPanel>
           </TabPanels>
