@@ -3,7 +3,7 @@ import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dis
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import  {db}  from '../../firebase';
 import { MenuType } from '../../constants';
-import { Firebase } from "../firebase.ts"
+import Firebase from "../firebase.ts"
 
 class Admin extends User {
     constructor(name, email, profilePicture) {

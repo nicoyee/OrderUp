@@ -14,16 +14,7 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
 
     const signIn = (e) => {
         e.preventDefault();
-        AuthService.logIn(email, password)
-            .then((user) => {
-                console.log("User Successfully Logged In!");
-                setErrorMessage('');
-                // Handle navigation or other actions upon successful login
-            })
-            .catch((error) => {
-                setErrorMessage("An Error has occurred");
-                console.error(error);
-            });
+        AuthService.logIn(email, password);
     }
 
     return (

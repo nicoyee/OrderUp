@@ -1,4 +1,11 @@
-import { Auth, getAuth } from "firebase/auth";
+import { 
+    Auth, 
+    createUserWithEmailAndPassword, 
+    getAuth, 
+    sendPasswordResetEmail, 
+    signInWithEmailAndPassword, 
+    signOut
+} from "firebase/auth";
 import { 
     Firestore, 
     collection, 
@@ -19,6 +26,7 @@ import {
     getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
+import User from "./User";
 
 interface IFirebase {
     auth: Auth, 
@@ -26,10 +34,12 @@ interface IFirebase {
     storage: FirebaseStorage
 }
 
-export class Firebase implements IFirebase{
+class Firebase implements IFirebase{
     auth: Auth;
     db: Firestore;
     storage: FirebaseStorage;
+
+    static instance: Firebase;
 
     constructor(){
         const app = initializeApp({
@@ -42,9 +52,19 @@ export class Firebase implements IFirebase{
             measurementId: "G-KB2290KV8P"
           });
 
+        
+
         this.auth = getAuth(app);
         this.db = getFirestore(app);
         this.storage = getStorage(app);
+    }
+
+    static getInstance() : Firebase {
+        if(!Firebase.instance){
+            Firebase.instance = new Firebase();
+        }
+        
+        return Firebase.instance;
     }
 
     getDocRef(path, identifier){
@@ -96,4 +116,49 @@ export class Firebase implements IFirebase{
                 throw(err)
             })
     }
-}
+
+    async signUp(name, email, password){
+        return await createUserWithEmailAndPassword(this.auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                return new User(user.uid, name, email, 'customer', '')
+            })
+            .catch((error) => {
+                throw error;
+            })
+    }
+
+    async logIn(email, password){
+        return await signInWithEmailAndPassword(this.auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                return new User(user.uid, user.displayName || '', email, 'customer', '');
+            })
+            .catch((error) => {
+                throw error;
+            })
+    }
+
+    async resetPassword(email){
+        return await sendPasswordResetEmail(this.auth, email)
+            .then(() =>{
+                console.log('Password reset email sent!');
+            })
+            .catch((error) => {
+                throw error;
+            })
+    }
+
+    async signOut(){
+
+        return await signOut(this.auth)
+            .then(async() =>{
+                console.log('User signed out');
+            })
+            .catch((error) =>{
+                console.error("error signing out", error);
+            })       
+    }
+}   
+
+export default Firebase;
