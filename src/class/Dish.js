@@ -22,16 +22,15 @@ class VegetarianDish extends Dish {
   }
 }
 
-//TODO: Update MenuType, do not hardcode
 class DessertDish extends Dish {
   constructor(name, description, price, photo) {
-    super(name, 'Dessert', description, price, photo);
+    super(name, MenuType.DESSERT, description, price, photo);
   }
 }
 
 class SeafoodDish extends Dish {
   constructor(name, description, price, photo) {
-    super(name, 'Seafood', description, price, photo);
+    super(name, MenuType.SEAFOOD, description, price, photo);
   }
 }
 

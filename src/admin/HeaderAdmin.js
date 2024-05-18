@@ -1,7 +1,6 @@
 import '../css/Header.css';
 
 import React, { useState, useRef } from 'react';
-import { getAuth } from "firebase/auth";
 import AuthService from '../class/AuthService';
 
 const HeaderAdmin = ({ user }) => {
@@ -14,11 +13,7 @@ const HeaderAdmin = ({ user }) => {
     };
 
     const handleSignOut = () => {
-        AuthService.signOut().then(() => {
-            console.log('User signed out');
-        }).catch((error) => {
-            console.error('Error signing out', error);
-        });
+        AuthService.signOut();
     };
     
 

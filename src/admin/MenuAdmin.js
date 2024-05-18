@@ -83,10 +83,6 @@ const MenuAdmin = ({dishes, setDishes}) => {
     }
   };
 
-  //TODO: Delete useless console.logs and useEffects
-  useEffect(()=>{
-    console.log("editedDishDetails", editedDishDetails)
-  }, [editedDishDetails])
 
   return (
     <div className='menuTable'>

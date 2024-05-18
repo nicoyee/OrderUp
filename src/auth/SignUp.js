@@ -15,16 +15,7 @@ const SignUp = ({ closeModal, setLogin }) => {
 
     const signUp = (e) => {
         e.preventDefault();
-        AuthService.signUp(name, email, password)
-            .then(() => {
-                console.log("User successfully signed up!");
-                setErrorMessage('');
-                // Handle navigation or other actions upon successful sign up
-            })
-            .catch(error => {
-                setErrorMessage("An error occurred while signing up. Please try again later.");
-                console.error(error);
-            });
+        AuthService.signUp(name, email, password);
     }
 
     return (

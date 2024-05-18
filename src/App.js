@@ -6,9 +6,9 @@ import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
-
+ 
 import { UserType } from './constants';
-import { Firebase } from "./class/firebase.ts";
+import Firebase from "./class/firebase.ts";
 
 export const UserContext = createContext(null);
 
@@ -30,7 +30,7 @@ function App() {
             if (docSnap.exists()) {
               const userData = docSnap.data();
               setUser(userData);
-              console.log('User logged in');
+              console.log("User Successfully Logged In!");
             } else {
               const newUserDoc = {
                 name: user.displayName?.split(' ')?.[0] ?? "",

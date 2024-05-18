@@ -9,16 +9,7 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
 
     const resetPassword = (e) => {
         e.preventDefault();
-        AuthService.resetPassword(email)
-            .then(() => {
-                setEmailSent(true);
-                setErrorMessage('');
-                console.log('Password reset email sent!');
-            })
-            .catch((error) => {
-                setErrorMessage('An error has occurred');
-                console.error(error);
-            });
+        AuthService.resetPass(email);
     };
 
     return (
