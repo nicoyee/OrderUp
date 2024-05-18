@@ -17,7 +17,7 @@ function App() {
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <DashboardAdmin /> } />
+          <Route path="/" element={ <DashboardCustomer /> } />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
