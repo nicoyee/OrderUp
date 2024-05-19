@@ -1,6 +1,6 @@
 /* ManageUsers.css */
 
-.manage-users-modal {
+  .manage-users-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,9 +10,9 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999; /* Ensure the modal is on top */
+    z-index: 998; /* Ensure the modal is behind the staff modal */
   }
-  
+
   .manage-users-modal .modal-content {
     background-color: #fff;
     width: 80%;
@@ -21,6 +21,9 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
   }
+
+/* ...other styles remain the same... */
+
   
   .manage-users-modal .modal-header {
     display: flex;
@@ -86,14 +89,6 @@
 
   .manage-users-modal .add-employee-button:hover {
     background-color: #7cb17d; /* Green */
-  }
-  
-  
-  .manage-users-modal .remove-employee-button {
-    background-color: #c92a2a; /* Light Red */
-  }
-  .manage-users-modal .remove-employee-button:hover {
-    background-color: #f05656; /* Light Red */
   }
   
   .manage-users-modal .ban-button {

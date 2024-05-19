@@ -2,26 +2,30 @@ import '../css/authForms.css';
 import React, { useState } from 'react';
 import AuthService from '../class/AuthService';
 
-const SignUp = ({ closeModal, setLogin }) => {
+const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
 
-    const togglePasswordVisiblity = () => {
+    const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
     };
 
-    const signUp = (e) => {
+    const signUp = async (e) => {
         e.preventDefault();
-        AuthService.signUp(name, email, password, 'customer');
-    }
+        try {
+            await handleSignUp(name, email, password, userType);
+        } catch (error) {
+            setErrorMessage('Error signing up. Please try again.');
+        }
+    };
 
     return (
         <form className="form" onSubmit={signUp}>
             <div className="header">
-                <h1>Sign Up</h1>
+                <h1>{isStaffSignUp ? "Sign Up a Staff" : "Sign Up"}</h1>
                 <svg
                     onClick={closeModal}
                     xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +42,7 @@ const SignUp = ({ closeModal, setLogin }) => {
                 </svg>
             </div>
 
-            <h3>Having an account ensures you get a streamlined experience. Don't worry, it's free!</h3>
+            <h3>{isStaffSignUp ? "" : "Having an account ensures you get a streamlined experience. Don't worry, it's free!"}</h3>
 
             <div className="flex-column">
                 <label>Display Name</label>
@@ -72,7 +76,7 @@ const SignUp = ({ closeModal, setLogin }) => {
                 </svg>
                 <input type={passwordShown ? "text" : "password"} className="authInput" placeholder="Enter your Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <button type="button" onClick={togglePasswordVisiblity}>
+                <button type="button" onClick={togglePasswordVisibility}>
                     <span className="material-symbols-outlined">
                         {passwordShown ? 'visibility' : 'visibility_off'}
                     </span>
@@ -88,11 +92,14 @@ const SignUp = ({ closeModal, setLogin }) => {
 
             <button type="submit" name="submit" className="button-submit">Sign Up</button>
 
-            <p className="p">
-                Already have have an account?
-                <span className="span-redirect" onClick={setLogin}>Log In</span>
-            </p>
+            {!isStaffSignUp && (
+                <p className="p">
+                    Already have an account?
+                    <span className="span-redirect" onClick={setLogin}>Log In</span>
+                </p>
+            )}
         </form>
     );
-}
+};
+
 export default SignUp;
