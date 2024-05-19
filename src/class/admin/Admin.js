@@ -88,32 +88,40 @@ class Admin extends User {
         //       }
         //   }
     }
-
+    
     static async deleteDish(id) {
-        try {
-          await deleteDoc(doc(db, 'dishes', id));
-          console.log('Dish deleted successfully');
-        } catch (error) {
-          console.error('Error deleting dish:', error);
-          throw error;
-        }
+        const firebase = new Firebase();
+
+        return firebase.deleteDocument('dishes', id)
+            .then(() => {
+                console.log('Dish deleted successfully');
+            })
+            .catch(error => {
+                console.error('Error deleting dish:', error);
+                throw error;
+            });
     }
+    
 
     static async updateDish(id, newData) {
-        try {
-          const dishDocRef = doc(db, 'dishes', id);
-          await updateDoc(dishDocRef, newData);
-          console.log('Dish updated successfully');
-        } catch (error) {
-          console.error('Error updating dish:', error);
-          throw error;
-        }
+        const firebase = new Firebase();
+
+        return firebase.updateDocument('dishes', id, newData)
+        .then(() => {
+            console.log('Dish updated successfully');
+        })
+        .catch(error =>{
+            console.error('Error updating dish:', error);
+            throw error;
+        });
     }
 
     static async fetchUsers() {
-        const querySnapshot = await getDocs(collection(db, 'users'));
+        const firebase = new Firebase();
+
+        const querySnapshot = await firebase.getDocuments('users');
         const usersData = [];
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc = firebase.doc) => {
             const userData = { id: doc.id, ...doc.data() };
             if (userData.userType !== 'admin') {
                 usersData.push(userData);
@@ -129,8 +137,10 @@ class Admin extends User {
     }
 
     static async banUser(userId) {
+        const firebase = new Firebase();
+
         try {
-            await deleteDoc(doc(db, 'users', userId));
+            await firebase.deleteDocument(doc(db, 'users', userId));
             console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);

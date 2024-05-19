@@ -47,7 +47,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password, userType) => {
         try {
-            await Admin.signUp(name, email, password, userType);
+            await Admin.signUpStaff(name, email, password, userType);
             console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);
         } catch (error) {

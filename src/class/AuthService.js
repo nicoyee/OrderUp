@@ -4,18 +4,18 @@ import Firebase from './firebase.ts';
 class AuthService {
     static signUp(name, email, password, userType) {
         const firebase = Firebase.getInstance();
-        firebase.signUp(name, email, password, userType);
+        firebase.createUserWithEmailAndPass(name, email, password, userType);
     }
     
 
     static logIn(email, password) {
         const firebase = Firebase.getInstance();
-        return firebase.logIn(email, password);
+        return firebase.signInWithEmailAndPass(email, password);
     }
 
     static resetPass(email) {
         const firebase = Firebase.getInstance();
-        return firebase.resetPassword(email);
+        return firebase.sendPasswordReset(email);
     }
 
 

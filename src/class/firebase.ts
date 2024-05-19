@@ -104,6 +104,7 @@ class Firebase implements IFirebase{
         return ref(this.storage, `${path}/${fileName}`)
     }
     
+
     async uploadPhoto(file, path){
         const storageRef = this.getStorageRef(path, file.name)
         return await uploadBytes(storageRef, file)
@@ -117,7 +118,8 @@ class Firebase implements IFirebase{
             })
     }
 
-    async signUp(name, email, password, userType){
+    //AuthService
+    async createUserWithEmailAndPass(name, email, password, userType){
         return await createUserWithEmailAndPassword(this.auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -128,7 +130,7 @@ class Firebase implements IFirebase{
             })
     }
 
-    async logIn(email, password){
+    async signInWithEmailAndPass(email, password){
         return await signInWithEmailAndPassword(this.auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -139,7 +141,7 @@ class Firebase implements IFirebase{
             })
     }
 
-    async resetPassword(email){
+    async sendPasswordReset(email){
         return await sendPasswordResetEmail(this.auth, email)
             .then(() =>{
                 console.log('Password reset email sent!');
@@ -150,7 +152,6 @@ class Firebase implements IFirebase{
     }
 
     async signOut(){
-
         return await signOut(this.auth)
             .then(async() =>{
                 console.log('User signed out');
@@ -159,6 +160,7 @@ class Firebase implements IFirebase{
                 console.error("error signing out", error);
             })       
     }
+
 }   
 
 export default Firebase;
