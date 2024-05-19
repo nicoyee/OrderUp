@@ -3,6 +3,7 @@ import Admin from '../class/admin/Admin';
 import SignUp from '../auth/SignUp';
 import '../css/Admin/ManageUsers.css'; // Import the CSS file
 import '../css/Admin/StaffModal.css';
+import AuthService from '../class/AuthService';
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
@@ -47,8 +48,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password, userType) => {
         try {
-            await Admin.signUp(name, email, password, userType);
-            console.log("User successfully signed up as staff!");
+            AuthService.signUp(name, email, password, userType);
             setStaffModalIsOpen(false);
         } catch (error) {
             console.error("Error signing up user:", error);
@@ -98,7 +98,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
             {staffModalIsOpen && (
                 <div className="staff-modal">
-                    <SignUp handleSignUp={handleSignUp} closeModal={closeStaffModal} isStaffSignUp={true} userType="staff" />
+                    <AuthService handleSignUp={handleSignUp} closeModal={closeStaffModal} isStaffSignUp={true} userType="staff" />
                 </div>
             )}
         </>
