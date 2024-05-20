@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Cart from '../class/Cart';
-import { Dish } from '../class/Dish';
+import User from '../class/User';
 import '../css/CustomerMenu.css';
 
 const CustomerMenu = () => {
@@ -9,7 +9,7 @@ const CustomerMenu = () => {
 
   useEffect(() => {
     const fetchDishes = () => {
-      Dish.getDishes()
+      User.getDishes()
         .then(querySnapshot => {
           const dishesData = querySnapshot.docs.map(doc => ({
             id: doc.id,

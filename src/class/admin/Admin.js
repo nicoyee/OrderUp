@@ -1,5 +1,5 @@
 import User from '../User';
-import { MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
+import { Dish } from '../Dish';
 import { MenuType } from '../../constants';
 import Firebase from "../firebase.ts"
 import AuthService from '../AuthService.js';
@@ -10,25 +10,9 @@ class Admin extends User {
     }
 
     static async createDish(name, menuType, description, price, photo) {
-        let dish;
-        switch (menuType) {
-            case MenuType.MEAT:
-                dish = new MeatDish(name, description, price, photo);
-                break;
-            case MenuType.VEGETARIAN:
-                dish = new VegetarianDish(name, description, price, photo);
-                break;
-            case MenuType.DESSERT:
-                dish = new DessertDish(name, description, price, photo);
-                break;
-            case MenuType.SEAFOOD:
-                dish = new SeafoodDish(name, description, price, photo);
-                break;
-            default:
-                console.log("Invalid menu type.")
-                break;
-                
-        }
+        let dish = new Dish(name, menuType, description, price, photo);
+        
+        
 
         const firebase = new Firebase()
 
