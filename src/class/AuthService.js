@@ -4,7 +4,7 @@ import Firebase from './firebase.ts';
 class AuthService {
     static signUp(name, email, password, userType) {
         const firebase = Firebase.getInstance();
-        firebase.createUserWithEmailAndPass(name, email, password, userType);
+        return firebase.createUserWithEmailAndPass(name, email, password, userType);
     }
     
 

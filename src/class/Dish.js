@@ -1,5 +1,5 @@
 import { MenuType } from '../constants';
-
+import Firebase from './firebase.ts';
 class Dish {
   constructor(name, menuType, description, price, photo) {
     this.name = name;
@@ -7,6 +7,12 @@ class Dish {
     this.description = description;
     this.price = parseFloat(price);
     this.photo = photo;
+  }
+
+  static async getDishes(){
+    const firebase = Firebase.getInstance();
+    
+    return firebase.getDocuments('dishes');
   }
 }
 

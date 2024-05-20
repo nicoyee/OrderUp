@@ -15,11 +15,7 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp })
 
     const signUp = async (e) => {
         e.preventDefault();
-        try {
-            await handleSignUp(name, email, password, userType);
-        } catch (error) {
-            setErrorMessage('Error signing up. Please try again.');
-        }
+        await AuthService.signUp(name, email, password, userType);
     };
 
     return (

@@ -1,11 +1,8 @@
 import User from '../User';
-import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
-import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc } from 'firebase/firestore';
-import  {db}  from '../../firebase';
+import { MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
 import { MenuType } from '../../constants';
 import Firebase from "../firebase.ts"
 import AuthService from '../AuthService.js';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 class Admin extends User {
     constructor(name, email, profilePicture) {
@@ -140,7 +137,8 @@ class Admin extends User {
         const firebase = new Firebase();
 
         try {
-            await firebase.deleteDocument(doc(db, 'users', userId));
+            // await firebase.deleteDocument(doc(db, 'users', userId));
+            await firebase.deleteDocument('users',userId);
             console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
@@ -148,29 +146,33 @@ class Admin extends User {
         }
     }
 
-    static async signUp(name, email, password, userType) {
+    static async signUpStaff(name, email, password, userType) {
         try {
             const firebase = Firebase.getInstance();
 
             // Create the user account with email and password
-            const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);
+            const userCredential = await AuthService.signUp(firebase.auth, email, password);
 
             // Access the created user object
             const user = userCredential.user;
 
             // Update the user profile with the provided name
-            await updateProfile(user, {
-                displayName: name
-            });
+            // await updateProfile(user, {
+            //     displayName: name
+            // });
 
-            // Save user information including userType in Firestore
-            await setDoc(doc(firebase.db, 'users', user.uid), {
-                name,
-                email,
-                userType,
-                uid: user.uid,
-                profilePicture: ''
-            });
+            
+
+            // // Save user information including userType in Firestore
+            // await setDoc(doc(firebase.db, 'users', user.uid), {
+            //     name,
+            //     email,
+            //     userType,
+            //     uid: user.uid,
+            //     profilePicture: ''
+            // });
+
+            await firebase.setDocument('users')
 
             // Return the user
             return user;
