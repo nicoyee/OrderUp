@@ -3,8 +3,7 @@ import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dis
 import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc, addDoc } from 'firebase/firestore';
 import  {db}  from '../../firebase';
 import { MenuType } from '../../constants';
-import Firebase from "../firebase.ts"
-import AuthService from '../AuthService.js';
+import Firebase from "../firebase.ts";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase';
@@ -138,6 +137,39 @@ class Admin extends User {
             throw error;
         }
     }
+
+    static async signUp(name, email, password, userType) {
+        try {
+            const firebase = Firebase.getInstance();
+
+            // Create the user account with email and password
+            const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);
+
+            // Access the created user object
+            const user = userCredential.user;
+
+            // Update the user profile with the provided name
+            await updateProfile(user, {
+                displayName: name
+            });
+
+            // Save user information including userType in Firestore
+            await setDoc(doc(firebase.db, 'users', user.uid), {
+                name,
+                email,
+                userType,
+                uid: user.uid,
+                profilePicture: ''
+            });
+
+            // Return the user
+            return user;
+        } catch (error) {
+            console.error('Error signing up user:', error);
+            throw error;
+        }
+    }
+
     static async createEvent(eventName, description, location, status, date, socialLink, photo) {
         try {
             let photoURL = '';
@@ -185,11 +217,9 @@ class Admin extends User {
             }
             const updatedEvent = {
                 ...eventData,
-                photoURL,
-                date: new Date(eventData.date).toISOString(), // Ensure date is in correct format
+                photoURL
             };
             await updateDoc(doc(db, 'events', eventId), updatedEvent);
-            console.log('Event updated successfully');
             return updatedEvent;
         } catch (error) {
             console.error('Error updating event:', error);

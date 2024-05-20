@@ -1,6 +1,5 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthService from '../class/AuthService';
 
 const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp }) => {
     const [name, setName] = useState('');

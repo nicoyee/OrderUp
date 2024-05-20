@@ -35,9 +35,10 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
           <div className="form-group">
             <label>Status:</label>
             <select name="status" value={updatedEvent.status} onChange={handleChange}>
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Cancelled">Cancelled</option>
+                <option value="pending">Pending</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
             </select>
           </div>
           <div className="form-group">
