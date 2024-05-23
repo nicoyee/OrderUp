@@ -1,3 +1,4 @@
+
 import { auth, db } from '../firebase';
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 
@@ -65,3 +66,5 @@ class Cart {
 }
 
 export default Cart;
+
+
