@@ -6,54 +6,63 @@ import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
  
-import { UserType } from './constants';
+import { UserType } from './constants'; 
 import {firebaseInstance} from "./class/firebase.ts";
+
+import { onAuthStateChanged} from "firebase/auth"
+import { userInstance } from './class/User.js';
 
 export const UserContext = createContext(null);
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false); // Changed to false initially
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  const onAuthStateChanged = () => {
-    setLoading(true); // Set loading to true when fetching user data
-    firebaseInstance.auth.onAuthStateChanged(user => {
-      if (user) {
-        const path = 'users';
-        const identifier = user.uid;
-
-        console.log("got here")
-        firebaseInstance.getDocument(path, identifier)
-          .then(docSnap => {
-            if (docSnap.exists()) {
-              const userData = docSnap.data();
-              setUser(userData);
-              console.log("User Successfully Logged In!");
-            } else {
-              const newUserDoc = {
-                name: user.displayName?.split(' ')?.[0] ?? "",
-                email: user.email,
-                userType: UserType.CUSTOMER,
-                profilePicture: user.photoURL,
-              };
-              firebaseInstance.setDocument(path, identifier, newUserDoc)
-                .then(() => {
-                  console.log('User document created');
-                  setUser(newUserDoc);
-                })
-            }
-          })
-      } else {
-        setUser(null);
-        setLoading(false); 
+  const onAuthtest = () => {
+    onAuthStateChanged(firebaseInstance.auth, (authenticatedUser)=>{
+      if(authenticatedUser){
+        firebaseInstance.getDocument('users', authenticatedUser.uid).then((res)=>{
+          const testUser = res.data();
+          if(testUser){
+            userInstance.setUserDetails(
+              testUser.uid, 
+              testUser.name, 
+              testUser.email, 
+              testUser.userType, 
+              testUser.profilePicture
+            )
+            setUser({
+              name: testUser.name, 
+              email: testUser.email,
+              profilePicture: testUser.profilePicture,
+              userType: testUser.userType,
+              docId: testUser.docId
+            })
+          }
+          
+        });
+        
+        setIsLoggedIn(true)
+      }else{
+        setIsLoggedIn(false)
+        setUser(null)
       }
-    });
-  };
+    })
+  }
 
-  useEffect(() => {
-    return onAuthStateChanged;
-  }, []);
+  useEffect(()=>{
+    onAuthtest()
 
+    return () => {
+      onAuthtest()
+    }
+  }, [])
+  
+
+  useEffect(()=>{
+    console.log("user test", user)
+  }, [user])
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
@@ -62,10 +71,10 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              user ? (
-                user.userType === 'admin' ? (
+              isLoggedIn ? (
+                user?.userType === 'admin' ? (
                   <DashboardAdmin />
-                ) : user.userType === 'customer' ? (
+                ) : user?.userType === 'customer' ? (
                   <DashboardCustomer />
                 ) : (
                   <Navigate to="/" />

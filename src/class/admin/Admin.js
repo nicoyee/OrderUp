@@ -1,6 +1,6 @@
-import User from '../User';
 import { Dish } from '../Dish';
 import { firebaseInstance } from "../firebase.ts"
+import User from "../User.js"
 
 class Admin extends User {
     constructor(name, email, profilePicture) {
@@ -89,7 +89,7 @@ class Admin extends User {
         try {
 
             // Create the user account with email and password
-            const userCredential = await User.signUp(firebaseInstance.auth, email, password);
+            const userCredential = await this.signUp(firebaseInstance.auth, email, password);
 
             // Access the created user object
             const user = userCredential.user;

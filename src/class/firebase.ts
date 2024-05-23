@@ -26,7 +26,8 @@ import {
     getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import User from "./User";
+import User, { userInstance }  from "./User";
+import { UserType } from "../constants";
 
 interface IFirebase {
     auth: Auth, 
@@ -111,23 +112,41 @@ class Firebase implements IFirebase{
     //AuthService
     async createUserWithEmailAndPass(name, email, password, userType){
         return await createUserWithEmailAndPassword(this.auth, email, password)
-            .then((userCredential) => {
+            .then(async(userCredential) => {
                 const user = userCredential.user;
-                return new User(user.uid, name, email, userType, '')
+                const newUserDoc = {
+                    name: user.displayName?.split(' ')?.[0] ?? "",
+                    email: user.email,
+                    userType: userType,
+                    profilePicture: user.photoURL,
+                  };
+                  this.setDocument('users', user.uid, newUserDoc)
+                    .then(() => {
+                      console.log('User document created');
+                    })
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
     async signInWithEmailAndPass(email, password){
         return await signInWithEmailAndPassword(this.auth, email, password)
-            .then((userCredential) => {
+            .then( async (userCredential) => {
+                console.log("signinwithemailandpass")
                 const user = userCredential.user;
-                return new User(user.uid, user.displayName || '', email, 'customer', '');
+                //retrieve user info from user collection
+                
+                const currentUser = (await this.getDocument('users', user.uid)).data();
+                // return new User(currentUser?.uid ?? "", currentUser!.name, currentUser!.email, currentUser!.userType, currentUser!.profilePicture);
+                userInstance.setUserDetails(
+                    currentUser!.uid,
+                    currentUser!.name, currentUser!.email, currentUser!.userType, currentUser!.profilePicture
+
+                )
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
@@ -137,7 +156,7 @@ class Firebase implements IFirebase{
                 console.log('Password reset email sent!');
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
