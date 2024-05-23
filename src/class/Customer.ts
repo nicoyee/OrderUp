@@ -70,6 +70,19 @@ class Customer extends User{
         const user = firebaseInstance.auth.currentUser;
         await firebaseInstance.updateDocument('cart', user?.email, {[`items.${dishId}.quantity`]: newQuantity});
     }
+
+    // order history of customers
+    static async getOrders(){
+
+    }
+
+    static async createOrder(){
+
+    }
+
+    static async uploadOrderTransactionSlip(){
+
+    }
 }
 
 export default Customer;

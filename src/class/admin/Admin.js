@@ -103,6 +103,21 @@ class Admin extends User {
             throw error;
         }
     }
+
+    // get all customer orders
+    static async getCustomerOrders(){
+
+    }
+
+    // orderStatus: create an enum for OrderStatus
+    // Order Processed, 
+    // Downpayment Paid,
+    // Full Payment Paid,
+    // Delivered
+    // Completed
+    static async updateCustomerOrderStatus(userId, orderStatus){
+
+    }
 }
 
 export default Admin;
