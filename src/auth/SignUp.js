@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthService from '../class/AuthService';
+import User from '../class/User';
 
 const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp }) => {
     const [name, setName] = useState('');
@@ -15,7 +15,7 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp })
 
     const signUp = async (e) => {
         e.preventDefault();
-        await AuthService.signUp(name, email, password, userType);
+        await User.signUp(name, email, password, userType);
     };
 
     return (

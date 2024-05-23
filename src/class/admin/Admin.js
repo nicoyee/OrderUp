@@ -1,8 +1,6 @@
 import User from '../User';
 import { Dish } from '../Dish';
-import { MenuType } from '../../constants';
-import Firebase from "../firebase.ts"
-import AuthService from '../AuthService.js';
+import { firebaseInstance } from "../firebase.ts"
 
 class Admin extends User {
     constructor(name, email, profilePicture) {
@@ -11,13 +9,9 @@ class Admin extends User {
 
     static async createDish(name, menuType, description, price, photo) {
         let dish = new Dish(name, menuType, description, price, photo);
-        
-        
-
-        const firebase = new Firebase()
 
         console.log("dish", dish)
-        const photoURL = await firebase.uploadPhoto(dish.photo, 'dishes')
+        const photoURL = await firebaseInstance.uploadPhoto(dish.photo, 'dishes')
         console.log("photoURL", photoURL)
 
         const newDish = {   
@@ -28,7 +22,7 @@ class Admin extends User {
             photoURL
         }
 
-        return await firebase.addDocument(
+        return await firebaseInstance.addDocument(
                 'dishes', 
                 newDish)
             .then((res)=>{
@@ -38,42 +32,10 @@ class Admin extends User {
             .catch((err)=>{
                 console.log(JSON.stringify(err))
             })
-        // async uploadPhoto() {
-        //     try {
-        //       if (this.photo) {
-        //         const storageRef = ref(storage, `dishes/${this.photo.name}`);
-        //         await uploadBytes(storageRef, this.photo);
-        //         return getDownloadURL(storageRef);
-        //       }
-        //       return '';
-        //     } catch (error) {
-        //       console.error('Error uploading photo:', error);
-        //       throw error;
-        //     }
-        //   }
-        
-        //   async saveToDatabase() {
-              
-        //       try {
-        //       const photoURL = await this.uploadPhoto();
-        //       await addDoc(collection(db, 'dishes'), {
-        //           name: this.name,
-        //           description: this.description,
-        //           price: this.price,
-        //           photoURL,
-        //           menuType: this.menuType
-        //       });
-        //       } catch (error) {
-        //       console.error('Error saving dish to database:', error);
-        //       throw error;
-        //       }
-        //   }
     }
     
     static async deleteDish(id) {
-        const firebase = new Firebase();
-
-        return firebase.deleteDocument('dishes', id)
+        return firebaseInstance.deleteDocument('dishes', id)
             .then(() => {
                 console.log('Dish deleted successfully');
             })
@@ -85,9 +47,7 @@ class Admin extends User {
     
 
     static async updateDish(id, newData) {
-        const firebase = new Firebase();
-
-        return firebase.updateDocument('dishes', id, newData)
+        return firebaseInstance.updateDocument('dishes', id, newData)
         .then(() => {
             console.log('Dish updated successfully');
         })
@@ -98,11 +58,9 @@ class Admin extends User {
     }
 
     static async fetchUsers() {
-        const firebase = new Firebase();
-
-        const querySnapshot = await firebase.getDocuments('users');
+        const querySnapshot = await firebaseInstance.getDocuments('users');
         const usersData = [];
-        querySnapshot.forEach((doc = firebase.doc) => {
+        querySnapshot.forEach((doc) => {
             const userData = { id: doc.id, ...doc.data() };
             if (userData.userType !== 'admin') {
                 usersData.push(userData);
@@ -118,11 +76,8 @@ class Admin extends User {
     }
 
     static async banUser(userId) {
-        const firebase = new Firebase();
-
         try {
-            // await firebase.deleteDocument(doc(db, 'users', userId));
-            await firebase.deleteDocument('users',userId);
+            await firebaseInstance.deleteDocument('users',userId);
             console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
@@ -132,31 +87,14 @@ class Admin extends User {
 
     static async signUpStaff(name, email, password, userType) {
         try {
-            const firebase = Firebase.getInstance();
 
             // Create the user account with email and password
-            const userCredential = await AuthService.signUp(firebase.auth, email, password);
+            const userCredential = await User.signUp(firebaseInstance.auth, email, password);
 
             // Access the created user object
             const user = userCredential.user;
 
-            // Update the user profile with the provided name
-            // await updateProfile(user, {
-            //     displayName: name
-            // });
-
-            
-
-            // // Save user information including userType in Firestore
-            // await setDoc(doc(firebase.db, 'users', user.uid), {
-            //     name,
-            //     email,
-            //     userType,
-            //     uid: user.uid,
-            //     profilePicture: ''
-            // });
-
-            await firebase.setDocument('users')
+            await firebaseInstance.setDocument('users')
 
             // Return the user
             return user;

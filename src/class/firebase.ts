@@ -39,8 +39,6 @@ class Firebase implements IFirebase{
     db: Firestore;
     storage: FirebaseStorage;
 
-    static instance: Firebase;
-
     constructor(){
         const app = initializeApp({
             apiKey: "AIzaSyCfI4xkjg99phmVltisyBQahPIQlHMFc-4",
@@ -57,14 +55,6 @@ class Firebase implements IFirebase{
         this.auth = getAuth(app);
         this.db = getFirestore(app);
         this.storage = getStorage(app);
-    }
-
-    static getInstance() : Firebase {
-        if(!Firebase.instance){
-            Firebase.instance = new Firebase();
-        }
-        
-        return Firebase.instance;
     }
 
     getDocRef(path, identifier){
@@ -163,4 +153,5 @@ class Firebase implements IFirebase{
 
 }   
 
-export default Firebase;
+const firebaseInstance = new Firebase()
+export { firebaseInstance }

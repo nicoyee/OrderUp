@@ -1,6 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-import { auth } from './firebase';
 
 import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
@@ -8,7 +7,7 @@ import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
  
 import { UserType } from './constants';
-import Firebase from "./class/firebase.ts";
+import {firebaseInstance} from "./class/firebase.ts";
 
 export const UserContext = createContext(null);
 
@@ -16,16 +15,15 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false); // Changed to false initially
 
-  const firebase = new Firebase();
-
   const onAuthStateChanged = () => {
     setLoading(true); // Set loading to true when fetching user data
-    auth.onAuthStateChanged(user => {
+    firebaseInstance.auth.onAuthStateChanged(user => {
       if (user) {
         const path = 'users';
         const identifier = user.uid;
 
-        firebase.getDocument(path, identifier)
+        console.log("got here")
+        firebaseInstance.getDocument(path, identifier)
           .then(docSnap => {
             if (docSnap.exists()) {
               const userData = docSnap.data();
@@ -38,7 +36,7 @@ function App() {
                 userType: UserType.CUSTOMER,
                 profilePicture: user.photoURL,
               };
-              firebase.setDocument(path, identifier, newUserDoc)
+              firebaseInstance.setDocument(path, identifier, newUserDoc)
                 .then(() => {
                   console.log('User document created');
                   setUser(newUserDoc);

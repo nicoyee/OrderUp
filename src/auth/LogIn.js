@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthService from '../class/AuthService'
+import User from "../class/User"
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
 
     const signIn = (e) => {
         e.preventDefault();
-        AuthService.logIn(email, password);
+        User.logIn(email, password);
     }
 
     return (

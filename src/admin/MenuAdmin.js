@@ -2,9 +2,6 @@ import '../css/authForms.css';
 import '../css/DashboardComponents.css';
 import '../css/MenuTable.css';
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { Dish } from '../class/Dish.js';
 import Admin from '../class/admin/Admin.js';
 
 const MenuAdmin = ({dishes, setDishes}) => {
@@ -16,11 +13,15 @@ const MenuAdmin = ({dishes, setDishes}) => {
   useEffect(() => {
     const fetchDishes = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'dishes'));
-        const dishesData = [];
-        querySnapshot.forEach((doc) => {
-          dishesData.push({ id: doc.id, ...doc.data() });
-        });
+        const dishesData = await Admin.getDishes().then((res)=>{
+          return res?.docs?.map((doc)=> {
+            return {
+              id: doc.id,
+            ...doc.data()
+            }
+          })
+        })
+        
         setDishes(dishesData);
       } catch (error) {
         console.error('Error fetching dishes:', error);
@@ -32,7 +33,7 @@ const MenuAdmin = ({dishes, setDishes}) => {
 
   const indexOfLastDish = currentPage * dishesPerPage;
   const indexOfFirstDish = indexOfLastDish - dishesPerPage;
-  const currentDishes = dishes.slice(indexOfFirstDish, indexOfLastDish);
+  const currentDishes = dishes?.slice(indexOfFirstDish, indexOfLastDish);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -76,7 +77,7 @@ const MenuAdmin = ({dishes, setDishes}) => {
     console.log('Deleting dish with ID:', id);
     try {
       await Admin.deleteDish(id); // Use Admin.deleteDish instead of Dish.delete
-      const newDishes = dishes.filter((dish) => dish.id !== id);
+      const newDishes = dishes?.filter((dish) => dish.id !== id);
       setDishes(newDishes);
     } catch (error) {
       console.error('Error deleting dish:', error);
@@ -165,15 +166,15 @@ const MenuAdmin = ({dishes, setDishes}) => {
         </tbody>
       </table>
       <div className="pagination">
-        {dishes.length > dishesPerPage && (
+        {dishes?.length > dishesPerPage && (
           <div>
             <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-            {Array.from({ length: Math.ceil(dishes.length / dishesPerPage) }, (_, i) => (
+            {Array.from({ length: Math.ceil(dishes?.length / dishesPerPage) }, (_, i) => (
               <button key={i + 1} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
                 {i + 1}
               </button>
             ))}
-            <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(dishes.length / dishesPerPage)}>Next</button>
+            <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(dishes?.length / dishesPerPage)}>Next</button>
           </div>
         )}
       </div>
