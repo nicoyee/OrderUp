@@ -7,16 +7,13 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedItems, setSelectedItems] = useState(new Set());
-  const cart = new Cart();
-  
+  const [selectedItems, setSelectedItems] = useState(new Set());  
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        
-        setCartItems(Cart.getCartItems());
-        console.log("cartItems", cartItems)
+        const items = await Customer.fetchCartData()
+        setCartItems(items);
       } catch (error) {
         setError(error.message);
       } finally {

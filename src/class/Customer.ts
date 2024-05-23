@@ -12,15 +12,12 @@ class Customer extends User{
           throw new Error('User not authenticated.');
         }
   
-        const cartDoc = await firebaseInstance.getDocument('cart', user.uid);
-        console.log("cartdcoc", cartDoc);
-
+        const cartDoc = await firebaseInstance.getDocument('cart', user.email);
         if (cartDoc.exists()) {
-
           const cartData = cartDoc.data();
-          // this.items = cartData.items || {};
-          Cart.setCartItems(cartData.items);
+          return cartData.items
         } else {
+          console.log("Cart not found")
           throw new Error('Cart not found.');
         }
       } catch (error) {

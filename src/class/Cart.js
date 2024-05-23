@@ -5,14 +5,6 @@ class Cart {
     this.items = {};
   }
 
-  static getCartItems(){
-    return this.items;
-  }
-
-  static setCartItems(cartItems) {
-    this.cartItems=cartItems
-  }
-
   updateItemQuantity(dishId, newQuantity) {
     
   }
