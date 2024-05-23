@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Cart from '../class/Cart';
 import '../css/CartPage.css';
 
@@ -8,6 +9,7 @@ const CartPage = () => {
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const cart = new Cart();
+  const navigate = useNavigate(); // Create a navigate instance
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -25,6 +27,7 @@ const CartPage = () => {
   }, []);
 
   const handleQuantityChange = async (dishId, newQuantity) => {
+    if (newQuantity < 1) return; // Prevent quantity from being less than 1
     const updatedCartItems = { ...cartItems };
     updatedCartItems[dishId].quantity = newQuantity;
     setCartItems(updatedCartItems);
@@ -84,8 +87,8 @@ const CartPage = () => {
 
   return (
     <div className="cart-container">
-      <div className="back-button" onClick={() => window.history.back()}>
-        <a href="/dashboard">
+      <div className="back-button" onClick={() => navigate('/dashboard')}>
+        <a>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -133,7 +136,27 @@ const CartPage = () => {
                 />
                 <div>
                   <span className="item-name">{cartItems[dishId].name}</span>
-                  <span className="item-quantity">Quantity: {cartItems[dishId].quantity}</span>
+                  <div className="item-quantity">
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity - 1)}
+                      disabled={cartItems[dishId].quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <input 
+                      type="number" 
+                      value={cartItems[dishId].quantity} 
+                      onChange={(e) => handleQuantityChange(dishId, parseInt(e.target.value))} 
+                      min="1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
               <span className="item-price">
@@ -147,7 +170,7 @@ const CartPage = () => {
         Total: ₱ {totalPrice.toFixed(2)}
       </div>
       <div className="checkout-container">
-        <button type="button" className="checkout-btn" onClick={() => window.history.push('/checkout')}>
+        <button type="button" className="checkout-btn" onClick={() => navigate('/checkout')}>
           Checkout
         </button>
       </div>
