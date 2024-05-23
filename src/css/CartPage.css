@@ -85,6 +85,10 @@
   margin: 0;
 }
 
+.item-quantity button{
+  padding: 0;
+  color: black;
+}
 
 .item-price {
   font-size: 16px;
@@ -97,10 +101,11 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 10px; /* Add space between elements */
   color: black;
   padding: 10px;
 }
+
 
 .select-all-checkbox {
   margin-right: 10px;
@@ -109,6 +114,10 @@
 .select-all-label {
   font-size: 16px;
   color: #666;
+}
+
+.select-all-container label{
+  margin-right: 500px;
 }
 
 .delete-selected-btn {
@@ -127,14 +136,15 @@
 
 .total-price {
   padding: 20px;
-  color: black
+  color: black;
 }
 
 .trash-icon {
   width: 20px;
   height: 20px;
   fill: #fff;
-  margin-left: 600px;
+  border: none; /* Ensure no border is applied */
+  background-color: transparent; /* Ensure background is transparent */
 }
 
 .checkout-container {
@@ -158,23 +168,23 @@
 }
 
 @media screen and (max-width: 768px) {
- .cart-container {
+  .cart-container {
     max-width: 600px;
   }
 }
 
 @media screen and (max-width: 480px) {
- .cart-container {
+  .cart-container {
     max-width: 400px;
   }
- .cart-item {
+  .cart-item {
     flex-direction: column;
     align-items: flex-start;
   }
- .cart-item-checkbox {
+  .cart-item-checkbox {
     margin-right: 10px;
   }
- .cart-item-remove {
+  .cart-item-remove {
     margin-left: 10px;
   }
 }
