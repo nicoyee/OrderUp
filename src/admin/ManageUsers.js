@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Admin from '../class/admin/Admin';
 import SignUp from '../auth/SignUp';
-import '../css/Admin/ManageUsers.css'; // Import the CSS file
-import '../css/Admin/StaffModal.css';
+import '../css/Admin/ManageUsers.css';
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
     const [staffModalIsOpen, setStaffModalIsOpen] = useState(false);
+    const [orderHistoryModalIsOpen, setOrderHistoryModalIsOpen] = useState(false);
+    const [orderHistory, setOrderHistory] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -41,9 +43,23 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         }
     };
 
-    const handleViewOrderHistory = (userId) => {
-        console.log('Viewing order history for user:', userId);
+    const handleViewOrderHistory = async (userId) => {
+        try {
+            const orders = await Admin.fetchOrderHistory(userId);
+            setOrderHistory(orders);
+            setSelectedUser(userId);
+            setOrderHistoryModalIsOpen(true);
+        } catch (error) {
+            console.error('Error fetching order history:', error);
+        }
     };
+
+    const closeOrderHistoryModal = () => {
+        setOrderHistoryModalIsOpen(false);
+        setOrderHistory([]);
+        setSelectedUser(null);
+    };
+
 
     const handleSignUp = async (name, email, password) => {
         try {
@@ -99,6 +115,39 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
             {staffModalIsOpen && (
                 <div className="staff-modal">
                     <SignUp handleSignUp={handleSignUp} closeModal={closeStaffModal} isStaffSignUp={true} userType="staff" />
+                </div>
+            )}
+
+            {orderHistoryModalIsOpen && (
+                <div className="order-history-modal">
+                    <div className="modal-content">
+                        <span className='close' onClick={closeOrderHistoryModal}>&times;</span>
+                        <div className="modal-header">
+                            <h1>Order History</h1>
+                        </div>
+                        <div className="order-list">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orderHistory.map((order) => (
+                                        <tr key={order.id}>
+                                            <td>{order.id}</td>
+                                            <td>{new Date(order.date).toLocaleString()}</td>
+                                            <td>{order.total}</td>
+                                            <td>{JSON.stringify(order.details)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             )}
         </>

@@ -138,6 +138,23 @@ class Admin extends User {
         }
     }
 
+    static async fetchOrderHistory(userId) {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'checkouts'));
+            const orders = [];
+            querySnapshot.forEach((doc) => {
+                const orderData = { id: doc.id, ...doc.data() };
+                if (orderData.userId === userId) {
+                    orders.push(orderData);
+                }
+            });
+            return orders;
+        } catch (error) {
+            console.error('Error fetching order history:', error);
+            throw error;
+        }
+    }
+
     static async signUp(name, email, password, userType) {
         try {
             const firebase = Firebase.getInstance();
