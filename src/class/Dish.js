@@ -1,5 +1,3 @@
-import { MenuType } from '../constants';
-import Firebase from './firebase.ts';
 class Dish {
   constructor(name, menuType, description, price, photo) {
     this.name = name;

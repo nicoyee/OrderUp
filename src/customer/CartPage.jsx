@@ -9,12 +9,14 @@ const CartPage = () => {
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const cart = new Cart();
+  
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        await cart.fetchCartData();
-        setCartItems(cart.items);
+        
+        setCartItems(Cart.getCartItems());
+        console.log("cartItems", cartItems)
       } catch (error) {
         setError(error.message);
       } finally {

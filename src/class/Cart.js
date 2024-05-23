@@ -5,24 +5,12 @@ class Cart {
     this.items = {};
   }
 
-  async fetchCartData() {
-    try {
-      const user = firebaseInstance.auth.currentUser;
-      if (!user) {
-        throw new Error('User not authenticated.');
-      }
+  static getCartItems(){
+    return this.items;
+  }
 
-      const cartDoc = await firebaseInstance.getDocument('cart', user.email);
-
-      if (cartDoc.exists()) {
-        const cartData = cartDoc.data();
-        this.items = cartData.items || {};
-      } else {
-        throw new Error('Cart not found.');
-      }
-    } catch (error) {
-      throw error;
-    }
+  static setCartItems(cartItems) {
+    this.cartItems=cartItems
   }
 
   updateItemQuantity(dishId, newQuantity) {

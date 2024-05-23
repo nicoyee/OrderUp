@@ -1,9 +1,33 @@
 import { firebaseInstance } from "./firebase.ts";
 import User from "./User";
-
+import Cart from "./Cart.js";
 class Customer extends User{
 
     // TODO: Implement CRUD operations for orders
+    static async fetchCartData() {
+
+      try {
+        const user = firebaseInstance.auth.currentUser;
+        if (!user) {
+          throw new Error('User not authenticated.');
+        }
+  
+        const cartDoc = await firebaseInstance.getDocument('cart', user.uid);
+        console.log("cartdcoc", cartDoc);
+
+        if (cartDoc.exists()) {
+
+          const cartData = cartDoc.data();
+          // this.items = cartData.items || {};
+          Cart.setCartItems(cartData.items);
+        } else {
+          throw new Error('Cart not found.');
+        }
+      } catch (error) {
+        throw error;
+      }
+    }
+
     static async addToCart(dishId) {
         try {
 
