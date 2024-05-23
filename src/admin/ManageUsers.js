@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Admin from '../class/admin/Admin';
 import SignUp from '../auth/SignUp';
 import '../css/Admin/ManageUsers.css';
+import { UserType } from '../constants';
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
@@ -63,7 +64,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password) => {
         try {
-            await Admin.signUpStaff(name, email, password, userType);
+            await Admin.signUpStaff(name, email, password, UserType.STAFF);
 
             console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);

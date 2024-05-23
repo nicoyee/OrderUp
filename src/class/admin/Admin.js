@@ -1,12 +1,11 @@
 import User from '../User';
 import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
 import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc, addDoc } from 'firebase/firestore';
-import  {db}  from '../../firebase';
+
 import { MenuType } from '../../constants';
-import Firebase from "../firebase.ts";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../firebase';
+
 import { firebaseInstance } from "../firebase.ts"
 
 class Admin extends User {
@@ -94,7 +93,7 @@ class Admin extends User {
 
     static async fetchOrderHistory(userId) {
         try {
-            const querySnapshot = await getDocs(collection(db, 'checkouts'));
+            const querySnapshot = await getDocs(collection(firebaseInstance.db, 'checkouts'));
             const orders = [];
             querySnapshot.forEach((doc) => {
                 const orderData = { id: doc.id, ...doc.data() };
@@ -133,7 +132,7 @@ class Admin extends User {
         try {
             let photoURL = '';
             if (photo) {
-                const storageRef = ref(storage, `events/${photo.name}`);
+                const storageRef = ref(firebaseInstance.storage, `events/${photo.name}`);
                 await uploadBytes(storageRef, photo);
                 photoURL = await getDownloadURL(storageRef);
             }
@@ -146,7 +145,7 @@ class Admin extends User {
                 socialLink,
                 photoURL
             };
-            const docRef = await addDoc(collection(db, 'events'), newEvent);
+            const docRef = await addDoc(collection(firebaseInstance.db, 'events'), newEvent);
             return { id: docRef.id, ...newEvent };
         } catch (error) {
             console.error('Error creating event:', error);
@@ -156,7 +155,7 @@ class Admin extends User {
 
     static async fetchEvents() {
         try {
-            const eventCollection = collection(db, 'events');
+            const eventCollection = collection(firebaseInstance.db, 'events');
             const eventSnapshot = await getDocs(eventCollection);
             const eventList = eventSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             return eventList;
@@ -170,7 +169,7 @@ class Admin extends User {
         try {
             let photoURL = eventData.photoURL;
             if (eventData.photo && typeof eventData.photo !== 'string') {
-                const storageRef = ref(storage, `events/${eventData.photo.name}`);
+                const storageRef = ref(firebaseInstance.storage, `events/${eventData.photo.name}`);
                 await uploadBytes(storageRef, eventData.photo);
                 photoURL = await getDownloadURL(storageRef);
             }
@@ -178,7 +177,7 @@ class Admin extends User {
                 ...eventData,
                 photoURL
             };
-            await updateDoc(doc(db, 'events', eventId), updatedEvent);
+            await updateDoc(doc(firebaseInstance.db, 'events', eventId), updatedEvent);
             return updatedEvent;
         } catch (error) {
             console.error('Error updating event:', error);
@@ -188,7 +187,7 @@ class Admin extends User {
 
     static async deleteEvent(eventId) {
         try {
-            await deleteDoc(doc(db, 'events', eventId));
+            await deleteDoc(doc(firebaseInstance.db, 'events', eventId));
             console.log('Event deleted successfully');
         } catch (error) {
             console.error('Error deleting event:', error);
