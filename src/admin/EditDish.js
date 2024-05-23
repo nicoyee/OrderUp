@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';
 
 const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
-    // const [name, setName] = useState(dish.name);
-    // const [menuType, setMenuType] = useState(dish.menuType);
-    // const [description, setDescription] = useState(dish.description);
-    // const [price, setPrice] = useState(dish.price);
-    // const [photo, setPhoto] = useState(null);
     const initialDish = {
         name: dish.name,
         menuType: dish.menuType,

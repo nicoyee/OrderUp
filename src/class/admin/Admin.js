@@ -7,36 +7,18 @@ import Firebase from "../firebase.ts";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase';
+import { firebaseInstance } from "../firebase.ts"
+
 class Admin extends User {
     constructor(name, email, profilePicture) {
         super(name, email, 'admin', profilePicture);
     }
 
     static async createDish(name, menuType, description, price, photo) {
-        let dish;
-        switch (menuType) {
-            case MenuType.MEAT:
-                dish = new MeatDish(name, description, price, photo);
-                break;
-            case MenuType.VEGETARIAN:
-                dish = new VegetarianDish(name, description, price, photo);
-                break;
-            case MenuType.DESSERT:
-                dish = new DessertDish(name, description, price, photo);
-                break;
-            case MenuType.SEAFOOD:
-                dish = new SeafoodDish(name, description, price, photo);
-                break;
-            default:
-                console.log("Invalid menu type.")
-                break;
-                
-        }
-
-        const firebase = new Firebase()
+        let dish = new Dish(name, menuType, description, price, photo);
 
         console.log("dish", dish)
-        const photoURL = await firebase.uploadPhoto(dish.photo, 'dishes')
+        const photoURL = await firebaseInstance.uploadPhoto(dish.photo, 'dishes')
         console.log("photoURL", photoURL)
 
         const newDish = {   
@@ -47,7 +29,7 @@ class Admin extends User {
             photoURL
         }
 
-        return await firebase.addDocument(
+        return await firebaseInstance.addDocument(
                 'dishes', 
                 newDish)
             .then((res)=>{
@@ -57,61 +39,33 @@ class Admin extends User {
             .catch((err)=>{
                 console.log(JSON.stringify(err))
             })
-        // async uploadPhoto() {
-        //     try {
-        //       if (this.photo) {
-        //         const storageRef = ref(storage, `dishes/${this.photo.name}`);
-        //         await uploadBytes(storageRef, this.photo);
-        //         return getDownloadURL(storageRef);
-        //       }
-        //       return '';
-        //     } catch (error) {
-        //       console.error('Error uploading photo:', error);
-        //       throw error;
-        //     }
-        //   }
-        
-        //   async saveToDatabase() {
-              
-        //       try {
-        //       const photoURL = await this.uploadPhoto();
-        //       await addDoc(collection(db, 'dishes'), {
-        //           name: this.name,
-        //           description: this.description,
-        //           price: this.price,
-        //           photoURL,
-        //           menuType: this.menuType
-        //       });
-        //       } catch (error) {
-        //       console.error('Error saving dish to database:', error);
-        //       throw error;
-        //       }
-        //   }
     }
-
+    
     static async deleteDish(id) {
-        try {
-          await deleteDoc(doc(db, 'dishes', id));
-          console.log('Dish deleted successfully');
-        } catch (error) {
-          console.error('Error deleting dish:', error);
-          throw error;
-        }
+        return firebaseInstance.deleteDocument('dishes', id)
+            .then(() => {
+                console.log('Dish deleted successfully');
+            })
+            .catch(error => {
+                console.error('Error deleting dish:', error);
+                throw error;
+            });
     }
+    
 
     static async updateDish(id, newData) {
-        try {
-          const dishDocRef = doc(db, 'dishes', id);
-          await updateDoc(dishDocRef, newData);
-          console.log('Dish updated successfully');
-        } catch (error) {
-          console.error('Error updating dish:', error);
-          throw error;
-        }
+        return firebaseInstance.updateDocument('dishes', id, newData)
+        .then(() => {
+            console.log('Dish updated successfully');
+        })
+        .catch(error =>{
+            console.error('Error updating dish:', error);
+            throw error;
+        });
     }
 
     static async fetchUsers() {
-        const querySnapshot = await getDocs(collection(db, 'users'));
+        const querySnapshot = await firebaseInstance.getDocuments('users');
         const usersData = [];
         querySnapshot.forEach((doc) => {
             const userData = { id: doc.id, ...doc.data() };
@@ -130,7 +84,7 @@ class Admin extends User {
 
     static async banUser(userId) {
         try {
-            await deleteDoc(doc(db, 'users', userId));
+            await firebaseInstance.deleteDocument('users',userId);
             console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
@@ -155,29 +109,17 @@ class Admin extends User {
         }
     }
 
-    static async signUp(name, email, password, userType) {
+    static async signUpStaff(name, email, password, userType) {
+
         try {
-            const firebase = Firebase.getInstance();
 
             // Create the user account with email and password
-            const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);
+            const userCredential = await this.signUp(firebaseInstance.auth, email, password);
 
             // Access the created user object
             const user = userCredential.user;
 
-            // Update the user profile with the provided name
-            await updateProfile(user, {
-                displayName: name
-            });
-
-            // Save user information including userType in Firestore
-            await setDoc(doc(firebase.db, 'users', user.uid), {
-                name,
-                email,
-                userType,
-                uid: user.uid,
-                profilePicture: ''
-            });
+            await firebaseInstance.setDocument('users')
 
             // Return the user
             return user;
@@ -252,6 +194,20 @@ class Admin extends User {
             console.error('Error deleting event:', error);
             throw error;
         }
+    }
+    // get all customer orders
+    static async getCustomerOrders(){
+
+    }
+
+    // orderStatus: create an enum for OrderStatus
+    // Order Processed, 
+    // Downpayment Paid,
+    // Full Payment Paid,
+    // Delivered
+    // Completed
+    static async updateCustomerOrderStatus(userId, orderStatus){
+
     }
 }
 

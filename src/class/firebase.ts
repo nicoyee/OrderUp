@@ -26,7 +26,8 @@ import {
     getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import User from "./User";
+import User, { userInstance }  from "./User";
+import { UserType } from "../constants";
 
 interface IFirebase {
     auth: Auth, 
@@ -38,8 +39,6 @@ class Firebase implements IFirebase{
     auth: Auth;
     db: Firestore;
     storage: FirebaseStorage;
-
-    static instance: Firebase;
 
     constructor(){
         const app = initializeApp({
@@ -57,14 +56,6 @@ class Firebase implements IFirebase{
         this.auth = getAuth(app);
         this.db = getFirestore(app);
         this.storage = getStorage(app);
-    }
-
-    static getInstance() : Firebase {
-        if(!Firebase.instance){
-            Firebase.instance = new Firebase();
-        }
-        
-        return Firebase.instance;
     }
 
     getDocRef(path, identifier){
@@ -104,6 +95,7 @@ class Firebase implements IFirebase{
         return ref(this.storage, `${path}/${fileName}`)
     }
     
+
     async uploadPhoto(file, path){
         const storageRef = this.getStorageRef(path, file.name)
         return await uploadBytes(storageRef, file)
@@ -117,40 +109,58 @@ class Firebase implements IFirebase{
             })
     }
 
-    async signUp(name, email, password, userType){
+    //AuthService
+    async createUserWithEmailAndPass(name, email, password, userType){
         return await createUserWithEmailAndPassword(this.auth, email, password)
-            .then((userCredential) => {
+            .then(async(userCredential) => {
                 const user = userCredential.user;
-                return new User(user.uid, name, email, userType, '')
+                const newUserDoc = {
+                    name: user.displayName?.split(' ')?.[0] ?? "",
+                    email: user.email,
+                    userType: userType,
+                    profilePicture: user.photoURL,
+                  };
+                  this.setDocument('users', user.uid, newUserDoc)
+                    .then(() => {
+                      console.log('User document created');
+                    })
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
-    async logIn(email, password){
+    async signInWithEmailAndPass(email, password){
         return await signInWithEmailAndPassword(this.auth, email, password)
-            .then((userCredential) => {
+            .then( async (userCredential) => {
+                console.log("signinwithemailandpass")
                 const user = userCredential.user;
-                return new User(user.uid, user.displayName || '', email, 'customer', '');
+                //retrieve user info from user collection
+                
+                const currentUser = (await this.getDocument('users', user.uid)).data();
+                // return new User(currentUser?.uid ?? "", currentUser!.name, currentUser!.email, currentUser!.userType, currentUser!.profilePicture);
+                userInstance.setUserDetails(
+                    currentUser!.uid,
+                    currentUser!.name, currentUser!.email, currentUser!.userType, currentUser!.profilePicture
+
+                )
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
-    async resetPassword(email){
+    async sendPasswordReset(email){
         return await sendPasswordResetEmail(this.auth, email)
             .then(() =>{
                 console.log('Password reset email sent!');
             })
             .catch((error) => {
-                throw error;
+                console.log(error)
             })
     }
 
     async signOut(){
-
         return await signOut(this.auth)
             .then(async() =>{
                 console.log('User signed out');
@@ -159,6 +169,8 @@ class Firebase implements IFirebase{
                 console.error("error signing out", error);
             })       
     }
+
 }   
 
-export default Firebase;
+const firebaseInstance = new Firebase()
+export { firebaseInstance }
