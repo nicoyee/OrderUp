@@ -1,8 +1,7 @@
 import '../../css/pages/landing/LandingNavigation.css';
 import '../../css/pages/landing/LandingNavigation2.css';
-import events from "../../assets/events.svg";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
     Modal,
     ModalOverlay,

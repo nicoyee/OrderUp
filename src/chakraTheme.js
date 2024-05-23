@@ -16,6 +16,52 @@ const theme = extendTheme({
         },
     },
     components: {
+        Popover: {
+            baseStyle: {
+                content: {
+                    bg: '#151515',
+                    w: '250px',
+                    border: '#29292c',
+                    "--popper-arrow-shadow-color": '#151515',
+                },
+                header: {
+                    p: '10px',
+                    borderColor: '#29292c',
+                },
+                body: {
+                    bg: 'none',
+                    padding: '5px',
+                    maxHeight: '200px',
+                    overflow: 'auto',
+                    '::-webkit-scrollbar-thumb': {
+                        background: '#888',
+                    },
+                },
+                footer: {
+                    p: '10px',
+                    borderColor: '#29292c',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                },
+            },
+        },
+        Menu: {
+            baseStyle: {
+                list: {
+                    bg: '#151717',
+                    borderColor: '#29292c',
+                },
+                item: {
+                    color: 'white',
+                    py: '10px',
+                    px: '20px',
+                    bg: '#151717',
+                    _hover: {
+                        bg: 'blackAlpha.800',
+                    },
+                },
+            },
+        },
         Modal: {
             baseStyle: {
                 dialog: {

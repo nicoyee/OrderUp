@@ -1,5 +1,4 @@
-import '../../css/components/customer/CustomerViewOrders.css';
-import '../../css/components/customer/CustomerViewOrders.css';
+import '../../css/objects/customer/CustomerOrders.css';
 import '../../css/orderInfo.css';
 
 import React from "react";
@@ -7,13 +6,16 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 import { HiLocationMarker } from "react-icons/hi";
 
-const CustomerViewOrders = () => {
+const CustomerOrders = () => {
   return (
     <div id='customerViewOrders'>
 
       <div className='customerViewOrders-header'>
           <div className='customerViewOrders-header-left'>
             <h1>Orders</h1>
+          </div>
+          <div className='customerViewOrders-header-right'>
+            <a><h2>View History</h2></a>
           </div>
       </div>
 
@@ -76,4 +78,4 @@ const CustomerViewOrders = () => {
   );
 };
 
-export default CustomerViewOrders;
+export default CustomerOrders;

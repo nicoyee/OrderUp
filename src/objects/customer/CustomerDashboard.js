@@ -1,20 +1,23 @@
 import '../../css/pages/dashboard/Dashboard.css';
 
-import React from "react";
+import React, { useState } from "react";
 
-import Header from "./DashboardHeader";
-import Footer from "./DashboardFooter";
-import ViewOrders from "../../components/customer/CustomerViewOrders";
-import CustomerSideContent from "../../components/customer/CustomerSideContent";
+import Header from "../../pages/dashboard/DashboardHeader";
+import Footer from "../../pages/dashboard/DashboardFooter";
+import ViewOrders from "./CustomerOrders";
+import Menu from "./CustomerDashboardMenu";
 
 import { MdPostAdd } from "react-icons/md";
 import { TbTicket } from "react-icons/tb";
 
-const DashboardCustomer = () => {
+const CustomerDashboard = () => {
+
+  const [ userType, setUserType ] = useState('customer');
+
   return (
     <div className='dashboardContainer'>
 
-      <Header />
+      <Header userType={ userType } />
 
       <div className='dashboardContent'>
 
@@ -37,7 +40,8 @@ const DashboardCustomer = () => {
           </div>
 
           <div className='dashboardContent-sub'>
-            <CustomerSideContent />
+            <Menu />
+            <Menu />
           </div>
 
         </div>
@@ -54,4 +58,4 @@ const DashboardCustomer = () => {
   );
 };
 
-export default DashboardCustomer;
+export default CustomerDashboard;

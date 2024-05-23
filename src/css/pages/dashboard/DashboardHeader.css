@@ -5,11 +5,24 @@
     justify-content: space-between;
     align-items: center;
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
+}
+
+.dashboardHeader-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboardHeader-navDrawer {
+    display: none;
+    align-items: center;
+    pointer-events: all;
 }
 
 .dashboardHeader-left h1 {
-    margin-top: -11%;
+    margin-top: -2.45vh;
     font-family: "Kare";
     font-size: 250%;
     letter-spacing: 2px;
@@ -17,8 +30,47 @@
     user-select: none;
 }
 
-.dashboardHeader-right {
+.dashboardHeader-center {
+    flex: 1;
     display: flex;
+    justify-content: center;
+}
+
+.dashboardHeader-nav {
+    border: 1px solid #d5dbbd;
+    padding: 5px;
+    display: flex;
+    gap: 10px;
+    border-radius: 20px;
+    pointer-events: all;
+}
+
+.dashboardHeader-nav button {
+    padding: 2.5px 12px 2.5px 12px;
+    font-family: 'Inter';
+    font-weight: 400;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dashboardHeader-nav button:not(.navActive):hover {
+    background: hsl(0 0% 30%);
+}
+
+.dashboardHeader-nav button.navActive {
+    background-color: #d5dbbd;
+    color: #252525;
+}
+
+.dashboardHeader-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 20px;
     pointer-events: all;
@@ -29,21 +81,105 @@
     width: 25px;
 }
 
-.dashboardHeader-right span {
+#menu-button-profileIcon {
+    border-radius: 50%;
+}
+#menu-button-profileIcon:hover {
+    animation: iconPulse 1.5s forwards;
+}
+#menu-button-profileIcon[aria-expanded=true] {
+    animation: iconPulse 1.5s infinite;
+}
+
+#profileDropdown {
     display: flex;
     align-items: center;
-    gap: 20px;
-    cursor: pointer;
+    gap: 10px;
 }
 
-.dashboardHeader-right span:hover h2 {
-    text-decoration: underline;
-}
-
-.dashboardHeader-right h2 {
-    font-size: 18px;
+#profileDropdown svg {
+    width: 20px;
+    height: 20px;
     color: #d5dbbd;
-    font-weight: 300;
+}
+
+#profileDropdown span svg {
+    color: red;
+}
+
+#navHeaderDrawer {
+    display: none;
+}
+
+#icon-menu {
+    --gap: 7px;
+    --height-bar: 2.5px;
+    --pos-y-bar-one: 0;
+    --pos-y-bar-three: 0;
+    --scale-bar: 1;
+    --rotate-bar-one: 0;
+    --rotate-bar-three: 0;
+    width: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    cursor: pointer;
+    position: relative;
+}
+
+#icon-menu .bar {
+    position: relative;
+    height: var(--height-bar);
+    width: 100%;
+    border-radius: .5rem;
+    background-color: #f05006;
+}
+
+#icon-menu .bar--1 {
+    top: var(--pos-y-bar-one);
+    transform: rotate(var(--rotate-bar-one));
+    transition: top 200ms 100ms, transform 100ms;
+}
+
+#icon-menu .bar--2 {
+    transform: scaleX(var(--scale-bar));
+    transition: transform 150ms 100ms;
+}
+
+#icon-menu .bar--3 {
+    bottom: var(--pos-y-bar-three);
+    transform: rotate(var(--rotate-bar-three));
+    transition: bottom 200ms 100ms, transform 100ms;
+}
+
+.check-icon:checked + #icon-menu > .bar--1 {
+    transition: top 200ms, transform 200ms 100ms;
+}
+
+.check-icon:checked + #icon-menu > .bar--3 {
+    transition: bottom 200ms, transform 200ms 100ms;
+}
+
+.check-icon:checked + #icon-menu {
+    --pos-y-bar-one: calc(var(--gap) + var(--height-bar));
+    --pos-y-bar-three: calc(var(--gap) + var(--height-bar));
+    --scale-bar: 0;
+    --rotate-bar-one: 45deg;
+    --rotate-bar-three: -45deg;
+}
+  
+@keyframes iconPulse {
+    0% {
+     box-shadow: 0 0 0 0 #f05006;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -51,8 +187,10 @@
         padding: 40px;
         position: relative;
     }
-
-    .dashboardHeader-right h2 {
+    .dashboardHeader-nav {
         display: none;
+    }
+    .dashboardHeader-navDrawer {
+        display: inline;
     }
 }

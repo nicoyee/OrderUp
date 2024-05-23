@@ -1,32 +1,61 @@
 #customerViewOrders {
-    padding: 15px;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #252525;
+    
     border-radius: 15px;
 }
 
 #customerViewOrders .customerViewOrders-header {
+    margin-bottom: 15px;
+    padding-left: 10px;
     display: flex;
     justify-content: space-between;
-    padding-left: 10px;
+    background-color: #d5dbbd;
+    border-radius: 10px;
 }
 
 #customerViewOrders .customerViewOrders-header h1 {
-    color: #f05006;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    color: #252525;
     font-family: 'Abril Fatface';
     font-size: 3rem;
 }
 
+#customerViewOrders .customerViewOrders-header-right {
+    padding: 5px 10px 5px 5px;
+    display: flex;
+    align-items: flex-end;
+}
+
+#customerViewOrders .customerViewOrders-header-right a {
+    cursor: pointer;
+}
+
+#customerViewOrders .customerViewOrders-header-right h2:hover {
+    text-decoration: underline;
+}
+
+#customerViewOrders .customerViewOrders-header-right h2 {
+    color: #252525;
+    font-family: 'Inter';
+    font-weight: 600;
+}
+
 #customerViewOrdersTab {
+    padding-top: 5px;
+    height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: #252525;
+    border: 1px solid #d5dbbd;
+    border-radius: 10px;
 }
 
 #customerViewOrdersTab .chakra-tabs__tablist {
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;

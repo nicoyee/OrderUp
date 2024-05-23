@@ -4,8 +4,9 @@ import { auth, db } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import Landing from './pages/landing/Landing';
-import DashboardCustomer from './pages/dashboard/DashboardCustomer';
-import DashboardAdmin from './pages/dashboard/DashboardAdmin';
+import CustomerDashboard from './objects/customer/CustomerDashboard';
+import AdminDashboard from './objects/admin/AdminDashboard';
+import StaffDashboard from './objects/staff/StaffDashboard';
 
 export const UserContext = createContext(null);
 
@@ -17,7 +18,7 @@ function App() {
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <DashboardAdmin /> } />
+          <Route path="/" element={ <AdminDashboard /> } />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
