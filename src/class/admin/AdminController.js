@@ -1,10 +1,11 @@
 import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc, addDoc } from 'firebase/firestore';
 import { db , storage} from '../../firebase';
-import Firebase from "../firebase.ts";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { MenuType } from '../../constants';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish.js';
+import { firebaseInstance } from "../firebase.ts";
+
 
 class AdminController {
     static async createDish(name, menuType, description, price, photo) {
@@ -183,7 +184,7 @@ class AdminController {
 
     static async signUp(name, email, password, userType) {
         try {
-            const firebase = Firebase.getInstance();
+            const firebase = firebaseInstance();
 
             // Create the user account with email and password
             const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);

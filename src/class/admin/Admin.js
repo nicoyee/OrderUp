@@ -1,5 +1,5 @@
 
-import User from './user.js';
+import User from "../User";
 
 
 class Admin extends User {

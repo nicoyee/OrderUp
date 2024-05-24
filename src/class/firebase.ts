@@ -1,10 +1,6 @@
 import { 
     Auth, 
-    createUserWithEmailAndPassword, 
     getAuth, 
-    sendPasswordResetEmail, 
-    signInWithEmailAndPassword, 
-    signOut
 } from "firebase/auth";
 import { 
     Firestore, 
@@ -22,12 +18,8 @@ import {
     FirebaseStorage, 
     getStorage,
     ref, 
-    uploadBytes, 
-    getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import User, { userInstance }  from "./User";
-import { UserType } from "../constants";
 
 interface IFirebase {
     auth: Auth, 
