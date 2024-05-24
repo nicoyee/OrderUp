@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Admin from '../class/admin/Admin';
 import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
 import '../css/Admin/ManageEvents.css';
-import AdminController from '../class/admin/AdminController';
 
 const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     const [events, setEvents] = useState([]);
@@ -22,7 +22,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const eventsData = await AdminController.fetchEvents();
+                const eventsData = await Admin.fetchEvents();
                 setEvents(eventsData);
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -36,7 +36,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleUpdateEvent = async (updatedEvent) => {
         try {
-            await AdminController.updateEvent(selectedEvent.id, updatedEvent);
+            await Admin.updateEvent(selectedEvent.id, updatedEvent);
             setEvents(events.map(event => event.id === selectedEvent.id ? updatedEvent : event));
             setEditEventModalIsOpen(false);
         } catch (error) {
@@ -46,7 +46,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleDeleteEvent = async (eventId) => {
         try {
-            await AdminController.deleteEvent(eventId);
+            await Admin.deleteEvent(eventId);
             setEvents(events.filter(event => event.id !== eventId));
         } catch (error) {
             console.error('Error deleting event:', error);

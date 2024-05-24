@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminController from '../class/admin/AdminController';
+import Admin from '../class/admin/Admin';
 
 const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
     const initialDish = {
@@ -21,7 +21,7 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updatedDish = AdminController.createDish(name, menuType, description, price, photo);
+            const updatedDish = Admin.createDish(name, menuType, description, price, photo);
             await updatedDish.saveToDatabase();
             setModalIsOpen(false);
         } catch (error) {
