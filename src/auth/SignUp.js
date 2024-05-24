@@ -1,7 +1,9 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
+import { userInstance } from '../class/User';
+import { UserType } from '../constants';
 
-const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp }) => {
+const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,11 +16,7 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, userType, isStaffSignUp })
 
     const signUp = async (e) => {
         e.preventDefault();
-        try {
-            await handleSignUp(name, email, password, userType);
-        } catch (error) {
-            setErrorMessage('Error signing up. Please try again.');
-        }
+        await userInstance.signUp(name, email, password, UserType.CUSTOMER);
     };
 
     return (

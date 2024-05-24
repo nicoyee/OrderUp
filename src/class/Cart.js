@@ -1,6 +1,4 @@
-
-import { auth, db } from '../firebase';
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { firebaseInstance } from "./firebase.ts"
 
 class Cart {
   constructor() {
@@ -9,13 +7,12 @@ class Cart {
 
   async fetchCartData() {
     try {
-      const user = auth.currentUser;
+      const user = firebaseInstance.auth.currentUser;
       if (!user) {
         throw new Error('User not authenticated.');
       }
 
-      const cartRef = doc(db, 'cart', user.email);
-      const cartDoc = await getDoc(cartRef);
+      const cartDoc = await firebaseInstance.getDocument('cart', user.email);
 
       if (cartDoc.exists()) {
         const cartData = cartDoc.data();
@@ -29,18 +26,10 @@ class Cart {
   }
 
   updateItemQuantity(dishId, newQuantity) {
-    if (this.items[dishId]) {
-      this.items[dishId].quantity = newQuantity;
-    }
+    
   }
 
-  async persistItemQuantity(dishId, newQuantity) {
-    const user = auth.currentUser;
-    const cartRef = doc(db, 'cart', user.email);
-    await updateDoc(cartRef, {
-      [`items.${dishId}.quantity`]: newQuantity,
-    });
-  }
+  
 
   deleteSelectedItems(selectedItems) {
     this.items = Object.fromEntries(
@@ -50,13 +39,6 @@ class Cart {
     );
   }
 
-  async persistDeletedItems() {
-    const user = auth.currentUser;
-    const cartRef = doc(db, 'cart', user.email);
-    await updateDoc(cartRef, {
-      items: this.items,
-    });
-  }
 
   calculateTotalPrice() {
     return Object.values(this.items).reduce(

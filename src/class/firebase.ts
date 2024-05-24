@@ -26,7 +26,8 @@ import {
     getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import User from "./User";
+import User, { userInstance }  from "./User";
+import { UserType } from "../constants";
 
 interface IFirebase {
     auth: Auth, 
@@ -38,8 +39,6 @@ class Firebase implements IFirebase{
     auth: Auth;
     db: Firestore;
     storage: FirebaseStorage;
-
-    static instance: Firebase;
 
     constructor(){
         const app = initializeApp({
@@ -57,14 +56,6 @@ class Firebase implements IFirebase{
         this.auth = getAuth(app);
         this.db = getFirestore(app);
         this.storage = getStorage(app);
-    }
-
-    static getInstance() : Firebase {
-        if(!Firebase.instance){
-            Firebase.instance = new Firebase();
-        }
-        
-        return Firebase.instance;
     }
 
     getDocRef(path, identifier){
@@ -105,4 +96,5 @@ class Firebase implements IFirebase{
     }
 }   
 
-export default Firebase;
+const firebaseInstance = new Firebase()
+export { firebaseInstance }

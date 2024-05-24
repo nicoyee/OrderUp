@@ -1,4 +1,6 @@
+
 import User from './user.js';
+
 
 class Admin extends User {
     constructor(name, email, profilePicture) {

@@ -2,6 +2,7 @@ import '../css/Header.css';
 import React, { useState, useRef } from 'react';
 import AuthController from '../class/AuthController';
 
+
 const HeaderAdmin = ({ user }) => {
 
     const [profileContext, showProfileContext] = useState(true);
@@ -13,6 +14,7 @@ const HeaderAdmin = ({ user }) => {
 
     const handleSignOut = () => {
         AuthController.signOut();
+
     };
     
 

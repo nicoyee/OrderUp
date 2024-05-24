@@ -2,6 +2,7 @@ import '../css/authForms.css';
 import React, { useState } from 'react';
 import AuthController from '../class/AuthController';
 
+
 const ForgotPassword = ({ closeModal, setLogin }) => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -10,6 +11,7 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
     const resetPassword = (e) => {
         e.preventDefault();
         AuthController.resetPass(email);
+
     };
 
     return (

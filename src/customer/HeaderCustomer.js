@@ -5,6 +5,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthController from '../class/AuthController';
 
+
 const HeaderCustomer = ({ user }) => {
 
     const [profileContext, showProfileContext] = useState(true);
