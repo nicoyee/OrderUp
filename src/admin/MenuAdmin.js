@@ -3,10 +3,10 @@ import '../css/DashboardComponents.css';
 import '../css/MenuTable.css';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs} from 'firebase/firestore';
 import { Dish } from '../class/Dish.js';
-import Admin from '../class/admin/Admin.js';
-
+import AdminController
+ from '../class/admin/AdminController.js';
 const MenuAdmin = ({dishes, setDishes}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editRowIndex, setEditRowIndex] = useState(-1); // Track index of row being edited
@@ -44,7 +44,7 @@ const MenuAdmin = ({dishes, setDishes}) => {
     try {
       const dishToUpdate = currentDishes[index];
 
-      await Admin.updateDish(dishToUpdate.id, editedDishDetails);
+      await AdminController.updateDish(dishToUpdate.id, editedDishDetails);
 
       //TODO: Update dish details if successful.
       // currently, it only updates the data in firebase, 
@@ -75,7 +75,7 @@ const MenuAdmin = ({dishes, setDishes}) => {
   const handleDelete = async (id) => {
     console.log('Deleting dish with ID:', id);
     try {
-      await Admin.deleteDish(id); // Use Admin.deleteDish instead of Dish.delete
+      await AdminController.deleteDish(id); // Use Admin.deleteDish instead of Dish.delete
       const newDishes = dishes.filter((dish) => dish.id !== id);
       setDishes(newDishes);
     } catch (error) {

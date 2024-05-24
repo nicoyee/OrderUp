@@ -1,18 +1,14 @@
-import User from '../User';
-import { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish';
 import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc, addDoc } from 'firebase/firestore';
-import  {db}  from '../../firebase';
-import { MenuType } from '../../constants';
+import { db , storage} from '../../firebase';
 import Firebase from "../firebase.ts";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../firebase';
-class Admin extends User {
-    constructor(name, email, profilePicture) {
-        super(name, email, 'admin', profilePicture);
-    }
+import { MenuType } from '../../constants';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { MeatDish, VegetarianDish, DessertDish, SeafoodDish } from '../Dish.js';
 
+class AdminController {
     static async createDish(name, menuType, description, price, photo) {
+        // Create Dish instance based on the menuType
         let dish;
         switch (menuType) {
             case MenuType.MEAT:
@@ -30,15 +26,12 @@ class Admin extends User {
             default:
                 console.log("Invalid menu type.")
                 break;
-                
         }
 
-        const firebase = new Firebase()
+        // Upload photo to storage and get photoURL
+        const photoURL = await this.uploadPhoto(dish.photo, 'dishes');
 
-        console.log("dish", dish)
-        const photoURL = await firebase.uploadPhoto(dish.photo, 'dishes')
-        console.log("photoURL", photoURL)
-
+        // Create new dish object with photoURL
         const newDish = {   
             name: dish.name, 
             description: dish.description, 
@@ -47,70 +40,32 @@ class Admin extends User {
             photoURL
         }
 
-        return await firebase.addDocument(
-                'dishes', 
-                newDish)
-            .then((res)=>{
-                console.log("Successfully added dish.")
-                return newDish
-            })
-            .catch((err)=>{
-                console.log(JSON.stringify(err))
-            })
-        // async uploadPhoto() {
-        //     try {
-        //       if (this.photo) {
-        //         const storageRef = ref(storage, `dishes/${this.photo.name}`);
-        //         await uploadBytes(storageRef, this.photo);
-        //         return getDownloadURL(storageRef);
-        //       }
-        //       return '';
-        //     } catch (error) {
-        //       console.error('Error uploading photo:', error);
-        //       throw error;
-        //     }
-        //   }
-        
-        //   async saveToDatabase() {
-              
-        //       try {
-        //       const photoURL = await this.uploadPhoto();
-        //       await addDoc(collection(db, 'dishes'), {
-        //           name: this.name,
-        //           description: this.description,
-        //           price: this.price,
-        //           photoURL,
-        //           menuType: this.menuType
-        //       });
-        //       } catch (error) {
-        //       console.error('Error saving dish to database:', error);
-        //       throw error;
-        //       }
-        //   }
+        // Add new dish document to Firestore
+        return await this.addDocument('dishes', newDish);
     }
 
     static async deleteDish(id) {
         try {
-          await deleteDoc(doc(db, 'dishes', id));
-          console.log('Dish deleted successfully');
+            await deleteDoc(doc(db, 'dishes', id));
+            console.log('Dish deleted successfully');
         } catch (error) {
-          console.error('Error deleting dish:', error);
-          throw error;
+            console.error('Error deleting dish:', error);
+            throw error;
         }
     }
 
     static async updateDish(id, newData) {
         try {
-          const dishDocRef = doc(db, 'dishes', id);
-          await updateDoc(dishDocRef, newData);
-          console.log('Dish updated successfully');
+            await updateDoc(doc(db, 'dishes', id), newData);
+            console.log('Dish updated successfully');
         } catch (error) {
-          console.error('Error updating dish:', error);
-          throw error;
+            console.error('Error updating dish:', error);
+            throw error;
         }
     }
 
     static async fetchUsers() {
+        // Fetch users collection from Firestore
         const querySnapshot = await getDocs(collection(db, 'users'));
         const usersData = [];
         querySnapshot.forEach((doc) => {
@@ -140,6 +95,7 @@ class Admin extends User {
 
     static async fetchOrderHistory(userId) {
         try {
+            // Fetch checkouts collection from Firestore
             const querySnapshot = await getDocs(collection(db, 'checkouts'));
             const orders = [];
             querySnapshot.forEach((doc) => {
@@ -151,6 +107,76 @@ class Admin extends User {
             return orders;
         } catch (error) {
             console.error('Error fetching order history:', error);
+            throw error;
+        }
+    }
+
+    static async createEvent(eventName, description, location, status, date, socialLink, photo) {
+        try {
+            let photoURL = '';
+            if (photo) {
+                const storageRef = ref(storage, `events/${photo.name}`);
+                await uploadBytes(storageRef, photo);
+                photoURL = await getDownloadURL(storageRef);
+            }
+            const newEvent = {
+                eventName,
+                description,
+                location,
+                status,
+                date: date.toISOString(),
+                socialLink,
+                photoURL
+            };
+            // Add new event document to Firestore
+            const docRef = await addDoc(collection(db, 'events'), newEvent);
+            return { id: docRef.id, ...newEvent };
+        } catch (error) {
+            console.error('Error creating event:', error);
+            throw error;
+        }
+    }
+
+    static async fetchEvents() {
+        try {
+            const eventCollection = collection(db, 'events');
+            const eventSnapshot = await getDocs(eventCollection);
+            const eventList = eventSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            return eventList;
+        } catch (error) {
+            console.error('Error fetching events:', error);
+            throw error;
+        }
+    }
+
+    static async updateEvent(eventId, eventData) {
+        try {
+            let photoURL = eventData.photoURL;
+            if (eventData.photo && typeof eventData.photo !== 'string') {
+                const storageRef = ref(storage, `events/${eventData.photo.name}`);
+                await uploadBytes(storageRef, eventData.photo);
+                photoURL = await getDownloadURL(storageRef);
+            }
+            const updatedEvent = {
+                ...eventData,
+                photoURL
+            };
+            // Update event document in Firestore
+            await updateDoc(doc(db, 'events', eventId), updatedEvent);
+            return updatedEvent;
+        } catch (error) {
+            console.error('Error updating event:', error);
+            throw error;
+        }
+    }
+
+    static async deleteEvent(eventId) {
+        try {
+            // Delete event document from Firestore
+            await deleteDoc(doc(db, 'events', eventId));
+            console.log('Event deleted successfully');
+        } catch (error) {
+            console.error('Error deleting event:', error);
             throw error;
         }
     }
@@ -187,72 +213,31 @@ class Admin extends User {
         }
     }
 
-    static async createEvent(eventName, description, location, status, date, socialLink, photo) {
+    // Helper function to upload photo to storage
+    static async uploadPhoto(photo, folder) {
         try {
-            let photoURL = '';
-            if (photo) {
-                const storageRef = ref(storage, `events/${photo.name}`);
-                await uploadBytes(storageRef, photo);
-                photoURL = await getDownloadURL(storageRef);
-            }
-            const newEvent = {
-                eventName,
-                description,
-                location,
-                status,
-                date: date.toISOString(),
-                socialLink,
-                photoURL
-            };
-            const docRef = await addDoc(collection(db, 'events'), newEvent);
-            return { id: docRef.id, ...newEvent };
+            if (!photo) return ''; // If no photo, return empty string
+
+            const storageRef = ref(storage, `${folder}/${photo.name}`);
+            await uploadBytes(storageRef, photo);
+            return await getDownloadURL(storageRef);
         } catch (error) {
-            console.error('Error creating event:', error);
+            console.error('Error uploading photo:', error);
             throw error;
         }
     }
 
-    static async fetchEvents() {
+    // Helper function to add document to Firestore
+    static async addDocument(collectionName, data) {
         try {
-            const eventCollection = collection(db, 'events');
-            const eventSnapshot = await getDocs(eventCollection);
-            const eventList = eventSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            return eventList;
+            const docRef = await addDoc(collection(db, collectionName), data);
+            return { id: docRef.id, ...data };
         } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
-    }
-
-    static async updateEvent(eventId, eventData) {
-        try {
-            let photoURL = eventData.photoURL;
-            if (eventData.photo && typeof eventData.photo !== 'string') {
-                const storageRef = ref(storage, `events/${eventData.photo.name}`);
-                await uploadBytes(storageRef, eventData.photo);
-                photoURL = await getDownloadURL(storageRef);
-            }
-            const updatedEvent = {
-                ...eventData,
-                photoURL
-            };
-            await updateDoc(doc(db, 'events', eventId), updatedEvent);
-            return updatedEvent;
-        } catch (error) {
-            console.error('Error updating event:', error);
-            throw error;
-        }
-    }
-
-    static async deleteEvent(eventId) {
-        try {
-            await deleteDoc(doc(db, 'events', eventId));
-            console.log('Event deleted successfully');
-        } catch (error) {
-            console.error('Error deleting event:', error);
+            console.error('Error adding document:', error);
             throw error;
         }
     }
 }
 
-export default Admin;
+
+export default AdminController;

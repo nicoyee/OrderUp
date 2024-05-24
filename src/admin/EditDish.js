@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import Admin from '../class/admin/Admin';
+import AdminController from '../class/admin/AdminController';
 
 const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
-    // const [name, setName] = useState(dish.name);
-    // const [menuType, setMenuType] = useState(dish.menuType);
-    // const [description, setDescription] = useState(dish.description);
-    // const [price, setPrice] = useState(dish.price);
-    // const [photo, setPhoto] = useState(null);
     const initialDish = {
         name: dish.name,
         menuType: dish.menuType,
@@ -26,7 +21,7 @@ const EditDish = ({ modalIsOpen, setModalIsOpen, dish }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updatedDish = Admin.createDish(name, menuType, description, price, photo);
+            const updatedDish = AdminController.createDish(name, menuType, description, price, photo);
             await updatedDish.saveToDatabase();
             setModalIsOpen(false);
         } catch (error) {

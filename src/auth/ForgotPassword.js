@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthService from "../class/AuthService.js";
+import AuthController from '../class/AuthController';
 
 const ForgotPassword = ({ closeModal, setLogin }) => {
     const [email, setEmail] = useState('');
@@ -9,7 +9,7 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
 
     const resetPassword = (e) => {
         e.preventDefault();
-        AuthService.resetPass(email);
+        AuthController.resetPass(email);
     };
 
     return (
