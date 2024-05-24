@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../css/Admin/EditEvent.css';
-import AdminController from '../class/admin/AdminController';
 
 const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
   const [updatedEvent, setUpdatedEvent] = useState({ ...event }); // Initialize state with a copy of the event
@@ -10,15 +9,11 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
     setUpdatedEvent(prevState => ({ ...prevState, [name]: value })); // Ensure state update is based on previous state
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await AdminController.updateEvent(updatedEvent); // Call the updateEvent function from AdminController
-      onUpdateEvent(updatedEvent);
-    } catch (error) {
-      console.error('Error updating event:', error);
-    }
+    onUpdateEvent(updatedEvent);
   };
+
   return (
     <div className="edit-event-modal">
       <div className="modal-content">
