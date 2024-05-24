@@ -44,7 +44,7 @@ const MenuAdmin = ({dishes, setDishes}) => {
     try {
       const dishToUpdate = currentDishes[index];
 
-      await Admin.updateDish(dishToUpdate.id, editedDishDetails);
+      await AdminController.updateDish(dishToUpdate.id, editedDishDetails);
 
       //TODO: Update dish details if successful.
       // currently, it only updates the data in firebase, 
