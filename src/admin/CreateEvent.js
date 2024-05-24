@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import '../css/Admin/DatePicker.css';
 import '../css/Admin/CreateEvent.css';
-import Admin from '../class/admin/Admin';
+import AdminController from '../class/admin/AdminController';
 
 const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const [eventName, setEventName] = useState('');
@@ -21,7 +21,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
 
     const fetchEvents = async () => {
         try {
-            const events = await Admin.fetchEvents();
+            const events = await AdminController.fetchEvents();
             setEventsState(events);
         } catch (error) {
             setErrorMessage('Error fetching events. Please try again.');
@@ -46,7 +46,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const handleCreateEvent = async (e) => {
         e.preventDefault();
         try {
-            const newEvent = await Admin.createEvent(eventName, description, location, status, date, socialLink, photo);
+            const newEvent = await AdminController.createEvent(eventName, description, location, status, date, socialLink, photo);
             setEvents([...events, newEvent]);
             closeModal();
         } catch (error) {
@@ -76,6 +76,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                         <div className="formGroup">
                             <label>Status</label>
                             <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                                <option value="pending">Pending</option>
                                 <option value="ongoing">Ongoing</option>
                                 <option value="completed">Completed</option>
                                 <option value="cancelled">Cancelled</option>

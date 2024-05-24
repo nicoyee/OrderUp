@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Admin from '../class/admin/Admin';
 import SignUp from '../auth/SignUp';
 import '../css/Admin/ManageUsers.css';
-import { UserType } from '../constants';
+import AdminController from '../class/admin/AdminController';
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
@@ -14,7 +13,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const usersData = await Admin.fetchUsers();
+                const usersData = await AdminController.fetchUsers();
                 setUsers(usersData);
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -36,7 +35,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleBanUser = async (userId) => {
         try {
-            await Admin.banUser(userId);
+            await AdminController.banUser(userId);
             setUsers(users.filter(user => user.id !== userId));
             console.log('User banned successfully');
         } catch (error) {
@@ -46,7 +45,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleViewOrderHistory = async (userId) => {
         try {
-            const orders = await Admin.fetchOrderHistory(userId);
+            const orders = await AdminController.fetchOrderHistory(userId);
             setOrderHistory(orders);
             setSelectedUser(userId);
             setOrderHistoryModalIsOpen(true);
@@ -64,8 +63,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password) => {
         try {
-            await Admin.signUpStaff(name, email, password, UserType.STAFF);
-
+            await AdminController.signUp(name, email, password, 'staff');
             console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);
         } catch (error) {

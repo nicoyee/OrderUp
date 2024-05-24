@@ -1,7 +1,7 @@
 import '../css/Header.css';
-
 import React, { useState, useRef } from 'react';
-import { userInstance } from '../class/User';
+import AuthController from '../class/AuthController';
+
 
 const HeaderAdmin = ({ user }) => {
 
@@ -13,7 +13,8 @@ const HeaderAdmin = ({ user }) => {
     };
 
     const handleSignOut = () => {
-        userInstance.signOut();
+        AuthController.signOut();
+
     };
     
 
