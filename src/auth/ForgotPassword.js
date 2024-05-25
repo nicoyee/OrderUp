@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import { userInstance } from "../class/User"
+import AuthController from '../class/AuthController';
 
 const ForgotPassword = ({ closeModal, setLogin }) => {
     const [email, setEmail] = useState('');
@@ -9,7 +9,7 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
 
     const resetPassword = (e) => {
         e.preventDefault();
-        userInstance.resetPass(email);
+        AuthController.resetPass(email);
     };
 
     return (
