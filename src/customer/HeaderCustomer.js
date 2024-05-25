@@ -3,7 +3,8 @@ import siteLogo from '../assets/icon.png';
 
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { userInstance } from '../class/User';
+import AdminController from '../class/admin/AdminController';
+import AuthController from '../class/AuthController';
 
 const HeaderCustomer = ({ user }) => {
 
@@ -16,7 +17,7 @@ const HeaderCustomer = ({ user }) => {
     };
 
     const handleSignOut = () => {
-        userInstance.signOut();
+        AuthController.signOut();
     };
 
     const handleCartClick = () => {
