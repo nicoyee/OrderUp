@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import React, { useState, useEffect,useRef  } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import Cart from '../class/Cart';
 import Customer from "../class/Customer.ts"
 import '../css/CartPage.css';
@@ -9,8 +10,8 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
-  const cart = new Cart();
-  const navigate = useNavigate(); // Create a navigate instance
+  const cart = useRef(new Cart()).current;
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -25,7 +26,7 @@ const CartPage = () => {
     };
 
     fetchCartData();
-  }, []);
+  }, [cart]);
 
   const handleQuantityChange = async (dishId, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from being less than 1
@@ -143,7 +144,15 @@ const CartPage = () => {
                       onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity - 1)}
                       disabled={cartItems[dishId].quantity <= 1}
                     >
-                      -
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                      >
+                        <path d="M19 13H5v-2h14v2z" />
+                      </svg>
                     </button>
                     <input 
                       type="number" 
@@ -155,7 +164,16 @@ const CartPage = () => {
                       type="button"
                       onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity + 1)}
                     >
-                      +
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                      >
+                        <path d="M19 13H5v-2h14v2z" />
+                        <path d="M13 19V5h-2v14h2z" />
+                      </svg>
                     </button>
                   </div>
                 </div>
