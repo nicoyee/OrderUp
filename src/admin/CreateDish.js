@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Admin from '../class/admin/Admin';
 import { MenuType } from '../constants';
-import AdminController from '../class/admin/AdminController';
+
 const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
   //TODO do not hardcode State
@@ -17,18 +18,21 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await AdminController.createDish(name, menuType, description, price, photo); // Call the createDish function from AdminController
-        // Update dishes state after creating the dish
-        // setDishes([...dishes, newDish]);
-        setName('');
-        setDescription('');
-        setPrice('');
-        setPhoto(null);
-        setModalIsOpen(false);
+      const newDish = await Admin.createDish(name, menuType, description, price, photo);
+
+      //TODO: DECIDE how to sort dishes, by name? by created date?
+      setDishes((state)=>{
+        return [newDish, ...state]
+      })
+      setName('');
+      setDescription('');
+      setPrice('');
+      setPhoto(null);
+      setModalIsOpen(false);
     } catch (error) {
-        console.error('Error creating dish:', error);
+      console.error('Error creating dish:', error);
     }
-};
+  };
 
   return (
     modalIsOpen && (
