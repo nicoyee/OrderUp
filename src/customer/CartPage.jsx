@@ -9,7 +9,7 @@ const CartPage = () => {
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const cart = useRef(new Cart()).current;
-  const navigate = useNavigate(); // Create a navigate instance
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchCartData = async () => {

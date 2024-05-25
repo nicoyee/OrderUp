@@ -101,7 +101,7 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
-  gap: 10px; /* Add space between elements */
+  gap: 10px; 
   color: black;
   padding: 10px;
 }
@@ -143,8 +143,8 @@
   width: 20px;
   height: 20px;
   fill: #fff;
-  border: none; /* Ensure no border is applied */
-  background-color: transparent; /* Ensure background is transparent */
+  border: none;
+  background-color: transparent; 
 }
 
 .checkout-container {
