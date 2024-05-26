@@ -1,0 +1,61 @@
+#adminManageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#adminManageContainer .adminManage-header {
+    
+}
+
+#adminManageContainer .adminManage-header h1 {
+    font-family: 'Inter';
+    font-size: 2rem;
+    font-weight: 700;
+    animation: fadeIn .5s ease-in forwards;
+}
+
+#dataTable {
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #29292c;
+    overflow: auto;
+    
+}
+#dataTable::-webkit-scrollbar {
+    height: 8px;
+}
+#dataTable::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+#dataTable::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+#dataTable::-webkit-scrollbar-track {
+    background: #252525;
+    border-radius: 4px;
+}
+
+#dataTable th {
+    color: #d5dbbd;
+}
+
+#dataTable tbody td {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid #29292c;
+}
+#dataTable tbody tr:nth-of-type(odd) td {
+    background-color: #2f2f2f
+}
+
+#dataTable tbody tr:hover, #dataTable tbody tr:nth-of-type(odd):hover td{
+    background-color: black;
+}
