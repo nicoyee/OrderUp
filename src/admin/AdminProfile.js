@@ -1,8 +1,8 @@
 import "../css/Dashboard.css";
-import "../css/Profile.css";
+import "../css/AdminProfile.css";
 
 import React, { useContext, useState, useEffect } from "react";
-import HeaderCustomer from "./HeaderCustomer";
+import HeaderAdmin from "./HeaderAdmin";
 import { UserContext } from "../App";
 import { storage, db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -12,25 +12,16 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import {
-  doc,
-  updateDoc,
-  getDoc,
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const CustomerProfile = () => {
+const AdminProfile = () => {
   const user = useContext(UserContext);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [uid, setUid] = useState(null);
   const navigate = useNavigate();
   const [paymentType, setPaymentType] = useState("cash");
-  const [userOrders, setUserOrders] = useState([]);
 
   useEffect(() => {
     const auth = getAuth();
@@ -49,32 +40,9 @@ const CustomerProfile = () => {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const fetchUserOrders = async () => {
-      try {
-        if (!user) return;
-        const ordersRef = collection(db, "Orders", user.email, "orders");
-        const snapshot = await getDocs(ordersRef);
-        const orders = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUserOrders(orders);
-      } catch (error) {
-        console.error("Error fetching user orders:", error);
-      }
-    };
-
-    fetchUserOrders();
-  }, [user]);
-
   if (!user) {
     return <div>Loading...</div>; // or any other placeholder or redirect logic
   }
-  const handleViewOrder = (order) => {
-    setSelectedOrder(order);
-    setIsViewModalOpen(true);
-  };
 
   const editClick = () => {
     setIsModalOpen(true);
@@ -125,6 +93,46 @@ const CustomerProfile = () => {
     setPaymentType(event.target.value);
   };
 
+  const handleGcashImage = (e) => {
+    if (e.target.files[0]) {
+      setGcashImage(uid, e.target.files[0], user.name);
+    }
+  };
+
+  const setGcashImage = async (userId, newImageFile, name) => {
+    try {
+      // Step 1: Upload the new GCash image to Firebase Storage in the "gcash" folder
+
+      const newImageRef = ref(storage, `/gcash/${newImageFile.name}`);
+      await uploadBytes(newImageRef, newImageFile);
+      const newImageUrl = await getDownloadURL(newImageRef);
+      await uploadBytes(newImageRef, newImageFile);
+      console.log("New GCash image uploaded successfully");
+
+      // Create or update the Firestore document in the "gcash" collection
+      const gcashDocRef = doc(db, "qr_code", "gcash");
+      const gcashDocSnapshot = await getDoc(gcashDocRef);
+      if (gcashDocSnapshot.exists()) {
+        // Update the existing document with the new image details
+        await updateDoc(gcashDocRef, {
+          filename: newImageFile.name,
+          imageUrl: newImageUrl,
+        });
+        console.log("GCash image details updated successfully in Firestore");
+      } else {
+        // Create a new document with the new image details
+        await setDoc(gcashDocRef, {
+          filename: newImageFile.name,
+          imageUrl: newImageUrl,
+        });
+        console.log("GCash document created successfully in Firestore");
+      }
+      console.log("GCash image URL updated successfully in Firestore");
+    } catch (error) {
+      console.error("Error setting GCash image: ", error);
+    }
+  };
+
   const updateProfilePicture = async (userId, newImageFile, name) => {
     try {
       // Step 1: Fetch the old profile picture image URL from Firestore
@@ -162,62 +170,23 @@ const CustomerProfile = () => {
     }
   };
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000);
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    };
-    return date.toLocaleDateString(undefined, options);
-  };
-
   return (
     <div className="dashboardContainer">
-      <HeaderCustomer user={user} />
+      <HeaderAdmin user={user} />
 
-      <div class="big-rectangle">
-        <div class="square left-square">
-          <img
-            src={user.profilePicture}
-            className="profile-picture"
-            alt="avatar"
-          />
-          <h3>{user.name}</h3>
-          <h4>{user.email}</h4>
-          <button onClick={editClick} className="button">
-            Edit
-          </button>
-        </div>
-        <div class="square right-square">
-          <h3>Order History</h3>
-          <div class="inner-square">
-            <table>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>View</th>
-                  <th>status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userOrders.map((order) => (
-                  <tr key={order.id}>
-                    <td>{formatDate(order.date)}</td>
-                    <td>
-                      <button onClick={() => handleViewOrder(order)}>
-                        View
-                      </button>
-                    </td>
-                    <td>{order.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="big-rectangle-admin">
+        <img
+          src={user.profilePicture}
+          className="profile-picture"
+          alt="avatar"
+        />
+        <h3>{user.name}</h3>
+        <h4>{user.email}</h4>
+        <button onClick={editClick} className="button">
+          Edit
+        </button>
+        <h3>Set GCash</h3>
+        <input type="file" accept="image/*" onChange={handleGcashImage} />
       </div>
       {isModalOpen && (
         <div className="square modal-content">
@@ -249,25 +218,8 @@ const CustomerProfile = () => {
           </form>
         </div>
       )}
-      {isViewModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Order Details</h2>
-            <p>Date: {formatDate(selectedOrder.date)}</p>
-            <p>Reference Order: {selectedOrder.referenceNumber}</p>
-            <ul className="item-list">
-              {Object.values(selectedOrder.items).map((item, index) => (
-                <li key={index}>
-                  {item.name} - Quantity: {item.quantity} - Price: {item.price}
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setIsViewModalOpen(false)}>Close</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default CustomerProfile;
+export default AdminProfile;

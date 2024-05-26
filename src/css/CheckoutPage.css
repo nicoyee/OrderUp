@@ -1,5 +1,7 @@
-.cart-container {
-  max-width: 800px;
+.container {
+  display: flex; /* Ensure containers are horizontally aligned */
+  justify-content: space-between; /* Distribute space between containers */
+  max-width: 1000px;
   margin: 40px auto;
   padding: 30px;
   border: 1px solid #ddd;
@@ -7,6 +9,22 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   color: #f05006;
+}
+
+.containerLeft,
+.containerRight {
+  border: 1px solid #ddd; /* Add border to containers */
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+  padding: 20px; /* Optional: Add padding for content */
+  margin-right: 20px; /* Adjust the spacing between containers */
+}
+
+.containerLeft {
+  flex: 2; /* Adjust the flex value to increase the width of the container */
+}
+
+.containerRight {
+  flex: 1; /* Ensure both containers take up remaining space */
 }
 
 .back-button {
@@ -152,4 +170,10 @@
   .cart-item-remove {
     margin-left: 10px;
   }
+}
+
+.gcash-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
 }

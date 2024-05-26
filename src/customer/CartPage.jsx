@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { auth, db } from '../firebase';
-import { getDoc, doc, updateDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
-import '../css/CartPage.css';
-import { addDoc, collection, Timestamp, deleteDoc, setDoc } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid'; // Import uuid library for generating reference number
-
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../firebase";
+import { getDoc, doc, updateDoc, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import "../css/CartPage.css";
+import {
+  addDoc,
+  collection,
+  Timestamp,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid"; // Import uuid library for generating reference number
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState({});
@@ -19,18 +24,18 @@ const CartPage = () => {
       try {
         const user = auth.currentUser;
         if (!user) {
-          setError('User not authenticated.');
+          setError("User not authenticated.");
           return;
         }
 
-        const cartRef = doc(db, 'cart', user.email);
+        const cartRef = doc(db, "cart", user.email);
         const cartDoc = await getDoc(cartRef);
 
         if (cartDoc.exists()) {
           const cartData = cartDoc.data();
           setCartItems(cartData.items || {});
         } else {
-          setError('Cart not found.');
+          setError("Cart not found.");
         }
       } catch (error) {
         setError(error.message);
@@ -51,7 +56,7 @@ const CartPage = () => {
 
     // Update quantity in database
     const user = auth.currentUser;
-    const cartRef = doc(db, 'cart', user.email);
+    const cartRef = doc(db, "cart", user.email);
     updateDoc(cartRef, {
       items: { [dishId]: { quantity: newQuantity } },
     });
@@ -80,7 +85,7 @@ const CartPage = () => {
   const handleDeleteSelectedItems = async () => {
     try {
       const user = auth.currentUser;
-      const cartRef = doc(db, 'cart', user.email);
+      const cartRef = doc(db, "cart", user.email);
 
       // Filter out selected items from cartItems
       const updatedCartItems = Object.fromEntries(
@@ -101,30 +106,29 @@ const CartPage = () => {
       setError(error.message);
     }
   };
-
+  /*
   const handleCheckout = async () => {
     try {
       const user = auth.currentUser;
       if (!user) {
-        // Handle user not authenticated
-        return;
+        throw new Error("User not authenticated.");
       }
-  
+
       // Generate reference number using UUID
       const referenceNumber = uuidv4();
-  
+
       // Record the current date and time
       const currentDate = Timestamp.now();
-  
+
       // Fetch cart data from Firestore
-      const cartRef = doc(db, 'cart', user.email);
+      const cartRef = doc(db, "cart", user.email);
       const cartDoc = await getDoc(cartRef);
       const cartData = cartDoc.data();
-  
+      console.log(cartRef);
+      console.log(cartData.items);
+
       // Add checkout information to checkout collection
-      console.log(user.email)
-      console.log(user)
-      const checkoutRef = doc(db, 'checkouts', user.email);
+      const checkoutRef = doc(db, "checkouts", user.email);
       await setDoc(checkoutRef, {
         referenceNumber,
         date: currentDate,
@@ -133,16 +137,77 @@ const CartPage = () => {
 
       // Delete the cart document
       await deleteDoc(cartRef);
-  
+
       // Navigate to the checkout page with cartData, referenceNumber, and currentDate
-      navigate('/checkout', { state: { cartData, referenceNumber, currentDate } });
+      navigate("/checkout", {
+        state: { cartData, referenceNumber, currentDate },
+      });
     } catch (error) {
-      // Handle error
-      console.error("Error handling checkout:", error);
+      // Log any errors to the console
+      console.error("Error during checkout:", error);
+      setError(error.message);
+    }
+  };*/
+
+  const handleCheckout = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated.");
+      }
+
+      // Reference to the user's document in the "Orders" collection
+      const userOrderDocRef = doc(db, "Orders", user.email);
+
+      // Generate reference number using UUID
+      const referenceNumber = uuidv4();
+
+      // Record the current date and time
+      const currentDate = Timestamp.now();
+
+      // Get the user's name
+      const userName = user.email;
+
+      // Add the user's name to the user's document in the "Orders" collection
+      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
+
+      // Get the cart data
+      const cartRef = doc(db, "cart", user.email);
+      const cartSnapshot = await getDoc(cartRef);
+      const cartData = cartSnapshot.data();
+
+      console.log("Cart document retrieved successfully.");
+
+      // Add reference number and current date to the cart data
+      cartData.referenceNumber = referenceNumber;
+      cartData.date = currentDate;
+      cartData.status = "pending";
+
+      // Reference to the user's orders subcollection
+      const ordersRef = collection(userOrderDocRef, "orders");
+
+      // Add the cart data to the orders subcollection with the reference number as document ID
+      await setDoc(doc(ordersRef, referenceNumber), cartData);
+
+      // Delete the cart document
+      await deleteDoc(cartRef);
+
+      // Navigate to the checkout page with referenceNumber, currentDate, and cartData
+      navigate("/checkout", {
+        state: { referenceNumber, currentDate, cartData },
+      });
+
+      console.log("Cart data added to the orders subcollection successfully.");
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      setError(error.message);
     }
   };
 
-  const totalPrice = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = Object.values(cartItems).reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="cart-container">
@@ -195,19 +260,25 @@ const CartPage = () => {
                 />
                 <div>
                   <span className="item-name">{cartItems[dishId].name}</span>
-                  <span className="item-quantity">Quantity: {cartItems[dishId].quantity}</span>
+                  <span className="item-quantity">
+                    Quantity: {cartItems[dishId].quantity}
+                  </span>
                 </div>
               </div>
-              <span className="item-price">Price: ${cartItems[dishId].price.toFixed(2)}</span>
+              <span className="item-price">
+                Price: ${cartItems[dishId].price.toFixed(2)}
+              </span>
             </li>
           ))}
         </ul>
       </form>
-      <div className="total-price">
-        Total:₱ {totalPrice.toFixed(2)}
-      </div>
+      <div className="total-price">Total:₱ {totalPrice.toFixed(2)}</div>
       <div className="checkout-container">
-        <button type="button" className="checkout-btn" onClick={() => handleCheckout()}>
+        <button
+          type="button"
+          className="checkout-btn"
+          onClick={() => handleCheckout()}
+        >
           Checkout
         </button>
       </div>
