@@ -1,4 +1,4 @@
-import '../css/authForms.css';
+import './authForms.css';
 
 import React, { useState } from 'react';
 import {

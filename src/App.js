@@ -1,11 +1,10 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-import { auth, db } from './firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-import Landing from './pages/landing/Landing';
-import DashboardCustomer from './pages/dashboard/DashboardCustomer';
-import DashboardAdmin from './pages/dashboard/DashboardAdmin';
+import Landing from './components/common/landing/Landing';
+import CustomerDashboard from './components/customer/CustomerDashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
+import StaffDashboard from './components/staff/StaffDashboard';
 
 export const UserContext = createContext(null);
 
@@ -17,7 +16,7 @@ function App() {
     <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <DashboardCustomer /> } />
+          <Route path="/" element={ <AdminDashboard /> } />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
