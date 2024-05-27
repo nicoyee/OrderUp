@@ -1,4 +1,4 @@
-import { FController } from "./controllers/controller.ts"
+import { FController } from "./controllers/controller.ts";
 
 class Cart {
   constructor() {
@@ -26,10 +26,10 @@ class Cart {
   }
 
   updateItemQuantity(dishId, newQuantity) {
-    
+    if (this.items[dishId]) {
+      this.items[dishId].quantity = newQuantity;
+    }
   }
-
-  
 
   deleteSelectedItems(selectedItems) {
     this.items = Object.fromEntries(
@@ -39,7 +39,6 @@ class Cart {
     );
   }
 
-
   calculateTotalPrice() {
     return Object.values(this.items).reduce(
       (acc, item) => acc + item.price * item.quantity, 0
@@ -48,5 +47,3 @@ class Cart {
 }
 
 export default Cart;
-
-

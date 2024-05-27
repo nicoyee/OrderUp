@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect,useRef  } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Cart from '../class/Cart';
-import Customer from "../class/Customer.ts"
+import Customer from "../class/Customer.ts";
 import '../css/CartPage.css';
 
 const CartPage = () => {
@@ -17,7 +16,7 @@ const CartPage = () => {
     const fetchCartData = async () => {
       try {
         await cart.fetchCartData();
-        await setCartItems(cart.items);
+        setCartItems(cart.items);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -36,9 +35,7 @@ const CartPage = () => {
 
     try {
       await Customer.persistCartItemQuantity(dishId, newQuantity);
-      if (this.items[dishId]) {
-        this.items[dishId].quantity = newQuantity;
-      }
+      cart.updateItemQuantity(dishId, newQuantity);
     } catch (error) {
       setError(error.message);
     }
@@ -71,7 +68,7 @@ const CartPage = () => {
           ([dishId]) => !selectedItems.has(dishId)
         )
       );
-      
+
       await Customer.persistDeletedCartItems(updatedCartItems);
       setCartItems(updatedCartItems);
       setSelectedItems(new Set());
