@@ -27,7 +27,7 @@ interface IFirebase {
     storage: FirebaseStorage
 }
 
-class Firebase implements IFirebase{
+class Controller implements IFirebase{
     auth: Auth;
     db: Firestore;
     storage: FirebaseStorage;
@@ -88,5 +88,5 @@ class Firebase implements IFirebase{
     }
 }   
 
-const firebaseInstance = new Firebase()
-export { firebaseInstance }
+const FController = new Controller()
+export { FController }

@@ -1,4 +1,4 @@
-import { firebaseInstance } from "./firebase.ts"
+import { FController } from "./controllers/controller.ts"
 
 class Cart {
   constructor() {
@@ -7,12 +7,12 @@ class Cart {
 
   async fetchCartData() {
     try {
-      const user = firebaseInstance.auth.currentUser;
+      const user = FController.auth.currentUser;
       if (!user) {
         throw new Error('User not authenticated.');
       }
 
-      const cartDoc = await firebaseInstance.getDocument('cart', user.email);
+      const cartDoc = await FController.getDocument('cart', user.email);
 
       if (cartDoc.exists()) {
         const cartData = cartDoc.data();

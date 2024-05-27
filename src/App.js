@@ -7,7 +7,7 @@ import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
  
 import { UserType } from './constants'; 
-import {firebaseInstance} from "./class/firebase.ts";
+import {FController} from "./class/controllers/controller.ts";
 
 import { onAuthStateChanged} from "firebase/auth"
 import { userInstance } from './class/User.js';
@@ -20,9 +20,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const onAuthtest = () => {
-    onAuthStateChanged(firebaseInstance.auth, (authenticatedUser)=>{
+    onAuthStateChanged(FController.auth, (authenticatedUser)=>{
       if(authenticatedUser){
-        firebaseInstance.getDocument('users', authenticatedUser.uid).then((res)=>{
+        FController.getDocument('users', authenticatedUser.uid).then((res)=>{
           const testUser = res.data();
           if(testUser){
             userInstance.setUserDetails(

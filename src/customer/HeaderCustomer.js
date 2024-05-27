@@ -1,10 +1,7 @@
 import '../css/Header.css';
-import siteLogo from '../assets/icon.png';
-
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminController from '../class/admin/AdminController';
-import AuthController from '../class/AuthController';
+import AuthController from '../class/controllers/AuthController';
 
 const HeaderCustomer = ({ user }) => {
 

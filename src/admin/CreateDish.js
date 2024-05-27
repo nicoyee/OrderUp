@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { MenuType } from '../constants';
-import AdminController from '../class/admin/AdminController';
+import Admin from '../class/admin/Admin'
 const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
-  //TODO do not hardcode State
   const [menuType, setMenuType] = useState('Meat');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -17,7 +16,7 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await AdminController.createDish(name, menuType, description, price, photo); // Call the createDish function from AdminController
+        await Admin.createDish(name, menuType, description, price, photo); // Call the createDish function from Admin
         // Update dishes state after creating the dish
         // setDishes([...dishes, newDish]);
         setName('');
