@@ -203,7 +203,7 @@ class AdminController{
             }
         }, 
 
-        async getCustomerOrders(){
+        async getOrders(){
 
         },
     
@@ -213,7 +213,7 @@ class AdminController{
         // Full Payment Paid,
         // Delivered
         // Completed
-        async updateCustomerOrderStatus(userId, orderStatus){
+        async updateStatus(userId, orderStatus){
     
         }
     }
