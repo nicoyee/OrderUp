@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthController from '../class/AuthController';
+import AuthController from '../class/controllers/AuthController';
 
 const ForgotPassword = ({ closeModal, setLogin }) => {
     const [email, setEmail] = useState('');

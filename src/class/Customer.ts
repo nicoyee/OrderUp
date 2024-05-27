@@ -1,4 +1,4 @@
-import { firebaseInstance } from "./firebase.ts";
+import { FController } from "./controllers/controller.ts";
 import User from "./User";
 
 class Customer extends User{
@@ -7,7 +7,7 @@ class Customer extends User{
     static async addToCart(dishId) {
         try {
 
-            const user = firebaseInstance.auth.currentUser;
+            const user = FController.auth.currentUser;
             if (!user) {
             throw new Error('User not authenticated.');
         }
@@ -15,12 +15,12 @@ class Customer extends User{
         // const dishRef = doc(db, 'dishes', dishId);
         // const dishDoc = await getDoc(dishRef);
 
-        const dishDoc =  await firebaseInstance.getDocument('dishes', dishId);
+        const dishDoc =  await FController.getDocument('dishes', dishId);
   
         if (dishDoc.exists()) {
           const dishData = dishDoc.data();
   
-            const cartDoc = await firebaseInstance.getDocument('cart', user.email);
+            const cartDoc = await FController.getDocument('cart', user.email);
 
             if (cartDoc.exists()) {
                 const cartData = cartDoc.data();
@@ -37,7 +37,7 @@ class Customer extends User{
               };
             }
   
-            await firebaseInstance.updateDocument('cart', user.email, {items: cartItems})
+            await FController.updateDocument('cart', user.email, {items: cartItems})
             } else {
                 const newCartItems = {
                 [dishId]: {
@@ -48,7 +48,7 @@ class Customer extends User{
                 }
             };
 
-            await firebaseInstance.setDocument('cart', user.email, {items: newCartItems})
+            await FController.setDocument('cart', user.email, {items: newCartItems})
         }
   
           alert('Item added to cart!');
@@ -62,13 +62,13 @@ class Customer extends User{
     }
 
     static async persistDeletedCartItems(updatedCartItems) {
-        const user = firebaseInstance.auth.currentUser;
-        await firebaseInstance.updateDocument('cart', user?.email, {items:updatedCartItems});
+        const user = FController.auth.currentUser;
+        await FController.updateDocument('cart', user?.email, {items:updatedCartItems});
     }
     
     static async persistCartItemQuantity(dishId, newQuantity) {
-        const user = firebaseInstance.auth.currentUser;
-        await firebaseInstance.updateDocument('cart', user?.email, {[`items.${dishId}.quantity`]: newQuantity});
+        const user = FController.auth.currentUser;
+        await FController.updateDocument('cart', user?.email, {[`items.${dishId}.quantity`]: newQuantity});
     }
 
     // order history of customers

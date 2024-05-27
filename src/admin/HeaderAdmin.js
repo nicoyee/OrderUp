@@ -1,7 +1,7 @@
 import '../css/Header.css';
 
 import React, { useState, useRef } from 'react';
-import AuthController from '../class/AuthController';
+import AuthController from '../class/controllers/AuthController';
 
 const HeaderAdmin = ({ user }) => {
 

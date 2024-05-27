@@ -8,28 +8,5 @@ class Dish {
   }
 }
 
-class MeatDish extends Dish {
-  constructor(name, description, price, photo) {
-    super(name, 'Meat', description, price, photo);
-  }
-}
 
-class VegetarianDish extends Dish {
-  constructor(name, description, price, photo) {
-    super(name, 'Vegetarian', description, price, photo);
-  }
-}
-
-class DessertDish extends Dish {
-  constructor(name, description, price, photo) {
-    super(name, 'Dessert', description, price, photo);
-  }
-}
-
-class SeafoodDish extends Dish {
-  constructor(name, description, price, photo) {
-    super(name, 'Seafood', description, price, photo);
-  }
-}
-
-export { Dish, MeatDish, VegetarianDish, DessertDish, SeafoodDish };
+export { Dish};

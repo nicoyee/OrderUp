@@ -1,6 +1,6 @@
 import '../css/authForms.css';
 import React, { useState } from 'react';
-import AuthController from '../class/AuthController';
+import AuthController from '../class/controllers/AuthController';
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [email, setEmail] = useState('');

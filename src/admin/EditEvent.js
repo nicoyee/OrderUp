@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/Admin/EditEvent.css';
-import AdminController from '../class/admin/AdminController';
+import Admin from '../class/admin/Admin'
 
 const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
   const [updatedEvent, setUpdatedEvent] = useState({ ...event }); // Initialize state with a copy of the event
@@ -13,7 +13,7 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await AdminController.updateEvent(updatedEvent); // Call the updateEvent function from AdminController
+      await Admin.updateEvent(updatedEvent); // Call the updateEvent function from Admin
       onUpdateEvent(updatedEvent);
     } catch (error) {
       console.error('Error updating event:', error);
