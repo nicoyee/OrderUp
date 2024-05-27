@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Admin from '../class/admin/Admin';
 import SignUp from '../auth/SignUp';
-import '../css/Admin/ManageUsers.css'; // Import the CSS file
-import '../css/Admin/StaffModal.css';
+import '../css/Admin/ManageUsers.css'; 
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
