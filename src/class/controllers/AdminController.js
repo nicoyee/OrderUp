@@ -98,15 +98,20 @@ class AdminController{
                 await setDoc(doc(firebase.db, 'users', user.uid), {
                     name,
                     email,
-                    userType,
+                    userType: 'staff',
                     uid: user.uid,
                     profilePicture: ''
                 });
     
-                // Return the user
+                console.log('Staff added successfully:', user);
                 return user;
             } catch (error) {
-                console.error('Error signing up user:', error);
+                if (error.code === 'auth/email-already-in-use') {
+                    console.error('Error: The email address is already in use.');
+                    alert('The email address is already in use. Please try another email.');
+                } else {
+                    console.error('Error signing up user:', error);
+                }
                 throw error;
             }
         }
@@ -132,6 +137,7 @@ class AdminController{
                 };
                 // Add new event document to Firestore
                 const docRef = await addDoc(collection(db, 'events'), newEvent);
+                console.log('Event created successfully:', { id: docRef.id, ...newEvent });
                 return { id: docRef.id, ...newEvent };
             } catch (error) {
                 console.error('Error creating event:', error);
@@ -165,6 +171,7 @@ class AdminController{
                 };
                 // Update event document in Firestore
                 await updateDoc(doc(db, 'events', eventId), updatedEvent);
+                console.log('Event updated successfully:', updatedEvent);
                 return updatedEvent;
             } catch (error) {
                 console.error('Error updating event:', error);

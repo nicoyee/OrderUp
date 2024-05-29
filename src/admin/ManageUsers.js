@@ -64,14 +64,19 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password) => {
         try {
-            await Admin.signUpStaff(name, email, password, UserType.STAFF);
-
+            await Admin.signUpStaff(name, email, password, UserType.STAFF); // Passing UserType.STAFF here
             console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);
         } catch (error) {
             console.error("Error signing up user:", error);
         }
-    };
+    };    
+    
+    const sortedUsers = users.sort((a, b) => {
+        if (a.userType === UserType.STAFF && b.userType !== UserType.STAFF) return -1;
+        if (a.userType !== UserType.STAFF && b.userType === UserType.STAFF) return 1;
+        return 0;
+    });
 
     return (
         <>
@@ -93,14 +98,16 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
+                                    {sortedUsers.map((user) => (
                                         <tr key={user.id}>
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>
                                             <td>{user.userType}</td>
                                             <td>
                                                 <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
-                                                <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.id)}>View Order History</button>
+                                                {user.userType === UserType.CUSTOMER && (
+                                                    <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.id)}>View Order History</button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}
