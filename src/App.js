@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, createContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
@@ -67,6 +68,7 @@ function App() {
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
+        <Toaster />
         <Routes>
           <Route
             path="/"

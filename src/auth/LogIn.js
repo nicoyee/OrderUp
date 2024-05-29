@@ -1,5 +1,8 @@
-import '../css/authForms.css';
+import '../css/common/modals.css';
+import './authForm.css';
+
 import React, { useState } from 'react';
+
 import AuthController from '../class/controllers/AuthController';
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
@@ -18,71 +21,53 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
     }
 
     return (
-        <form className="form" onSubmit={signIn}>
-            <div className="header">
-                <h1>Log In</h1>
-                <svg
-                    onClick={closeModal}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
+        <form id='authForm' className="modalForm" onSubmit={ signIn }>
+            <div className='modalForm-header'>
+                <span>
+                    <h1>Log In</h1>
+                    <svg
+                        onClick={closeModal}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </span>
+                <h2>Get the most out of our services by signing in</h2>
             </div>
-
-            <h3>Get the most out of our services by signing in</h3>
-
-            <div className="flex-column">
-                <label>Email</label>
+            <div className='authForm-body'>
+                <div className='authForm-section'>
+                    <label>Email</label>
+                    <div className='authForm-input'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>email-outline</title><path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6M20 6L12 11L4 6H20M20 18H4V8L12 13L20 8V18Z" /></svg>
+                        <input type="email" placeholder="Enter your Email" value = { email } onChange={(e)=>setEmail(e.target.value)}/>
+                    </div>
+                </div>
+                <div className='authForm-section'>
+                    <label>Password</label>
+                    <div className='authForm-input'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>form-textbox-password</title><path d="M17,7H22V17H17V19A1,1 0 0,0 18,20H20V22H17.5C16.95,22 16,21.55 16,21C16,21.55 15.05,22 14.5,22H12V20H14A1,1 0 0,0 15,19V5A1,1 0 0,0 14,4H12V2H14.5C15.05,2 16,2.45 16,3C16,2.45 16.95,2 17.5,2H20V4H18A1,1 0 0,0 17,5V7M2,7H13V9H4V15H13V17H2V7M20,15V9H17V15H20M8.5,12A1.5,1.5 0 0,0 7,10.5A1.5,1.5 0 0,0 5.5,12A1.5,1.5 0 0,0 7,13.5A1.5,1.5 0 0,0 8.5,12M13,10.89C12.39,10.33 11.44,10.38 10.88,11C10.32,11.6 10.37,12.55 11,13.11C11.55,13.63 12.43,13.63 13,13.11V10.89Z" /></svg>
+                        <input type={ passwordShown ? 'text' : 'password' } placeholder="Enter your Password" value = { password } onChange={(e)=>setPassword(e.target.value)} />
+                        <span onClick={ togglePasswordVisibility } className='passwordVisibility'>
+                            { passwordShown ? 
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hide Password</title><path d="M11.83,9L15,12.16C15,12.11 15,12.05 15,12A3,3 0 0,0 12,9C11.94,9 11.89,9 11.83,9M7.53,9.8L9.08,11.35C9.03,11.56 9,11.77 9,12A3,3 0 0,0 12,15C12.22,15 12.44,14.97 12.65,14.92L14.2,16.47C13.53,16.8 12.79,17 12,17A5,5 0 0,1 7,12C7,11.21 7.2,10.47 7.53,9.8M2,4.27L4.28,6.55L4.73,7C3.08,8.3 1.78,10 1,12C2.73,16.39 7,19.5 12,19.5C13.55,19.5 15.03,19.2 16.38,18.66L16.81,19.08L19.73,22L21,20.73L3.27,3M12,7A5,5 0 0,1 17,12C17,12.64 16.87,13.26 16.64,13.82L19.57,16.75C21.07,15.5 22.27,13.86 23,12C21.27,7.61 17,4.5 12,4.5C10.6,4.5 9.26,4.75 8,5.2L10.17,7.35C10.74,7.13 11.35,7 12,7Z" /></svg>  
+                            :
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Show Password</title><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+                            }
+                        </span>
+                    </div>
+                    <span onClick={ setForgot }className='authRedirect-link forgotPass'>Forgot Password?</span>
+                </div>
+                <button className="authForm-submit">Log In</button>
+                <p className='authRedirect-context'>Don't have an account? <span className='authRedirect-link' onClick={ setSignup }>Sign Up</span></p>
             </div>
-
-            <div className="inputForm">
-                <svg height="20" viewBox="0 0 32 32" width="20" xmlns="http://www.w3.org/2000/svg">
-                    <g id="Layer_3" data-name="Layer 3">
-                        <path d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z"></path>
-                    </g>
-                </svg>
-                <input type="email" className="authInput" placeholder="Enter your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-
-            <div className="flex-column">
-                <label>Password </label>
-            </div>
-
-            <div className="inputForm">
-                <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0"></path>
-                    <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"></path>
-                </svg>
-                <input type={passwordShown ? "text" : "password"} className="authInput" placeholder="Enter your Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-                <button type="button" onClick={togglePasswordVisibility}>
-                    <span className="material-symbols-outlined">
-                        {passwordShown ? 'visibility' : 'visibility_off'}
-                    </span>
-                </button>
-            </div>
-
-            <div className="flex-row">
-                <span className="span-redirect" onClick={setForgot}>Forgot password?</span>
-            </div>
-
-            {errorMessage && <p className="errormsg">{errorMessage}</p>}
-
-            <button type="submit" name="submit" className="button-submit">Log In</button>
-
-            <p className="p">
-                Don't have an account?
-                <span className="span-redirect" onClick={setSignup}>Sign Up</span>
-            </p>
-
         </form>
     );
 }
