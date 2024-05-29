@@ -92,7 +92,7 @@ function App() {
             }
           />
           <Route path="/cart" element={<CartPage />} />
-          <Route path={`/cart/${user?.name}/checkout`} element={<Checkout />} />
+          <Route path={`/checkout`} element={<Checkout />} />
           {user && user.userType === "admin" && (
             <Route path={`/profile/${user?.name}`} element={<AdminProfile />} />
           )}
