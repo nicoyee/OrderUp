@@ -1,40 +1,34 @@
+// Checkout.js
 import "../css/Checkout.css";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { useLocation, useNavigate } from "react-router-dom";
+import Customer from "../class/Customer.ts";
+import { FController } from "../class/controllers/controller.ts";
 
 const Checkout = () => {
   const location = useLocation();
   const [cartItems, setCartItems] = useState({});
-  const [gcashImageUrl, setGcashImageUrl] = useState(""); // State to hold the GCash image URL
-  const { cartData, referenceNumber, currentDate } = location.state;
+  const [gcashImageUrl, setGcashImageUrl] = useState("");
+  const { cartData, referenceNumber, currentDate } = location.state || {};
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Update cart items once when the component mounts
-    setCartItems(cartData.items || {});
+    setCartItems(cartData?.items || {});
   }, [cartData]);
 
   useEffect(() => {
-    // Fetch the GCash image URL from Firestore
     const fetchGcashImageUrl = async () => {
       try {
-        const gcashDocRef = doc(db, "qr_code", "gcash");
-        const gcashDocSnapshot = await getDoc(gcashDocRef);
-        if (gcashDocSnapshot.exists()) {
-          const gcashData = gcashDocSnapshot.data();
+        const gcashData = await Customer.getGcashQrCode();
+        if (gcashData) {
           const gcashImageUrl = gcashData.imageUrl;
           console.log("GCash image URL:", gcashImageUrl);
           setGcashImageUrl(gcashImageUrl);
         } else {
           console.log("GCash document not found");
-          return null;
         }
       } catch (error) {
         console.error("Error fetching GCash image URL:", error);
-        return null;
       }
     };
 
@@ -46,11 +40,31 @@ const Checkout = () => {
     0
   );
 
+  const handleCreateOrder = async () => {
+    try {
+      const user = FController.auth.currentUser;
+      if (user) {
+        if (!cartData) {
+          throw new Error('Cart data is missing');
+        }
+        const orderData = { ...cartData, referenceNumber, currentDate };
+        await Customer.createOrder(user.email, orderData);
+        alert('Order created successfully!');
+        navigate("/");
+      } else {
+        alert('User not authenticated.');
+      }
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Failed to create order. See console for details.');
+    }
+  };
+
   return (
     <div className="container">
       <div className="containerLeft">
         <img
-          src={gcashImageUrl} // Use the dynamic GCash image URL
+          src={gcashImageUrl}
           alt="GCash"
           className="gcash-image"
         />
@@ -70,18 +84,25 @@ const Checkout = () => {
                 </div>
               </div>
               <span className="item-price">
-                Price: ${cartItems[dishId].price.toFixed(2)}
+                Price: ₱{cartItems[dishId].price.toFixed(2)}
               </span>
             </li>
           ))}
         </ul>
-        <div className="total-price">Total:₱ {totalPrice.toFixed(2)}</div>
+        <div className="total-price">Total: ₱{totalPrice.toFixed(2)}</div>
         <h3>Payment Method: </h3>
         <h3>Reference number: {referenceNumber}</h3>
         <h3>
           Checkout Date: {new Date(currentDate.seconds * 1000).toLocaleString()}
         </h3>
         <div className="checkout-container">
+          <button
+            type="button"
+            className="checkout-btn"
+            onClick={handleCreateOrder}
+          >
+            Create Order
+          </button>
           <button
             type="button"
             className="checkout-btn"

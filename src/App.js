@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, createContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Landing from "./pages/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
@@ -9,8 +10,6 @@ import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
-
-import { UserType } from "./constants";
 import { FController } from "./class/controllers/controller.ts";
 
 import { onAuthStateChanged } from "firebase/auth";
@@ -91,7 +90,7 @@ function App() {
             }
           />
           <Route path="/cart" element={<CartPage />} />
-          <Route path={`/cart/${user?.name}/checkout`} element={<Checkout />} />
+          <Route path="/checkout" element={<Checkout />} />
           {user && user.userType === "admin" && (
             <Route path={`/profile/${user?.name}`} element={<AdminProfile />} />
           )}

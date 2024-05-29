@@ -1,33 +1,40 @@
-import { FController } from "./controllers/controller.ts";
-import CustomerController from "./controllers/CustomerController.js";
+// Customer.js
+import CartController from "./controllers/CartController.js";
+import OrderController from "./controllers/OrderController.js";
 import User from "./User";
+import { FController } from "./controllers/controller.ts";
 
-class Customer extends User{
-
-    // TODO: Implement CRUD operations for orders
+class Customer extends User {
     static async addToCart(dishId) {
-        return await CustomerController.Cart.add(dishId);
+        return await CartController.add(dishId);
     }
 
     static async persistDeletedCartItems(updatedCartItems) {
-        await CustomerController.Cart.deleteItem(updatedCartItems);
+        await CartController.deleteItem(updatedCartItems);
     }
     
     static async persistCartItemQuantity(dishId, newQuantity) {
-        await CustomerController.Cart.quantity(dishId, newQuantity);
+        await CartController.quantity(dishId, newQuantity);
     }
 
-    // order history of customers
-    static async getOrders(){
-      await CustomerController.Order.get();
+    static async getOrders() {
+        await OrderController.get();
     }
 
-    static async createOrder(){
-      await CustomerController.Order.create();
+    static async createOrder(email, cartData) {
+        if (!cartData.referenceNumber) {
+            throw new Error('Reference number is missing in cartData');
+        }
+        await OrderController.create(email, cartData);
     }
 
-    static async uploadOrderTransactionSlip(){
-      await CustomerController.Order.uploadSlip();
+    static async uploadOrderTransactionSlip(slip) {
+        await OrderController.uploadSlip(slip);
+    }
+
+    static async getGcashQrCode() {
+        const gcashDoc = await FController.getDocument('qr_code', 'gcash');
+        return gcashDoc.exists() ? gcashDoc.data() : null;
     }
 }
 
