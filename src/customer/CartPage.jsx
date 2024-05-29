@@ -1,16 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Cart from '../class/Cart';
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import Cart from "../class/Cart";
 import Customer from "../class/Customer.ts";
-import '../css/CartPage.css';
+import "../css/CartPage.css";
+import { UserContext } from "../App";
+
+import { auth, db } from "../firebase";
+import {
+  getDoc,
+  doc,
+  collection,
+  Timestamp,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 const CartPage = () => {
+  const user = useContext(UserContext);
   const [cartItems, setCartItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const cart = useRef(new Cart()).current;
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -77,8 +90,63 @@ const CartPage = () => {
     }
   };
 
+  const handleCheckout = async (user) => {
+    try {
+      if (!user) {
+        throw new Error("User not authenticated.");
+      }
+
+      // Reference to the user's document in the "Orders" collection
+      const userOrderDocRef = doc(db, "Orders", user.email);
+
+      // Generate reference number using UUID
+      const referenceNumber = uuidv4();
+
+      // Record the current date and time
+      const currentDate = Timestamp.now();
+
+      // Get the user's name
+      const userName = user.email;
+
+      // Add the user's name to the user's document in the "Orders" collection
+      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
+
+      // Get the cart data
+      const cartRef = doc(db, "cart", user.email);
+      const cartSnapshot = await getDoc(cartRef);
+      const cartData = cartSnapshot.data();
+
+      console.log("Cart document retrieved successfully.");
+
+      // Add reference number and current date to the cart data
+      cartData.referenceNumber = referenceNumber;
+      cartData.date = currentDate;
+      cartData.status = "pending";
+
+      // Reference to the user's orders subcollection
+      const ordersRef = collection(userOrderDocRef, "orders");
+
+      // Add the cart data to the orders subcollection with the reference number as document ID
+      await setDoc(doc(ordersRef, referenceNumber), cartData);
+
+      // Delete the cart document
+      await deleteDoc(cartRef);
+
+      // Navigate to the checkout page with referenceNumber, currentDate, and cartData
+      navigate(`${user.name}/checkout`, {
+        state: { referenceNumber, currentDate, cartData },
+      });
+
+      console.log("Cart data added to the orders subcollection successfully.");
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      setError(error.message);
+    }
+  };
+
   const totalPrice = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.price * item.quantity, 0
+    (acc, item) => acc + item.price * item.quantity,
+    0
   );
 
   if (loading) return <div>Loading...</div>;
@@ -86,7 +154,7 @@ const CartPage = () => {
 
   return (
     <div className="cart-container">
-      <div className="back-button" onClick={() => navigate('/dashboard')}>
+      <div className="back-button" onClick={() => navigate("/dashboard")}>
         <a>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +206,12 @@ const CartPage = () => {
                   <div className="item-quantity">
                     <button
                       type="button"
-                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity - 1)}
+                      onClick={() =>
+                        handleQuantityChange(
+                          dishId,
+                          cartItems[dishId].quantity - 1
+                        )
+                      }
                       disabled={cartItems[dishId].quantity <= 1}
                     >
                       <svg
@@ -151,15 +224,22 @@ const CartPage = () => {
                         <path d="M19 13H5v-2h14v2z" />
                       </svg>
                     </button>
-                    <input 
-                      type="number" 
-                      value={cartItems[dishId].quantity} 
-                      onChange={(e) => handleQuantityChange(dishId, parseInt(e.target.value))} 
+                    <input
+                      type="number"
+                      value={cartItems[dishId].quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(dishId, parseInt(e.target.value))
+                      }
                       min="1"
                     />
                     <button
                       type="button"
-                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity + 1)}
+                      onClick={() =>
+                        handleQuantityChange(
+                          dishId,
+                          cartItems[dishId].quantity + 1
+                        )
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -182,11 +262,13 @@ const CartPage = () => {
           ))}
         </ul>
       </form>
-      <div className="total-price">
-        Total: ₱ {totalPrice.toFixed(2)}
-      </div>
+      <div className="total-price">Total: ₱ {totalPrice.toFixed(2)}</div>
       <div className="checkout-container">
-        <button type="button" className="checkout-btn" onClick={() => navigate('/checkout')}>
+        <button
+          type="button"
+          className="checkout-btn"
+          onClick={() => handleCheckout(user)}
+        >
           Checkout
         </button>
       </div>
