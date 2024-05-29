@@ -11,6 +11,7 @@ import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
 
 import { UserType } from "./constants";
+import { Toaster } from "react-hot-toast";
 import { FController } from "./class/controllers/controller.ts";
 
 import { onAuthStateChanged } from "firebase/auth";
