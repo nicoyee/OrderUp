@@ -1,51 +1,62 @@
 .dataTable {
-    width: 100%;
-    margin-top: 10px;
-    padding: 1em;
-    font-family: "Roboto";
-    color: #f2f2f2;
-    border: 1px solid #29292c;
-    border-radius: 15px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 1em;
+  font-family: "Roboto";
+  color: #f2f2f2;
+  border: 1px solid #29292c;
+  border-radius: 15px;
+}
+
+.dataTableHistory {
+  width: 800px;
+  margin-top: 10px;
+  padding: 1em;
+  background-color: #f2f2f2;
+  font-family: "Roboto";
+  color: #000000;
+  border: 1px solid #29292c;
+  border-radius: 15px;
 }
 
 .dataTable th {
-    color: #d5dbbd;
-    padding: 10px 0 10px 0;
+  color: #d5dbbd;
+  padding: 10px 0 10px 0;
 }
 
 .dataTable thead tr {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .dataTable td {
-    text-align: center;
-    /* Ensure descriptions wrap within table cell */
-    word-wrap: break-word;
-    /* Set maximum width for table cell */
-    max-width: 300px; /* Adjust the value as needed */
+  text-align: center;
+  /* Ensure descriptions wrap within table cell */
+  word-wrap: break-word;
+  /* Set maximum width for table cell */
+  max-width: 300px; /* Adjust the value as needed */
 }
 
 .dataTable td button {
-    color: #d5dbbd;
-    margin: 0px 10px 0px 10px;
+  color: #d5dbbd;
+  margin: 0px 10px 0px 10px;
 }
 
 #dataTableImage {
-    padding: 5px;
+  padding: 5px;
 }
 
 .menuTable {
-    margin-top: 20px;
-    font-size: 1em;
+  margin-top: 20px;
+  font-size: 1em;
 }
 
 .menuTable h1 {
-    font-family: "Inter";
-    color: white;
+  font-family: "Inter";
+  color: white;
 }
 
 .menuTable img {
-    border-radius: 10px;
-    width: 50px;
-    height: 50px;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
 }

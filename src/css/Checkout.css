@@ -1,0 +1,18 @@
+.container {
+  display: flex; /* Ensure containers are horizontally aligned */
+  justify-content: space-between; /* Distribute space between containers */
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #f05006;
+}
+
+.gcash-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+}
