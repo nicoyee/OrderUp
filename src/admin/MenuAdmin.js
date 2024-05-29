@@ -1,4 +1,4 @@
-import '../css/authForms.css';
+import '../css/common/modals.css';
 import '../css/DashboardComponents.css';
 import '../css/MenuTable.css';
 import React, { useState, useEffect } from 'react';
