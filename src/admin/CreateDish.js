@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { db, storage } from '../firebase';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { collection, addDoc } from 'firebase/firestore';
-
-const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
+import { MenuType } from '../constants';
+import Admin from '../class/admin/Admin'
+const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
   const [menuType, setMenuType] = useState('Meat');
   const [description, setDescription] = useState('');
@@ -18,30 +16,18 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let photoURL = '';
-      if (photo) {
-        const storageRef = ref(storage, `dishes/${photo.name}`);
-        await uploadBytes(storageRef, photo);
-        photoURL = await getDownloadURL(storageRef);
-      }
-
-      await addDoc(collection(db, 'dishes'), {
-        name,
-        description,
-        price: parseFloat(price),
-        photoURL,
-        menuType
-      });
-
-      setName('');
-      setDescription('');
-      setPrice('');
-      setPhoto(null);
-      setModalIsOpen(false);
+        await Admin.createDish(name, menuType, description, price, photo); // Call the createDish function from Admin
+        // Update dishes state after creating the dish
+        // setDishes([...dishes, newDish]);
+        setName('');
+        setDescription('');
+        setPrice('');
+        setPhoto(null);
+        setModalIsOpen(false);
     } catch (error) {
-      console.error('Error adding dish:', error);
+        console.error('Error creating dish:', error);
     }
-  };
+};
 
   return (
     modalIsOpen && (
@@ -69,10 +55,10 @@ const CreateDish = ({ modalIsOpen, setModalIsOpen }) => {
                 onChange={(e) => setMenuType(e.target.value)}
                 required
               >
-                <option value="Meat">Meat</option>
-                <option value="Vegetarian">Vegetarian</option>
-                <option value="Dessert">Dessert</option>
-                <option value="Seafood">Seafood</option>
+                <option value={MenuType.MEAT}>{MenuType.MEAT}</option>
+                <option value={MenuType.VEGETARIAN}>{MenuType.VEGETARIAN}</option>
+                <option value={MenuType.DESSERT}>{MenuType.DESSERT}</option>
+                <option value={MenuType.SEAFOOD}>{MenuType.SEAFOOD}</option>
               </select>
             </div>
             <div className="form-group">

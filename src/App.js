@@ -1,89 +1,88 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-import { auth, db } from './firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-
 import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
-import ProfileCustomer from './customer/ProfileCustomer'
-import ProfileAdmin from './admin/ProfileAdmin'
+import ProfilePage from "./customer/CustomerProfile";
+import AdminProfilePage from "./admin/AdminProfile";
+import CheckoutPage from "./customer/Checkout";
+import React, { useEffect, useState, createContext } from 'react';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { onAuthStateChanged} from "firebase/auth";
+import { Toaster } from 'react-hot-toast';
+
+import { UserType } from './constants'; 
+import {FController} from "./class/controllers/controller.ts";
+import { userInstance } from './class/User.js';
 
 export const UserContext = createContext(null);
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Changed to false initially
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const docRef = doc(db, 'users', user.uid);
-        getDoc(doc(db, 'users', user.uid)).then((docSnap) => {
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            setUser(userData);
-            console.log('User logged in');
-          } else {
-            const provider = user.providerData[0].providerId;
-            if (provider === 'google.com') {
-              let firstName = '';
-              if (user.displayName) {
-                const nameParts = user.displayName.split(' ');
-                firstName = nameParts[0];
-              }
-              setDoc(docRef, {
-                name: firstName,
-                email: user.email,
-                userType: "customer",
-                profilePicture: user.photoURL
-              }).then(() => {
-                console.log('User document created');
-                setUser({
-                  name: firstName,
-                  email: user.email,
-                  userType: "customer",
-                  profilePicture: user.photoURL
-                });
-              }).catch((error) => {
-                console.log('Error creating document:', error);
-              });
-            }
+  const onAuthtest = () => {
+    onAuthStateChanged(FController.auth, (authenticatedUser)=>{
+      if(authenticatedUser){
+        FController.getDocument('users', authenticatedUser.uid).then((res)=>{
+          const testUser = res.data();
+          if(testUser){
+            userInstance.setUserDetails(
+              testUser.uid, 
+              testUser.name, 
+              testUser.email, 
+              testUser.userType, 
+              testUser.profilePicture
+            )
+            setUser({
+              name: testUser.name, 
+              email: testUser.email,
+              profilePicture: testUser.profilePicture,
+              userType: testUser.userType,
+              docId: testUser.docId
+            })
           }
-          setLoading(false);
-        }).catch((error) => {
-          console.log('Error getting document:', error);
-          setLoading(false);
+          
         });
-      } else {
-        setUser(null);
-        setLoading(false);
+        
+        setIsLoggedIn(true)
+      }else{
+        setIsLoggedIn(false)
+        setUser(null)
       }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
+    })
   }
 
-  return (
+  useEffect(()=>{
+    onAuthtest()
 
+    return () => {
+      onAuthtest()
+    }
+  }, [])
+  
+
+  useEffect(()=>{
+    console.log("user test", user)
+  }, [user])
+  return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
+        <Toaster />
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
+          <Route
+            path="/"
+            element={user ? <Navigate to="/dashboard" /> : <Landing />}
+          />
           <Route
             path="/dashboard"
             element={
               user ? (
-                user.userType === 'admin' ? (
+                user.userType === "admin" ? (
                   <DashboardAdmin />
-                ) : user.userType === 'customer' ? (
+                ) : user.userType === "customer" ? (
                   <DashboardCustomer />
-                ) : user.userType === 'staff' ? (
+                ) : user.userType === "staff" ? (
                   <Landing />
                 ) : (
                   <Navigate to="/" />
@@ -93,14 +92,16 @@ function App() {
               )
             }
           />
-          {/* Route for CartPage */}
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/customer/profile" element={<ProfileCustomer/>}/>
-          <Route path="/admin/profile" element={<ProfileAdmin/>}/>
+          {/* Route for ProfilePage */}
+          <Route path="/profile" element={<ProfilePage />} />
+          {/* Route for ProfilePage */}
+          <Route path="/adminprofile" element={<AdminProfilePage />} />
+          {/* Route for CheckoutPage */}
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
-  
   );
 }
 

@@ -1,9 +1,7 @@
 import '../css/Header.css';
-import siteLogo from '../assets/icon.png';
-
 import React, { useState, useRef } from 'react';
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import AuthController from '../class/controllers/AuthController';
 
 const HeaderCustomer = ({ user }) => {
 
@@ -16,17 +14,18 @@ const HeaderCustomer = ({ user }) => {
     };
 
     const handleSignOut = () => {
-        const auth = getAuth();
-        signOut(auth).then(() => {
-            console.log('User signed out');
-        }).catch((error) => {
-            console.error('Error signing out', error);
-        });
+        AuthController.signOut();
     };
 
     const handleCartClick = () => {
         // Navigate to the cart page when the cart icon is clicked
         navigate('/cart');
+    }; 
+    const handleProfile = (user) => {
+        // Navigate to the profile page when the cart icon is clicked
+        if(user){
+        navigate('/profile');
+        }
     }; 
 
     const handleProfileClick = (user) => {
@@ -59,8 +58,8 @@ const HeaderCustomer = ({ user }) => {
                     <img src={ user.profilePicture }></img>
 
                     { profileContext && (
-                    <div className="profileContext" onClick={handleProfileClick}>
-                        <div className="profileContextSelection">
+                    <div className="profileContext">
+                        <div className="profileContextSelection" onClick={() => handleProfile(user)}>
                             <span className="material-symbols-outlined">
                                 person
                             </span>

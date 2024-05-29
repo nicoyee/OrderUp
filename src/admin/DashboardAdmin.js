@@ -1,80 +1,66 @@
 import '../css/DashboardAdmin.css';
 import '../css/Dashboard.css';
 import '../css/CreateDish.css';
+import '../css/Admin/ManageUsers.css'; 
 
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
-
-import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
+import OrderHistoryAdmin from './OrderHistoryAdmin';
 import CreateDish from './CreateDish';
-import AddEmployee from './AddEmployee';
-import { Button } from 'react-scroll';
-import { db } from '../firebase';
-
+import ManageUsers from './ManageUsers';
+import ManageEvents from './ManageEvents';
 
 const DashboardAdmin = () => {
-
-    const user = useContext(UserContext);   
+    const user = useContext(UserContext);
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
     const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
-    const [dishToEdit, setDishToEdit] = useState(null);
-    const [customerSection, setCustomerSection] = useState('dashboard');
+//    const [dishToEdit, setDishToEdit] = useState(null);
+//    const [customerSection, setCustomerSection] = useState('dashboard');
 
     const setCreateDishModal = () => {
         setCreateDishModalIsOpen(true);
     };
 
-    const setAddEmployeeModal = () => {
+    /*const setAddEmployeeModal = () => {
         setAddEmployeeModalIsOpen(true);
-    };
+    };*/
     return (
         <div className='dashboardContainer'>
-
-            <NavigationAdmin />
-
+            <HeaderAdmin user={user} />
             <div className='dashboardContent'>
-
-                <HeaderAdmin user={ user } />
-
-                <div className="dashboardCard cardAdmin">
-                    <div className="dashboardCardText">
-                        <span>Dashboard</span>
-                        <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName nameAdmin'>{ user.name }</span></p>
+                <div className='dashboardContent-main'>
+                    <div className="dashboardCard cardAdmin">
+                        <div className="dashboardCardText">
+                            <span>Dashboard</span>
+                            <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName nameAdmin'>{user.name}</span></p>
+                        </div>
+                        <div className="dashboardCardIcons">
+                            <button className="dashboardCardBtn" onClick={() => setCreateDishModalIsOpen(true)}>
+                                <span className="material-symbols-outlined">restaurant_menu</span>
+                                Create Dish
+                            </button>
+                            <button className="dashboardCardBtn" onClick={() => setManageUsersModalIsOpen(true)}>
+                                <span className="material-symbols-outlined">person_add</span>
+                                Manage Users
+                            </button>
+                            <button className="dashboardCardBtn" onClick={() => setManageEventsModalIsOpen(true)}>
+                                <span className="material-symbols-outlined">event</span>
+                                Manage Events   
+                            </button>
+                        </div>
                     </div>
-                    <div className="dashboardCardIcons">
-                        <a className="dashboardCardBtn" href="#" onClick={setCreateDishModal}>
-                            <span class="material-symbols-outlined">
-                                restaurant_menu
-                            </span>
-                            ADD DISH
-                        </a>
-                        <a className="dashboardCardBtn" href="#" onClick={setAddEmployeeModal}>
-                            <span class="material-symbols-outlined">
-                                person_add
-                            </span>
-                            ADD EMPLOYEE
-                        </a>
-                        <a className="dashboardCardBtn" href="#">
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-                            USER MANAGEMENT
-                        </a>
-                        <a className="dashboardCardBtn" href="#">
-                            <span class="material-symbols-outlined">
-                                event
-                            </span>
-                            CREATE EVENT   
-                        </a>
-                    </div>
+                    <MenuAdmin dishes={dishes} setDishes={setDishes} />
+
+                    <OrderHistoryAdmin/>
                 </div>
-                <CreateDish modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />
-                <AddEmployee modalIsOpen={addEmployeeModalIsOpen} setModalIsOpen={setAddEmployeeModalIsOpen}/>
-                <MenuAdmin/>
+                {createDishModalIsOpen && <CreateDish setDishes={setDishes} modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />}
+                {manageUsersModalIsOpen && <ManageUsers modalIsOpen={manageUsersModalIsOpen} setModalIsOpen={setManageUsersModalIsOpen} />}
+                {manageEventsModalIsOpen && <ManageEvents setEvents={setEvents} modalIsOpen={manageEventsModalIsOpen} setModalIsOpen={setManageEventsModalIsOpen} />}
             </div>
         </div>
     );
-}
+};
+
 export default DashboardAdmin;
