@@ -1,15 +1,17 @@
 import "../css/Checkout.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { UserContext } from "../App";
+import { getDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
 
 const Checkout = () => {
+  const user = useContext(UserContext);
   const location = useLocation();
   const [cartItems, setCartItems] = useState({});
   const [gcashImageUrl, setGcashImageUrl] = useState(""); // State to hold the GCash image URL
-  const { cartData, referenceNumber, currentDate } = location.state;
+  const { referenceNumber, currentDate, cartData } = location.state;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,6 +48,38 @@ const Checkout = () => {
     0
   );
 
+  const handleCheckout = async (
+    user,
+    cartData,
+    referenceNumber,
+    currentDate
+  ) => {
+    try {
+      if (!user) {
+        // Handle user not authenticated
+        return;
+      }
+
+      const cartRef = doc(db, "cart", user.email);
+      // Add checkout information to checkout collection
+      const checkoutRef = doc(db, "checkouts", user.email);
+      await setDoc(checkoutRef, {
+        referenceNumber,
+        date: currentDate,
+        items: cartData.items,
+      });
+
+      // Delete the cart document
+      await deleteDoc(cartRef);
+
+      // Navigate to the checkout page with cartData, referenceNumber, and currentDate
+      navigate("/");
+    } catch (error) {
+      // Handle error
+      console.error("Error handling checkout:", error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="containerLeft">
@@ -70,7 +104,7 @@ const Checkout = () => {
                 </div>
               </div>
               <span className="item-price">
-                Price: ${cartItems[dishId].price.toFixed(2)}
+                Price: ${Number(cartItems[dishId].price).toFixed(2)}
               </span>
             </li>
           ))}
@@ -82,6 +116,15 @@ const Checkout = () => {
           Checkout Date: {new Date(currentDate.seconds * 1000).toLocaleString()}
         </h3>
         <div className="checkout-container">
+          <button
+            type="button"
+            className="checkout-btn"
+            onClick={() =>
+              handleCheckout(user, cartData, referenceNumber, currentDate)
+            }
+          >
+            Confirm
+          </button>
           <button
             type="button"
             className="checkout-btn"

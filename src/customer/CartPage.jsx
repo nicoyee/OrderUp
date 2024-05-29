@@ -5,15 +5,8 @@ import Customer from "../class/Customer.ts";
 import "../css/CartPage.css";
 import { UserContext } from "../App";
 
-import { auth, db } from "../firebase";
-import {
-  getDoc,
-  doc,
-  collection,
-  Timestamp,
-  deleteDoc,
-  setDoc,
-} from "firebase/firestore";
+import { db } from "../firebase";
+import { getDoc, doc, Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const CartPage = () => {
@@ -90,14 +83,11 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = async (user) => {
+  const checkout = async (user) => {
     try {
       if (!user) {
         throw new Error("User not authenticated.");
       }
-
-      // Reference to the user's document in the "Orders" collection
-      const userOrderDocRef = doc(db, "Orders", user.email);
 
       // Generate reference number using UUID
       const referenceNumber = uuidv4();
@@ -105,39 +95,17 @@ const CartPage = () => {
       // Record the current date and time
       const currentDate = Timestamp.now();
 
-      // Get the user's name
-      const userName = user.email;
-
-      // Add the user's name to the user's document in the "Orders" collection
-      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
-
-      // Get the cart data
+      // Fetch cart data from Firestore
       const cartRef = doc(db, "cart", user.email);
-      const cartSnapshot = await getDoc(cartRef);
-      const cartData = cartSnapshot.data();
-
-      console.log("Cart document retrieved successfully.");
-
-      // Add reference number and current date to the cart data
-      cartData.referenceNumber = referenceNumber;
-      cartData.date = currentDate;
-      cartData.status = "pending";
-
-      // Reference to the user's orders subcollection
-      const ordersRef = collection(userOrderDocRef, "orders");
-
-      // Add the cart data to the orders subcollection with the reference number as document ID
-      await setDoc(doc(ordersRef, referenceNumber), cartData);
-
-      // Delete the cart document
-      await deleteDoc(cartRef);
+      const cartDoc = await getDoc(cartRef);
+      const cartData = cartDoc.data();
 
       // Navigate to the checkout page with referenceNumber, currentDate, and cartData
-      navigate(`${user.name}/checkout`, {
-        state: { referenceNumber, currentDate, cartData },
+      navigate("/checkout", {
+        state: { cartData, referenceNumber, currentDate },
       });
 
-      console.log("Cart data added to the orders subcollection successfully.");
+      console.log("Navigated to checkout page successfully.");
     } catch (error) {
       console.error("Error during checkout:", error);
       setError(error.message);
@@ -267,7 +235,7 @@ const CartPage = () => {
         <button
           type="button"
           className="checkout-btn"
-          onClick={() => handleCheckout(user)}
+          onClick={() => checkout(user)}
         >
           Checkout
         </button>
