@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/Admin/EditEvent.css';
+
 import Admin from '../class/admin/Admin'
 
 const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
