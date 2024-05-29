@@ -1,0 +1,108 @@
+#authForm {
+    width: 400px;
+}
+
+#authForm .authForm-body {
+    flex-direction: column;
+    gap: 10px;
+}
+
+#authForm .authForm-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#authForm .authForm-section label {
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#authForm .authForm-input {
+    padding-left: 15px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.1s ease-in;
+}
+
+#authForm .authForm-input:focus-within {
+    border: 1.5px solid #2d79f3;
+}
+
+#authForm .authForm-input svg {
+    width: 20px;
+    height: 20px;
+}
+
+#authForm .authForm-input input {
+    width: 80%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+}
+
+#authForm .authForm-input input:focus {
+    outline: none;
+}
+
+#authForm .authForm-input .passwordVisibility {
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#authForm .authForm-input .passwordVisibility:hover {
+    background-color: #ecedec;
+}
+
+#authForm .forgotPass {
+    align-self: flex-end;
+}
+
+#authForm .authForm-submit {
+    margin: 20px 0 10px 0;
+    height: 50px;
+    width: 100%;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    background-color: #151717;
+}
+
+#authForm .authForm-submit.emailSent {
+    background-color: #5cb85c;
+    pointer-events: none;
+}
+
+#authForm .authForm-submit:hover {
+    cursor: pointer;
+    background-color: #252727;
+}
+
+#authForm .authRedirect-link {
+    font-size: 14px;
+    color: #2d79f3;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#authForm .authRedirect-link:hover {
+    text-decoration: underline;
+}
+
+#authForm .authRedirect-context {
+    margin: 5px 0;
+    color: black;
+    font-size: 14px;
+    text-align: center; 
+}

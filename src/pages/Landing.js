@@ -1,5 +1,5 @@
 import '../css/Landing.css';
-import '../css/Modal.css';
+import '../css/common/modals.css';
 import '../css/sections/Sections.css';
 
 import React, { useState, useEffect } from "react";

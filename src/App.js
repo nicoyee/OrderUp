@@ -1,15 +1,15 @@
-import React, { useEffect, useState, createContext } from 'react';
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-
 import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
  
+import React, { useEffect, useState, createContext } from 'react';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { onAuthStateChanged} from "firebase/auth";
+import { Toaster } from 'react-hot-toast';
+
 import { UserType } from './constants'; 
 import {FController} from "./class/controllers/controller.ts";
-
-import { onAuthStateChanged} from "firebase/auth"
 import { userInstance } from './class/User.js';
 
 export const UserContext = createContext(null);
@@ -66,6 +66,7 @@ function App() {
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
+        <Toaster />
         <Routes>
           <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
           <Route

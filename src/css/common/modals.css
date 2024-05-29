@@ -1,0 +1,79 @@
+.modalOverlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.modalForm {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: #ffffff;
+    font-family: 'Inter',-apple-system,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    animation: fadeInForm 0.1s forwards;
+}
+
+.modalForm > div {
+    display: flex;
+}
+
+.modalForm .modalForm-header {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modalForm .modalForm-header span {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalForm .modalForm-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.modalForm .modalForm-header h2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #515151;
+    margin-bottom: 15px;
+}
+
+.modalForm .modalForm-header svg { 
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    display: flex;
+    color: black;
+    border-radius: 50%;
+    background-color: #ecedec;
+    cursor: pointer;
+}
+
+.modalForm .modalForm-header svg:hover {
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+@keyframes fadeInForm {
+    from {
+        margin-bottom: 50px;
+        opacity: 0;
+    }
+    to {
+        margin-bottom: 0;
+        opacity: 1;
+    }
+}
