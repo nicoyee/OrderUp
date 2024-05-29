@@ -21,6 +21,12 @@ const HeaderCustomer = ({ user }) => {
         // Navigate to the cart page when the cart icon is clicked
         navigate('/cart');
     }; 
+    const handleProfile = (user) => {
+        // Navigate to the profile page when the cart icon is clicked
+        if(user){
+        navigate('/profile');
+        }
+    }; 
 
     const handleProfileClick = (user) => {
         navigate('/customer/profile'); // Function to navigate to the profile page
@@ -52,8 +58,8 @@ const HeaderCustomer = ({ user }) => {
                     <img src={ user.profilePicture }></img>
 
                     { profileContext && (
-                    <div className="profileContext" onClick={handleProfileClick}>
-                        <div className="profileContextSelection">
+                    <div className="profileContext">
+                        <div className="profileContextSelection" onClick={() => handleProfile(user)}>
                             <span className="material-symbols-outlined">
                                 person
                             </span>

@@ -5,9 +5,9 @@ import '../css/Admin/ManageUsers.css';
 
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import NavigationAdmin from './NavigationAdmin';
 import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
+import OrderHistoryAdmin from './OrderHistoryAdmin';
 import CreateDish from './CreateDish';
 import ManageUsers from './ManageUsers';
 import ManageEvents from './ManageEvents';
@@ -15,11 +15,17 @@ import ManageEvents from './ManageEvents';
 const DashboardAdmin = () => {
     const user = useContext(UserContext);
     const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
-    const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
-    const [manageEventsModalIsOpen, setManageEventsModalIsOpen] = useState(false);
-    const [dishes, setDishes] = useState([]);
-    const [events, setEvents] = useState([]);
+    const [addEmployeeModalIsOpen, setAddEmployeeModalIsOpen] = useState(false);
+//    const [dishToEdit, setDishToEdit] = useState(null);
+//    const [customerSection, setCustomerSection] = useState('dashboard');
 
+    const setCreateDishModal = () => {
+        setCreateDishModalIsOpen(true);
+    };
+
+    /*const setAddEmployeeModal = () => {
+        setAddEmployeeModalIsOpen(true);
+    };*/
     return (
         <div className='dashboardContainer'>
             <HeaderAdmin user={user} />
@@ -46,6 +52,8 @@ const DashboardAdmin = () => {
                         </div>
                     </div>
                     <MenuAdmin dishes={dishes} setDishes={setDishes} />
+
+                    <OrderHistoryAdmin/>
                 </div>
                 {createDishModalIsOpen && <CreateDish setDishes={setDishes} modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />}
                 {manageUsersModalIsOpen && <ManageUsers modalIsOpen={manageUsersModalIsOpen} setModalIsOpen={setManageUsersModalIsOpen} />}

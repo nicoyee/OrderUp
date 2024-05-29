@@ -1,18 +1,31 @@
-import '../css/Header.css';
+import "../css/Header.css";
 
 import React, { useState, useRef } from 'react';
 import AuthController from '../class/controllers/AuthController';
 import { useNavigate } from 'react-router-dom'; 
 
 const HeaderAdmin = ({ user }) => {
+  const [profileContext, showProfileContext] = useState(true);
+  const profileContextBounds = useRef();
+  const navigate = useNavigate();
 
-    const [profileContext, showProfileContext] = useState(true);
-    const profileContextBounds = useRef();
-    const navigate = useNavigate();
+  const toggleProfileContext = () => {
+    showProfileContext(!profileContext);
+  };
 
-    const toggleProfileContext = () => {
-        showProfileContext(!profileContext);
-    };
+  const handleSignOut = () => {
+    // Add this function
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        console.log("User signed out");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Error signing out", error);
+      });
+  };
 
     const handleSignOut = () => {
         AuthController.signOut();
@@ -65,6 +78,7 @@ const HeaderAdmin = ({ user }) => {
                     <div>Loading...</div>
                 )}
             </div>
+          </div>
         </div>
     );
 };

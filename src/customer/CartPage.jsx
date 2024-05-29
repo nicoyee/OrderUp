@@ -1,22 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Cart from '../class/Cart';
-import Customer from "../class/Customer.ts";
-import '../css/CartPage.css';
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../firebase";
+import { getDoc, doc, updateDoc, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import "../css/CartPage.css";
+import {
+  addDoc,
+  collection,
+  Timestamp,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid"; // Import uuid library for generating reference number
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
-  const cart = useRef(new Cart()).current;
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        await cart.fetchCartData();
-        setCartItems(cart.items);
+        const user = auth.currentUser;
+        if (!user) {
+          setError("User not authenticated.");
+          return;
+        }
+
+        const cartRef = doc(db, "cart", user.email);
+        const cartDoc = await getDoc(cartRef);
+
+        if (cartDoc.exists()) {
+          const cartData = cartDoc.data();
+          setCartItems(cartData.items || {});
+        } else {
+          setError("Cart not found.");
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -33,12 +53,12 @@ const CartPage = () => {
     updatedCartItems[dishId].quantity = newQuantity;
     setCartItems(updatedCartItems);
 
-    try {
-      await Customer.persistCartItemQuantity(dishId, newQuantity);
-      cart.updateItemQuantity(dishId, newQuantity);
-    } catch (error) {
-      setError(error.message);
-    }
+    // Update quantity in database
+    const user = auth.currentUser;
+    const cartRef = doc(db, "cart", user.email);
+    updateDoc(cartRef, {
+      items: { [dishId]: { quantity: newQuantity } },
+    });
   };
 
   const handleSelectItem = (dishId) => {
@@ -63,6 +83,10 @@ const CartPage = () => {
 
   const handleDeleteSelectedItems = async () => {
     try {
+      const user = auth.currentUser;
+      const cartRef = doc(db, "cart", user.email);
+
+      // Filter out selected items from cartItems
       const updatedCartItems = Object.fromEntries(
         Object.entries(cartItems).filter(
           ([dishId]) => !selectedItems.has(dishId)
@@ -76,13 +100,108 @@ const CartPage = () => {
       setError(error.message);
     }
   };
+  /*
+  const handleCheckout = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated.");
+      }
+
+      // Generate reference number using UUID
+      const referenceNumber = uuidv4();
+
+      // Record the current date and time
+      const currentDate = Timestamp.now();
+
+      // Fetch cart data from Firestore
+      const cartRef = doc(db, "cart", user.email);
+      const cartDoc = await getDoc(cartRef);
+      const cartData = cartDoc.data();
+      console.log(cartRef);
+      console.log(cartData.items);
+
+      // Add checkout information to checkout collection
+      const checkoutRef = doc(db, "checkouts", user.email);
+      await setDoc(checkoutRef, {
+        referenceNumber,
+        date: currentDate,
+        items: cartData.items,
+      });
+
+      // Delete the cart document
+      await deleteDoc(cartRef);
+
+      // Navigate to the checkout page with cartData, referenceNumber, and currentDate
+      navigate("/checkout", {
+        state: { cartData, referenceNumber, currentDate },
+      });
+    } catch (error) {
+      // Log any errors to the console
+      console.error("Error during checkout:", error);
+      setError(error.message);
+    }
+  };*/
+
+  const handleCheckout = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated.");
+      }
+
+      // Reference to the user's document in the "Orders" collection
+      const userOrderDocRef = doc(db, "Orders", user.email);
+
+      // Generate reference number using UUID
+      const referenceNumber = uuidv4();
+
+      // Record the current date and time
+      const currentDate = Timestamp.now();
+
+      // Get the user's name
+      const userName = user.email;
+
+      // Add the user's name to the user's document in the "Orders" collection
+      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
+
+      // Get the cart data
+      const cartRef = doc(db, "cart", user.email);
+      const cartSnapshot = await getDoc(cartRef);
+      const cartData = cartSnapshot.data();
+
+      console.log("Cart document retrieved successfully.");
+
+      // Add reference number and current date to the cart data
+      cartData.referenceNumber = referenceNumber;
+      cartData.date = currentDate;
+      cartData.status = "pending";
+
+      // Reference to the user's orders subcollection
+      const ordersRef = collection(userOrderDocRef, "orders");
+
+      // Add the cart data to the orders subcollection with the reference number as document ID
+      await setDoc(doc(ordersRef, referenceNumber), cartData);
+
+      // Delete the cart document
+      await deleteDoc(cartRef);
+
+      // Navigate to the checkout page with referenceNumber, currentDate, and cartData
+      navigate("/checkout", {
+        state: { referenceNumber, currentDate, cartData },
+      });
+
+      console.log("Cart data added to the orders subcollection successfully.");
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      setError(error.message);
+    }
+  };
 
   const totalPrice = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.price * item.quantity, 0
+    (acc, item) => acc + item.price * item.quantity,
+    0
   );
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="cart-container">
@@ -135,58 +254,25 @@ const CartPage = () => {
                 />
                 <div>
                   <span className="item-name">{cartItems[dishId].name}</span>
-                  <div className="item-quantity">
-                    <button
-                      type="button"
-                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity - 1)}
-                      disabled={cartItems[dishId].quantity <= 1}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                      >
-                        <path d="M19 13H5v-2h14v2z" />
-                      </svg>
-                    </button>
-                    <input 
-                      type="number" 
-                      value={cartItems[dishId].quantity} 
-                      onChange={(e) => handleQuantityChange(dishId, parseInt(e.target.value))} 
-                      min="1"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleQuantityChange(dishId, cartItems[dishId].quantity + 1)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                      >
-                        <path d="M19 13H5v-2h14v2z" />
-                        <path d="M13 19V5h-2v14h2z" />
-                      </svg>
-                    </button>
-                  </div>
+                  <span className="item-quantity">
+                    Quantity: {cartItems[dishId].quantity}
+                  </span>
                 </div>
               </div>
               <span className="item-price">
-                Price: ₱{Number(cartItems[dishId].price).toFixed(2)}
+                Price: ${cartItems[dishId].price.toFixed(2)}
               </span>
             </li>
           ))}
         </ul>
       </form>
-      <div className="total-price">
-        Total: ₱ {totalPrice.toFixed(2)}
-      </div>
+      <div className="total-price">Total:₱ {totalPrice.toFixed(2)}</div>
       <div className="checkout-container">
-        <button type="button" className="checkout-btn" onClick={() => navigate('/checkout')}>
+        <button
+          type="button"
+          className="checkout-btn"
+          onClick={() => handleCheckout()}
+        >
           Checkout
         </button>
       </div>

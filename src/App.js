@@ -2,6 +2,9 @@ import Landing from './pages/Landing';
 import DashboardAdmin from './admin/DashboardAdmin';
 import DashboardCustomer from './customer/DashboardCustomer';
 import CartPage from './customer/CartPage';
+import ProfilePage from "./customer/CustomerProfile";
+import AdminProfilePage from "./admin/AdminProfile";
+import CheckoutPage from "./customer/Checkout";
 import React, { useEffect, useState, createContext } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { onAuthStateChanged} from "firebase/auth";
@@ -10,8 +13,6 @@ import { Toaster } from 'react-hot-toast';
 import { UserType } from './constants'; 
 import {FController} from "./class/controllers/controller.ts";
 import { userInstance } from './class/User.js';
-import ProfileCustomer from './customer/ProfileCustomer'
-import ProfileAdmin from './admin/ProfileAdmin'
 
 export const UserContext = createContext(null);
 
@@ -69,15 +70,20 @@ function App() {
       <BrowserRouter>
         <Toaster />
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
+          <Route
+            path="/"
+            element={user ? <Navigate to="/dashboard" /> : <Landing />}
+          />
           <Route
             path="/dashboard"
             element={
-              isLoggedIn ? (
-                user?.userType === 'admin' ? (
+              user ? (
+                user.userType === "admin" ? (
                   <DashboardAdmin />
-                ) : user?.userType === 'customer' ? (
+                ) : user.userType === "customer" ? (
                   <DashboardCustomer />
+                ) : user.userType === "staff" ? (
+                  <Landing />
                 ) : (
                   <Navigate to="/" />
                 )
@@ -87,8 +93,12 @@ function App() {
             }
           />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/customer/profile" element={<ProfileCustomer/>}/>
-          <Route path="/admin/profile" element={<ProfileAdmin/>}/>
+          {/* Route for ProfilePage */}
+          <Route path="/profile" element={<ProfilePage />} />
+          {/* Route for ProfilePage */}
+          <Route path="/adminprofile" element={<AdminProfilePage />} />
+          {/* Route for CheckoutPage */}
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

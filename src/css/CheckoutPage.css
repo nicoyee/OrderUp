@@ -1,5 +1,7 @@
-.cart-container {
-  max-width: 800px;
+.container {
+  display: flex; /* Ensure containers are horizontally aligned */
+  justify-content: space-between; /* Distribute space between containers */
+  max-width: 1000px;
   margin: 40px auto;
   padding: 30px;
   border: 1px solid #ddd;
@@ -7,6 +9,22 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   color: #f05006;
+}
+
+.containerLeft,
+.containerRight {
+  border: 1px solid #ddd; /* Add border to containers */
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+  padding: 20px; /* Optional: Add padding for content */
+  margin-right: 20px; /* Adjust the spacing between containers */
+}
+
+.containerLeft {
+  flex: 2; /* Adjust the flex value to increase the width of the container */
+}
+
+.containerRight {
+  flex: 1; /* Ensure both containers take up remaining space */
 }
 
 .back-button {
@@ -55,39 +73,10 @@
 }
 
 .item-quantity {
-  display: flex;
-  align-items: center;
-}
-
-.item-quantity button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.item-quantity button:first-child {
-  border-radius: 4px 0 0 4px;
-}
-
-.item-quantity button:last-child {
-  border-radius: 0 4px 4px 0;
-}
-
-.item-quantity input {
-  width: 50px;
-  text-align: center;
-  margin: 0;
-}
-
-.item-quantity button{
-  padding: 0;
+  font-size: 12px;
   color: black;
+  margin-left: 20px;
+  margin-right: 5px;
 }
 
 .item-price {
@@ -101,11 +90,10 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
-  gap: 10px; 
+  margin-bottom: 20px;
   color: black;
   padding: 10px;
 }
-
 
 .select-all-checkbox {
   margin-right: 10px;
@@ -114,10 +102,6 @@
 .select-all-label {
   font-size: 16px;
   color: #666;
-}
-
-.select-all-container label{
-  margin-right: 500px;
 }
 
 .delete-selected-btn {
@@ -143,8 +127,7 @@
   width: 20px;
   height: 20px;
   fill: #fff;
-  border: none;
-  background-color: transparent; 
+  margin-left: 600px;
 }
 
 .checkout-container {
@@ -187,4 +170,10 @@
   .cart-item-remove {
     margin-left: 10px;
   }
+}
+
+.gcash-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
 }
