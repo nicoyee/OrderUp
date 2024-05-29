@@ -65,7 +65,7 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
                     </div>
                     <span onClick={ setForgot }className='authRedirect-link forgotPass'>Forgot Password?</span>
                 </div>
-                <button className="authForm-submit">Sign In</button>
+                <button className="authForm-submit">Log In</button>
                 <p className='authRedirect-context'>Don't have an account? <span className='authRedirect-link' onClick={ setSignup }>Sign Up</span></p>
             </div>
         </form>
