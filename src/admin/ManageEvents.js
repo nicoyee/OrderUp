@@ -3,6 +3,7 @@ import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
 import '../css/Admin/ManageEvents.css';
 import Admin from '../class/admin/Admin';
+
 const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     const [events, setEvents] = useState([]);
     const [createEventModalIsOpen, setCreateEventModalIsOpen] = useState(false);
@@ -13,11 +14,11 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
         setSelectedEvent(event);
         setEditEventModalIsOpen(true);
     };
-    
+
     const handleCloseEditEventModal = () => {
         setEditEventModalIsOpen(false);
     };
-    
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -70,6 +71,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                         <th>Location</th>
                                         <th>Status</th>
                                         <th>Date</th>
+                                        <th>Photo</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -81,6 +83,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                             <td>{event.location}</td>
                                             <td>{event.status}</td>
                                             <td>{new Date(event.date).toLocaleDateString()}</td>
+                                            <td><img src={event.photoURL} alt={event.eventName} className="event-photo"/></td>
                                             <td>
                                                 <button className="edit-event-button" onClick={() => handleOpenEditEventModal(event)}>Edit</button>
                                                 <button className="delete-event-button" onClick={() => handleDeleteEvent(event.id)}>Delete</button>
