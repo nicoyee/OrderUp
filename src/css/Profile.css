@@ -151,3 +151,10 @@ button {
 .inner-square th {
   background-color: #f2f2f2; /* Add background color to table header */
 }
+
+.back-button-profile {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 1; /* Ensure it's above other content */
+}

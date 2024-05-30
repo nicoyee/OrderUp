@@ -16,19 +16,6 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [events, setEventsState] = useState([]);
 
-    useEffect(() => {
-        fetchEvents();
-    }, []);
-
-    const fetchEvents = async () => {
-        try {
-            const events = await Admin.fetchEvents();
-            setEventsState(events);
-        } catch (error) {
-            setErrorMessage('Error fetching events. Please try again.');
-        }
-    };
-
     const closeModal = () => {
         setModalIsOpen(false);
         resetForm();
@@ -43,6 +30,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
         setSocialLink('');
         setPhoto(null);
     };
+   
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();

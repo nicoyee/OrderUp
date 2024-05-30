@@ -178,6 +178,22 @@ const AdminProfile = () => {
       <HeaderAdmin user={user} />
 
       <div class="big-rectangle-admin">
+        <div
+          className="back-button-profile"
+          onClick={() => navigate("/dashboard")}
+        >
+          <a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+            </svg>
+          </a>
+        </div>
         <img
           src={user.profilePicture}
           className="profile-picture"
