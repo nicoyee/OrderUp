@@ -79,6 +79,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         if (a.userType !== UserType.STAFF && b.userType === UserType.STAFF) return 1;
         return 0;
     });
+
     const OrderDetailsModal = ({ order, closeModal }) => {
         if (!order) {
           return (
@@ -198,7 +199,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                     <div className="modal-content">
                         <span className='close' onClick={closeOrderHistoryModal}>&times;</span>
                         <div className="modal-header">
-                            <h1>Order History for {selectedUser ? selectedUser.name : ''}</h1>
+                            <h1>Order History:</h1>
                         </div>
                         <div className="order-list">
                             <table>
