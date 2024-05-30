@@ -51,8 +51,8 @@ class Admin extends User {
     }
 
     //Order Management
-    static async fetchOrderHistory(userEmail) {
-        return await AdminController.Orders.viewHistory(userEmail);
+    static async fetchOrderHistory(user) {
+        return await AdminController.Orders.viewHistory(user);
     }
 
     // get all customer orders

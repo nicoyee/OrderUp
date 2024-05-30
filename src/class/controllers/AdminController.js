@@ -192,10 +192,10 @@ class AdminController{
     }
 
     static Orders = {
-        async viewHistory(userEmail) {
+        async viewHistory(user) {
             try {
                 // Construct the path to the user's orders collection
-                const ordersCollectionPath = `Orders/${userEmail}/orders`;
+                const ordersCollectionPath = `Orders/${user}/orders`;
                 const ordersCollectionRef = collection(db, ordersCollectionPath);
 
                 // Fetch the orders from the specified path

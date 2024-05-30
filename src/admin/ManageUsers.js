@@ -47,12 +47,12 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         }
     };
 
-    const handleViewOrderHistory = async (userEmail) => {
+    const handleViewOrderHistory = async (user) => {
         try {
-            const orders = await Admin.fetchOrderHistory(userEmail);
+            const orders = await Admin.fetchOrderHistory(user);
             console.log('Fetched orders:', orders); // Add logging
             setOrderHistory(orders);
-            setSelectedUser(userEmail);
+            setSelectedUser(user);
             setOrderHistoryModalIsOpen(true);
         } catch (error) {
             console.error('Error fetching order history:', error);
@@ -65,17 +65,6 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         setSelectedUser(null);
     };
 
-    const handleUpdateOrderStatus = async (orderId, newStatus) => {
-        try {
-            await Admin.updateCustomerOrderStatus(orderId, newStatus);
-            console.log('Order status updated successfully.');
-            if (selectedUser) {
-                handleViewOrderHistory(selectedUser);
-            }
-        } catch (error) {
-            console.error('Error updating order status:', error);
-        }
-    };
 
     const handleSignUp = async (name, email, password) => {
         try {
@@ -155,7 +144,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                     <div className="modal-content">
                         <span className='close' onClick={closeOrderHistoryModal}>&times;</span>
                         <div className="modal-header">
-                            <h1>Order History</h1>
+                            <h1>Order History for {selectedUser ? selectedUser.name : ''}</h1>
                         </div>
                         <div className="order-list">
                             <table>
@@ -172,11 +161,6 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                                                 <td>{order.id}</td>
                                                 <td>
                                                     <button onClick={() => openOrderDetailsModal(order)}>View</button>
-                                                    <select onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}>
-                                                        <option value="pending">Pending</option>
-                                                        <option value="done">Done</option>
-                                                        <option value="rejected">Rejected</option>
-                                                    </select>
                                                 </td>
                                             </tr>
                                         ))
