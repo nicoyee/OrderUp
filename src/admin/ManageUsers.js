@@ -3,8 +3,6 @@ import SignUp from '../auth/SignUp';
 import '../css/Admin/ManageUsers.css';
 import { UserType } from '../constants';
 import Admin from '../class/admin/Admin';
-import OrderHistoryModal from './OrderHistoryAdmin'; // Assuming this is the existing modal component
-import OrderDetailsModal from './OrderDetailsModal'; // New component
 
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
@@ -81,6 +79,62 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         if (a.userType !== UserType.STAFF && b.userType === UserType.STAFF) return 1;
         return 0;
     });
+    const OrderDetailsModal = ({ order, closeModal }) => {
+        if (!order) {
+          return (
+            <div className="order-details-modal">
+              <div className="modal-content">
+                <span className="close" onClick={closeModal}>&times;</span>
+                <p>Loading...</p>
+              </div>
+            </div>
+          );
+        }
+      
+        return (
+          <div className="order-details-modal">
+            <div className="modal-content">
+              <span className="close" onClick={closeModal}>&times;</span>
+              <div>
+                <h1>Order Details</h1>
+                <p>Date: {order.date ? new Date(order.date.seconds * 1000).toLocaleString('en-US') : 'N/A'}</p>
+                <p>Reference Number: {order.referenceNumber}</p>
+                <h3>Items:</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.values(order.items || {}).map((item, index) => (
+                      <tr key={`${item.id}-${index}`}>
+                        <td>{item.name}</td>
+                        <td>{item.description}</td>
+                        <td>${item.price}</td>
+                        <td>{item.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className="total">Total: ${calculateTotal(order.items)}</p>
+              </div>
+            </div>
+          </div>
+        );
+      };
+      
+      // Helper function to calculate the total price
+      const calculateTotal = (items) => {
+        let total = 0;
+        Object.values(items || {}).forEach(item => {
+          total += item.price * item.quantity;
+        });
+        return total.toFixed(2);
+      };
 
     const openOrderDetailsModal = (order) => {
         setSelectedOrder(order);
