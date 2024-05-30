@@ -192,23 +192,26 @@ class AdminController{
     }
 
     static Orders = {
-        async viewHistory(userId) {
+        async viewHistory(userEmail) {
             try {
-                // Fetch checkouts collection from Firestore
-                const querySnapshot = await getDocs(collection(db, 'checkouts'));
+                // Construct the path to the user's orders collection
+                const ordersCollectionPath = `Orders/${userEmail}/orders`;
+                const ordersCollectionRef = collection(db, ordersCollectionPath);
+
+                // Fetch the orders from the specified path
+                const querySnapshot = await getDocs(ordersCollectionRef);
                 const orders = [];
                 querySnapshot.forEach((doc) => {
-                    const orderData = { id: doc.id, ...doc.data() };
-                    if (orderData.userId === userId) {
-                        orders.push(orderData);
-                    }
+                    orders.push({ id: doc.id, ...doc.data() });
                 });
+
+                console.log('Filtered orders for user:', orders); // Add logging
                 return orders;
             } catch (error) {
                 console.error('Error fetching order history:', error);
                 throw error;
             }
-        }, 
+        },
 
         async getOrders(){
 
@@ -220,11 +223,23 @@ class AdminController{
         // Full Payment Paid,
         // Delivered
         // Completed
-        async updateStatus(userId, orderStatus){
-    
-        }
-    }
+        async updateStatus(orderId, newStatus){
+            try {
+                // Reference to the specific order document
+                const orderRef = doc(db, 'checkouts', orderId);
 
+                // Update the status field in the order document
+                await updateDoc(orderRef, {
+                    status: newStatus
+            });
+
+            console.log("Order status updated successfully.");
+        } catch (error) {
+            console.error("Error updating order status:", error);
+            throw error;
+        }
+     }
+    };
 
     // Helper function to upload photo to storage
     static async uploadPhoto(photo, folder) {

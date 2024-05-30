@@ -1,3 +1,4 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import User from '../User';
 import AdminController from '../controllers/AdminController';
 
@@ -50,8 +51,8 @@ class Admin extends User {
     }
 
     //Order Management
-    static async fetchOrderHistory(userId) {
-        return await AdminController.Orders.viewHistory(userId);
+    static async fetchOrderHistory(userEmail) {
+        return await AdminController.Orders.viewHistory(userEmail);
     }
 
     // get all customer orders
@@ -65,8 +66,8 @@ class Admin extends User {
     // Full Payment Paid,
     // Delivered
     // Completed
-    static async updateCustomerOrderStatus(userId, orderStatus){
-
+    static async updateCustomerOrderStatus(orderId, newStatus){
+        return await AdminController.Orders.updateStatus(orderId, newStatus);
     }
 }
 
