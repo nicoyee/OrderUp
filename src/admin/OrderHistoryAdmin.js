@@ -7,6 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import Admin from "../class/admin/Admin";
 
 const OrderHistoryAdmin = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -54,19 +55,16 @@ const OrderHistoryAdmin = () => {
     setSelectedOrderId(null);
   };
 
-  const handleStatusChange = async (orderId, documentId, newStatus) => {
+  const handleStatusChange = async (orderId, newStatus) => {
     try {
-      // Reference to the specific order document
-      const orderRef = doc(db, "Orders", documentId, "orders", orderId);
-
-      // Update the status field in the order document
-      await updateDoc(orderRef, { status: newStatus });
-
+      // Update order status in Firestore
+      await Admin.updateCustomerOrderStatus(orderId, newStatus);
       console.log("Order status updated successfully.");
     } catch (error) {
       console.error("Error updating order status:", error);
     }
   };
+
 
   return (
     <div className="menuTable">
@@ -124,7 +122,6 @@ const OrderHistoryAdmin = () => {
 };
 
 const Modal = ({ orderId, closeModal, documentId }) => {
-  // Fetch the full order details based on orderId
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
@@ -151,7 +148,7 @@ const Modal = ({ orderId, closeModal, documentId }) => {
         <span className="close" onClick={closeModal}>
           &times;
         </span>
-        {orderDetails && (
+        {orderDetails ? (
           <div>
             <p>
               Date:{" "}
@@ -178,6 +175,8 @@ const Modal = ({ orderId, closeModal, documentId }) => {
               ))}
             </ul>
           </div>
+        ) : (
+          <p>Loading...</p>
         )}
       </div>
     </div>
