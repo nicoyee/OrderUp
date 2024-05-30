@@ -13,7 +13,6 @@
 }
 
 .modalForm {
-    padding: 30px;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -27,6 +26,7 @@
 }
 
 .modalForm .modalForm-header {
+    padding: 30px 30px 10px 30px;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;

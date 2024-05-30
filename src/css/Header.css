@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 100;
 }
 
 #adminHeader {
@@ -15,7 +16,7 @@
 }
 
 .headerDashboardLeft h1 {
-    transform: translateY(2px);
+    transform: translateY(-4px);
     font-size: 28px;
     font-family: "Kare";
     color: #f05006;

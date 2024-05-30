@@ -1,0 +1,41 @@
+.sectionContent {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 10px;
+}
+.sectionContent div {
+    display: flex;
+}
+.sectionContent-header {  
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+.sectionContent-header h1 {
+    color: #d5dbbd;
+    font-family: 'Inter';
+    font-size: 2.5rem;
+}
+.sectionContent-header button {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    font-family: 'Inter';
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #151515;
+}
+
+.sectionContent-header button:hover {
+    background-color: #252727;
+    cursor: pointer;
+}
+
+.sectionContent-header button svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}

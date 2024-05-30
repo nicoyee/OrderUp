@@ -83,6 +83,8 @@ function App() {
                   <DashboardAdmin />
                 ) : user?.userType === "customer" ? (
                   <DashboardCustomer />
+                ) : user?.userType === "staff" ? (
+                  <DashboardAdmin />
                 ) : (
                   <Navigate to="/" />
                 )
