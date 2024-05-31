@@ -1,48 +1,48 @@
 import { FService } from "./FirebaseService.ts";
 import User from "../User.js";
 class UserController {
-    static fetchAndUpdateUserDetails(setUid, setUserDetails, navigate) {
-        const unsubscribe = FService.onAuthStateChanged(async (user) => {
-          if (user) {
-            setUid(user.uid);
-            const fetchedUser = await UserController.getUser(user.uid);
-            if (fetchedUser) {
-              setUserDetails(
-                fetchedUser.docId,
-                fetchedUser.name,
-                fetchedUser.email,
-                fetchedUser.userType,
-                fetchedUser.profilePicture
-              );
-            }
-          } else {
-            navigate("/");
-          }
-        });
-        // Return the unsubscribe function to allow unsubscribing if needed
-        return unsubscribe;
-    }
-    static async getUser(uid) {
-        try {
-        const userDoc = await FService.getDocument('users', uid);
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const user = new User(
-            userDoc.id,
-            userData.name,
-            userData.email,
-            userData.userType,
-            userData.profilePicture
+  static fetchAndUpdateUserDetails(setUid, setUserDetails, navigate) {
+      const unsubscribe = FService.onAuthStateChanged(async (user) => {
+        if (user) {
+          setUid(user.uid);
+          const fetchedUser = await UserController.getUser(user.uid);
+          if (fetchedUser) {
+            setUserDetails(
+              fetchedUser.docId,
+              fetchedUser.name,
+              fetchedUser.email,
+              fetchedUser.userType,
+              fetchedUser.profilePicture
             );
-            return user;
+          }
         } else {
-            throw new Error("User not found");
+          navigate("/");
         }
-        } catch (error) {
-        console.error("Error fetching user:", error);
-        throw error;
-        }
-    }
+      });
+      // Return the unsubscribe function to allow unsubscribing if needed
+      return unsubscribe;
+  }
+  static async getUser(uid) {
+      try {
+      const userDoc = await FService.getDocument('users', uid);
+      if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const user = new User(
+          userDoc.id,
+          userData.name,
+          userData.email,
+          userData.userType,
+          userData.profilePicture
+          );
+          return user;
+      } else {
+          throw new Error("User not found");
+      }
+      } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+      }
+  }
 
   static async updateUser(uid, userDetails) {
     try {
