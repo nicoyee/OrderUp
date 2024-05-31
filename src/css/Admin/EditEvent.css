@@ -1,36 +1,30 @@
 .edit-event-modal {
-    position: fixed;
     z-index: 1000;
-    left: 0;
+    display: flex;
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
-}
-
-.close {
-    color: #aaa;
+.edit-event-modal .close {
+    color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
-.close:hover,
+.edit-event-modal h1{
+    font-size: 1.5em;
+    color: #ff8500;
+}
+.edit-event-modal .close:hover,
 .close:focus {
-    color: black;
+    color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
 }
@@ -51,10 +45,12 @@
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    color: #ff8500;
 }
 
 .form-group input[type="text"],
 .form-group input[type="date"],
+.form-group input[type="url"],
 .form-group select,
 .form-group textarea {
     width: 100%;
@@ -64,10 +60,13 @@
     box-sizing: border-box;
     margin-top: 5px;
     margin-bottom: 10px;
+    background: #3b3b3b;
+    color: #fff;
 }
 
 .form-group textarea {
     height: 100px;
+    background: #3b3b3b;
 }
 
 .form-group button {
