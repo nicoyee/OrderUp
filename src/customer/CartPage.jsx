@@ -4,9 +4,7 @@ import Cart from "../class/Cart";
 import Customer from "../class/Customer.ts";
 import "../css/CartPage.css";
 import { UserContext } from "../App";
-
-import { db } from "../firebase";
-import { getDoc, doc, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const CartPage = () => {
@@ -21,7 +19,8 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        await cart.fetchCartData();
+        if (!user) throw new Error("User not authenticated.");
+        await cart.fetchCartData(user);
         setCartItems(cart.items);
       } catch (error) {
         setError(error.message);
@@ -31,7 +30,7 @@ const CartPage = () => {
     };
 
     fetchCartData();
-  }, [cart]);
+  }, [cart, user]);
 
   const handleQuantityChange = async (dishId, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from being less than 1
@@ -109,7 +108,7 @@ const CartPage = () => {
   };
 
   const totalPrice = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + Number(item.price) * item.quantity,
     0
   );
 
@@ -151,7 +150,7 @@ const CartPage = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2 0 002-2V9" />
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2h10a2 2h10a2 2h10a2 2 0 002-2V9" />
             </svg>
           </button>
         </div>
@@ -231,7 +230,7 @@ const CartPage = () => {
         <button
           type="button"
           className="checkout-btn"
-          onClick={() => handleCheckout(user)}
+          onClick={handleCheckout}
         >
           Checkout
         </button>

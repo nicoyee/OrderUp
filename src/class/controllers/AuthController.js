@@ -1,4 +1,4 @@
-import { FController } from "./controller.ts";
+import { FService } from "./FirebaseService.ts";
 import { 
     createUserWithEmailAndPassword, 
     sendPasswordResetEmail, 
@@ -12,12 +12,12 @@ import { doc, setDoc} from "firebase/firestore";
 class AuthController {
     static async signUp(name, email, password, userType) {
         try {
-            const userCredential = await createUserWithEmailAndPassword(FController.auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(FService.auth, email, password);
             const user = userCredential.user;
 
             await updateProfile(user, { displayName: name });
 
-            await setDoc(doc(FController.db, 'users', user.uid), {
+            await setDoc(doc(FService.db, 'users', user.uid), {
                 name,
                 email,
                 userType,
@@ -34,7 +34,7 @@ class AuthController {
 
     static async logIn(email, password) {
         try {
-            const userCredential = await signInWithEmailAndPassword(FController.auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(FService.auth, email, password);
             return userCredential.user;
         } catch (error) {
             console.error('Error logging in user:', error);
@@ -44,7 +44,7 @@ class AuthController {
 
     static async resetPassword(email) {
         try {
-            await sendPasswordResetEmail(FController.auth, email);
+            await sendPasswordResetEmail(FService.auth, email);
             return { success: true };
         } catch (error) {
             console.error('Error resetting password:', error);
@@ -54,7 +54,7 @@ class AuthController {
 
     static async signOut() {
         try {
-            await firebaseSignOut(FController.auth);
+            await firebaseSignOut(FService.auth);
             return { success: true };
         } catch (error) {
             console.error('Error signing out user:', error);

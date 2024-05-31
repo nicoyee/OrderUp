@@ -1,4 +1,4 @@
-import { FController } from "./controllers/controller.ts";
+import CartController from "./controllers/CartController";
 
 class Cart {
   constructor() {
@@ -6,23 +6,7 @@ class Cart {
   }
 
   async fetchCartData() {
-    try {
-      const user = FController.auth.currentUser;
-      if (!user) {
-        throw new Error('User not authenticated.');
-      }
-
-      const cartDoc = await FController.getDocument('cart', user.email);
-
-      if (cartDoc.exists()) {
-        const cartData = cartDoc.data();
-        this.items = cartData.items || {};
-      } else {
-        this.items = {}; // Set items to an empty object if cart is not found
-      }
-    } catch (error) {
-      throw error;
-    }
+    await CartController.getCartData(this);
   }
 
   updateItemQuantity(dishId, newQuantity) {

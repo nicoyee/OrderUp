@@ -1,154 +1,242 @@
-import "../css/Checkout.css";
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Customer from "../class/Customer.ts";
-import { FController } from "../class/controllers/controller.ts";
-import { UserContext } from "../App";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Cart from "../class/Cart";
-import { auth, db } from "../firebase";
-import { getDoc, doc, collection, Timestamp, deleteDoc, setDoc } from "firebase/firestore";
+import Customer from "../class/Customer.ts";
+import "../css/CartPage.css";
+import { UserContext } from "../App";
+import { Timestamp } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
-const Checkout = () => {
+const CartPage = () => {
   const user = useContext(UserContext);
-  const location = useLocation();
   const [cartItems, setCartItems] = useState({});
-  const [gcashImageUrl, setGcashImageUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(new Set());
   const cart = useRef(new Cart()).current;
-  const { cartData, referenceNumber, currentDate } = location.state || {};
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        await cart.fetchCartData();
+        if (!user) throw new Error("User not authenticated.");
+        await cart.fetchCartData(user);
         setCartItems(cart.items);
+      } catch (error) {
+        setError(error.message);
       } finally {
-        // No action needed
+        setLoading(false);
       }
     };
 
     fetchCartData();
-  }, [cart]);
+  }, [cart, user]);
 
-  useEffect(() => {
-    const fetchGcashImageUrl = async () => {
-      try {
-        const gcashData = await Customer.getGcashQrCode();
-        if (gcashData) {
-          const gcashImageUrl = gcashData.imageUrl;
-          console.log("GCash image URL:", gcashImageUrl);
-          setGcashImageUrl(gcashImageUrl);
-        } else {
-          console.log("GCash document not found");
-        }
-      } catch (error) {
-        console.error("Error fetching GCash image URL:", error);
-      }
-    };
+  const handleQuantityChange = async (dishId, newQuantity) => {
+    if (newQuantity < 1) return; // Prevent quantity from being less than 1
+    const updatedCartItems = { ...cartItems };
+    updatedCartItems[dishId].quantity = newQuantity;
+    setCartItems(updatedCartItems);
 
-    fetchGcashImageUrl();
-  }, []);
-
-  const totalPrice = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-
-  const handleCreateOrder = async () => {
     try {
-      const user = FController.auth.currentUser;
-      if (user) {
-        if (!cartData) {
-          throw new Error('Cart data is missing');
-        }
-        console.log(cartData);
-        const refNum = referenceNumber;
-        const currDate = new Date(currentDate.seconds * 1000); // Convert Firestore Timestamp to JS Date
-        const userName = user.email;
-
-        // Reference to the user's document in the "Orders" collection
-        const userOrderDocRef = doc(db, "Orders", userName);
-
-        // Add the user's name to the user's document in the "Orders" collection
-        await setDoc(userOrderDocRef, { name: userName }, { merge: true });
-
-        // Reference to the user's orders subcollection
-        const ordersRef = collection(userOrderDocRef, "orders");
-
-        // Add the cart data to the orders subcollection with the reference number as document ID
-        await setDoc(doc(ordersRef, referenceNumber), { ...cartData, date: currDate });
-
-        // Get the cart data
-        const cartRef = doc(db, "cart", user.email);
-
-        // Delete the cart document
-        await deleteDoc(cartRef);
-
-        alert('Order created successfully!');
-        navigate("/");
-      } else {
-        alert('User not authenticated.');
-      }
+      await Customer.persistCartItemQuantity(dishId, newQuantity);
+      cart.updateItemQuantity(dishId, newQuantity);
     } catch (error) {
-      console.error('Error creating order:', error);
-      alert('Failed to create order. See console for details.');
+      setError(error.message);
     }
   };
 
+  const handleSelectItem = (dishId) => {
+    setSelectedItems((prevSelectedItems) => {
+      const updatedSelectedItems = new Set(prevSelectedItems);
+      if (updatedSelectedItems.has(dishId)) {
+        updatedSelectedItems.delete(dishId);
+      } else {
+        updatedSelectedItems.add(dishId);
+      }
+      return updatedSelectedItems;
+    });
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      setSelectedItems(new Set(Object.keys(cartItems)));
+    } else {
+      setSelectedItems(new Set());
+    }
+  };
+
+  const handleDeleteSelectedItems = async () => {
+    try {
+      const updatedCartItems = Object.fromEntries(
+        Object.entries(cartItems).filter(
+          ([dishId]) => !selectedItems.has(dishId)
+        )
+      );
+
+      await Customer.persistDeletedCartItems(updatedCartItems);
+      setCartItems(updatedCartItems);
+      setSelectedItems(new Set());
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      if (!user) {
+        throw new Error("User not authenticated.");
+      }
+
+      const referenceNumber = uuidv4();
+      const currentDate = Timestamp.now();
+
+      const cartData = {
+        ...cartItems,
+        referenceNumber,
+        date: currentDate,
+        status: "pending",
+      };
+
+      navigate("/checkout", {
+        state: { referenceNumber, currentDate, cartData },
+      });
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      setError(error.message);
+    }
+  };
+
+  const totalPrice = Object.values(cartItems).reduce(
+    (acc, item) => acc + Number(item.price) * item.quantity,
+    0
+  );
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
-    <div className="container">
-      <div className="containerLeft">
-        <img
-          src={gcashImageUrl}
-          alt="GCash"
-          className="gcash-image"
-        />
+    <div className="cart-container">
+      <div className="back-button" onClick={() => navigate("/dashboard")}>
+        <a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="currentColor"
+          >
+            <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+          </svg>
+        </a>
       </div>
-      <div className="containerRight">
-        <h1>Checkout</h1>
-        <h2>Cart Items:</h2>
+      <h1>YOUR CART</h1>
+      <form>
+        <div className="select-all-container">
+          <input
+            type="checkbox"
+            checked={selectedItems.size === Object.keys(cartItems).length}
+            onChange={handleSelectAll}
+          />
+          <label htmlFor="select-all">Select all</label>
+          <button type="button" onClick={handleDeleteSelectedItems}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="trash-icon"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2h10a2 2h10a2 2h10a2 2 0 002-2V9" />
+            </svg>
+          </button>
+        </div>
         <ul className="cart-items">
           {Object.keys(cartItems).map((dishId) => (
             <li key={dishId} className="cart-item">
               <div className="item-details">
+                <input
+                  type="checkbox"
+                  checked={selectedItems.has(dishId)}
+                  onChange={() => handleSelectItem(dishId)}
+                  className="cart-item-checkbox"
+                />
                 <div>
                   <span className="item-name">{cartItems[dishId].name}</span>
-                  <span className="item-quantity">
-                    Quantity: {cartItems[dishId].quantity}
-                  </span>
+                  <div className="item-quantity">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleQuantityChange(
+                          dishId,
+                          cartItems[dishId].quantity - 1
+                        )
+                      }
+                      disabled={cartItems[dishId].quantity <= 1}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                      >
+                        <path d="M19 13H5v-2h14v2z" />
+                      </svg>
+                    </button>
+                    <input
+                      type="number"
+                      value={cartItems[dishId].quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(dishId, parseInt(e.target.value))
+                      }
+                      min="1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleQuantityChange(
+                          dishId,
+                          cartItems[dishId].quantity + 1
+                        )
+                      }
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                      >
+                        <path d="M19 13H5v-2h14v2z" />
+                        <path d="M13 19V5h-2v14h2z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
               <span className="item-price">
-                Price: ₱{cartItems[dishId].price.toFixed(2)}
+                Price: ₱{Number(cartItems[dishId].price).toFixed(2)}
               </span>
             </li>
           ))}
         </ul>
-        <div className="total-price">Total: ₱{totalPrice.toFixed(2)}</div>
-        <h3>Payment Method: </h3>
-        <h3>Reference number: {referenceNumber}</h3>
-        <h3>
-          Checkout Date: {new Date(currentDate.seconds * 1000).toLocaleString()}
-        </h3>
-        <div className="checkout-container">
-          <button
-            type="button"
-            className="checkout-btn"
-            onClick={handleCreateOrder}
-          >
-            Create Order
-          </button>
-          <button
-            type="button"
-            className="checkout-btn"
-            onClick={() => navigate("/")}
-          >
-            Return
-          </button>
-        </div>
+      </form>
+      <div className="total-price">Total: ₱ {totalPrice.toFixed(2)}</div>
+      <div className="checkout-container">
+        <button
+          type="button"
+          className="checkout-btn"
+          onClick={handleCheckout}
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );
 };
 
-export default Checkout;
+export default CartPage;

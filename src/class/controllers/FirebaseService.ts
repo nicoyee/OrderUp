@@ -1,6 +1,7 @@
 import { 
     Auth, 
     getAuth, 
+    onAuthStateChanged
 } from "firebase/auth";
 import { 
     Firestore, 
@@ -18,6 +19,8 @@ import {
     FirebaseStorage, 
     getStorage,
     ref, 
+    uploadBytes,
+    getDownloadURL
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 
@@ -27,7 +30,7 @@ interface IFirebase {
     storage: FirebaseStorage
 }
 
-class Controller implements IFirebase{
+class FirebaseService implements IFirebase{
     auth: Auth;
     db: Firestore;
     storage: FirebaseStorage;
@@ -48,6 +51,10 @@ class Controller implements IFirebase{
         this.auth = getAuth(app);
         this.db = getFirestore(app);
         this.storage = getStorage(app);
+    }
+
+    onAuthStateChanged(callback: (user: any) => void) {
+        return onAuthStateChanged(this.auth, callback);
     }
 
     getDocRef(path, identifier){
@@ -86,7 +93,20 @@ class Controller implements IFirebase{
     getStorageRef(path, fileName){
         return ref(this.storage, `${path}/${fileName}`)
     }
+
+    async uploadPhoto(photo, folder) {
+        try {
+            if (!photo) return ''; // If no photo, return empty string
+
+            const storageRef = ref(this.storage, `${folder}/${photo.name}`);
+            await uploadBytes(storageRef, photo);
+            return await getDownloadURL(storageRef);
+        } catch (error) {
+            console.error('Error uploading photo:', error);
+            throw error;
+        }
+    }
 }   
 
-const FController = new Controller()
-export { FController }
+const FService = new FirebaseService()
+export { FService }

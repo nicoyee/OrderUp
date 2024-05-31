@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import DatePicker from 'react-datepicker';
 import '../css/Admin/CreateEvent.css';
 import Admin from '../class/admin/Admin'
 

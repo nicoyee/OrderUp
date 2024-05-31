@@ -4,7 +4,6 @@ import '../css/Dashboard.css';
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
 
-import NavigationCustomer from './NavigationCustomer';
 import HeaderCustomer from './HeaderCustomer';
 import CustomerMenu from './CustomerMenu';
 

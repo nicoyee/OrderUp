@@ -1,4 +1,6 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import DishController from '../controllers/DishController';
+import OrderController from '../controllers/OrderController';
+import EventsController from '../controllers/EventsController';
 import User from '../User';
 import AdminController from '../controllers/AdminController';
 
@@ -7,23 +9,23 @@ class Admin extends User {
         super(name, email, 'admin', profilePicture);
     }
     
-    //CUD Dish
+    // CUD Dish
     static async createDish(name, menuType, description, price, photo) {
-        return await AdminController.Dishes.add(name, menuType, description, price, photo);
+        return await DishController.add(name, menuType, description, price, photo);
     }
 
     static async deleteDish(id) {
-        return await AdminController.Dishes.remove(id);
+        return await DishController.remove(id);
     }
 
     static async editDish(id, newData) {
-        return await AdminController.Dishes.update(id, newData);
+        return await DishController.update(id, newData);
     }
 
-    //CRUD User
+    // CRUD User
     static async fetchUsers() {
         return await AdminController.Users.fetch();
-    }   
+    }
 
     static async banUser(userId) {
         return await AdminController.Users.ban(userId);
@@ -33,41 +35,38 @@ class Admin extends User {
         return await AdminController.Users.addStaff(name, email, password, userType);
     }
 
-    //CRUD Event
+    // CRUD Event
     static async createEvent(eventName, description, location, status, date, socialLink, photo) {
-        return await AdminController.Events.create(eventName, description, location, status, date, socialLink, photo);
+        return await EventsController.create(eventName, description, location, status, date, socialLink, photo);
     }
 
     static async fetchEvents() {
-        return await AdminController.Events.fetch();
+        return await EventsController.fetch();
     }
 
     static async updateEvent(eventId, eventData) {
-        return await AdminController.Events.update(eventId, eventData);
+        return await EventsController.update(eventId, eventData);
     }
 
     static async deleteEvent(eventId) {
-        return await AdminController.Events.delete(eventId);
+        return await EventsController.delete(eventId);
     }
 
-    //Order Management
+    // Order Management
     static async fetchOrderHistory(user) {
-        return await AdminController.Orders.viewHistory(user);
+        return await OrderController.viewHistory(user);
     }
 
-    // get all customer orders
-    static async getCustomerOrders(){
-
+    static async getCustomerOrders() {
+        return await OrderController.getOrders();
+    }
+    
+    static async updateCustomerOrderStatus(orderId, documentId, newStatus) {
+        return await OrderController.updateStatus(orderId, documentId, newStatus);
     }
 
-    // orderStatus: create an enum for OrderStatus
-    // Order Processed, 
-    // Downpayment Paid,
-    // Full Payment Paid,
-    // Delivered
-    // Completed
-    static async updateCustomerOrderStatus(orderId, newStatus){
-        return await AdminController.Orders.updateStatus(orderId, newStatus);
+    static async getOrderDetails(documentId, orderId) {
+        return await OrderController.getOrderDetails(documentId, orderId);
     }
 }
 

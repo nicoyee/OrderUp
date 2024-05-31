@@ -1,6 +1,6 @@
 
 
-import { FController } from "./controllers/controller.ts";
+import { FService } from "./controllers/FirebaseService.ts";
 
 class User {
     constructor(docId = "", name ="", email="", userType="", profilePicture="") {
@@ -21,9 +21,8 @@ class User {
     //Common functions
     //Dishes
     static async getDishes(){        
-        return FController.getDocuments('dishes');
+        return FService.getDocuments('dishes');
     }
-
     
 }
 

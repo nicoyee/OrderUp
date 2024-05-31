@@ -2,7 +2,7 @@
 import CartController from "./controllers/CartController.js";
 import OrderController from "./controllers/OrderController.js";
 import User from "./User";
-import { FController } from "./controllers/controller.ts";
+import { FService } from "./controllers/FirebaseService.ts";
 
 class Customer extends User {
     static async addToCart(dishId) {
@@ -33,7 +33,7 @@ class Customer extends User {
     }
 
     static async getGcashQrCode() {
-        const gcashDoc = await FController.getDocument('qr_code', 'gcash');
+        const gcashDoc = await FService.getDocument('qr_code', 'gcash');
         return gcashDoc.exists() ? gcashDoc.data() : null;
     }
 }

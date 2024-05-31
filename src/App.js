@@ -11,7 +11,7 @@ import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
 import { UserType } from "./constants";
 import { Toaster } from "react-hot-toast"
-import { FController } from "./class/controllers/controller.ts";
+import { FService } from "./class/controllers/FirebaseService.ts";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
@@ -24,9 +24,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onAuthtest = () => {
-    onAuthStateChanged(FController.auth, (authenticatedUser) => {
+    onAuthStateChanged(FService.auth, (authenticatedUser) => {
       if (authenticatedUser) {
-        FController.getDocument("users", authenticatedUser.uid).then((res) => {
+        FService.getDocument("users", authenticatedUser.uid).then((res) => {
           const testUser = res.data();
           if (testUser) {
             userInstance.setUserDetails(
