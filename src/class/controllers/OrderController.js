@@ -1,4 +1,5 @@
 import { FService } from "./FirebaseService.ts";
+import { Order } from "../Order.ts";
 
 class OrderController {
     static async getOrders() {
@@ -9,11 +10,12 @@ class OrderController {
             for (const docRef of snapshot.docs) {
                 const orderIdSnapshot = await FService.getDocuments(`Orders/${docRef.id}/orders`);
                 orderIdSnapshot.forEach((orderDoc) => {
-                    allOrders.push({
-                        orderId: orderDoc.id,
-                        documentId: docRef.id,
-                        status: orderDoc.data().status,
-                    });
+                    const orderData = orderDoc.data();
+                    const order = new Order();
+                    order.createdBy = orderData.createdBy;
+                    order.createdDate = orderData.createdDate;
+                    order.items = orderData.items;
+                    allOrders.push(order);
                 });
             }
             return allOrders;
@@ -27,7 +29,12 @@ class OrderController {
         try {
             const orderDoc = await FService.getDocument(`Orders/${documentId}/orders`, orderId);
             if (orderDoc.exists()) {
-                return orderDoc.data();
+                const orderData = orderDoc.data();
+                const order = new Order();
+                order.createdBy = orderData.createdBy;
+                order.createdDate = orderData.createdDate;
+                order.items = orderData.items;
+                return order;
             } else {
                 throw new Error("Order not found");
             }
@@ -55,17 +62,20 @@ class OrderController {
 
     static async viewHistory(user) {
         try {
-            // Construct the path to the user's orders collection
             const ordersCollectionPath = `Orders/${user}/orders`;
             const ordersCollectionRef = FService.getDocuments(ordersCollectionPath);
-            // Fetch the orders from the specified path
             const querySnapshot = await FService.getDocuments(ordersCollectionRef);
             const orders = [];
             querySnapshot.forEach((doc) => {
-                orders.push({ id: doc.id, ...doc.data() });
+                const orderData = doc.data();
+                const order = new Order();
+                order.createdBy = orderData.createdBy;
+                order.createdDate = orderData.createdDate;
+                order.items = orderData.items;
+                orders.push(order);
             });
 
-            console.log('Filtered orders for user:', orders); // Add logging
+            console.log('Filtered orders for user:', orders);
             return orders;
         } catch (error) {
             console.error('Error fetching order history:', error);

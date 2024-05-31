@@ -2,7 +2,7 @@ import DishController from '../controllers/DishController';
 import OrderController from '../controllers/OrderController';
 import User from '../User';
 
-class Admin extends User {
+class Staff extends User {
     constructor(name, email, profilePicture) {
         super(name, email, 'admin', profilePicture);
     }
@@ -38,4 +38,4 @@ class Admin extends User {
     }
 }
 
-export default Admin;
+export default Staff;
