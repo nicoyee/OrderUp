@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
-import '../css/Admin/DatePicker.css';
 import '../css/Admin/CreateEvent.css';
 import Admin from '../class/admin/Admin'
 
@@ -10,7 +9,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const [status, setStatus] = useState('ongoing');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState('');
     const [socialLink, setSocialLink] = useState('');
     const [photo, setPhoto] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,7 +34,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const handleCreateEvent = async (e) => {
         e.preventDefault();
         try {
-            const newEvent = await Admin.createEvent(eventName, description, location, status, date, socialLink, photo);
+            const newEvent = await Admin.createEvent(eventName, description, location, status, new Date(date), socialLink, photo);
             setEvents([...events, newEvent]);
             closeModal();
         } catch (error) {
@@ -71,32 +70,9 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                                 <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div>
+                        <div className="formGroup">
                             <label>Date:</label>
-                            <DatePicker
-                                selected={date}
-                                onChange={(date) => setDate(date)}
-                                renderCustomHeader={({
-                                    date,
-                                    changeYear,
-                                    changeMonth,
-                                    decreaseMonth,
-                                    increaseMonth,
-                                    prevMonthButtonDisabled,
-                                    nextMonthButtonDisabled,
-                                }) => (
-                                    <div className="custom-header">
-                                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className="nav-button">
-                                            &lt;
-                                        </button>
-                                        <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-                                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className="nav-button">
-                                            &gt;
-                                        </button>
-                                    </div>
-                                )}
-                                required
-                            />
+                            <input type="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                         </div>
                         <div className="formGroup">
                             <label>Event Link:</label>
