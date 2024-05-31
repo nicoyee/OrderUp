@@ -1,11 +1,13 @@
+import '../css/common/modals.css';
+import './adminModal.css';
+import '../css/Admin/DatePicker.css';
+
 import React, { useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
-import '../css/Admin/DatePicker.css';
-import '../css/Admin/CreateEvent.css';
-import Admin from '../class/admin/Admin'
 
+import Admin from '../class/admin/Admin';
 
-const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
+const CreateEvent = ({ closeModal, setEvents }) => {
     const [eventName, setEventName] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
@@ -16,8 +18,8 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [events, setEventsState] = useState([]);
 
-    const closeModal = () => {
-        setModalIsOpen(false);
+    const closeCreateEventModal = () => {
+        closeModal();
         resetForm();
     };
 
@@ -30,7 +32,6 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
         setSocialLink('');
         setPhoto(null);
     };
-   
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();
@@ -44,74 +45,92 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     };
 
     return (
-        modalIsOpen && (
-            <div className="createevent-modal">
-                <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
-                    <h1>Create Event</h1>
-                    <form onSubmit={handleCreateEvent}>
-                        <div className="formGroup">
-                            <label>Event Name</label>
-                            <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} required />
-                        </div>
-                        <div className="formGroup">
-                            <label>Description</label>
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-                        </div>
-                        <div className="formGroup">
-                            <label>Location</label>
-                            <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-                        </div>
-                        <div className="formGroup">
-                            <label>Status</label>
-                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option value="pending">Pending</option>
-                                <option value="ongoing">Ongoing</option>
-                                <option value="completed">Completed</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Date</label>
-                            <DatePicker
-                                selected={date}
-                                onChange={(date) => setDate(date)}
-                                renderCustomHeader={({
-                                    date,
-                                    changeYear,
-                                    changeMonth,
-                                    decreaseMonth,
-                                    increaseMonth,
-                                    prevMonthButtonDisabled,
-                                    nextMonthButtonDisabled,
-                                }) => (
-                                    <div className="custom-header">
-                                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className="nav-button">
-                                            &lt;
-                                        </button>
-                                        <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-                                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className="nav-button">
-                                            &gt;
-                                        </button>
-                                    </div>
-                                )}
-                                required
-                            />
-                        </div>
-                        <div className="formGroup">
-                            <label>Event Link</label>
-                            <input type="url" value={socialLink} onChange={(e) => setSocialLink(e.target.value)} />
-                        </div>
-                        <div className="formGroup">
-                            <label>Photo</label>
-                            <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
-                        </div>
-                        <div className="error-message">{errorMessage}</div>
-                        <button type="submit">Create Event</button>
-                    </form>
-                </div>
+        <form id='manageEvent' className="modalForm" onSubmit={ handleCreateEvent }>
+
+        <div className='modalForm-header'>
+          <span>
+            <h1>Create An Event</h1>
+            <svg
+                onClick={ closeCreateEventModal }
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </span>
+        </div>
+  
+        <div className='adminForm-body'>
+          <div className='adminForm-section'>
+            <label>Event Name</label>
+            <div className='adminForm-input'>
+              <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} required />
             </div>
-        )
+          <div className='adminForm-section'>
+            <label>Description</label>
+            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+          </div>
+          <div className='adminForm-section'>
+            <label>Location</label>
+            <div className='adminForm-input'>
+              <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+            </div>
+          </div>
+          <div className='adminForm-section'>
+            <label>Status</label>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="pending">Pending</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div className='adminForm-section'>
+            <label>Date</label>
+            <DatePicker
+                selected={date}
+                onChange={(date) => setDate(date)}
+                renderCustomHeader={({
+                    date,
+                    changeYear,
+                    changeMonth,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+            }) => (
+                    <div className="custom-header">
+                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className="nav-button">
+                            &lt;
+                        </button>
+                        <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
+                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className="nav-button">
+                            &gt;
+                        </button>
+                    </div>
+            )}
+                required
+            />
+          </div>
+          <div className='adminForm-section'>
+            <label>Event Link</label>
+            <input type="url" value={socialLink} onChange={(e) => setSocialLink(e.target.value)} />
+          </div>
+          <div className='adminForm-section'>
+            <label>Photo</label>
+            <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
+          </div>
+          <button className="adminForm-submit">Create Event</button>
+          </div>
+        </div>
+      </form>
     );
 };
 

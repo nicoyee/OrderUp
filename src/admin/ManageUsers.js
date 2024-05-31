@@ -1,13 +1,19 @@
 import '../css/common/dashboardComponents.css';
 import '../css/common/dataTable.css';
 
-import React, { useState, useEffect } from 'react';
 import SignUp from '../auth/SignUp';
 import { UserType } from '../constants';
 import Admin from '../class/admin/Admin';
 
+import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
+
 const ManageUsers = ({ setModalCreateEmployee }) => {
+
     const [users, setUsers] = useState([]);
+    const [ modal, showModal ] = useState(false);
+
+
     const [staffModalIsOpen, setStaffModalIsOpen] = useState(false);
     const [orderHistoryModalIsOpen, setOrderHistoryModalIsOpen] = useState(false);
     const [orderHistory, setOrderHistory] = useState([]);
@@ -35,23 +41,25 @@ const ManageUsers = ({ setModalCreateEmployee }) => {
         }
     };
 
-    const handleViewOrderHistory = async (userId) => {
+    const handleViewOrderHistory = async (user) => {
         try {
-            const orders = await Admin.fetchOrderHistory(userId);
+            const orders = await Admin.fetchOrderHistory(user);
+            console.log('Fetched orders:', orders); // Add logging
             setOrderHistory(orders);
-            setSelectedUser(userId);
-            setOrderHistoryModalIsOpen(true);
+            setSelectedUser(user);
+            showModal(true);
+            document.body.classList.add('modal-open');
         } catch (error) {
             console.error('Error fetching order history:', error);
         }
     };
 
     const closeOrderHistoryModal = () => {
-        setOrderHistoryModalIsOpen(false);
         setOrderHistory([]);
         setSelectedUser(null);
+        showModal(false);
+        document.body.classList.add('modal-open');
     };
-
 
     const handleSignUp = async (name, email, password) => {
         try {
@@ -93,7 +101,7 @@ const ManageUsers = ({ setModalCreateEmployee }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                        { sortedUsers.map((user) => (
                             <tr key={user.id}>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
@@ -101,7 +109,9 @@ const ManageUsers = ({ setModalCreateEmployee }) => {
                                 <td>
                                     <div className='dataTable-actions'>
                                         <button className='dataTable-actions-ban' onClick={() => handleBanUser(user.id)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account-off</title><path d="M12,4A4,4 0 0,1 16,8C16,9.95 14.6,11.58 12.75,11.93L8.07,7.25C8.42,5.4 10.05,4 12,4M12.28,14L18.28,20L20,21.72L18.73,23L15.73,20H4V18C4,16.16 6.5,14.61 9.87,14.14L2.78,7.05L4.05,5.78L12.28,14M20,18V19.18L15.14,14.32C18,14.93 20,16.35 20,18Z" /></svg></button>
-                                        <button onClick={() => handleViewOrderHistory(user.id)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>history</title><path d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" /></svg></button>
+                                        {user.userType === UserType.CUSTOMER && (
+                                            <button onClick={() => handleViewOrderHistory(user.email)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>history</title><path d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" /></svg></button>
+                                        )}
                                     </div>
                                 </td>
                             </tr>
@@ -110,10 +120,78 @@ const ManageUsers = ({ setModalCreateEmployee }) => {
                 </table>
             </div>
 
-            
+            <Modal
+                isOpen={ modal }
+                onRequestClose={ closeOrderHistoryModal }
+                className={`${ modal ? 'modal-open' : '' }`}
+                overlayClassName="modalOverlay"
+            >
+                <OrderHistoryModal closeOrderHistoryModal={closeOrderHistoryModal} user={selectedUser} orderHistory={orderHistory} />
+            </Modal>
+
+        </div>
+    );
+};
+
+const OrderHistoryModal = ({ closeOrderHistoryModal, orders, orderHistory }) => {
+
+    return (
+        <div id='viewOrderHistory' className='modalForm'>
+            <div className='modalForm-header'>
+                <span>
+                <h1>Order History</h1>
+                <svg
+                    onClick={ closeOrderHistoryModal }
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+                </span>
+                <h2></h2>
+            </div>
+            <div className='adminDisplay-body'>
+                <div className='adminDisplay-section'>
+                    <label>Order List</label>
+                    <div className='dataTable-container adminDisplay-table'>
+                        <table className='dataTable'>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orderHistory.length > 0 ? (
+                                    orderHistory.map((order) => (
+                                        <tr key={order.id}>
+                                            <td>{order.id}</td>
+                                            <td>
+                                                <button>View</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="2">No orders found for this user.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
         </div>
     );
 };
 
 export default ManageUsers;
+

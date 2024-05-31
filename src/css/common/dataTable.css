@@ -41,8 +41,11 @@
 
 .dataTable tbody tr td {
     padding: 10px 0;
+    max-width: 100px;
     text-align: center;
     user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dataTable tbody tr td > * {
@@ -61,6 +64,12 @@
     width: 50px;
     height: 50px;
     border-radius: 5px;
+}
+
+.dataTable-img-md img {
+    width: 60px;
+    height: 60px;
+    
 }
 
 .dataTable-actions {
@@ -90,6 +99,11 @@
 
 .dataTable-actions .dataTable-actions-delete, .dataTable-actions .dataTable-actions-ban {
     background-color: #f05006;
+    fill: #252525;
+}
+
+.dataTable-actions .dataTable-actions-delete svg, .dataTable-actions .dataTable-actions-ban svg {
+    fill: #151515;
 }
 
 .dataTable-actions .dataTable-actions-delete:hover, .dataTable-actions .dataTable-actions-ban:hover {
@@ -109,4 +123,3 @@
     background-color: transparent;
     max-width: 100px;
 }
-

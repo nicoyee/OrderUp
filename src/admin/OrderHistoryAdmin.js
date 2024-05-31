@@ -1,3 +1,8 @@
+import '../css/common/dashboardComponents.css';
+import '../css/common/dataTable.css';
+
+import { db } from "../firebase";
+
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -6,9 +11,12 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import Modal from 'react-modal';
 
 const OrderHistoryAdmin = () => {
+
+  const [ modal, showModal ] = useState(false);
+
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedDocumentId, setSelectedDocumentId] = useState(null);
   const [orderIds, setOrderIds] = useState([]);
@@ -45,6 +53,8 @@ const OrderHistoryAdmin = () => {
       // Check if documentId is available
       setSelectedOrderId(orderId);
       setSelectedDocumentId(documentId);
+      showModal(true);
+      document.body.classList.add('modal-open');
     } else {
       console.error("Document ID not yet available");
     }
@@ -52,6 +62,8 @@ const OrderHistoryAdmin = () => {
 
   const closeModal = () => {
     setSelectedOrderId(null);
+    showModal(false);
+    document.body.classList.remove('modal-open');
   };
 
   const handleStatusChange = async (orderId, documentId, newStatus) => {
@@ -63,68 +75,88 @@ const OrderHistoryAdmin = () => {
       await updateDoc(orderRef, { status: newStatus });
 
       console.log("Order status updated successfully.");
+      
+      // Update the local state to reflect the new status
+      setOrderIds((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderId === orderId && order.documentId === documentId
+            ? { ...order, status: newStatus }
+            : order
+        )
+      );
     } catch (error) {
       console.error("Error updating order status:", error);
     }
   };
 
   return (
-    <div className="menuTable">
-      <h1>User Orders</h1>
-      <table className="dataTableHistory">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>View</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orderIds.map((order) => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
-              <td>{order.documentId}</td>
-              <td>
-                <button
-                  onClick={() => openModal(order.orderId, order.documentId)}
-                >
-                  View
-                </button>
-              </td>
-              <td>
-                <select
-                  value={order.status} // Set the default value to the status
-                  onChange={(e) =>
-                    handleStatusChange(
-                      order.orderId,
-                      order.documentId,
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value="pending">Pending</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="done">Done</option>
-                </select>
-              </td>
+    <div className='sectionContent'>
+      <div className='sectionContent-header'>
+        <h1>Orders</h1>
+      </div>
+      <div className='dataTable-container'>
+        <table className='dataTable'>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>View</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {selectedOrderId && selectedDocumentId && (
-        <Modal
+          </thead>
+          <tbody>
+            {orderIds.map((order) => (
+              <tr key={order.orderId}>
+                <td>{order.orderId}</td>
+                <td>{order.documentId}</td>
+                <td>
+                  <div className='dataTable-actions'>
+                    <button onClick={() => openModal(order.orderId, order.documentId)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>eye</title><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <select
+                    value={order.status} // Set the default value to the status
+                    onChange={(e) =>
+                      handleStatusChange(
+                        order.orderId,
+                        order.documentId,
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="done">Done</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Modal
+        isOpen={ modal }
+        onRequestClose={ closeModal }
+        className={`${ modal ? 'modal-open' : '' }`}
+        overlayClassName="modalOverlay"
+      >
+        <OrderModal
           orderId={selectedOrderId}
           closeModal={closeModal}
           documentId={selectedDocumentId}
         />
-      )}
+      </Modal>
+
     </div>
   );
 };
 
-const Modal = ({ orderId, closeModal, documentId }) => {
-  // Fetch the full order details based on orderId
+const OrderModal = ({ orderId, closeModal, documentId }) => {
+
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
@@ -146,16 +178,35 @@ const Modal = ({ orderId, closeModal, documentId }) => {
   }, [orderId, documentId]);
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={closeModal}>
-          &times;
+    <div id='viewOrderDetails' className='modalForm'>
+
+      <div className='modalForm-header'>
+        <span>
+          <h1>Order Details</h1>
+          <svg
+              onClick={closeModal}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
         </span>
-        {orderDetails && (
-          <div>
-            <p>
-              Date:{" "}
-              {orderDetails.date.toDate().toLocaleString("en-US", {
+        <h2>{orderId}</h2>
+      </div>
+      
+      <div className='adminDisplay-body'>
+
+          <div className='adminDisplay-section'>
+            <label>Date</label>
+            <h1>
+              {orderDetails && orderDetails.date.toDate().toLocaleString("en-US", {
                 weekday: "short",
                 month: "short",
                 day: "numeric",
@@ -164,24 +215,37 @@ const Modal = ({ orderId, closeModal, documentId }) => {
                 minute: "numeric",
                 hour12: true,
               })}
-            </p>
-            <p>Reference Number: {orderDetails.referenceNumber}</p>
-            <h3>Items:</h3>
-            <ul>
-              {Object.values(orderDetails.items).map((item, index) => (
-                <li key={`${item.id}-${index}`}>
-                  <p>Name: {item.name}</p>
-                  <p>Description: {item.description}</p>
-                  <p>Price: ${item.price}</p>
-                  <p>Quantity: {item.quantity}</p>
-                </li>
-              ))}
-            </ul>
+            </h1>
           </div>
-        )}
-      </div>
+
+          <div className='adminDisplay-section'>
+            <label>Order Items</label>
+            <div className='adminDisplay-table'>
+              <table className='dataTable'>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {orderDetails && Object.values(orderDetails.items).map((item, index) => (
+                    <tr key={`${item.id}-${index}`}>
+                      <td>{item.name}</td>
+                      <td>${item.price}</td>
+                      <td>{item.quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
     </div>
   );
-};
+
+}
 
 export default OrderHistoryAdmin;

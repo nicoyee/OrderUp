@@ -1,12 +1,11 @@
 import '../css/DashboardAdmin.css';
 import '../css/Dashboard.css';
-import '../css/CreateDish.css';
-import '../css/Admin/ManageUsers.css'; 
 
 import HeaderAdmin from './HeaderAdmin';
 import MenuAdmin from './MenuAdmin';
 import CreateDish from './CreateDish';
 import CreateEmployee from './CreateEmployee';
+import CreateEvent from './CreateEvent';
 import ManageUsers from './ManageUsers';
 import ManageEvents from './ManageEvents';
 import ManageOrders from './OrderHistoryAdmin';
@@ -23,8 +22,6 @@ const DashboardAdmin = () => {
 
     const user = useContext(UserContext);
 
-    const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
-    const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
     const [manageEventsModalIsOpen, setManageEventsModalIsOpen] = useState(false);
 
     const [ dishes, setDishes ] = useState([]);
@@ -64,13 +61,13 @@ const DashboardAdmin = () => {
                 <Modal
                     isOpen={ modal }
                     onRequestClose={ closeModal }
-                    className={`authModal ${ modal ? 'modal-open' : '' }`}
+                    className={`${ modal ? 'modal-open' : '' }`}
                     overlayClassName="modalOverlay"
                 >
 
                     { modalContent === "createDish" && ( <CreateDish closeModal={closeModal} /> )}
                     { modalContent === "createEmployee" && ( <CreateEmployee closeModal={closeModal} /> )}
-                    { modalContent === "createEvent" && ( <CreateEmployee setModalCreateEvent={ setModalCreateEvent } /> )}
+                    { modalContent === "createEvent" && ( <CreateEvent closeModal={closeModal} /> )}
 
                 </Modal>
                 <div className='dashboardContent-main'>
@@ -99,7 +96,7 @@ const DashboardAdmin = () => {
                         {activeSection === 'menu' && <MenuAdmin setModalCreateDish={setModalCreateDish} />}
                         {activeSection === 'orders' && <ManageOrders setModalCreateEmployee={setModalCreateEmployee} />}
                         {activeSection === 'users' && <ManageUsers setModalCreateEmployee={setModalCreateEmployee} />}
-                        {activeSection === 'events' && <ManageEvents />}
+                        {activeSection === 'events' && <ManageEvents setModalCreateEvent={setModalCreateEvent} />}
                 </div>
 
                 <div className='dashboardContent-side'>
@@ -108,13 +105,11 @@ const DashboardAdmin = () => {
                         <div className='adminSidebar-btnContainer'>
                             <button onClick={() => setModalCreateDish()}>Add Dish</button>
                             <button onClick={() => setModalCreateEmployee()}>Add Employee</button>
-                            <button>Create Event</button>
+                            <button onClick={() => setModalCreateEvent()}>Create Event</button>
                         </div>
                     </div>
                 </div>
 
-                {createDishModalIsOpen && <CreateDish setDishes={setDishes} modalIsOpen={createDishModalIsOpen} setModalIsOpen={setCreateDishModalIsOpen} />}
-                {manageUsersModalIsOpen && <ManageUsers modalIsOpen={manageUsersModalIsOpen} setModalIsOpen={setManageUsersModalIsOpen} />}
                 {manageEventsModalIsOpen && <ManageEvents setEvents={setEvents} modalIsOpen={manageEventsModalIsOpen} setModalIsOpen={setManageEventsModalIsOpen} />}
             
             </div>

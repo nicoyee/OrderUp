@@ -1,8 +1,10 @@
+import '../css/common/modals.css';
+import './adminModal.css';
+
 import React, { useState } from 'react';
-import '../css/Admin/EditEvent.css';
 import Admin from '../class/admin/Admin';
 
-const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
+const EditEvent = ({ event, onUpdateEvent, handleCloseEditEventModal }) => {
   const [updatedEvent, setUpdatedEvent] = useState({ ...event });
 
   const handleChange = (e) => {
@@ -32,57 +34,76 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
       }
       await Admin.updateEvent(updatedEvent.id, updatedEventData);
       onUpdateEvent(updatedEventData);
+      handleCloseEditEventModal();
     } catch (error) {
       console.error('Error updating event:', error);
     }
   };
 
   return (
-    <div className="edit-event-modal">
-      <div className="modal-content">
-        <span className="close" onClick={onCancel}>&times;</span>
-        <h2>Edit Event</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Event Name:</label>
+    <form id='manageEvent' className="modalForm" onSubmit={ handleSubmit }>
+
+      <div className='modalForm-header'>
+        <span>
+          <h1>Update An Event</h1>
+          <svg
+              onClick={ handleCloseEditEventModal }
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+          >
+              <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </span>
+      </div>
+
+      <div className='adminForm-body'>
+        <div className='adminForm-section'>
+          <label>Event Name</label>
+          <div className='adminForm-input'>
             <input type="text" name="eventName" value={updatedEvent.eventName} onChange={handleChange} />
           </div>
-          <div className="form-group">
-            <label>Description:</label>
-            <textarea name="description" value={updatedEvent.description} onChange={handleChange}></textarea>
-          </div>
-          <div className="form-group">
-            <label>Location:</label>
+        <div className='adminForm-section'>
+          <label>Description</label>
+          <textarea name='description' placeholder="Enter description" value={updatedEvent.description} onChange={handleChange}></textarea>
+        </div>
+        <div className='adminForm-section'>
+          <label>Location</label>
+          <div className='adminForm-input'>
             <input type="text" name="location" value={updatedEvent.location} onChange={handleChange} />
           </div>
-          <div className="form-group">
-            <label>Status:</label>
-            <select name="status" value={updatedEvent.status} onChange={handleChange}>
-              <option value="pending">Pending</option>
-              <option value="ongoing">Ongoing</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Date:</label>
-            <input type="date" name="date" value={updatedEvent.date.slice(0, 10)} onChange={handleDateChange} />
-          </div>
-          <div className="form-group">
-            <label>Event Link:</label>
-            <input type="url" name="socialLink" value={updatedEvent.socialLink} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Photo:</label>
-            <input type="file" name="photo" onChange={handleFileChange} />
-          </div>
-          <div className="form-group">
-            <button type="submit">Update Event</button>
-            <button type="button" onClick={onCancel}>Cancel</button>
-          </div>
-        </form>
+        </div>
+        <div className='adminForm-section'>
+          <label>Status</label>
+          <select name="status" value={updatedEvent.status} onChange={handleChange}>
+            <option value="pending">Pending</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div className='adminForm-section'>
+          <label>Date</label>
+          <input type="date" name="date" value={updatedEvent.date.slice(0, 10)} onChange={handleDateChange} />
+        </div>
+        <div className='adminForm-section'>
+          <label>Event Link</label>
+          <input type="url" name="socialLink" value={updatedEvent.socialLink} onChange={handleChange} />
+        </div>
+        <div className='adminForm-section'>
+          <label>Photo</label>
+          <input type="file" name="photo" onChange={handleFileChange} />
+        </div>
+        <button className="adminForm-submit">Update Event</button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 

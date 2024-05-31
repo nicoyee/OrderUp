@@ -6,32 +6,62 @@
     width: 500px;
 }
 
-.adminForm-body {
+#manageEvent {
+    width: 400px;
+}
+
+#viewOrderDetails {
+    width: 500px;
+}
+
+#viewOrderHistory {
+    width: 500px;
+}
+
+.adminForm-body, .adminDisplay-body {
     padding: 0 30px 30px 30px;
     flex-direction: column;
     gap: 10px;
+    max-height: 668px;
+    overflow-y: scroll;
 }
 
+.adminForm-body::-webkit-scrollbar {
+    width: 6px;
+}
+.adminForm-body::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+.adminForm-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+.adminForm-body::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
 
-.adminForm-section {
+.adminForm-section, .adminDisplay-section {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.adminForm-section label {
+.adminForm-section label, .adminDisplay-section label {
     color: black;
     font-size: 14px;
     font-weight: 400;
 }
 
-.adminForm-section select {
+.adminForm-section select, .adminForm-section input[type="date"], .adminForm-section input[type="url"] {
     border: 1.5px solid #ecedec;
     border-radius: 10px;
     padding: 10px;
+    user-select: none;
 }
 
-.adminForm-section select:focus {
+.adminForm-section select:focus, .adminForm-section input[type="date"]:focus, .adminForm-section input[type="url"]:focus {
     border: 1.5px solid #2d79f3;
     outline: none;
 }
@@ -120,4 +150,15 @@
     padding: 10px 15px;
     border-radius: 5px;
     border: 2px dashed #ecedec;
+}
+
+.adminDisplay-table {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.adminDisplay-section h1 {
+    color: black;
+    font-size: 18px;
+    font-weight: 700;
 }

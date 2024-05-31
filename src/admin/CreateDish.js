@@ -1,6 +1,11 @@
+import '../css/common/modals.css';
+import './adminModal.css';
+
 import React, { useState } from 'react';
+
 import { MenuType } from '../constants';
-import Admin from '../class/admin/Admin'
+import Admin from '../class/admin/Admin';
+
 const CreateDish = ({ closeModal }) => {
   const [name, setName] = useState('');
   const [menuType, setMenuType] = useState('Meat');
