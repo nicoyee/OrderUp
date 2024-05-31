@@ -24,15 +24,15 @@ class Admin extends User {
 
     // CRUD User
     static async fetchUsers() {
-        return await AdminController.Users.fetch();
+        return await AdminController.fetch();
     }
 
     static async banUser(userId) {
-        return await AdminController.Users.ban(userId);
+        return await AdminController.ban(userId);
     }
 
     static async signUpStaff(name, email, password, userType) {
-        return await AdminController.Users.addStaff(name, email, password, userType);
+        return await AdminController.addStaff(name, email, password, userType);
     }
 
     // CRUD Event
