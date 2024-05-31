@@ -18,14 +18,14 @@ class Customer extends User {
     }
 
     static async getOrders() {
-        await OrderController.get();
+        await OrderController.getOrderDetails;
     }
 
     static async createOrder(email, cartData) {
         if (!cartData.referenceNumber) {
             throw new Error('Reference number is missing in cartData');
         }
-        await OrderController.create(email, cartData);
+        await OrderController.createOrder(email, cartData);
     }
 
     static async uploadOrderTransactionSlip(slip) {

@@ -1,12 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
 import Admin from "../class/admin/Admin";
 
 const OrderHistoryAdmin = () => {
@@ -17,21 +9,7 @@ const OrderHistoryAdmin = () => {
   useEffect(() => {
     const fetchOrderIds = async () => {
       try {
-        const ordersRef = collection(db, "Orders");
-        const snapshot = await getDocs(ordersRef);
-        const allOrders = [];
-
-        for (const docRef of snapshot.docs) {
-          const orderIdRef = collection(docRef.ref, "orders");
-          const orderIdSnapshot = await getDocs(orderIdRef);
-          orderIdSnapshot.forEach((orderDoc) => {
-            allOrders.push({
-              orderId: orderDoc.id,
-              documentId: docRef.id,
-              status: orderDoc.data().status, // Fetch and store the status
-            });
-          });
-        }
+        const allOrders = await Admin.getCustomerOrders(); // Using OrderController function
         setOrderIds(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -41,9 +19,8 @@ const OrderHistoryAdmin = () => {
     fetchOrderIds();
   }, []);
 
-  const openModal = (orderId, documentId) => {
+  const openModal = async (orderId, documentId) => {
     if (documentId) {
-      // Check if documentId is available
       setSelectedOrderId(orderId);
       setSelectedDocumentId(documentId);
     } else {
@@ -57,14 +34,8 @@ const OrderHistoryAdmin = () => {
 
   const handleStatusChange = async (orderId, documentId, newStatus) => {
     try {
-      // Reference to the specific order document
-      const orderRef = doc(db, "Orders", documentId, "orders", orderId);
-
-      await updateDoc(orderRef, { status: newStatus });
-
+      await Admin.updateCustomerOrderStatus(orderId, documentId, newStatus); // Using OrderController function
       console.log("Order status updated successfully.");
-      
-      // Update the local state to reflect the new status
       setOrderIds((prevOrders) =>
         prevOrders.map((order) =>
           order.orderId === orderId && order.documentId === documentId
@@ -141,13 +112,8 @@ const Modal = ({ orderId, closeModal, documentId }) => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const orderRef = doc(db, "Orders", documentId, "orders", orderId);
-        const orderDoc = await getDoc(orderRef);
-        if (orderDoc.exists()) {
-          setOrderDetails(orderDoc.data());
-        } else {
-          console.error("Order not found");
-        }
+        const orderData = await Admin.getOrderDetails(documentId, orderId); // Using OrderController function
+        setOrderDetails(orderData);
       } catch (error) {
         console.error("Error fetching order details:", error);
       }
@@ -210,6 +176,5 @@ const calculateTotal = (items) => {
   });
   return total.toFixed(2);
 };
-
 
 export default OrderHistoryAdmin;

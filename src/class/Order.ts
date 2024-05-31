@@ -9,6 +9,9 @@ interface IOrderItem {
 export class Order {
     createdBy: string;
     createdDate: string;
-    items: IOrderItem[]
-    constructor() {}
+    items: IOrderItem[];
+
+    constructor() {
+        this.items = [];
+    }
 }

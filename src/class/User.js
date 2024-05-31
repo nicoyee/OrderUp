@@ -1,5 +1,3 @@
-
-
 import { FService } from "./controllers/FirebaseService.ts";
 
 class User {

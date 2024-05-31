@@ -1,8 +1,5 @@
-import { doc, deleteDoc, updateDoc, getDocs, collection, setDoc, addDoc } from 'firebase/firestore';
-import { db , storage} from '../../firebase.js';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc} from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { Dish } from '../Dish.js';
 import { FService } from "./FirebaseService.ts";
 
 
