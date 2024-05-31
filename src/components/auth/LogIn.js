@@ -1,6 +1,4 @@
 import './authForms.css';
-
-import React, { useState } from 'react';
 import {
     ModalContent,
     ModalHeader,
@@ -15,11 +13,20 @@ import {
 import { MdEmail, MdPassword } from "react-icons/md";
 import { VscEye, VscEyeClosed  } from "react-icons/vsc";
 
+import React, { useState } from 'react';
+import {  } from '@chakra-ui/react';
+import AuthController from '../class/auth/AuthController';
+
 const LogIn = ({ setAuthModal }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+
+    const signIn = (e) => {
+        e.preventDefault();
+        AuthController.logIn(email, password);
+    }
 
     return (
 
@@ -31,7 +38,7 @@ const LogIn = ({ setAuthModal }) => {
             </ModalHeader>
             <ModalCloseButton />
             
-            <form id='authForm'>
+            <form id='authForm' onSubmit={ signIn }>
 
                 <Stack spacing={1}>
                     <h3>Email</h3>

@@ -1,6 +1,4 @@
 import './authForms.css';
-
-import React, { useState } from 'react';
 import {
     ModalContent,
     ModalHeader,
@@ -15,12 +13,21 @@ import {
 import { MdEmail, MdPassword } from "react-icons/md";
 import { VscEye, VscEyeClosed  } from "react-icons/vsc";
 
+import React, { useState } from 'react';
+import { userInstance } from '../class/User';
+import { UserType } from '../helpers/index';
+
 const SignUp = ({ setAuthModal }) => {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+
+    const signUp = async (e) => {
+        e.preventDefault();
+        await userInstance.signUp(name, email, password, UserType.CUSTOMER);
+    };
 
     return (
         <ModalContent>
@@ -31,7 +38,7 @@ const SignUp = ({ setAuthModal }) => {
             </ModalHeader>
             <ModalCloseButton />
             
-            <form id='authForm'>
+            <form id='authForm' onSubmit={ signUp }>
                 <Stack spacing={1}>
                     <h3>Display Name</h3>
                     <InputGroup>

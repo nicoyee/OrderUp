@@ -1,13 +1,17 @@
 import './css/Landing.css';
 
-import React, { useState, useEffect } from "react";
-
 import Header from "./LandingHeader";
 import Navigation from "./LandingNavigation";
 import Footer from "./LandingFooter";
+import Loading from '../Loader';
 
-const LandingPage = () => {
+import React, { useContext } from "react";
+import { UserContext } from '../../../App';
+
+const LandingPage = ({isLoggedIn}) => {
   
+  const user = useContext(UserContext);
+
   return (
     <div id='landingContainer'>
 

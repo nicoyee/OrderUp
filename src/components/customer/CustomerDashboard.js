@@ -1,30 +1,36 @@
 import '../common/dashboard/css/Dashboard.css';
-
-import React, { useState } from "react";
+import { MdPostAdd } from "react-icons/md";
+import { TbTicket } from "react-icons/tb";
 
 import Header from "../common/dashboard/DashboardHeader";
 import Footer from "../common/dashboard/DashboardFooter";
 import ViewOrders from "./CustomerOrders";
 import Menu from "./CustomerMenu";
+import Loading from "../common/Loader";
 
-import { MdPostAdd } from "react-icons/md";
-import { TbTicket } from "react-icons/tb";
+import React, { useState, useContext } from "react";
+import { UserContext } from '../../App';
 
 const CustomerDashboard = () => {
 
-  const [ userType, setUserType ] = useState('customer');
+  const user = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (!user) {
+    return <Loading />;
+  }
 
   return (
     <div className='dashboardContainer'>
 
-      <Header userType={ userType } />
+      <Header user={ user }  />
 
       <div className='dashboardContent'>
 
         <div className='dashboardContent-side'>
           <div id="dashboardCard">
             <div className="dashboardCard-header">
-              <h1>Welcome Back, <span>John</span></h1>
+              <h1>Welcome Back, <span>{user.name}</span></h1>
               <p>TUE 17 May 2024</p>
             </div>
             <div className="dashboardCard-buttons">

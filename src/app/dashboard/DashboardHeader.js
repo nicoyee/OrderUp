@@ -1,4 +1,8 @@
 import './css/DashboardHeader.css';
+import CustomerCart from "../../customer/CustomerCart";
+
+import { LuUserCircle2 } from "react-icons/lu";
+import { TbLogout } from "react-icons/tb";
 
 import React, { useState } from "react";
 import { Menu,
@@ -13,17 +17,19 @@ import { Menu,
   DrawerOverlay,
   DrawerContent,
 } from '@chakra-ui/react';
+import AuthController from '../../../class/auth/AuthController';
 
-import CustomerCart from "../../customer/CustomerCart";
 
-import { LuUserCircle2 } from "react-icons/lu";
-import { TbLogout } from "react-icons/tb";
 
-const DashboardHeader = ({ userType, dashboardSection, setDashboardSection }) => {
+const DashboardHeader = ({ user, dashboardSection, setDashboardSection }) => {
 
   const [size, setSize] = React.useState('');
   const { isOpen: navDrawerIsOpen, onOpen: openNavDrawer, onClose: closeNavDrawer } = useDisclosure();
   
+  const handleSignOut = () => {
+    AuthController.signOut();
+  };
+
   return (
     <div id='dashboardHeader'>
 
@@ -55,7 +61,7 @@ const DashboardHeader = ({ userType, dashboardSection, setDashboardSection }) =>
           <h1>RiceBoy</h1>
         </div>
 
-        { (userType === 'admin' || userType === 'staff') && (
+        { (user.userType === 'admin' || user.userType === 'staff') && (
         
           <div className='dashboardHeader-center'>
             <div className='dashboardHeader-nav'>
@@ -70,15 +76,15 @@ const DashboardHeader = ({ userType, dashboardSection, setDashboardSection }) =>
 
         <div className='dashboardHeader-right'>
           
-          { userType === "customer" && (<CustomerCart />) }
+          { user.userType === "customer" && (<CustomerCart />) }
           
           <Menu id='profileIcon' placement='bottom-end' zIndex='100'>
             <MenuButton >
-              <Avatar name='John Doe' sx={{ '--avatar-font-size': '1rem' }} />
+              <Avatar name={user.name} src={ user.profilePicture } sx={{ '--avatar-font-size': '1.5rem' }} />
             </MenuButton>
             <MenuList minW="0" w="140px">
               <MenuItem> <div id='profileDropdown'> <LuUserCircle2 /> Profile </div></MenuItem>
-              <MenuItem> <div id='profileDropdown'> <span><TbLogout /></span> Log Out </div></MenuItem>
+              <MenuItem> <div id='profileDropdown' onClick={ handleSignOut }> <span><TbLogout /></span> Log Out </div></MenuItem>
             </MenuList>
           </Menu> 
         </div>

@@ -1,4 +1,4 @@
-import User from './User';
+import User from '../User';
 
 class Customer extends User {
     constructor(name, email, password) {
