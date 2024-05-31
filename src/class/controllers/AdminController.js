@@ -98,15 +98,20 @@ class AdminController{
                 await setDoc(doc(firebase.db, 'users', user.uid), {
                     name,
                     email,
-                    userType,
+                    userType: 'staff',
                     uid: user.uid,
                     profilePicture: ''
                 });
     
-                // Return the user
+                console.log('Staff added successfully:', user);
                 return user;
             } catch (error) {
-                console.error('Error signing up user:', error);
+                if (error.code === 'auth/email-already-in-use') {
+                    console.error('Error: The email address is already in use.');
+                    alert('The email address is already in use. Please try another email.');
+                } else {
+                    console.error('Error signing up user:', error);
+                }
                 throw error;
             }
         }
@@ -132,6 +137,7 @@ class AdminController{
                 };
                 // Add new event document to Firestore
                 const docRef = await addDoc(collection(db, 'events'), newEvent);
+                console.log('Event created successfully:', { id: docRef.id, ...newEvent });
                 return { id: docRef.id, ...newEvent };
             } catch (error) {
                 console.error('Error creating event:', error);
@@ -165,6 +171,7 @@ class AdminController{
                 };
                 // Update event document in Firestore
                 await updateDoc(doc(db, 'events', eventId), updatedEvent);
+                console.log('Event updated successfully:', updatedEvent);
                 return updatedEvent;
             } catch (error) {
                 console.error('Error updating event:', error);
@@ -185,23 +192,26 @@ class AdminController{
     }
 
     static Orders = {
-        async viewHistory(userId) {
+        async viewHistory(user) {
             try {
-                // Fetch checkouts collection from Firestore
-                const querySnapshot = await getDocs(collection(db, 'checkouts'));
+                // Construct the path to the user's orders collection
+                const ordersCollectionPath = `Orders/${user}/orders`;
+                const ordersCollectionRef = collection(db, ordersCollectionPath);
+
+                // Fetch the orders from the specified path
+                const querySnapshot = await getDocs(ordersCollectionRef);
                 const orders = [];
                 querySnapshot.forEach((doc) => {
-                    const orderData = { id: doc.id, ...doc.data() };
-                    if (orderData.userId === userId) {
-                        orders.push(orderData);
-                    }
+                    orders.push({ id: doc.id, ...doc.data() });
                 });
+
+                console.log('Filtered orders for user:', orders); // Add logging
                 return orders;
             } catch (error) {
                 console.error('Error fetching order history:', error);
                 throw error;
             }
-        }, 
+        },
 
         async getOrders(){
 
@@ -213,11 +223,23 @@ class AdminController{
         // Full Payment Paid,
         // Delivered
         // Completed
-        async updateStatus(userId, orderStatus){
-    
-        }
-    }
+        async updateStatus(orderId, newStatus){
+            try {
+                // Reference to the specific order document
+                const orderRef = doc(db, 'checkouts', orderId);
 
+                // Update the status field in the order document
+                await updateDoc(orderRef, {
+                    status: newStatus
+            });
+
+            console.log("Order status updated successfully.");
+        } catch (error) {
+            console.error("Error updating order status:", error);
+            throw error;
+        }
+     }
+    };
 
     // Helper function to upload photo to storage
     static async uploadPhoto(photo, folder) {

@@ -4,6 +4,9 @@ import Cart from "../class/Cart";
 import Customer from "../class/Customer.ts";
 import "../css/CartPage.css";
 import { UserContext } from "../App";
+
+import { db } from "../firebase";
+import { getDoc, doc, Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const CartPage = () => {
@@ -235,6 +238,7 @@ const CartPage = () => {
             Checkout
           </button>
         </div>
+
       </div>
     );
   };

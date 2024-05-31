@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
 import '../css/Admin/EditEvent.css';
-import Admin from '../class/admin/Admin'
+import Admin from '../class/admin/Admin';
 
 const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
-  const [updatedEvent, setUpdatedEvent] = useState({ ...event }); // Initialize state with a copy of the event
+  const [updatedEvent, setUpdatedEvent] = useState({ ...event });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedEvent(prevState => ({ ...prevState, [name]: value })); // Ensure state update is based on previous state
+    setUpdatedEvent(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedEvent(prevState => ({ ...prevState, [name]: new Date(value).toISOString() }));
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files.length > 0) {
+      setUpdatedEvent(prevState => ({ ...prevState, [name]: files[0] }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await Admin.updateEvent(updatedEvent); // Call the updateEvent function from Admin
-      onUpdateEvent(updatedEvent);
+      const updatedEventData = { ...updatedEvent };
+      if (typeof updatedEvent.photo === 'object') {
+        const photoURL = await Admin.uploadPhoto(updatedEvent.photo, 'events');
+        updatedEventData.photoURL = photoURL;
+      }
+      await Admin.updateEvent(updatedEvent.id, updatedEventData);
+      onUpdateEvent(updatedEventData);
     } catch (error) {
       console.error('Error updating event:', error);
     }
@@ -24,7 +41,7 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
     <div className="edit-event-modal">
       <div className="modal-content">
         <span className="close" onClick={onCancel}>&times;</span>
-        <h2>Edit Event</h2>
+        <h1>Edit Event</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Event Name:</label>
@@ -41,15 +58,23 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
           <div className="form-group">
             <label>Status:</label>
             <select name="status" value={updatedEvent.status} onChange={handleChange}>
-                <option value="pending">Pending</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
+              <option value="pending">Pending</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </div>
           <div className="form-group">
             <label>Date:</label>
-            <input type="date" name="date" value={updatedEvent.date} onChange={handleChange} />
+            <input type="date" name="date" value={updatedEvent.date.slice(0, 10)} onChange={handleDateChange} />
+          </div>
+          <div className="form-group">
+            <label>Event Link:</label>
+            <input type="url" name="socialLink" value={updatedEvent.socialLink} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Photo:</label>
+            <input type="file" name="photo" onChange={handleFileChange} />
           </div>
           <div className="form-group">
             <button type="submit">Update Event</button>

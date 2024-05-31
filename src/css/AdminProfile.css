@@ -61,7 +61,7 @@
 
 .menuTable h1 {
   font-family: "Inter";
-  color: rgb(0, 0, 0);
+  color: #ff8500;
 }
 
 .big-rectangle-admin {
@@ -137,4 +137,11 @@ button {
 
 .item-list {
   padding-left: 15px; /* Adjust this value as needed */
+}
+
+.back-button-profile {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 1; /* Ensure it's above other content */
 }

@@ -7,6 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import Admin from "../class/admin/Admin";
 
 const OrderHistoryAdmin = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -54,19 +55,16 @@ const OrderHistoryAdmin = () => {
     setSelectedOrderId(null);
   };
 
-  const handleStatusChange = async (orderId, documentId, newStatus) => {
+  const handleStatusChange = async (orderId, newStatus) => {
     try {
-      // Reference to the specific order document
-      const orderRef = doc(db, "Orders", documentId, "orders", orderId);
-
-      // Update the status field in the order document
-      await updateDoc(orderRef, { status: newStatus });
-
+      // Update order status in Firestore
+      await Admin.updateCustomerOrderStatus(orderId, newStatus);
       console.log("Order status updated successfully.");
     } catch (error) {
       console.error("Error updating order status:", error);
     }
   };
+
 
   return (
     <div className="menuTable">
@@ -124,7 +122,6 @@ const OrderHistoryAdmin = () => {
 };
 
 const Modal = ({ orderId, closeModal, documentId }) => {
-  // Fetch the full order details based on orderId
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
@@ -144,44 +141,61 @@ const Modal = ({ orderId, closeModal, documentId }) => {
 
     fetchOrderDetails();
   }, [orderId, documentId]);
+  if (!orderDetails) {
+    return (
+      <div className="order-details-modal">
+        <div className="modal-content">
+          <span className="close" onClick={closeModal}>&times;</span>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="modal">
+    <div className="order-details-modal">
       <div className="modal-content">
-        <span className="close" onClick={closeModal}>
-          &times;
-        </span>
-        {orderDetails && (
-          <div>
-            <p>
-              Date:{" "}
-              {orderDetails.date.toDate().toLocaleString("en-US", {
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              })}
-            </p>
-            <p>Reference Number: {orderDetails.referenceNumber}</p>
-            <h3>Items:</h3>
-            <ul>
-              {Object.values(orderDetails.items).map((item, index) => (
-                <li key={`${item.id}-${index}`}>
-                  <p>Name: {item.name}</p>
-                  <p>Description: {item.description}</p>
-                  <p>Price: ${item.price}</p>
-                  <p>Quantity: {item.quantity}</p>
-                </li>
+        <span className="close" onClick={closeModal}>&times;</span>
+        <div>
+          <h1>Order Details</h1>
+          <p>Date: {orderDetails.date ? new Date(orderDetails.date.seconds * 1000).toLocaleString('en-US') : 'N/A'}</p>
+          <p>Reference Number: {orderDetails.referenceNumber}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.values(orderDetails.items || {}).map((item, index) => (
+                <tr key={`${item.id}-${index}`}>
+                  <td>{item.name}</td>
+                  <td>{item.description}</td>
+                  <td>${item.price}</td>
+                  <td>{item.quantity}</td>
+                  <td>{orderDetails.status}</td>
+                </tr>
               ))}
-            </ul>
-          </div>
-        )}
+            </tbody>
+          </table>
+          <p className="total">Total: ${calculateTotal(orderDetails.items)}</p>
+        </div>
       </div>
     </div>
   );
 };
+
+const calculateTotal = (items) => {
+  let total = 0;
+  Object.values(items || {}).forEach((item) => {
+    total += item.price * item.quantity;
+  });
+  return total.toFixed(2);
+};
+
 
 export default OrderHistoryAdmin;

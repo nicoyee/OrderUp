@@ -10,6 +10,8 @@ import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
+import { UserType } from "./constants";
+import { Toaster } from "react-hot-toast"
 import { FController } from "./class/controllers/controller.ts";
 
 import { onAuthStateChanged } from "firebase/auth";

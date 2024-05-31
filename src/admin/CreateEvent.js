@@ -16,19 +16,6 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [events, setEventsState] = useState([]);
 
-    useEffect(() => {
-        fetchEvents();
-    }, []);
-
-    const fetchEvents = async () => {
-        try {
-            const events = await Admin.fetchEvents();
-            setEventsState(events);
-        } catch (error) {
-            setErrorMessage('Error fetching events. Please try again.');
-        }
-    };
-
     const closeModal = () => {
         setModalIsOpen(false);
         resetForm();
@@ -43,6 +30,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
         setSocialLink('');
         setPhoto(null);
     };
+   
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();
@@ -63,19 +51,19 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                     <h1>Create Event</h1>
                     <form onSubmit={handleCreateEvent}>
                         <div className="formGroup">
-                            <label>Event Name</label>
+                            <label>Event Name:</label>
                             <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} required />
                         </div>
                         <div className="formGroup">
-                            <label>Description</label>
+                            <label>Description:</label>
                             <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
                         </div>
                         <div className="formGroup">
-                            <label>Location</label>
+                            <label>Location:</label>
                             <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
                         </div>
                         <div className="formGroup">
-                            <label>Status</label>
+                            <label>Status:</label>
                             <select value={status} onChange={(e) => setStatus(e.target.value)}>
                                 <option value="pending">Pending</option>
                                 <option value="ongoing">Ongoing</option>
@@ -84,7 +72,7 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                             </select>
                         </div>
                         <div>
-                            <label>Date</label>
+                            <label>Date:</label>
                             <DatePicker
                                 selected={date}
                                 onChange={(date) => setDate(date)}
@@ -111,11 +99,11 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                             />
                         </div>
                         <div className="formGroup">
-                            <label>Event Link</label>
+                            <label>Event Link:</label>
                             <input type="url" value={socialLink} onChange={(e) => setSocialLink(e.target.value)} />
                         </div>
                         <div className="formGroup">
-                            <label>Photo</label>
+                            <label>Photo:</label>
                             <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
                         </div>
                         <div className="error-message">{errorMessage}</div>

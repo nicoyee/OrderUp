@@ -6,10 +6,12 @@ import Customer from "../class/Customer.ts";
 import { FController } from "../class/controllers/controller.ts";
 
 const Checkout = () => {
+  const user = useContext(UserContext);
   const location = useLocation();
   const [cartItems, setCartItems] = useState({});
   const [gcashImageUrl, setGcashImageUrl] = useState("");
   const { cartData, referenceNumber, currentDate } = location.state || {};
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,6 +87,7 @@ const Checkout = () => {
               </div>
               <span className="item-price">
                 Price: ₱{cartItems[dishId].price.toFixed(2)}
+
               </span>
             </li>
           ))}
@@ -102,6 +105,7 @@ const Checkout = () => {
             onClick={handleCreateOrder}
           >
             Create Order
+
           </button>
           <button
             type="button"

@@ -18,7 +18,7 @@ class Cart {
         const cartData = cartDoc.data();
         this.items = cartData.items || {};
       } else {
-        throw new Error('Cart not found.');
+        this.items = {}; // Set items to an empty object if cart is not found
       }
     } catch (error) {
       throw error;
