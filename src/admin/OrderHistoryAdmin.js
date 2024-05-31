@@ -55,11 +55,23 @@ const OrderHistoryAdmin = () => {
     setSelectedOrderId(null);
   };
 
-  const handleStatusChange = async (orderId, newStatus) => {
+  const handleStatusChange = async (orderId, documentId, newStatus) => {
     try {
-      // Update order status in Firestore
-      await Admin.updateCustomerOrderStatus(orderId, newStatus);
+      // Reference to the specific order document
+      const orderRef = doc(db, "Orders", documentId, "orders", orderId);
+
+      await updateDoc(orderRef, { status: newStatus });
+
       console.log("Order status updated successfully.");
+      
+      // Update the local state to reflect the new status
+      setOrderIds((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderId === orderId && order.documentId === documentId
+            ? { ...order, status: newStatus }
+            : order
+        )
+      );
     } catch (error) {
       console.error("Error updating order status:", error);
     }
