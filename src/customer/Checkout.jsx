@@ -1,20 +1,12 @@
-// Checkout.js
 import "../css/Checkout.css";
-import React, { useState, useEffect,useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Customer from "../class/Customer.ts";
 import { FController } from "../class/controllers/controller.ts";
 import { UserContext } from "../App";
 import Cart from "../class/Cart";
 import { auth, db } from "../firebase";
-import {
-  getDoc,
-  doc,
-  collection,
-  Timestamp,
-  deleteDoc,
-  setDoc,
-} from "firebase/firestore";
+import { getDoc, doc, collection, Timestamp, deleteDoc, setDoc } from "firebase/firestore";
 
 const Checkout = () => {
   const user = useContext(UserContext);
@@ -23,7 +15,6 @@ const Checkout = () => {
   const [gcashImageUrl, setGcashImageUrl] = useState("");
   const cart = useRef(new Cart()).current;
   const { cartData, referenceNumber, currentDate } = location.state || {};
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +23,7 @@ const Checkout = () => {
         await cart.fetchCartData();
         setCartItems(cart.items);
       } finally {
+        // No action needed
       }
     };
 
@@ -69,28 +61,28 @@ const Checkout = () => {
         if (!cartData) {
           throw new Error('Cart data is missing');
         }
-        console.log(cartData)
-        const refNum = referenceNumber
-        const currDate = currentDate
-        const userName = user.email
+        console.log(cartData);
+        const refNum = referenceNumber;
+        const currDate = new Date(currentDate.seconds * 1000); // Convert Firestore Timestamp to JS Date
+        const userName = user.email;
 
-         // Reference to the user's document in the "Orders" collection
-      const userOrderDocRef = doc(db, "Orders", userName);
+        // Reference to the user's document in the "Orders" collection
+        const userOrderDocRef = doc(db, "Orders", userName);
 
         // Add the user's name to the user's document in the "Orders" collection
-      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
+        await setDoc(userOrderDocRef, { name: userName }, { merge: true });
 
-      // Reference to the user's orders subcollection
-      const ordersRef = collection(userOrderDocRef, "orders");
+        // Reference to the user's orders subcollection
+        const ordersRef = collection(userOrderDocRef, "orders");
 
-      // Add the cart data to the orders subcollection with the reference number as document ID
-      await setDoc(doc(ordersRef, referenceNumber), cartData);
+        // Add the cart data to the orders subcollection with the reference number as document ID
+        await setDoc(doc(ordersRef, referenceNumber), { ...cartData, date: currDate });
 
-      // Get the cart data
-      const cartRef = doc(db, "cart", user.email);
+        // Get the cart data
+        const cartRef = doc(db, "cart", user.email);
 
-       // Delete the cart document
-       await deleteDoc(cartRef);
+        // Delete the cart document
+        await deleteDoc(cartRef);
 
         alert('Order created successfully!');
         navigate("/");
@@ -128,7 +120,6 @@ const Checkout = () => {
               </div>
               <span className="item-price">
                 Price: ₱{cartItems[dishId].price.toFixed(2)}
-
               </span>
             </li>
           ))}
@@ -146,7 +137,6 @@ const Checkout = () => {
             onClick={handleCreateOrder}
           >
             Create Order
-
           </button>
           <button
             type="button"
