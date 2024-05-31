@@ -99,8 +99,6 @@ const CartPage = () => {
         status: "pending"
       };
   
-      await Customer.createOrder(user.email, cartData);
-  
       navigate("/checkout", {
         state: { referenceNumber, currentDate, cartData },
       });

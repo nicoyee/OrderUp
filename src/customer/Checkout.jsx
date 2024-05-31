@@ -1,22 +1,42 @@
 // Checkout.js
 import "../css/Checkout.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Customer from "../class/Customer.ts";
 import { FController } from "../class/controllers/controller.ts";
+import { UserContext } from "../App";
+import Cart from "../class/Cart";
+import { auth, db } from "../firebase";
+import {
+  getDoc,
+  doc,
+  collection,
+  Timestamp,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
 
 const Checkout = () => {
   const user = useContext(UserContext);
   const location = useLocation();
   const [cartItems, setCartItems] = useState({});
   const [gcashImageUrl, setGcashImageUrl] = useState("");
+  const cart = useRef(new Cart()).current;
   const { cartData, referenceNumber, currentDate } = location.state || {};
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCartItems(cartData?.items || {});
-  }, [cartData]);
+    const fetchCartData = async () => {
+      try {
+        await cart.fetchCartData();
+        setCartItems(cart.items);
+      } finally {
+      }
+    };
+
+    fetchCartData();
+  }, [cart]);
 
   useEffect(() => {
     const fetchGcashImageUrl = async () => {
@@ -49,8 +69,29 @@ const Checkout = () => {
         if (!cartData) {
           throw new Error('Cart data is missing');
         }
-        const orderData = { ...cartData, referenceNumber, currentDate };
-        await Customer.createOrder(user.email, orderData);
+        console.log(cartData)
+        const refNum = referenceNumber
+        const currDate = currentDate
+        const userName = user.email
+
+         // Reference to the user's document in the "Orders" collection
+      const userOrderDocRef = doc(db, "Orders", userName);
+
+        // Add the user's name to the user's document in the "Orders" collection
+      await setDoc(userOrderDocRef, { name: userName }, { merge: true });
+
+      // Reference to the user's orders subcollection
+      const ordersRef = collection(userOrderDocRef, "orders");
+
+      // Add the cart data to the orders subcollection with the reference number as document ID
+      await setDoc(doc(ordersRef, referenceNumber), cartData);
+
+      // Get the cart data
+      const cartRef = doc(db, "cart", user.email);
+
+       // Delete the cart document
+       await deleteDoc(cartRef);
+
         alert('Order created successfully!');
         navigate("/");
       } else {

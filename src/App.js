@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState, createContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
 
 import Landing from "./pages/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
