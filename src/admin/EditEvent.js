@@ -41,7 +41,7 @@ const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
     <div className="edit-event-modal">
       <div className="modal-content">
         <span className="close" onClick={onCancel}>&times;</span>
-        <h2>Edit Event</h2>
+        <h1>Edit Event</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Event Name:</label>

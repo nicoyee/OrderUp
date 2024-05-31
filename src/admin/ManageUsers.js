@@ -100,7 +100,6 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                 <h1>Order Details</h1>
                 <p>Date: {order.date ? new Date(order.date.seconds * 1000).toLocaleString('en-US') : 'N/A'}</p>
                 <p>Reference Number: {order.referenceNumber}</p>
-                <h3>Items:</h3>
                 <table>
                   <thead>
                     <tr>
@@ -108,6 +107,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                       <th>Description</th>
                       <th>Price</th>
                       <th>Quantity</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,6 +117,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                         <td>{item.description}</td>
                         <td>${item.price}</td>
                         <td>{item.quantity}</td>
+                        <td>{order.status}</td>
                       </tr>
                     ))}
                   </tbody>
