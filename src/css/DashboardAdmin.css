@@ -1,9 +1,49 @@
-.dashboardAdmin {
-    width: 100%;
-    display: flex;
-}
-.adminContent {
-    width: 100%;
-    border: 1px solid white;
+.dashboardNav.navAdmin {
+    background-color: #e20041;
 }
 
+.dashboardNav.navAdmin .dashboardNav-top h2 span {
+    color: #f9dc03;
+}
+
+#adminSidebar {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 15px;
+    background-color: #151515;
+}
+
+#adminSidebar div {
+    display: flex;
+}
+
+#adminSidebar h1 {
+    color: #d5dbbd;
+    font-size: 24px;
+    font-family: 'Inter';
+    text-align: center;
+}
+
+#adminSidebar .adminSidebar-btnContainer {
+    padding: 0 20px;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#adminSidebar .adminSidebar-btnContainer button {
+    padding: 10px 0;
+    width: 100%;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #d5dbbd;
+}
+
+#adminSidebar .adminSidebar-btnContainer button:hover {
+    color:#151515;
+    background-color: #d5dbbd;
+    cursor: pointer;
+}

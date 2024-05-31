@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MenuType } from '../constants';
 import Admin from '../class/admin/Admin'
-const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
+const CreateDish = ({ closeModal }) => {
   const [name, setName] = useState('');
   const [menuType, setMenuType] = useState('Meat');
   const [description, setDescription] = useState('');
@@ -23,33 +23,43 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
         setDescription('');
         setPrice('');
         setPhoto(null);
-        setModalIsOpen(false);
+        closeModal();
     } catch (error) {
         console.error('Error creating dish:', error);
     }
 };
 
   return (
-    modalIsOpen && (
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={() => setModalIsOpen(false)}>&times;</span>
-          <h1>Create a Dish</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Dish Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
+    <form id='createDish' className="modalForm" onSubmit={ handleSubmit }>
+        <div className='modalForm-header'>
+          <span>
+            <h1>Create A Dish</h1>
+            <svg
+                onClick={closeModal}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+            </span>
+        </div>
+        <div className='adminForm-body'>
+          <div className='adminForm-section'>
+            <label>Dish Name</label>
+            <div className='adminForm-input'>
+              <input type="text" placeholder="Enter dish name" value = { name } onChange={(e)=>setName(e.target.value)}/>
             </div>
-            <div className="form-group">
-              <label htmlFor="menuType">Menu Type</label>
-              <select
+          </div>
+          <div className='adminForm-section'>
+            <label>Category</label>
+            <select
                 id="menuType"
                 value={menuType}
                 onChange={(e) => setMenuType(e.target.value)}
@@ -59,50 +69,28 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
                 <option value={MenuType.VEGETARIAN}>{MenuType.VEGETARIAN}</option>
                 <option value={MenuType.DESSERT}>{MenuType.DESSERT}</option>
                 <option value={MenuType.SEAFOOD}>{MenuType.SEAFOOD}</option>
-              </select>
+            </select>
+          </div>
+          <div className='adminForm-section'>
+            <label>Description</label>
+            <textarea placeholder="Enter description" value={ description } onChange={(e)=>setDescription(e.target.value)}></textarea>
+          </div>
+          <div className='adminForm-section'>
+            <label>Price</label>
+            <div className='adminForm-input'>
+              <input type="text" placeholder="Enter dish price" value={ price } onChange={(e) => setPrice(e.target.value)}/>
             </div>
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                rows="5"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="price">Price</label>
-              <input
-                type="text"
-                id="price"
-                name="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="photo" className="add-photo-label">
-                Add Photo
-              </label>
-              <input
-                type="file"
-                id="photo"
-                name="photo"
-                accept="image/*"
-                onChange={handlePhotoChange}
-                required
-              />
-            </div>
-            <button type="submit" className="add-button">
-              Add Dish
-            </button>
-          </form>
+          </div>
+          <div className='adminForm-section'>
+            <label>Photo</label>
+            <input id="file" type="file" accept="image/*" onChange={handlePhotoChange} />
+          </div>
+
+          <button className="adminForm-submit">Add Dish to Menu</button>
+
         </div>
-      </div>
-    )
+    </form>
+  
   );
 };
 

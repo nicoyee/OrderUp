@@ -7,7 +7,7 @@ import { userInstance } from '../class/User';
 import { UserType } from '../constants';
 import AuthController from '../class/controllers/AuthController';
 
-const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
+const SignUp = ({ closeModal, setLogin }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

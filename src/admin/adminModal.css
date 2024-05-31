@@ -1,26 +1,56 @@
-#authForm {
+#createEmployee {
     width: 400px;
 }
 
-#authForm .authForm-body {
+#createDish {
+    width: 500px;
+}
+
+.adminForm-body {
     padding: 0 30px 30px 30px;
     flex-direction: column;
     gap: 10px;
 }
 
-#authForm .authForm-section {
+
+.adminForm-section {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-#authForm .authForm-section label {
+.adminForm-section label {
     color: black;
     font-size: 14px;
     font-weight: 400;
 }
 
-#authForm .authForm-input {
+.adminForm-section select {
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.adminForm-section select:focus {
+    border: 1.5px solid #2d79f3;
+    outline: none;
+}
+
+.adminForm-section textarea {
+    padding: 10px;
+    min-height: 50px;
+    min-width: 100%;
+    max-width: 100%;
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+}
+
+.adminForm-section textarea:focus {
+    border: 1.5px solid #2d79f3;
+    outline: none;
+}
+
+.adminForm-input {
     padding-left: 15px;
     height: 50px;
     display: flex;
@@ -32,27 +62,27 @@
     transition: 0.1s ease-in;
 }
 
-#authForm .authForm-input:focus-within {
+.adminForm-input:focus-within {
     border: 1.5px solid #2d79f3;
 }
 
-#authForm .authForm-input svg {
+.adminForm-input svg {
     width: 20px;
     height: 20px;
 }
 
-#authForm .authForm-input input {
+.adminForm-input input {
     width: 80%;
     height: 100%;
     border-radius: 10px;
     border: none;
 }
 
-#authForm .authForm-input input:focus {
+.adminForm-input input:focus {
     outline: none;
 }
 
-#authForm .authForm-input .passwordVisibility {
+.adminForm-input .passwordVisibility {
     padding: 15px;
     height: 100%;
     display: flex;
@@ -60,15 +90,11 @@
     cursor: pointer;
 }
 
-#authForm .authForm-input .passwordVisibility:hover {
+.adminForm-input .passwordVisibility:hover {
     background-color: #ecedec;
 }
 
-#authForm .forgotPass {
-    align-self: flex-end;
-}
-
-#authForm .authForm-submit {
+.adminForm-submit {
     margin: 20px 0 10px 0;
     height: 50px;
     width: 100%;
@@ -80,30 +106,18 @@
     background-color: #151717;
 }
 
-#authForm .authForm-submit.emailSent {
+.adminForm-submit.emailSent {
     background-color: #5cb85c;
     pointer-events: none;
 }
 
-#authForm .authForm-submit:hover {
+.adminForm-submit:hover {
     cursor: pointer;
     background-color: #252727;
 }
 
-#authForm .authRedirect-link {
-    font-size: 14px;
-    color: #2d79f3;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-#authForm .authRedirect-link:hover {
-    text-decoration: underline;
-}
-
-#authForm .authRedirect-context {
-    margin: 5px 0;
-    color: black;
-    font-size: 14px;
-    text-align: center; 
+.adminForm-section input[type="file"] {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px dashed #ecedec;
 }

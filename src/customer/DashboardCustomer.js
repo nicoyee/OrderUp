@@ -43,13 +43,16 @@ const DashboardCustomer = () => {
               </a>
             </div>
           </div>
+
+          <CustomerMenu />
+
         </div>
 
         <div className='dashboardContent-side'>
           {/* Add any sidebar content here */}
         </div>
         <div className="customerMenuContainer">
-          <CustomerMenu /> {/* Render CustomerMenu component */}
+           {/* Render CustomerMenu component */}
         </div>
       </div>
     </div>
