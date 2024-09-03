@@ -23,12 +23,19 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
         const fetchEvents = async () => {
             try {
                 const eventsData = await Admin.fetchEvents();
-                setEvents(eventsData);
+                console.log('Fetched events:', eventsData);
+                if (Array.isArray(eventsData)) {
+                    setEvents(eventsData);
+                } else {
+                    console.error('Fetched events data is not an array:', eventsData);
+                    setEvents([]); // Ensure events state is set to an empty array if data is not valid
+                }
             } catch (error) {
                 console.error('Error fetching events:', error);
+                setEvents([]); // Ensure events state is set to an empty array on error
             }
         };
-
+    
         if (modalIsOpen) {
             fetchEvents();
         }

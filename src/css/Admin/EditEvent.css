@@ -10,32 +10,28 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
+    font-family: 'Arial', sans-serif;
 }
 
-.edit-event-modal .close {
+.close {
     color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-.edit-event-modal h1{
-    font-size: 1.5em;
-    color: #ff8500;
-}
-.edit-event-modal .close:hover,
+
+.close:hover,
 .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+h1 {
+    font-size: 1.5em;
+    color: #ff8500;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
 .form-group {
@@ -46,22 +42,21 @@
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
+    text-align: left;
 }
 
-.form-group input[type="text"],
-.form-group input[type="date"],
-.form-group input[type="url"],
+.form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 5px;
-    margin-bottom: 10px;
     background: #3b3b3b;
     color: #fff;
+    font-family: 'Arial', sans-serif;
 }
 
 .form-group textarea {
@@ -69,19 +64,17 @@
     background: #3b3b3b;
 }
 
-.form-group button {
-    background-color: #008CBA;
-    /* Blue */
+.form-group button[type="submit"] {
+    background-color: #4caf50;
     color: white;
-    padding: 10px 20px;
-    border: none;
+    float: right;
+    margin-left: 10px;
     border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
 }
 
 .form-group button[type="button"] {
     background-color: #f44336;
-    /* Red */
-    margin-right: 10px;
+    color: white;
+    float: right;
+    border-radius: 4px;
 }

@@ -1,6 +1,6 @@
-/* CreateEvent.css */
+/* CreateDish.css */
 
-.create-event-modal {
+.create-dish-modal {
     z-index: 1000;
     display: flex;
     position: fixed;
@@ -8,13 +8,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
     font-family: 'Arial', sans-serif;
 }
 
+.modal-content {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    color: #fff;
+}
 
 .close {
     color: #ff8500;
@@ -37,11 +44,11 @@ h1 {
     margin-bottom: 20px;
 }
 
-.formGroup {
+.form-group {
     margin-bottom: 20px;
 }
 
-.formGroup label {
+.form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
@@ -49,31 +56,25 @@ h1 {
 }
 
 .form-group input,
-.form-group select,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 5px;
-    background: #3b3b3b;
+    background-color: #3b3b3b;
     color: #fff;
     font-family: 'Arial', sans-serif;
 }
 
-.formGroup textarea {
+.form-group textarea {
     height: 100px;
     resize: vertical;
 }
 
-.error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.create-event-modal button {
+.add-button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -82,8 +83,9 @@ h1 {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Arial', sans-serif;
 }
 
-.create-event-modal button:hover {
+.add-button:hover {
     background-color: #45a049;
 }

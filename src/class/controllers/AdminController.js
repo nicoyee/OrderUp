@@ -25,7 +25,7 @@ class AdminController{
 
     static async ban(userId) {
         try {
-            await FService.deleteDocument('users', 'userId');
+            await FService.deleteDocument('users', userId);
             console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
