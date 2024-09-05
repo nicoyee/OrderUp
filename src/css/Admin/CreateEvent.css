@@ -37,11 +37,11 @@ h1 {
     margin-bottom: 20px;
 }
 
-.formGroup {
+.form-group {
     margin-bottom: 20px;
 }
 
-.formGroup label {
+.form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
@@ -62,9 +62,9 @@ h1 {
     font-family: 'Arial', sans-serif;
 }
 
-.formGroup textarea {
+.form-group textarea {
     height: 100px;
-    resize: vertical;
+    background: #3b3b3b;
 }
 
 .error-message {

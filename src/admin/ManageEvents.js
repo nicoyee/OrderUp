@@ -90,7 +90,11 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                             <td>{event.location}</td>
                                             <td>{event.status}</td>
                                             <td>{new Date(event.date).toLocaleDateString()}</td>
-                                            <td><img src={event.photoURL} alt={event.eventName} className="event-photo"/></td>
+                                            <td>
+                                                <a href={event.socialLink} target='_blank' rel='noopener noreferrer'>
+                                                    <img src={event.photoURL} alt={event.eventName} className="event-photo"/>
+                                                </a>
+                                            </td>
                                             <td>
                                                 <button className="edit-event-button" onClick={() => handleOpenEditEventModal(event)}>Edit</button>
                                                 <button className="delete-event-button" onClick={() => handleDeleteEvent(event.id)}>Delete</button>

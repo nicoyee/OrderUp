@@ -69,11 +69,11 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
                                 <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div className="formGroup">
+                        <div className="form-group">
                             <label>Date:</label>
                             <input type="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                         </div>
-                        <div className="formGroup">
+                        <div className="form-group">
                             <label>Event Link:</label>
                             <input type="url" value={socialLink} onChange={(e) => setSocialLink(e.target.value)} />
                         </div>
