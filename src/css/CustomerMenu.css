@@ -1,77 +1,226 @@
 .customer-menu {
-  padding: 20px;
+  padding: 40px;
+  background-color: rgba(33, 33, 33, 0.103);
+  width: 100%;
+  max-width: 1200px; 
+  min-width: 800px;  
+  height: 0 auto;      
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: red;
 }
 
 .menu-title {
-  padding: 20px;
-  font-size: 80px;
+  font-size: 60px; 
   color: #f05006;
-  margin-left: 70px;
-  margin-top: 50px;
+  margin-left: 50px;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
   margin-bottom: 20px;
+  margin-left: 40px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-bar:focus {
+  border-color: #e20041;
+  box-shadow: 0 0 5px rgba(226, 0, 65, 0.5); 
+  outline: none;
 }
 
 .menu-items {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 10px;
+  gap:30px;
+  margin: 50px;
   min-height: 600px;
 }
 
 .menu-item {
-  width: calc(33.33% - 20px); /* Adjust the width to fit three items per row */
+  width: 300px; 
+  height: 450px; 
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .menu-item-image-container {
   width: 100%;
-  height: 250px;
+  height: 200px; 
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 16px;
 }
 
 .menu-item-image {
-  width: 100%;
-  height: 100%;
+  width: 100%; 
+  height: 200px; 
   object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.menu-item-image-container:hover .menu-item-image {
+  transform: scale(1.05);
 }
 
 .menu-item-details {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0; 
+  justify-content: space-between;
 }
 
 .menu-item-name {
-  font-size: 20px;
+  font-size: 22px;
   margin-bottom: 10px;
   color: #333;
+  font-weight: bold;
 }
 
 .menu-item-description {
   font-size: 16px;
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  flex-grow: 0; 
 }
 
 .menu-item-price {
-  font-size: 16px;
-  color: #333;
+  font-size: 18px;
+  color: #f05006;
+  font-weight: bold;
+  margin-bottom: 16px;
 }
 
+.best-sellers-slider {
+  overflow-x: scroll;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.best-sellers-slider-container {
+  display: flex;
+  gap: 1rem;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.best-seller-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.best-seller-item:hover {
+  transform: scale(1.05);
+}
+
+.best-seller-item-image-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.best-seller-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.best-seller-item-details {
+  padding: 1rem;
+}
+
+.best-seller-item-name {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.best-seller-item-description {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.best-seller-item-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+
 .add-to-cart-btn {
-  padding: 8px 16px;
-  background-color: green;
+  padding: 10px 20px;
+  background-color: #28a745;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: center;
   margin-top: auto;
+  width: 150px;
+}
+
+
+.add-to-cart-btn:hover {
+  background-color: #218838;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 16px 29px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  background-color: #45a049;
+}
+
+
+.pagination-btn.active {
+  background-color: #999; 
+  color: #000;
+}
+
+.pagination-btn:disabled {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
 }

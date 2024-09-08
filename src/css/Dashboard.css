@@ -4,20 +4,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
+
 .dashboardContent {
     width: 80%;
     display: flex;
     align-self: center;
+    flex-wrap: wrap; 
+    gap: 20px; 
 }
 
 .dashboardContent-main {
     width: 60%;
+    max-width: 1200px; 
+    min-width: 300px; 
 }
 
 .dashboardCard {
     width: 100%;
-    height: 200px;
+    max-width: 500px; 
+    height: 250px; 
     border-radius: 15px;
     border: 1px solid #252525;
     background: rgba(105, 13, 197, 0.103);
@@ -25,6 +32,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .cardAdmin {
@@ -40,8 +48,8 @@
     left: -20%;
     border-radius: 50%;
     border: 35px solid rgba(255, 255, 255, 0.102);
-    transition: all .8s ease;
-    filter: blur(.5rem);
+    transition: all 0.8s ease;
+    filter: blur(0.5rem);
 }
 
 .dashboardCardText {
@@ -50,9 +58,10 @@
     display: flex;
     flex-direction: column;
     color: white;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-weight: 900;
     font-size: 1.5em;
+    box-sizing: border-box;
 }
 
 .dashboardCardSubtitle {
@@ -64,7 +73,7 @@
 .dashboardCardName {
     color: #f05006;
     font-weight: 600;
-} 
+}
 
 .nameAdmin {
     color: #eaa924;
@@ -72,10 +81,10 @@
 
 .dashboardCardIcons {
     display: flex;
-    justify-items: center;
+    justify-content: center; /* Center icons horizontally */
     align-items: center;
-
     overflow: hidden;
+    gap: 10px; /* Adds spacing between icons */
 }
 
 .dashboardCardBtn {
@@ -88,22 +97,21 @@
     justify-content: center;
     text-decoration: none;
     font-size: 16px;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     font-weight: 400;
     color: #d5dbbd;
     gap: 5px;
-    
+    box-sizing: border-box;
 }
 
 .dashboardCardBtn:not(:last-child)::before {
     content: "";
     position: absolute;
-    height: 70%; 
+    height: 70%;
     width: 2px;
     background-color: #4b4b4b;
     right: 0;
     top: 15%;
-    
 }
 
 .dashboardCardSvg {
@@ -111,6 +119,7 @@
     height: 20px;
     stroke: #d5dbbd;
 }
+
 .dashboardCardBtn:hover {
     background-color: #4b4b4b;
 }
@@ -127,6 +136,10 @@
     .dashboardContent-main {
         width: 100%;
     }
+    .dashboardCard {
+        max-width: 100%; 
+        height: auto; 
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -134,4 +147,3 @@
         width: 90%;
     }
 }
-
