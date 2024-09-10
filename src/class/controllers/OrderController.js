@@ -12,9 +12,11 @@ class OrderController {
                 orderIdSnapshot.forEach((orderDoc) => {
                     const orderData = orderDoc.data();
                     const order = new Order();
-                    order.createdBy = orderData.createdBy;
+                    order.orderId = orderDoc.id;
+                    order.createdBy = orderData.createdBy || docRef.id;
                     order.createdDate = orderData.createdDate;
                     order.items = orderData.items;
+                    order.status = orderData.status || "pending";
                     allOrders.push(order);
                 });
             }

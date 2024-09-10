@@ -1,6 +1,6 @@
 /* CreateEvent.css */
 
-.createevent-modal {
+.create-event-modal {
     z-index: 1000;
     display: flex;
     position: fixed;
@@ -12,56 +12,59 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
+    font-family: 'Arial', sans-serif;
 }
 
 
-.createevent-modal ,close {
+.close {
     color: #ff8500;
     float: right;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
 }
 
-.createevent-modal .close:hover,
-.createevent-modal .close:focus {
-    color: #ffa733;
+.close:hover,
+.close:focus {
+    color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
 }
 
-.createevent-modal h1 {
-    text-align: center;
-    margin-bottom: 20px;
+h1 {
     font-size: 1.5em;
     color: #ff8500;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
-.formGroup {
-    margin-bottom: 15px;
+.form-group {
+    margin-bottom: 20px;
 }
 
-.formGroup label {
+.form-group label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #ff8500;
+    text-align: left;
 }
 
-.formGroup input,
-.formGroup textarea,
-.formGroup select {
+.form-group input,
+.form-group select,
+.form-group textarea {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 5px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    color: #fff;
+    margin-top: 5px;
     background: #3b3b3b;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
 }
 
-.formGroup textarea {
+.form-group textarea {
     height: 100px;
-    resize: vertical;
+    background: #3b3b3b;
 }
 
 .error-message {
@@ -70,7 +73,7 @@
     margin-bottom: 15px;
 }
 
-.createevent-modal button {
+.create-event-modal button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -81,6 +84,6 @@
     font-size: 16px;
 }
 
-.createevent-modal button:hover {
+.create-event-modal button:hover {
     background-color: #45a049;
 }

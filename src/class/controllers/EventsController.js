@@ -29,10 +29,10 @@ class EventsController {
 
     static async fetch() {
         try {
-            // Fetch events from Firestore
-            const eventList = await FService.getDocuments('events');
-            console.log('Events fetched successfully:', eventList);
-            return eventList;
+            const querySnapshot = await FService.getDocuments('events');
+            const events = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log('Events fetched successfully:', events);
+            return events;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
