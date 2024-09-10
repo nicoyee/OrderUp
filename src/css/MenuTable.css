@@ -94,3 +94,13 @@
 .actionBtns button.deleteBtn:hover {
   background-color: #d32f2f; /* Darker shade of red on hover */
 }
+
+
+.category-header {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  border-color: #000000;  
+  margin-top: 5px;
+}
