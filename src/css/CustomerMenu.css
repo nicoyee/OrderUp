@@ -7,12 +7,10 @@
   height: 0 auto;      
   margin: 0 auto;
   box-sizing: border-box;
-  border-style: solid;
-  border-color: red;
 }
 
 .menu-title {
-  font-size: 60px; 
+  font-size: 90px; 
   color: #f05006;
   margin-left: 50px;
   margin-top: 30px;

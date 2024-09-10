@@ -6,6 +6,8 @@ import { UserContext } from '../App';
 
 import HeaderCustomer from './HeaderCustomer';
 import CustomerMenu from './CustomerMenu';
+import CustomerFeatureDish from './CustomerFeatureDish';
+
 
 const DashboardCustomer = () => {
   const user = useContext(UserContext);
@@ -47,6 +49,11 @@ const DashboardCustomer = () => {
         <div className='dashboardContent-side'>
           {/* Add any sidebar content here */}
         </div>
+
+        <div className='customerFeatureDish'>
+          <CustomerFeatureDish />
+        </div>
+        
         <div className="customerMenuContainer">
           <CustomerMenu /> {/* Render CustomerMenu component */}
         </div>
