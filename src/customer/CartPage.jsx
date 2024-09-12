@@ -6,6 +6,8 @@ import "../css/CartPage.css";
 import { UserContext } from "../App";
 import { Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import Checkout from "./Checkout.jsx";
+
 
 const CartPage = () => {
   const user = useContext(UserContext);
@@ -13,6 +15,7 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false); // State to handle modal visibility
   const cart = useRef(new Cart()).current;
   const navigate = useNavigate();
 
@@ -82,29 +85,17 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      if (!user) {
-        throw new Error("User not authenticated.");
-      }
-
-      const referenceNumber = uuidv4();
-      const currentDate = Timestamp.now();
-
-      const cartData = {
-        ...cartItems,
-        referenceNumber,
-        date: currentDate,
-        status: "pending",
-      };
-
-      navigate("/checkout", {
-        state: { referenceNumber, currentDate, cartData },
-      });
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      setError(error.message);
+  const handleCheckout = () => {
+    if (!user) {
+      setError("User not authenticated.");
+      return;
     }
+
+    setIsCheckoutOpen(true); // Open the modal
+  };
+
+  const closeModal = () => {
+    setIsCheckoutOpen(false); // Close the modal
   };
 
   const totalPrice = Object.values(cartItems).reduce(
@@ -150,7 +141,7 @@ const CartPage = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2h10a2 2h10a2 2h10a2 2 0 002-2V9" />
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M5 9V21a2 2 0 002 2h10a2 2 0 002-2V9" />
             </svg>
           </button>
         </div>
@@ -227,14 +218,13 @@ const CartPage = () => {
       </form>
       <div className="total-price">Total: ₱ {totalPrice.toFixed(2)}</div>
       <div className="checkout-container">
-        <button
-          type="button"
-          className="checkout-btn"
-          onClick={handleCheckout}
-        >
+        <button type="button" className="checkout-btn" onClick={handleCheckout}>
           Checkout
         </button>
       </div>
+
+      {/* Modal Checkout */}
+      {isCheckoutOpen && <Checkout onClose={closeModal} cartItems={cartItems} />}
     </div>
   );
 };

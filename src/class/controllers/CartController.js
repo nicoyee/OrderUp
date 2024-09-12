@@ -54,15 +54,20 @@ class CartController {
         }
     }
 
-    static async getCartData(cartInstance){
+    // CartController.js
+    static async getCartData(cartInstance) {
         try {
             const user = FService.auth.currentUser;
             if (!user) {
                 throw new Error('User not authenticated.');
             }
-        
+    
+            if (!cartInstance) {
+                throw new Error('Cart instance is not defined.');
+            }
+    
             const cartDoc = await FService.getDocument('cart', user.email);
-        
+    
             if (cartDoc.exists()) {
                 const cartData = cartDoc.data();
                 cartInstance.items = cartData.items || {};
@@ -73,7 +78,9 @@ class CartController {
             throw error;
         }
     }
+    
 
+    
     static async deleteItem(updatedCartItems) {
         const user = FService.auth.currentUser;
         await FService.updateDocument('cart', user?.email, { items: updatedCartItems });
