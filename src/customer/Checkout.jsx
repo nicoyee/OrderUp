@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import '../css/Checkout.css';
 import CartController from "../class/controllers/CartController.js";
 import OrderController from "../class/controllers/OrderController.js";
-import { FService } from "../class/controllers/FirebaseService.ts";
+import PaymentController from "../class/controllers/PaymentController.jsx";
+import { auth } from '../firebase'; // Import auth from the firebase.js file
 
 const Checkout = ({ onClose, cartItems }) => {
   const [formData, setFormData] = useState({
     receiverName: "",
     contactNo: "",
     address: "",
-    paymentOption: "fullpayment",  // Default option to full payment
+    paymentOption: "fullpayment", // Default option to full payment
   });
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [downpaymentAmount, setDownpaymentAmount] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Calculate total and downpayment amounts whenever cartItems change
   useEffect(() => {
     let total = 0;
-    Object.values(cartItems).forEach(item => {
+    Object.values(cartItems).forEach((item) => {
       total += item.price * item.quantity;
     });
     setTotalAmount(total);
@@ -34,39 +37,58 @@ const Checkout = ({ onClose, cartItems }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
+  
     try {
-      // Fetch the current user's email from Firebase auth
-      const user = FService.auth.currentUser;
-      if (!user) {
-        throw new Error('User is not authenticated');
-      }
-      const email = user.email;
-
-      // Determine the amount to be paid based on the payment option
-      let amountToPay = totalAmount;
-      if (formData.paymentOption === 'downpayment') {
-        amountToPay = downpaymentAmount;
-      }
-
-      // Fetch the cart data from CartController
       const userCartItems = await CartController.getCartData();
-      if (Object.keys(userCartItems).length === 0) {
-        alert('Your cart is empty! Please add items before checking out.');
+  
+      if (!userCartItems || Object.keys(userCartItems).length === 0) {
+        alert("Your cart is empty! Please add items before checking out.");
+        setIsSubmitting(false);
         return;
       }
-
-      // Create the order using the OrderController
-      await OrderController.createOrder(email, formData, userCartItems, amountToPay);
-
-      alert("Order successfully placed!");
-      onClose(); // Close the modal after successful submission
+  
+      const email = auth.currentUser?.email;
+      if (!email) {
+        alert("You must be logged in to place an order.");
+        setIsSubmitting(false);
+        return;
+      }
+  
+      const orderId = await OrderController.createOrder({
+        email,
+        receiverName: formData.receiverName,
+        contactNo: formData.contactNo,
+        address: formData.address,
+        paymentOption: formData.paymentOption,
+        items: cartItems,
+        totalAmount: formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount,
+      });
+  
+      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+  
+      // Ensure the payload matches the expected format
+      const response = await axios.post("/api/create-payment-link", {
+        amount: paymentAmount,
+        email,
+        orderItems: cartItems,
+      });
+  
+      const paymentLink = response.data.attributes.url;
+  
+      await PaymentController.recordPayment(email, paymentAmount, paymentLink);
+  
+      alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
+  
+      window.location.href = paymentLink;
     } catch (error) {
-      console.error("Error submitting order:", error);
+      console.error("Error during payment:", error.response ? error.response.data : error.message);
       alert("Failed to submit order. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="checkout-modal">
       <div className="modal-content">
@@ -142,7 +164,9 @@ const Checkout = ({ onClose, cartItems }) => {
             </label>
           </div>
 
-          <button type="submit">Confirm Order</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Confirm Order"}
+          </button>
         </form>
       </div>
     </div>

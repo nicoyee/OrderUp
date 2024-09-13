@@ -3,28 +3,31 @@ import { Order } from "../Order.ts";
 
 class OrderController {
     // Method to create an order based on checkout form data and cart items
-    static async createOrder(email, formData, cartItems, totalAmount) {
-        try {
-            const referenceNumber = this.generateReferenceNumber();
-            const orderData = {
-                receiverName: formData.receiverName,
-                contactNo: formData.contactNo,
-                address: formData.address,
-                paymentOption: formData.paymentOption,
-                items: cartItems, 
-                totalAmount: totalAmount,
-                status: "pending", // default status
-                createdDate: new Date(),
-                referenceNumber: referenceNumber
-            };
+    // Updated createOrder method in OrderController.js
+    static async createOrder(orderDetails) {
+    try {
+        const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
+        const referenceNumber = this.generateReferenceNumber();
+        const orderData = {
+            receiverName,
+            contactNo,
+            address,
+            paymentOption,
+            items,
+            totalAmount,
+            status: "pending", // default status
+            createdDate: new Date(),
+            referenceNumber: referenceNumber
+        };
 
-            await FService.setDocument(`Orders/${email}/orders`, referenceNumber, orderData);
-            console.log("Order created successfully.");
-        } catch (error) {
-            console.error("Error creating order:", error);
-            throw error;
-        }
+        await FService.setDocument(`Orders/${email}/orders`, referenceNumber, orderData);
+        console.log("Order created successfully.");
+    } catch (error) {
+        console.error("Error creating order:", error);
+        throw error;
     }
+    }
+
 
     // Method to fetch all orders
     static async getOrders() {

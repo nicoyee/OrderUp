@@ -23,17 +23,22 @@ const CartPage = () => {
     const fetchCartData = async () => {
       try {
         if (!user) throw new Error("User not authenticated.");
-        await cart.fetchCartData(user);
-        setCartItems(cart.items);
+        
+        const cartInstance = new Cart();
+        await cartInstance.fetchCartData(user);
+        setCartItems(cartInstance.items); // Update the state with fetched items
+        
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchCartData();
-  }, [cart, user]);
+  }, [user]); // Depend on user, but not cart directly
+  
+  
 
   const handleQuantityChange = async (dishId, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from being less than 1
