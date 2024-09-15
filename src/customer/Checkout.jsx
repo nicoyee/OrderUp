@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import '../css/Checkout.css';
 import CartController from "../class/controllers/CartController.js";
 import OrderController from "../class/controllers/OrderController.js";
@@ -40,21 +39,29 @@ const Checkout = ({ onClose, cartItems }) => {
     setIsSubmitting(true);
   
     try {
+     
       const userCartItems = await CartController.getCartData();
-  
       if (!userCartItems || Object.keys(userCartItems).length === 0) {
         alert("Your cart is empty! Please add items before checking out.");
-        setIsSubmitting(false);
         return;
       }
   
+      
       const email = auth.currentUser?.email;
       if (!email) {
         alert("You must be logged in to place an order.");
-        setIsSubmitting(false);
         return;
       }
   
+      
+      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+
+      
+      console.log("Total Amount:", totalAmount);
+      console.log("Downpayment Amount:", downpaymentAmount);
+      console.log("Payment Amount being sent:", paymentAmount);
+  
+      
       const orderId = await OrderController.createOrder({
         email,
         receiverName: formData.receiverName,
@@ -62,27 +69,29 @@ const Checkout = ({ onClose, cartItems }) => {
         address: formData.address,
         paymentOption: formData.paymentOption,
         items: cartItems,
-        totalAmount: formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount,
+        totalAmount: paymentAmount,
       });
   
-      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+      // Create a description for the order items
+      const orderDescription = Object.keys(cartItems)
+        .map(key => `${cartItems[key].name} x ${cartItems[key].quantity}`)
+        .join(', ');
+
+      // Log order description for debugging
+      console.log("Order Description:", orderDescription);
   
-      // Ensure the payload matches the expected format
-      const response = await axios.post("/api/create-payment-link", {
-        amount: paymentAmount,
-        email,
-        orderItems: cartItems,
-      });
+      // Create a payment link
+      const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
   
-      const paymentLink = response.data.attributes.url;
+      // Record the payment
+      await PaymentController.recordPayment(paymentLink);
   
-      await PaymentController.recordPayment(email, paymentAmount, paymentLink);
-  
+      // Alert and redirect user
       alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
-  
       window.location.href = paymentLink;
+  
     } catch (error) {
-      console.error("Error during payment:", error.response ? error.response.data : error.message);
+      console.error("Error during payment:", error.message || error);
       alert("Failed to submit order. Please try again.");
     } finally {
       setIsSubmitting(false);

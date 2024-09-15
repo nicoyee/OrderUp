@@ -1,38 +1,63 @@
-import axios from 'axios';
-import { FService } from "./FirebaseService.ts"; // Firebase service to store payment data
+import { FService } from "./FirebaseService.ts";
 
 class PaymentController {
-  // Create a PayMongo payment link
-  static async createPaymentLink(amount, email, orderItems) {
+  static async createPaymentLink(amount, description, remarks) {
     try {
-      const response = await axios.post('http://localhost:3001/api/create-payment-link', {
-        amount: amount, // Amount in PHP
-        email: email,
-        orderItems: orderItems,
-      });
-  
-      const paymentLink = response.data.attributes.url;
-      return paymentLink;
-    } catch (error) {
-      console.error('Error creating payment link:', error.response ? error.response.data : error.message);
-      throw error; // Ensure error is properly handled
-    }
-  }
-  
-  // Store payment record in the 'payments' collection
-  static async recordPayment(email, amount, paymentLink) {
-    try {
-      const paymentData = {
-        email: email,
-        amount: amount,
-        paymentLink: paymentLink,
-        status: 'pending',
-        timestamp: new Date(),
+      const formattedAmount = amount * 100; 
+
+      const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
+      if (!apiKey) {
+        throw new Error("PayMongo API Key is not configured");
+      }
+
+      
+      const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
+
+      const requestData = {
+        data: {
+          attributes: {
+            amount: formattedAmount,
+            description: description,
+            remarks: remarks 
+          }
+        }
       };
-      // Store the payment record in Firestore
-      await FService.collection('payments').add(paymentData);
+
+      console.log('Creating payment link with data:', requestData);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          authorization: authHeader,
+        },
+        body: JSON.stringify(requestData),
+      };
+
+      const response = await fetch('https://api.paymongo.com/v1/links', options);
+      const responseData = await response.json();
+      console.log('PayMongo response:', responseData);
+
+      if (responseData && responseData.data && responseData.data.attributes && responseData.data.attributes.url) {
+        const paymentLink = responseData.data.attributes.url;
+
+        const paymentData = {
+          amount: formattedAmount / 100, 
+          description: description,
+          remarks: remarks, 
+        };
+
+        // Store payment data in Firestore
+        await FService.collection('payments').add(paymentData);
+        console.log('Payment data successfully stored in Firestore:', paymentData);
+
+        return paymentLink;
+      } else {
+        throw new Error('Unexpected response format from PayMongo API');
+      }
     } catch (error) {
-      console.error('Error recording payment:', error);
+      console.error('Error creating payment link:', error.message);
       throw error;
     }
   }
