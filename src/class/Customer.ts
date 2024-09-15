@@ -36,6 +36,12 @@ class Customer extends User {
         const gcashDoc = await FService.getDocument('qr_code', 'gcash');
         return gcashDoc.exists() ? gcashDoc.data() : null;
     }
+
+    static async getBestSellers() {
+        return await CartController.getBestSellers();
+    }
+
+
 }
 
 export default Customer;

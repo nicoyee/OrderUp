@@ -1,18 +1,183 @@
-.container {
-  display: flex; /* Ensure containers are horizontally aligned */
-  justify-content: space-between; /* Distribute space between containers */
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  color: #f05006;
+.checkout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px; /* Added padding for better spacing on smaller screens */
 }
 
-.gcash-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+.checkout-modal .modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 450px; /* Increased max-width for larger screens */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative; /* Added for the close button to work properly */
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.checkout-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.checkout-modal .close-button:hover {
+  color: #007BFF; /* Added hover effect */
+}
+
+.checkout-modal h2,
+.checkout-modal h3 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  letter-spacing: 1px; /* Enhanced text readability */
+}
+
+.checkout-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkout-modal .form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkout-modal .form-group label {
+  flex: 0 0 120px;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkout-modal .form-group input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.checkout-modal .form-group input:focus {
+  border-color: #007BFF; /* Added focus state for input */
+  outline: none;
+}
+
+.checkout-modal .payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkout-modal .payment-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkout-modal .payment-option input[type="radio"] {
+  display: none;
+}
+
+.checkout-modal .payment-option .circle {
+  height: 20px;
+  width: 20px;
+  border: 2px solid #007BFF;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.checkout-modal .payment-option input[type="radio"]:checked + .circle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 10px;
+  width: 10px;
+  background-color: #007BFF;
+  border-radius: 50%;
+}
+
+.checkout-modal .payment-option .description {
+  font-size: 14px;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.checkout-modal .payment-option:hover .description {
+  color: #007BFF; /* Added hover effect */
+}
+
+.checkout-modal button[type="submit"] {
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.checkout-modal button[type="submit"]:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Added hover effect with button lift */
+}
+
+.checkout-modal button[type="submit"]:active {
+  transform: translateY(0); /* Reset effect on click */
+}
+
+@media (max-width: 500px) {
+  .checkout-modal .modal-content {
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px; /* Smaller radius for smaller screens */
+  }
+
+  .checkout-modal h2,
+  .checkout-modal h3 {
+    font-size: 20px;
+  }
+  
+  .checkout-modal .form-group label {
+    font-size: 12px;
+  }
+
+  .checkout-modal .form-group input {
+    font-size: 14px;
+  }
+
+  .checkout-modal button[type="submit"] {
+    font-size: 14px;
+  }
 }

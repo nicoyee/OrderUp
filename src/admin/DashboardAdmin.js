@@ -1,7 +1,5 @@
 import "../css/DashboardAdmin.css";
 import "../css/Dashboard.css";
-import "../css/CreateDish.css";
-import "../css/Admin/ManageUsers.css";
 
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App";

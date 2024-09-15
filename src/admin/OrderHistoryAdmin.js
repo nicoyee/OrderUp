@@ -10,6 +10,7 @@ const OrderHistoryAdmin = () => {
     const fetchOrderIds = async () => {
       try {
         const allOrders = await Admin.getCustomerOrders(); // Using OrderController function
+        console.log("Fetched Orders:", allOrders); 
         setOrderIds(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -21,6 +22,7 @@ const OrderHistoryAdmin = () => {
 
   const openModal = async (orderId, documentId) => {
     if (documentId) {
+      console.log("Opening modal for Order ID:", orderId, "Document ID:", documentId);
       setSelectedOrderId(orderId);
       setSelectedDocumentId(documentId);
     } else {
@@ -30,6 +32,7 @@ const OrderHistoryAdmin = () => {
 
   const closeModal = () => {
     setSelectedOrderId(null);
+    setSelectedDocumentId(null);
   };
 
   const handleStatusChange = async (orderId, documentId, newStatus) => {
@@ -65,7 +68,7 @@ const OrderHistoryAdmin = () => {
           {orderIds.map((order) => (
             <tr key={order.orderId}>
               <td>{order.orderId}</td>
-              <td>{order.documentId}</td>
+              <td>{order.createdBy || 'Unknown Customer'}</td>
               <td>
                 <button
                   onClick={() => openModal(order.orderId, order.documentId)}
@@ -112,7 +115,9 @@ const Modal = ({ orderId, closeModal, documentId }) => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
+        console.log("Fetching details for Order ID:", orderId, "Document ID:", documentId);
         const orderData = await Admin.getOrderDetails(documentId, orderId); // Using OrderController function
+        console.log("Fetched Order Details:", orderData);
         setOrderDetails(orderData);
       } catch (error) {
         console.error("Error fetching order details:", error);

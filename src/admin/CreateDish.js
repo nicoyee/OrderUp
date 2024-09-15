@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { MenuType } from '../constants';
-import Admin from '../class/admin/Admin'
+import '../css/Admin/CreateDish.css';
+import Admin from '../class/admin/Admin';
+
 const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
   const [name, setName] = useState('');
   const [menuType, setMenuType] = useState('Meat');
@@ -31,7 +33,7 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
 
   return (
     modalIsOpen && (
-      <div className="modal">
+      <div className="create-dish-modal">
         <div className="modal-content">
           <span className="close" onClick={() => setModalIsOpen(false)}>&times;</span>
           <h1>Create a Dish</h1>

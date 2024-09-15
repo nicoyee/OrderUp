@@ -1,4 +1,5 @@
-import CartController from "./controllers/CartController";
+import CartController from "./controllers/CartController.js";
+
 
 class Cart {
   constructor() {
@@ -28,6 +29,7 @@ class Cart {
       (acc, item) => acc + item.price * item.quantity, 0
     );
   }
+
 }
 
 export default Cart;
