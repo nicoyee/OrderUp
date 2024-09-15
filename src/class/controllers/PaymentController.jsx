@@ -39,18 +39,28 @@ class PaymentController {
       const responseData = await response.json();
       console.log('PayMongo response:', responseData);
 
-      if (responseData && responseData.data && responseData.data.attributes && responseData.data.attributes.url) {
-        const paymentLink = responseData.data.attributes.url;
+      // if(responseData!=null){
+      //   const paymentLink = responseData.data.attributes.checkout_url;
+      //   console.log(paymentLink);
+
+      // const paymentData = {
+      //     amount: formattedAmount / 100, 
+      //     description: description,
+      //     remarks: remarks, 
+      // };
+
+      if (responseData && responseData.data && responseData.data.attributes && responseData.data.attributes.checkout_url) {
+        const paymentLink = responseData.data.attributes.checkout_url;
+        console.log(paymentLink);
 
         const paymentData = {
           amount: formattedAmount / 100, 
           description: description,
           remarks: remarks, 
-        };
+      };
 
-        // Store payment data in Firestore
-        await FService.collection('payments').add(paymentData);
-        console.log('Payment data successfully stored in Firestore:', paymentData);
+        // await FService.collection('payments').add(paymentData);
+        // console.log('Payment data successfully stored in Firestore:', paymentData);
 
         return paymentLink;
       } else {

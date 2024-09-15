@@ -84,12 +84,12 @@ const Checkout = ({ onClose, cartItems }) => {
       const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
   
       // Record the payment
-      await PaymentController.recordPayment(paymentLink);
+      // await PaymentController.recordPayment(paymentLink);
   
       // Alert and redirect user
-      alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
+      // alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
       window.location.href = paymentLink;
-  
+
     } catch (error) {
       console.error("Error during payment:", error.message || error);
       alert("Failed to submit order. Please try again.");
