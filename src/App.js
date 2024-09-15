@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import Landing from "./pages/Landing";
@@ -10,61 +9,77 @@ import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
 import { UserType } from "./constants";
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 import { FService } from "./class/controllers/FirebaseService.ts";
-
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
 
 export const UserContext = createContext(null);
 
+const PrivateRoute = ({ element, requiredUserType }) => {
+  const user = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Show loading state while checking authentication
+    if (user !== null) {
+      setLoading(false);
+    }
+  }, [user]);
+
+  if (loading) return <div>Loading...</div>; // Show loading state
+
+  return user && user.userType === requiredUserType ? (
+    element
+  ) : (
+    <Navigate to="/" />
+  );
+};
+
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false); // Changed to false initially
+  const [loading, setLoading] = useState(true); // Set loading to true initially
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const onAuthtest = () => {
-    onAuthStateChanged(FService.auth, (authenticatedUser) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(FService.auth, (authenticatedUser) => {
       if (authenticatedUser) {
-        FService.getDocument("users", authenticatedUser.uid).then((res) => {
-          const testUser = res.data();
-          if (testUser) {
-            userInstance.setUserDetails(
-              testUser.uid,
-              testUser.name,
-              testUser.email,
-              testUser.userType,
-              testUser.profilePicture
-            );
-            setUser({
-              name: testUser.name,
-              email: testUser.email,
-              profilePicture: testUser.profilePicture,
-              userType: testUser.userType,
-              docId: testUser.docId,
-            });
-          }
-        });
-
-        setIsLoggedIn(true);
+        FService.getDocument("users", authenticatedUser.uid)
+          .then((res) => {
+            const testUser = res.data();
+            if (testUser) {
+              userInstance.setUserDetails(
+                testUser.uid,
+                testUser.name,
+                testUser.email,
+                testUser.userType,
+                testUser.profilePicture
+              );
+              setUser({
+                name: testUser.name,
+                email: testUser.email,
+                profilePicture: testUser.profilePicture,
+                userType: testUser.userType,
+                docId: testUser.docId,
+              });
+            }
+            setIsLoggedIn(true);
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+            setIsLoggedIn(false);
+          });
       } else {
         setIsLoggedIn(false);
         setUser(null);
       }
+      setLoading(false); // Set loading to false once done
     });
-  };
 
-  useEffect(() => {
-    onAuthtest();
-
-    return () => {
-      onAuthtest();
-    };
+    // Cleanup function to unsubscribe from the auth state listener
+    return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    console.log("user test:", user?.name);
-  }, [user]);
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
@@ -90,8 +105,14 @@ function App() {
               )
             }
           />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/cart"
+            element={<PrivateRoute element={<CartPage />} requiredUserType="customer" />}
+          />
+          <Route
+            path="/checkout"
+            element={<PrivateRoute element={<Checkout />} requiredUserType="customer" />}
+          />
           {user && user.userType === "admin" && (
             <Route path={`/profile/${user?.name}`} element={<AdminProfile />} />
           )}
