@@ -7,6 +7,8 @@ const OrderHistoryAdmin = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
 
   useEffect(() => {
     const fetchUsersAndOrders = async () => {
@@ -19,7 +21,7 @@ const OrderHistoryAdmin = () => {
           allOrders.push(...userOrders);
         }
         allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
-        
+
         setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -28,6 +30,12 @@ const OrderHistoryAdmin = () => {
 
     fetchUsersAndOrders();
   }, []);
+
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const openOrderDetailsModal = (order) => {
     setSelectedOrder(order);
@@ -72,7 +80,7 @@ const OrderHistoryAdmin = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {currentOrders.map((order) => (
             <tr key={order.referenceNumber}>
               <td>{order.referenceNumber}</td>
               <td>{order.userEmail}</td>
@@ -100,6 +108,20 @@ const OrderHistoryAdmin = () => {
           ))}
         </tbody>
       </table>
+
+      <div className="pagination">
+        {orders.length > ordersPerPage && (
+          <div>
+            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+            {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, i) => (
+              <button key={i + 1} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
+                {i + 1}
+              </button>
+            ))}
+            <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(orders.length / ordersPerPage)}>Next</button>
+          </div>
+        )}
+      </div>
 
       {showModal && selectedOrder && (
         <OrderDetailsModal
