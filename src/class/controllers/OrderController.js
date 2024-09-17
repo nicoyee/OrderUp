@@ -2,8 +2,7 @@ import { FService } from "./FirebaseService.ts";
 import { Order } from "../Order.ts";
 
 class OrderController {
-    // Method to create an order based on checkout form data and cart items
-    // Updated createOrder method in OrderController.js
+    
     static async createOrder(orderDetails) {
     try {
         const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
@@ -29,7 +28,7 @@ class OrderController {
     }
 
 
-    // Method to fetch all orders
+    
     static async getOrders() {
         try {
             const snapshot = await FService.getDocuments("Orders");
@@ -56,7 +55,7 @@ class OrderController {
         }
     }
 
-    // Method to fetch specific order details
+    
     static async getOrderDetails(documentId, orderId) {
         try {
             const orderDoc = await FService.getDocument(`Orders/${documentId}/orders`, orderId);
@@ -77,7 +76,7 @@ class OrderController {
         }
     }
 
-    // Method to view the order history for a specific user
+    
     static async viewHistory(userEmail) {
         try {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;
@@ -103,7 +102,7 @@ class OrderController {
         }
     }
 
-    // Method to update the order status (e.g., to 'completed', 'shipped', etc.)
+    
     static async updateStatus(orderId, documentId, newStatus) {
         try {
             await FService.updateDocument(`Orders/${documentId}/orders`, orderId, { status: newStatus });
@@ -114,7 +113,7 @@ class OrderController {
         }
     }
 
-    // Utility method to generate a unique reference number
+    
     static generateReferenceNumber() {
         return Math.floor(Math.random() * 1000000000).toString();
     }
