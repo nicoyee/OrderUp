@@ -12,10 +12,17 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
-    font-family: 'Arial', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
-
+.create-event-modal .modal-content {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    color: #fff;
+}
 .close {
     color: #ff8500;
     float: right;

@@ -30,47 +30,43 @@ class OrderController {
 
 
     // Method to fetch all orders
-    static async getOrders() {
+    static async getOrders(userEmail) {
         try {
-            const snapshot = await FService.getDocuments("Orders");
-            const allOrders = [];
+            const ordersCollectionPath = `Orders/${userEmail}/orders`;
+            const querySnapshot = await FService.getDocuments(ordersCollectionPath);
+            const orders = [];
 
-            for (const docRef of snapshot.docs) {
-                const orderIdSnapshot = await FService.getDocuments(`Orders/${docRef.id}/orders`);
-                orderIdSnapshot.forEach((orderDoc) => {
-                    const orderData = orderDoc.data();
-                    const order = new Order();
-                    order.orderId = orderDoc.id;
-                    order.createdBy = orderData.receiverName || docRef.id;
-                    order.createdDate = orderData.createdDate;
-                    order.items = orderData.items;
-                    order.totalAmount = orderData.totalAmount;
-                    order.status = orderData.status || "pending";
-                    allOrders.push(order);
+            querySnapshot.forEach((doc) => {
+                const orderData = doc.data();
+                orders.push({
+                    ...orderData
                 });
-            }
-            return allOrders;
+            });
+
+            console.log("Filtered orders for user:", orders);
+            return orders;
         } catch (error) {
-            console.error("Error fetching orders:", error);
+            console.error("Error fetching order history:", error);
             throw error;
         }
     }
 
     // Method to fetch specific order details
-    static async getOrderDetails(documentId, orderId) {
+    static async getOrderDetails(userEmail) {
         try {
-            const orderDoc = await FService.getDocument(`Orders/${documentId}/orders`, orderId);
-            if (orderDoc.exists()) {
-                const orderData = orderDoc.data();
-                const order = new Order();
-                order.createdBy = orderData.receiverName;
-                order.createdDate = orderData.createdDate;
-                order.items = orderData.items;
-                order.totalAmount = orderData.totalAmount;
-                return order;
-            } else {
-                throw new Error("Order not found");
-            }
+            const ordersCollectionPath = `Orders/${userEmail}/orders`;
+            const querySnapshot = await FService.getDocuments(ordersCollectionPath);
+            const orders = [];
+
+            querySnapshot.forEach((doc) => {
+                const orderData = doc.data();
+                orders.push({
+                    ...orderData
+                });
+            });
+
+            console.log("Filtered orders for user:", orders);
+            return orders;
         } catch (error) {
             console.error("Error fetching order details:", error);
             throw error;
@@ -81,18 +77,14 @@ class OrderController {
     static async viewHistory(userEmail) {
         try {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;
-            const ordersCollectionRef = FService.getDocuments(ordersCollectionPath);
-            const querySnapshot = await FService.getDocuments(ordersCollectionRef);
+            const querySnapshot = await FService.getDocuments(ordersCollectionPath);
             const orders = [];
 
             querySnapshot.forEach((doc) => {
                 const orderData = doc.data();
-                const order = new Order();
-                order.createdBy = orderData.receiverName;
-                order.createdDate = orderData.createdDate;
-                order.items = orderData.items;
-                order.totalAmount = orderData.totalAmount;
-                orders.push(order);
+                orders.push({
+                    ...orderData
+                });
             });
 
             console.log("Filtered orders for user:", orders);
@@ -104,9 +96,9 @@ class OrderController {
     }
 
     // Method to update the order status (e.g., to 'completed', 'shipped', etc.)
-    static async updateStatus(orderId, documentId, newStatus) {
+    static async updateStatus(orderId, email, newStatus) {
         try {
-            await FService.updateDocument(`Orders/${documentId}/orders`, orderId, { status: newStatus });
+            await FService.updateDocument(`Orders/${email}/orders`, orderId, { status: newStatus });
             console.log("Order status updated successfully.");
         } catch (error) {
             console.error("Error updating order status:", error);

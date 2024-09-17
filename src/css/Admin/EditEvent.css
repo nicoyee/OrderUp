@@ -10,18 +10,26 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
-    font-family: 'Arial', sans-serif;
+    font-family: "Roboto", sans-serif;
+}
+.edit-event-modal .modal-content {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    color: #fff;
 }
 
-.close {
+.edit-event-modal .close {
     color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.edit-event-modal .close:hover,
+.edit-event-modal .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
