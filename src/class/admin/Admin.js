@@ -61,13 +61,10 @@ class Admin extends User {
         return await OrderController.getOrders();
     }
     
-    static async updateCustomerOrderStatus(orderId, documentId, newStatus) {
-        return await OrderController.updateStatus(orderId, documentId, newStatus);
+    static async updateCustomerOrderStatus(userEmail, referenceNumber, newStatus) {
+        return await OrderController.updateStatus(userEmail, referenceNumber, newStatus);
     }
 
-    static async getOrderDetails(documentId, orderId) {
-        return await OrderController.getOrderDetails(documentId, orderId);
-    }
 }
 
 export default Admin;

@@ -9,6 +9,7 @@ class OrderController {
         const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
         const referenceNumber = this.generateReferenceNumber();
         const orderData = {
+            userEmail: email,
             receiverName,
             contactNo,
             address,
@@ -39,11 +40,10 @@ class OrderController {
             querySnapshot.forEach((doc) => {
                 const orderData = doc.data();
                 orders.push({
-                    ...orderData
+                    ...orderData,
+                    userEmail: userEmail
                 });
             });
-
-            console.log("Filtered orders for user:", orders);
             return orders;
         } catch (error) {
             console.error("Error fetching order history:", error);
@@ -51,29 +51,6 @@ class OrderController {
         }
     }
 
-    // Method to fetch specific order details
-    static async getOrderDetails(userEmail) {
-        try {
-            const ordersCollectionPath = `Orders/${userEmail}/orders`;
-            const querySnapshot = await FService.getDocuments(ordersCollectionPath);
-            const orders = [];
-
-            querySnapshot.forEach((doc) => {
-                const orderData = doc.data();
-                orders.push({
-                    ...orderData
-                });
-            });
-
-            console.log("Filtered orders for user:", orders);
-            return orders;
-        } catch (error) {
-            console.error("Error fetching order details:", error);
-            throw error;
-        }
-    }
-
-    // Method to view the order history for a specific user
     static async viewHistory(userEmail) {
         try {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;
@@ -83,11 +60,10 @@ class OrderController {
             querySnapshot.forEach((doc) => {
                 const orderData = doc.data();
                 orders.push({
-                    ...orderData
+                    ...orderData,
+                    userEmail,userEmail
                 });
             });
-
-            console.log("Filtered orders for user:", orders);
             return orders;
         } catch (error) {
             console.error("Error fetching order history:", error);
@@ -96,9 +72,10 @@ class OrderController {
     }
 
     // Method to update the order status (e.g., to 'completed', 'shipped', etc.)
-    static async updateStatus(orderId, email, newStatus) {
+    static async updateStatus(userEmail, referenceNumber, newStatus) {
         try {
-            await FService.updateDocument(`Orders/${email}/orders`, orderId, { status: newStatus });
+            const path = `Orders/${userEmail}/orders`;
+            await FService.updateDocument(path, referenceNumber, { status: newStatus });
             console.log("Order status updated successfully.");
         } catch (error) {
             console.error("Error updating order status:", error);

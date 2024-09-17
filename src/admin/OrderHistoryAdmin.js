@@ -18,6 +18,8 @@ const OrderHistoryAdmin = () => {
           const userOrders = await Admin.fetchOrderHistory(user.email);
           allOrders.push(...userOrders);
         }
+        allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
+        
         setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -39,11 +41,14 @@ const OrderHistoryAdmin = () => {
 
   const handleStatusChange = async (order, newStatus) => {
     try {
-      await Admin.updateCustomerOrderStatus(order.orderId, order.email, newStatus); // Using OrderController function
+      if(!order.userEmail) {
+        throw new Error("User email is missing from order");
+      }
+      await Admin.updateCustomerOrderStatus(order.userEmail, order.referenceNumber, newStatus); // Using OrderController function
       console.log("Order status updated successfully.");
       setOrders((prevOrders) =>
         prevOrders.map((o) =>
-          o.orderId === order.orderId ? { ...o, status: newStatus }: o
+          o.referenceNumber === order.referenceNumber ? { ...o, status: newStatus }: o
         )
       );
     } catch (error) {
@@ -59,6 +64,7 @@ const OrderHistoryAdmin = () => {
         <thead>
           <tr>
             <th>Order ID</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Total Amount</th>
             <th>Status</th>
@@ -69,6 +75,7 @@ const OrderHistoryAdmin = () => {
           {orders.map((order) => (
             <tr key={order.referenceNumber}>
               <td>{order.referenceNumber}</td>
+              <td>{order.userEmail}</td>
               <td>{new Date(order.createdDate.seconds * 1000).toLocaleString()}</td>
               <td>₱{order.totalAmount}</td>
               <td>
