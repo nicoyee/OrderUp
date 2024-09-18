@@ -96,8 +96,10 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                                 </a>
                                             </td>
                                             <td>
+                                                <div className='button-container'>
                                                 <button className="edit-event-button" onClick={() => handleOpenEditEventModal(event)}>Edit</button>
                                                 <button className="delete-event-button" onClick={() => handleDeleteEvent(event.id)}>Delete</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
