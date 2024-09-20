@@ -1,0 +1,98 @@
+/* Add this CSS to your existing EventsList.css file */
+
+.events-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .events-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  
+  .event-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 30%; /* Ensures items take up equal width, 3 items per row */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-item-image-container {
+    width: 100%;
+    padding-bottom: 75%; /* Aspect ratio for the image */
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .event-item-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container */
+  }
+  
+  .event-item-details {
+    margin-top: 10px;
+  }
+  
+  .event-item-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+  }
+  
+  .event-item-description {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .event-item-date {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .event-item-link {
+    margin-top: 10px;
+    text-align: center;
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-btn {
+    margin: 0 5px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pagination-btn.active {
+    background-color: #0056b3;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  

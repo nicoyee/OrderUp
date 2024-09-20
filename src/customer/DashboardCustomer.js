@@ -1,4 +1,3 @@
-import '../css/DashboardCustomer.css';
 import '../css/Dashboard.css';
 
 import React, { useState, useContext, useEffect } from 'react';
@@ -8,6 +7,7 @@ import { useLocation } from 'react-router-dom'; // For accessing the URL
 import HeaderCustomer from './HeaderCustomer';
 import CustomerMenu from './CustomerMenu';
 import CustomerFeatureDish from './CustomerFeatureDish';
+import EventsList from './EventsList'; // Import the new EventsList component
 
 const DashboardCustomer = () => {
   const user = useContext(UserContext);
@@ -63,9 +63,15 @@ const DashboardCustomer = () => {
         <div className='customerFeatureDish'>
           <CustomerFeatureDish />
         </div>
-        
-        <div className="customerMenuContainer">
-          <CustomerMenu /> {/* Render CustomerMenu component */}
+
+        <div className="customerMenuAndEvents">
+          <div className="customerMenuContainer">
+            <CustomerMenu /> {/* Render CustomerMenu component */}
+          </div>
+
+          <div className="eventsListContainer">
+            <EventsList /> {/* Render EventsList component */}
+          </div>
         </div>
       </div>
     </div>
