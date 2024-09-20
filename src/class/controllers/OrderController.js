@@ -28,9 +28,6 @@ class OrderController {
     }
     }
 
-
-
-
     // Method to fetch all orders
     static async getOrders(userEmail) {
         try {
