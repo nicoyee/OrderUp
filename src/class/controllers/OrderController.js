@@ -44,8 +44,8 @@ class OrderController {
                     ...orderData,
                     userEmail: userEmail
                 });
-            }
-            return allOrders;
+            });
+            return orders;
         } catch (error) {
             console.error("Error fetching orders:", error);
             throw error;
