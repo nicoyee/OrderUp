@@ -11,6 +11,7 @@ const CustomerMenu = () => {
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMenuType, setSelectedMenuType] = useState(''); // New state for menu type filter
 
   useEffect(() => {
     const fetchDishes = () => {
@@ -19,6 +20,7 @@ const CustomerMenu = () => {
           const dishesData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
+            menuType: doc.data().menuType, // Ensure menuType is included
           }));
           setDishes(dishesData);
           setLoading(false);
@@ -39,15 +41,19 @@ const CustomerMenu = () => {
           console.error('Error fetching best sellers:', error);
           setLoadingBestSellers(false);
         });
-  };
+    };
 
     fetchDishes();
     fetchBestSellers();
   }, []);
 
-  const filteredDishes = dishes.filter((dish) =>
-    dish.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Extract unique menu types
+  const menuTypes = [...new Set(dishes.map((dish) => dish.menuType))];
+
+  // Filter dishes by menu type if one is selected
+  const filteredDishes = dishes
+    .filter((dish) => dish.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    .filter((dish) => selectedMenuType === '' || dish.menuType === selectedMenuType);
 
   const indexOfLastDish = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstDish = indexOfLastDish - ITEMS_PER_PAGE;
@@ -88,10 +94,17 @@ const CustomerMenu = () => {
     ));
   };
 
+  // Handle menu type button click
+  const handleMenuTypeClick = (menuType) => {
+    setSelectedMenuType(menuType);
+    setCurrentPage(1); // Reset to first page when a new menu type is selected
+  };
+
   return (
     <div className="customer-menu">
       <h1 className="menu-title">Our Menu</h1>
 
+      {/* Search Filter */}
       <input
         type="text"
         placeholder="Search dishes..."
@@ -100,9 +113,27 @@ const CustomerMenu = () => {
         className="search-bar"
       />
 
-      
+      {/* Menu Type Filter Buttons - Positioned below search filter */}
+      <div className="menu-type-buttons">
+        <button
+          onClick={() => handleMenuTypeClick('')}
+          className={`menu-type-btn ${selectedMenuType === '' ? 'active' : ''}`}
+        >
+          All
+        </button>
+        {menuTypes.map((menuType) => (
+          <button
+            key={menuType}
+            onClick={() => handleMenuTypeClick(menuType)}
+            className={`menu-type-btn ${selectedMenuType === menuType ? 'active' : ''}`}
+          >
+            {menuType}
+          </button>
+        ))}
+      </div>
+
+      {/* Best Sellers Section */}
       <div className="best-sellers-section">
-        
         {loadingBestSellers ? (
           <p>Loading best sellers...</p>
         ) : bestSellers.length === 0 ? (
@@ -167,6 +198,7 @@ const CustomerMenu = () => {
         )}
       </div>
 
+      {/* Pagination Controls */}
       <div className="pagination-controls">
         <button
           onClick={handlePreviousPage}

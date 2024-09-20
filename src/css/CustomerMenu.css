@@ -35,6 +35,27 @@
   outline: none;
 }
 
+.menu-type-btn {
+  background-color: #4CAF50; 
+  color: white;
+  border: none;
+  padding: 10px 20px; 
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  margin: 0 12px; 
+}
+
+.menu-type-btn:hover {
+  background-color: #45a049; 
+}
+
+.menu-type-btn.active {
+  background-color: #999; 
+  color: #000; 
+}
+
+
 .menu-items {
   display: flex;
   flex-wrap: wrap;
