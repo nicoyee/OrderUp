@@ -18,7 +18,7 @@ class Customer extends User {
     }
 
     static async getOrders() {
-        await OrderController.getOrderDetails;
+        await OrderController.getOrders;
     }
 
     static async createOrder(orderDetails) {
