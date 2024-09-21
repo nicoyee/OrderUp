@@ -4,21 +4,9 @@ import "../css/Profile.css";
 import React, { useContext, useState, useEffect } from "react";
 import HeaderCustomer from "./HeaderCustomer";
 import { UserContext } from "../App";
-import { storage, db } from "../firebase";
+import { db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
-import {
-  doc,
-  updateDoc,
-  getDoc,
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 const CustomerProfile = () => {
@@ -26,17 +14,16 @@ const CustomerProfile = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [image, setImage] = useState(null);
-  const [uid, setUid] = useState(null);
-  const navigate = useNavigate();
-  const [paymentType, setPaymentType] = useState("cash");
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // New state for payment modal
+  const [remainingBalance, setRemainingBalance] = useState(null); // Balance state
   const [userOrders, setUserOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUid(user.uid);
+        // Set the user ID
       } else {
         console.log("User is null");
         navigate("/");
@@ -45,6 +32,7 @@ const CustomerProfile = () => {
     return () => unsubscribe();
   }, []);
 
+  // Fetch user orders
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
@@ -64,110 +52,51 @@ const CustomerProfile = () => {
     fetchUserOrders();
   }, [user]);
 
+  // Fetch balance
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        if (!user) return;
+        const balanceRef = doc(db, "Balance", user.email);
+        const balanceSnapshot = await getDoc(balanceRef);
+        if (balanceSnapshot.exists()) {
+          setRemainingBalance(balanceSnapshot.data().remainingBalance.toFixed(2));
+        }
+      } catch (error) {
+        console.error("Error fetching balance:", error);
+      }
+    };
+
+    fetchBalance();
+  }, [user]);
+
   if (!user) {
     return <div>Loading...</div>;
   }
 
+  // Handle viewing orders
   const handleViewOrder = (order) => {
     setSelectedOrder(order);
     setIsViewModalOpen(true);
   };
 
-  const editClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const newName = event.target.elements.username.value;
-
-      if (newName !== user.name) {
-        await updateProfile(uid, newName);
-      }
-
-      if (image) {
-        await updateProfilePicture(uid, image, newName);
-      }
-    } catch (error) {
-      console.error("Error handling submit: ", error);
-    }
-  };
-
-  const updateProfile = async (userId, newName, newEmail) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, {
-        name: newName,
-        email: newEmail,
-      });
-      console.log("Username and email updated successfully in Firestore");
-    } catch (error) {
-      console.error("Error updating username and email: ", error);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const handlePaymentChange = (event) => {
-    setPaymentType(event.target.value);
-  };
-
-  const updateProfilePicture = async (userId, newImageFile, name) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      const userDocSnapshot = await getDoc(userDocRef);
-      const userData = userDocSnapshot.data();
-      const oldImageUrl = userData.profilePicture;
-
-      if (
-        oldImageUrl !==
-        `https://ui-avatars.com/api/?name=${name}&background=random`
-      ) {
-        const oldImageRef = ref(storage, oldImageUrl);
-        await deleteObject(oldImageRef);
-        console.log("Old profile picture image deleted successfully");
-      }
-
-      const newImageRef = ref(
-        storage,
-        `/profile/${userId}/${newImageFile.name}`
-      );
-      await uploadBytes(newImageRef, newImageFile);
-      console.log("New profile picture image uploaded successfully");
-
-      const newImageUrl = await getDownloadURL(newImageRef);
-      await updateDoc(userDocRef, {
-        profilePicture: newImageUrl,
-      });
-      console.log("Profile picture URL updated successfully in Firestore");
-    } catch (error) {
-      console.error("Error replacing profile picture: ", error);
-    }
+  const handlePay = () => {
+    // Placeholder for pay functionality
+    console.log("Pay Now button clicked");
   };
 
   const formatDate = (timestamp) => {
     if (!timestamp || !timestamp.seconds) {
-      return "Invalid date"; // or handle it according to your needs
+      return "Invalid date";
     }
-    
     const date = new Date(timestamp.seconds * 1000);
-    const options = {
+    return date.toLocaleDateString(undefined, {
       hour: "numeric",
       minute: "numeric",
       day: "numeric",
       month: "short",
       year: "numeric",
-    };
-    return date.toLocaleDateString(undefined, options);
+    });
   };
 
   return (
@@ -180,26 +109,20 @@ const CustomerProfile = () => {
             className="back-button-profile"
             onClick={() => navigate("/dashboard")}
           >
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                fill="currentColor"
-              >
-                <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
-              </svg>
-            </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+            </svg>
           </div>
-          <img
-            src={user.profilePicture}
-            className="profile-picture"
-            alt="avatar"
-          />
+          <img src={user.profilePicture} className="profile-picture" alt="avatar" />
           <h3>{user.name}</h3>
           <h4>{user.email}</h4>
-          <button onClick={editClick} className="button">
+          <button onClick={() => setIsModalOpen(true)} className="button">
             Edit
           </button>
         </div>
@@ -219,9 +142,7 @@ const CustomerProfile = () => {
                   <tr key={order.id}>
                     <td>{formatDate(order.date)}</td>
                     <td>
-                      <button onClick={() => handleViewOrder(order)}>
-                        View
-                      </button>
+                      <button onClick={() => handleViewOrder(order)}>View</button>
                     </td>
                     <td>{order.status}</td>
                   </tr>
@@ -231,36 +152,36 @@ const CustomerProfile = () => {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <div className="square modal-content">
-          <span className="close" onClick={closeModal}>
-            &times;
-          </span>
-          <h2>Edit Profile</h2>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="file"
-              accept="image/png, image/jpeg"
-              onChange={handleImageChange}
-            />
-            <label>
-              Username:
-              <input type="text" name="username" defaultValue={user.name} />
-            </label>
-            <label>
-              Select Option:
-              <select value={paymentType} onChange={handlePaymentChange}>
-                <option value="option1">Cash</option>
-                <option value="option2">Debit</option>
-                <option value="option3">GCash</option>
-              </select>
-            </label>
-            <div>
-              <button type="submit">Save</button>
-            </div>
-          </form>
+
+      {/* Button to trigger payment modal if there is a remaining balance */}
+      {remainingBalance && (
+        <button onClick={() => setIsPaymentModalOpen(true)} className="button" style={{ marginTop: "20px" }}>
+          Check Remaining Balance
+        </button>
+      )}
+
+      {/* Payment Modal */}
+      {isPaymentModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Remaining Balance</h3>
+            <form>
+              <label>
+                Balance Due:
+                <input type="text" value={`₱${remainingBalance}`} readOnly />
+              </label>
+              <button type="button" onClick={handlePay} className="button">
+                Pay Now
+              </button>
+              <button type="button" onClick={() => setIsPaymentModalOpen(false)} className="close-button">
+                Close
+              </button>
+            </form>
+          </div>
         </div>
       )}
+
+      {/* View Order Modal */}
       {isViewModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -276,6 +197,26 @@ const CustomerProfile = () => {
             </ul>
             <button onClick={() => setIsViewModalOpen(false)}>Close</button>
           </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {isModalOpen && (
+        <div className="square modal-content">
+          <span className="close" onClick={() => setIsModalOpen(false)}>
+            &times;
+          </span>
+          <h2>Edit Profile</h2>
+          <form>
+            <input type="file" accept="image/png, image/jpeg" onChange={() => {}} />
+            <label>
+              Username:
+              <input type="text" defaultValue={user.name} />
+            </label>
+            <button type="submit" className="button">
+              Save
+            </button>
+          </form>
         </div>
       )}
     </div>
