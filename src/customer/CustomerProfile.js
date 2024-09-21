@@ -5,32 +5,18 @@ import React, { useContext, useState, useEffect } from "react";
 import HeaderCustomer from "./HeaderCustomer";
 import { UserContext } from "../App";
 import { db } from "../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import PaymentController from "../class/controllers/PaymentController";
 
 const CustomerProfile = () => {
   const user = useContext(UserContext);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // New state for payment modal
-  const [remainingBalance, setRemainingBalance] = useState(null); // Balance state
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // State for payment modal
+  const [remainingBalance, setRemainingBalance] = useState(null); // State for remaining balance
+  const [paymentLink, setPaymentLink] = useState(null); // Store the generated payment link
   const [userOrders, setUserOrders] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Set the user ID
-      } else {
-        console.log("User is null");
-        navigate("/");
-      }
-    });
-    return () => unsubscribe();
-  }, []);
 
   // Fetch user orders
   useEffect(() => {
@@ -52,18 +38,31 @@ const CustomerProfile = () => {
     fetchUserOrders();
   }, [user]);
 
-  // Fetch balance
+  // Fetch balance and generate payment link
   useEffect(() => {
     const fetchBalance = async () => {
       try {
         if (!user) return;
         const balanceRef = doc(db, "Balance", user.email);
         const balanceSnapshot = await getDoc(balanceRef);
+
         if (balanceSnapshot.exists()) {
-          setRemainingBalance(balanceSnapshot.data().remainingBalance.toFixed(2));
+          const balanceAmount = balanceSnapshot.data().remainingBalance;
+
+          if (balanceAmount > 0) {
+            setRemainingBalance(balanceAmount.toFixed(2));
+
+            // Generate payment link but do not redirect
+            const generatedLink = await PaymentController.createPaymentLink(
+              balanceAmount, // Amount
+              "Remaining balance for your order", // Description
+              "Balance Payment" // Remarks
+            );
+            setPaymentLink(generatedLink); // Store the link
+          }
         }
       } catch (error) {
-        console.error("Error fetching balance:", error);
+        console.error("Error fetching balance or creating payment link:", error);
       }
     };
 
@@ -80,9 +79,14 @@ const CustomerProfile = () => {
     setIsViewModalOpen(true);
   };
 
+  // Handle Pay Now button click (log the payment link)
   const handlePay = () => {
-    // Placeholder for pay functionality
-    console.log("Pay Now button clicked");
+    if (paymentLink) {
+      console.log(paymentLink); // Log the payment link when button is clicked
+      window.location.href = paymentLink;
+    } else {
+      console.error("Payment link is not available.");
+    }
   };
 
   const formatDate = (timestamp) => {
@@ -105,20 +109,6 @@ const CustomerProfile = () => {
 
       <div className="big-rectangle">
         <div className="square left-square">
-          <div
-            className="back-button-profile"
-            onClick={() => navigate("/dashboard")}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="currentColor"
-            >
-              <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
-            </svg>
-          </div>
           <img src={user.profilePicture} className="profile-picture" alt="avatar" />
           <h3>{user.name}</h3>
           <h4>{user.email}</h4>
