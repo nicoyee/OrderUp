@@ -4,6 +4,7 @@ import CartController from "../class/controllers/CartController.js";
 import OrderController from "../class/controllers/OrderController.js";
 import PaymentController from "../class/controllers/PaymentController.jsx";
 import { auth } from '../firebase'; // Import auth from the firebase.js file
+import { FService } from "../class/controllers/FirebaseService.ts";
 
 const Checkout = ({ onClose, cartItems }) => {
   const [formData, setFormData] = useState({
@@ -37,67 +38,72 @@ const Checkout = ({ onClose, cartItems }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     try {
-     
-      const userCartItems = await CartController.getCartData();
-      if (!userCartItems || Object.keys(userCartItems).length === 0) {
-        alert("Your cart is empty! Please add items before checking out.");
-        return;
-      }
-  
-      
-      const email = auth.currentUser?.email;
-      if (!email) {
-        alert("You must be logged in to place an order.");
-        return;
-      }
-  
-      
-      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+        // Check if the cart is empty
+        const userCartItems = await CartController.getCartData();
+        if (!userCartItems || Object.keys(userCartItems).length === 0) {
+            alert("Your cart is empty! Please add items before checking out.");
+            return;
+        }
 
-      
-      console.log("Total Amount:", totalAmount);
-      console.log("Downpayment Amount:", downpaymentAmount);
-      console.log("Payment Amount being sent:", paymentAmount);
-  
-      
-      const orderId = await OrderController.createOrder({
-        email,
-        receiverName: formData.receiverName,
-        contactNo: formData.contactNo,
-        address: formData.address,
-        paymentOption: formData.paymentOption,
-        items: cartItems,
-        totalAmount: paymentAmount,
-      });
-  
-      // Create a description for the order items
-      const orderDescription = Object.keys(cartItems)
-        .map(key => `${cartItems[key].name} x ${cartItems[key].quantity}`)
-        .join(', ');
+        // Check if user is logged in
+        const email = auth.currentUser?.email;
+        if (!email) {
+            alert("You must be logged in to place an order.");
+            return;
+        }
 
-      // Log order description for debugging
-      console.log("Order Description:", orderDescription);
-  
-      // Create a payment link
-      const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
-  
-      // Record the payment
-      // await PaymentController.recordPayment(paymentLink);
-  
-      // Alert and redirect user
-      // alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
-      window.location.href = paymentLink;
+        // Fetch remaining balance
+        const userBalance = await FService.getDocument("Balance", email);
+        const remainingBalance = userBalance.exists() ? userBalance.data().remainingBalance : 0;
+
+        // Check if user has a remaining balance
+        if (remainingBalance > 0) {
+            throw new Error("You cannot checkout with a remaining balance.");
+        }
+
+        // Determine the payment amount based on the payment option
+        const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+
+        console.log("Total Amount:", totalAmount);
+        console.log("Downpayment Amount:", downpaymentAmount);
+        console.log("Payment Amount being sent:", paymentAmount);
+
+        // Create the order
+        const orderId = await OrderController.createOrder({
+            email,
+            receiverName: formData.receiverName,
+            contactNo: formData.contactNo,
+            address: formData.address,
+            paymentOption: formData.paymentOption,
+            items: cartItems,
+            totalAmount: paymentAmount,
+        });
+
+        // Create a description for the order items
+        const orderDescription = Object.keys(cartItems)
+            .map(key => `${cartItems[key].name} x ${cartItems[key].quantity}`)
+            .join(', ');
+
+        // Log order description for debugging
+        console.log("Order Description:", orderDescription);
+
+        // Create a payment link
+        const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
+
+        // Redirect user to payment link
+        window.location.href = paymentLink;
 
     } catch (error) {
-      console.error("Error during payment:", error.message || error);
-      alert("Failed to submit order. Please try again.");
+        console.error("Error during payment:", error.message || error);
+        alert(error.message || "Failed to submit order. Please try again.");
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
-  };
-  
+};
+
+
   return (
     <div className="checkout-modal">
       <div className="modal-content">

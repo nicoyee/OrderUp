@@ -36,23 +36,23 @@
 }
 
 .big-rectangle {
-  width: 800px; /* Adjust the width as needed */
-  height: 300px; /* Adjust the height as needed */
+  width: 800px; 
+  height: 300px; 
   background-color: white;
   position: relative;
 }
 
 .square {
-  height: 100%; /* Each square takes the full height of the big rectangle */
-  background-color: #fefefe; /* Adjust the color as needed */
-  float: left; /* Float squares left to align them side by side */
-  border: 0.5px solid black; /* Add a border with 2px width and black color */
-  box-sizing: border-box; /* Include border width in the total width */
-  position: relative; /* Required for positioning child elements */
+  height: 100%; 
+  background-color: #fefefe; 
+  float: left; 
+  border: 0.5px solid black; 
+  box-sizing: border-box; 
+  position: relative; 
 }
 
 .left-square {
-  width: 30%; /* Left square takes 30% of the big rectangle */
+  width: 30%; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,40 +60,40 @@
 }
 
 .profile-picture {
-  width: 80px; /* Adjust the size of the profile picture */
-  height: 80px; /* Adjust the size of the profile picture */
-  border-radius: 50%; /* Make the image round */
-  border: 3px solid black; /* Add a border with 3px width and black color */
-  object-fit: cover; /* Ensure the image covers the entire space */
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%; 
+  border: 3px solid black; 
+  object-fit: cover; 
 }
 
 .right-square {
-  width: 70%; /* Right square takes 70% of the big rectangle */
+  width: 70%; 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  position: relative; /* Needed for positioning the inner square */
+  position: relative; 
 }
 
 .inner-square {
-  width: 70%; /* Adjust the size of the inner square */
-  height: 70%; /* Adjust the size of the inner square */
-  background-color: #ffffff; /* Adjust the color of the inner square */
+  width: 70%; 
+  height: 70%; 
+  background-color: #ffffff; 
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-sizing: border-box; /* Ensure border width is included in the total width */
-  max-height: 200px; /* Set a fixed height for the inner square */
-  overflow-y: auto; /* Enable vertical scrolling */
+  box-sizing: border-box; 
+  max-height: 200px; 
+  overflow-y: auto; 
 }
 
 button {
-  padding: 8px 16px; /* Adjust button padding */
-  border-radius: 20px; /* Make the button rounder */
+  padding: 8px 16px; 
+  border-radius: 20px; 
   border: none;
-  background-color: #f05006; /* Adjust button color */
+  background-color: #f05006; 
   color: white;
   cursor: pointer;
   outline: none;
@@ -110,7 +110,7 @@ button {
   align-items: center;
 }
 
-/* Styles for the modal */
+
 .modal {
   background-color: white;
   border-radius: 10px;
@@ -118,7 +118,7 @@ button {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Styles for the modal close button */
+
 .modal-close {
   position: absolute;
   top: 10px;
@@ -130,31 +130,30 @@ button {
 .modal-content {
   width: 800px;
   text-align: center;
-  /* Add other styles as needed */
 }
 
 .item-list {
-  padding-left: 15px; /* Adjust this value as needed */
+  padding-left: 15px; 
 }
 
 .inner-square table {
-  border-collapse: collapse; /* Ensure borders collapse properly */
-  width: 100%; /* Adjust the width as needed */
+  border-collapse: collapse; 
+  width: 100%; 
 }
 
 .inner-square th,
 .inner-square td {
-  border: 1px solid #000; /* Add border to table cells */
-  padding: 8px; /* Add padding to table cells */
+  border: 1px solid #000; 
+  padding: 8px; 
 }
 
 .inner-square th {
-  background-color: #f2f2f2; /* Add background color to table header */
+  background-color: #f2f2f2; 
 }
 
 .back-button-profile {
   position: absolute;
-  top: 10px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
-  z-index: 1; /* Ensure it's above other content */
+  top: 10px; 
+  left: 10px; 
+  z-index: 1; 
 }
