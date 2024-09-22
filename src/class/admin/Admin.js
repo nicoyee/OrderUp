@@ -57,10 +57,6 @@ class Admin extends User {
         return await OrderController.viewHistory(user);
     }
 
-    static async getCustomerOrders() {
-        return await OrderController.getOrders();
-    }
-    
     static async updateCustomerOrderStatus(userEmail, referenceNumber, newStatus) {
         return await OrderController.updateStatus(userEmail, referenceNumber, newStatus);
     }

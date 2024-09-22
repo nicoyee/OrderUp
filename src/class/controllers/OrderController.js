@@ -28,27 +28,6 @@ class OrderController {
     }
     }
 
-    // Method to fetch all orders
-    static async getOrders(userEmail) {
-        try {
-            const ordersCollectionPath = `Orders/${userEmail}/orders`;
-            const querySnapshot = await FService.getDocuments(ordersCollectionPath);
-            const orders = [];
-
-            querySnapshot.forEach((doc) => {
-                const orderData = doc.data();
-                orders.push({
-                    ...orderData,
-                    userEmail: userEmail
-                });
-            });
-            return orders;
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-            throw error;
-        }
-    }
-
     static async viewHistory(userEmail) {
         try {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;

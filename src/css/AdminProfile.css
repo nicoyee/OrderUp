@@ -1,12 +1,3 @@
-.profileContainer {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  padding: 20px;
-  width: 500px;
-  height: 800px;
-}
-
 .avatar {
   width: 150px;
   height: 150px;
@@ -37,8 +28,8 @@
 }
 
 .big-rectangle-admin {
-  width: 350px; /* Adjust the width as needed */
-  height: 250px; /* Adjust the height as needed */
+  width: 350px; 
+  height: 250px; 
   background-color: white;
   position: relative;
   display: flex;
@@ -48,26 +39,27 @@
 }
 
 .square {
-  height: 100%; /* Each square takes the full height of the big rectangle */
-  background-color: #fefefe; /* Adjust the color as needed */
-  float: left; /* Float squares left to align them side by side */
-  border: 0.5px solid black; /* Add a border with 2px width and black color */
-  box-sizing: border-box; /* Include border width in the total width */
-  position: relative; /* Required for positioning child elements */
+  height: 100%; 
+  background-color: #fefefe; 
+  float: left; 
+  border: 0.5px solid black; 
+  box-sizing: border-box; 
+  position: relative; 
+  font-family: "Roboto", sans-serif;
 }
 
 .profile-picture {
-  width: 80px; /* Adjust the size of the profile picture */
-  height: 80px; /* Adjust the size of the profile picture */
-  border-radius: 50%; /* Make the image round */
-  border: 3px solid black; /* Add a border with 3px width and black color */
-  object-fit: cover; /* Ensure the image covers the entire space */
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%; 
+  border: 3px solid black; 
+  object-fit: cover;
 }
 button {
-  padding: 8px 16px; /* Adjust button padding */
-  border-radius: 20px; /* Make the button rounder */
+  padding: 8px 16px;
+  border-radius: 20px;
   border: none;
-  background-color: #f05006; /* Adjust button color */
+  background-color: #f05006; 
   color: white;
   cursor: pointer;
   outline: none;
@@ -108,12 +100,12 @@ button {
 }
 
 .item-list {
-  padding-left: 15px; /* Adjust this value as needed */
+  padding-left: 15px; 
 }
 
 .back-button-profile {
   position: absolute;
-  top: 10px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
-  z-index: 1; /* Ensure it's above other content */
+  top: 10px; 
+  left: 10px;
+  z-index: 1;
 }

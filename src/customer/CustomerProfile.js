@@ -1,5 +1,6 @@
 import "../css/Dashboard.css";
 import "../css/Profile.css";
+import Customer from "../class/Customer.ts";
 
 import React, { useContext, useState, useEffect } from "react";
 import HeaderCustomer from "./HeaderCustomer";
@@ -55,6 +56,9 @@ const CustomerProfile = () => {
           id: doc.id,
           ...doc.data(),
         }));
+        console.log("Fetched orders:", orders);
+
+        orders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
         setUserOrders(orders);
       } catch (error) {
         console.error("Error fetching user orders:", error);
@@ -154,6 +158,24 @@ const CustomerProfile = () => {
     }
   };
 
+  const formatDate = (timestamp) => {
+    if (timestamp && timestamp.seconds) {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
+        return date.toLocaleString('en-US', {
+            weekday: 'long', 
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true, 
+        });
+    }
+    return 'N/A';
+};
+
+
   return (
     <div className="dashboardContainer">
       <HeaderCustomer user={user} />
@@ -201,7 +223,7 @@ const CustomerProfile = () => {
               <tbody>
                 {userOrders.map((order) => (
                   <tr key={order.id}>
-                    <td>{order.date ? order.date.toString() : "No date available"}</td>
+                    <td>{formatDate(order.createdDate)}</td>
                     <td>
                       <button onClick={() => handleViewOrder(order)}>
                         View
@@ -246,24 +268,45 @@ const CustomerProfile = () => {
         </div>
       )}
       {isViewModalOpen && (
-        <div className="modal">
+        <div className="user-order-details-modal">
           <div className="modal-content">
-            <h2>Order Details</h2>
-            <p>Date: {selectedOrder.date ? selectedOrder.date.toString() : "No date available"}</p>
-            <p>Reference Order: {selectedOrder.referenceNumber}</p>
-            <ul className="item-list">
-              {Object.values(selectedOrder.items).map((item, index) => (
-                <li key={index}>
-                  {item.name} - Quantity: {item.quantity} - Price: {item.price}
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setIsViewModalOpen(false)}>Close</button>
+            <span className="close" onClick={() => setIsViewModalOpen(false)}>&times;</span>
+            <h1>Order Details</h1>
+            <p>Date: {formatDate(selectedOrder.createdDate)}</p>
+            <p>Reference Number: {selectedOrder.referenceNumber}</p>
+            <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(selectedOrder.items || {}).map(([itemId, item]) => (
+                      <tr key={itemId}>
+                        <td>{item.name}</td>
+                        <td>{item.description}</td>
+                        <td>₱{item.price}</td>
+                        <td>{item.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className='status'>Status: {selectedOrder.status}</p>
+                <p className="total">Total: ₱{calculateTotal(selectedOrder.items)}</p>
           </div>
         </div>
       )}
     </div>
   );
 };
-
+const calculateTotal = (items) => {
+  let total = 0;
+  Object.values(items || {}).forEach(item => {
+    total += item.price * item.quantity;
+  });
+  return total.toFixed(2);
+};
 export default CustomerProfile;

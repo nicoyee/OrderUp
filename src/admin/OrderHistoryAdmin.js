@@ -85,7 +85,7 @@ const OrderHistoryAdmin = () => {
               <td>{order.referenceNumber}</td>
               <td>{order.userEmail}</td>
               <td>{new Date(order.createdDate.seconds * 1000).toLocaleString()}</td>
-              <td>₱{order.totalAmount}</td>
+              <td>₱{order.totalAmount.toFixed(2)}</td>
               <td>
                 <select
                   value={order.status}
@@ -162,15 +162,6 @@ const OrderDetailsModal = ({ order, closeModal}) => {
       return 'N/A';
   };
 
-  const calculateTotal = (items) => {
-    let total = 0;
-    Object.values(items || {}).forEach(item => {
-      total += item.price * item.quantity;
-    });
-    return total.toFixed(2);
-  };
-
-
   return (
       <div className="order-details-modal">
         <div className="modal-content">
@@ -200,7 +191,7 @@ const OrderDetailsModal = ({ order, closeModal}) => {
               </tbody>
             </table>
             <p className='status'>Status: {order.status}</p>
-            <p className="total">Total: ₱{calculateTotal(order.items)}</p>
+            <p className="total">Total: ₱{order.totalAmount.toFixed(2)}</p>
           </div>
         </div>
       </div>
