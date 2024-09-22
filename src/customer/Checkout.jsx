@@ -40,69 +40,80 @@ const Checkout = ({ onClose, cartItems }) => {
     setIsSubmitting(true);
 
     try {
-        // Check if the cart is empty
-        const userCartItems = await CartController.getCartData();
-        if (!userCartItems || Object.keys(userCartItems).length === 0) {
-            alert("Your cart is empty! Please add items before checking out.");
-            return;
+      // Check if the cart is empty
+      const userCartItems = await CartController.getCartData();
+      if (!userCartItems || Object.keys(userCartItems).length === 0) {
+        alert("Your cart is empty! Please add items before checking out.");
+        return;
+      }
+
+      // Check if the user is logged in
+      const email = auth.currentUser?.email;
+      if (!email) {
+        alert("You must be logged in to place an order.");
+        return;
+      }
+
+      // Fetch transaction documents under "Balance/{email}/transactions"
+      const transactionsPath = `Balance/${email}/transactions`;
+      const transactionsSnapshot = await FService.getDocuments(transactionsPath);
+      let hasUnpaidBalance = false;
+
+      transactionsSnapshot.forEach((doc) => {
+        const transaction = doc.data();
+        if (transaction.status === "unpaid") {
+          hasUnpaidBalance = true;
         }
+      });
 
-        // Check if user is logged in
-        const email = auth.currentUser?.email;
-        if (!email) {
-            alert("You must be logged in to place an order.");
-            return;
-        }
+      // If there is any unpaid balance, stop the process and alert the user
+      if (hasUnpaidBalance) {
+        alert("You cannot checkout with an unpaid balance. Please pay the remaining balance first.");
+        return;
+      }
 
-        // Fetch remaining balance
-        const userBalance = await FService.getDocument("Balance", email);
-        const remainingBalance = userBalance.exists() ? userBalance.data().remainingBalance : 0;
+      // Determine the payment amount based on the payment option
+      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
 
-        // Check if user has a remaining balance
-        if (remainingBalance > 0) {
-            throw new Error("You cannot checkout with a remaining balance.");
-        }
+      console.log("Total Amount:", totalAmount);
+      console.log("Downpayment Amount:", downpaymentAmount);
+      console.log("Payment Amount being sent:", paymentAmount);
 
-        // Determine the payment amount based on the payment option
-        const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
+      // Create the order
+      const orderId = await OrderController.createOrder({
+        email,
+        receiverName: formData.receiverName,
+        contactNo: formData.contactNo,
+        address: formData.address,
+        paymentOption: formData.paymentOption,
+        items: cartItems,
+        totalAmount: paymentAmount,
+      });
 
-        console.log("Total Amount:", totalAmount);
-        console.log("Downpayment Amount:", downpaymentAmount);
-        console.log("Payment Amount being sent:", paymentAmount);
+      // Create a description for the order items
+      const orderDescription = Object.keys(cartItems)
+        .map((key) => `${cartItems[key].name} x ${cartItems[key].quantity}`)
+        .join(", ");
 
-        // Create the order
-        const orderId = await OrderController.createOrder({
-            email,
-            receiverName: formData.receiverName,
-            contactNo: formData.contactNo,
-            address: formData.address,
-            paymentOption: formData.paymentOption,
-            items: cartItems,
-            totalAmount: paymentAmount,
-        });
+      console.log("Order Description:", orderDescription);
 
-        // Create a description for the order items
-        const orderDescription = Object.keys(cartItems)
-            .map(key => `${cartItems[key].name} x ${cartItems[key].quantity}`)
-            .join(', ');
+      // Create a payment link
+      const paymentLink = await PaymentController.createPaymentLink(
+        paymentAmount,
+        email,
+        orderDescription
+      );
 
-        // Log order description for debugging
-        console.log("Order Description:", orderDescription);
-
-        // Create a payment link
-        const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
-
-        // Redirect user to payment link
-        window.location.href = paymentLink;
+      // Redirect user to payment link
+      window.location.href = paymentLink;
 
     } catch (error) {
-        console.error("Error during payment:", error.message || error);
-        alert(error.message || "Failed to submit order. Please try again.");
+      console.error("Error during payment:", error.message || error);
+      alert(error.message || "Failed to submit order. Please try again.");
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
-};
-
+  };
 
   return (
     <div className="checkout-modal">

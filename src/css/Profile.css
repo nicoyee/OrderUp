@@ -16,6 +16,7 @@
 .editButton {
   border: 2px solid;
 }
+
 .close {
   color: #000000;
   float: right;
@@ -98,6 +99,8 @@ button {
   cursor: pointer;
   outline: none;
 }
+
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -105,11 +108,7 @@ button {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
 
 .modal {
   background-color: white;
@@ -118,19 +117,63 @@ button {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px; /* Adjusted size */
+  color: #000; /* Black color for visibility */
+  width: 18px; /* Adjusted size */
+  height: 18px; /* Adjusted size */
+}
+
+
+.modal-close:hover {
+  color: #f05006; /* Change color on hover for better UX */
+}
+
+.modal-content {
+  padding: 20px; /* Ensure padding is consistent */
+  text-align: left; /* Align text to the left */
+}
+
+.modal-content label {
+  display: block; /* Stack labels and inputs */
+  margin: 10px 0; /* Space between labels */
+}
+
+.modal-content input {
+  width: calc(100% - 20px); /* Full width minus padding */
+  padding: 10px; /* Padding for inputs */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.modal-content button {
+  padding: 10px 20px; /* Adjusted padding for button */
+  border-radius: 20px; 
+  border: none;
+  background-color: #f05006; 
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.modal-content button:hover {
+  background-color: #d04305; /* Darker shade on hover */
+}
 
 .modal-close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 20px; /* Smaller font size */
+  color: #000; /* Black color for visibility */
 }
 
-.modal-content {
-  width: 800px;
-  text-align: center;
-}
+
 
 .item-list {
   padding-left: 15px; 
@@ -151,9 +194,13 @@ button {
   background-color: #f2f2f2; 
 }
 
-.back-button-profile {
+.back-icon {
+  cursor: pointer;
   position: absolute;
-  top: 10px; 
-  left: 10px; 
+  margin-top: 100px;
+  margin-left: 570px; 
   z-index: 1; 
+
 }
+
+

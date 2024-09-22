@@ -22,7 +22,7 @@ import {
     uploadBytes,
     getDownloadURL
 } from "firebase/storage";
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";   
 
 interface IFirebase {
     auth: Auth, 

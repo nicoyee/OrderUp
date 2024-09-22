@@ -1,22 +1,24 @@
 import "../css/Dashboard.css";
 import "../css/Profile.css";
-
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import HeaderCustomer from "./HeaderCustomer";
 import { UserContext } from "../App";
 import { db } from "../firebase";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, onSnapshot } from "firebase/firestore";
 import PaymentController from "../class/controllers/PaymentController";
 
 const CustomerProfile = () => {
   const user = useContext(UserContext);
+  const navigate = useNavigate();
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // State for payment modal
-  const [remainingBalance, setRemainingBalance] = useState(null); // State for remaining balance
-  const [paymentLink, setPaymentLink] = useState(null); // Store the generated payment link
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [remainingBalance, setRemainingBalance] = useState(null);
+  const [paymentLink, setPaymentLink] = useState(null);
   const [userOrders, setUserOrders] = useState([]);
+  const [balanceStatus, setBalanceStatus] = useState("Paid");
 
   // Fetch user orders
   useEffect(() => {
@@ -38,35 +40,37 @@ const CustomerProfile = () => {
     fetchUserOrders();
   }, [user]);
 
-  // Fetch balance and generate payment link
+  // Listen for balance updates
   useEffect(() => {
-    const fetchBalance = async () => {
-      try {
-        if (!user) return;
-        const balanceRef = doc(db, "Balance", user.email);
-        const balanceSnapshot = await getDoc(balanceRef);
+    const unsubscribe = onSnapshot(doc(db, "Balance", user.email), (doc) => {
+      if (doc.exists()) {
+        const balanceData = doc.data();
+        const balanceAmount = balanceData.remainingBalance;
+        setRemainingBalance(balanceAmount.toFixed(2));
 
-        if (balanceSnapshot.exists()) {
-          const balanceAmount = balanceSnapshot.data().remainingBalance;
+        const status = balanceData.status || (balanceAmount > 0 ? "Pending" : "Paid");
+        setBalanceStatus(status);
 
-          if (balanceAmount > 0) {
-            setRemainingBalance(balanceAmount.toFixed(2));
-
-            // Generate payment link but do not redirect
-            const generatedLink = await PaymentController.createPaymentLink(
-              balanceAmount, // Amount
-              "Remaining balance for your order", // Description
-              "Balance Payment" // Remarks
-            );
-            setPaymentLink(generatedLink); // Store the link
-          }
+        if (balanceAmount > 0 && status === "unpaid") {
+          PaymentController.createPaymentLink(balanceAmount, "Remaining balance for your order", "Balance Payment")
+            .then((generatedLink) => {
+              setPaymentLink(generatedLink);
+            })
+            .catch((error) => {
+              console.error("Error creating payment link:", error);
+              setPaymentLink(null);
+            });
+        } else {
+          setPaymentLink(null);
         }
-      } catch (error) {
-        console.error("Error fetching balance or creating payment link:", error);
+      } else {
+        setRemainingBalance(null);
+        setPaymentLink(null);
+        setBalanceStatus("Paid");
       }
-    };
+    });
 
-    fetchBalance();
+    return () => unsubscribe();
   }, [user]);
 
   if (!user) {
@@ -79,10 +83,9 @@ const CustomerProfile = () => {
     setIsViewModalOpen(true);
   };
 
-  // Handle Pay Now button click (log the payment link)
+  // Handle Pay Now button click
   const handlePay = () => {
     if (paymentLink) {
-      console.log(paymentLink); // Log the payment link when button is clicked
       window.location.href = paymentLink;
     } else {
       console.error("Payment link is not available.");
@@ -106,6 +109,24 @@ const CustomerProfile = () => {
   return (
     <div className="dashboardContainer">
       <HeaderCustomer user={user} />
+
+      {/* Back Icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="back-icon"
+        onClick={() => navigate("/dashboard")}
+        style={{ cursor: 'pointer', position: 'absolute', top: '10px', left: '10px', zIndex: 1 }}
+      >
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
 
       <div className="big-rectangle">
         <div className="square left-square">
@@ -143,35 +164,48 @@ const CustomerProfile = () => {
         </div>
       </div>
 
-      {/* Button to trigger payment modal if there is a remaining balance */}
-      {remainingBalance && (
-        <button onClick={() => setIsPaymentModalOpen(true)} className="button" style={{ marginTop: "20px" }}>
-          Check Remaining Balance
-        </button>
-      )}
+      {/* Check Remaining Balance Button */}
+      <button onClick={() => setIsPaymentModalOpen(true)} className="button" style={{ marginTop: "20px" }}>
+        Check Remaining Balance
+      </button>
 
-      {/* Payment Modal */}
       {isPaymentModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Remaining Balance</h3>
-            <form>
-              <label>
-                Balance Due:
-                <input type="text" value={`₱${remainingBalance}`} readOnly />
-              </label>
-              <button type="button" onClick={handlePay} className="button">
-                Pay Now
-              </button>
-              <button type="button" onClick={() => setIsPaymentModalOpen(false)} className="close-button">
-                Close
-              </button>
-            </form>
+        <div className="modal-overlay">
+          <div className="modal">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="modal-close"
+              viewBox="0 0 24 24"
+              onClick={() => setIsPaymentModalOpen(false)}
+              width="20"
+              height="20"
+              style={{ fill: 'white' }}
+            >
+              <line x1="18" y1="6" x2="6" y2="18" stroke="white" strokeWidth="2" />
+              <line x1="6" y1="6" x2="18" y2="18" stroke="white" strokeWidth="2" />
+            </svg>
+            <div className="modal-content">
+              <h3>Remaining Balance</h3>
+              <form>
+                <label>
+                  Balance Due:
+                  <input type="text" value={`₱${remainingBalance}`} readOnly className="small-input" />
+                </label>
+                <label>
+                  Status:
+                  <input type="text" value={balanceStatus} readOnly className="small-input" />
+                </label>
+                {remainingBalance > 0 && (
+                  <button type="button" onClick={handlePay} className="button">
+                    Pay Now
+                  </button>
+                )}
+              </form>
+            </div>
           </div>
         </div>
       )}
 
-      {/* View Order Modal */}
       {isViewModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -190,12 +224,9 @@ const CustomerProfile = () => {
         </div>
       )}
 
-      {/* Edit Modal */}
       {isModalOpen && (
         <div className="square modal-content">
-          <span className="close" onClick={() => setIsModalOpen(false)}>
-            &times;
-          </span>
+          <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
           <h2>Edit Profile</h2>
           <form>
             <input type="file" accept="image/png, image/jpeg" onChange={() => {}} />
@@ -203,9 +234,7 @@ const CustomerProfile = () => {
               Username:
               <input type="text" defaultValue={user.name} />
             </label>
-            <button type="submit" className="button">
-              Save
-            </button>
+            <button type="submit" className="button">Save</button>
           </form>
         </div>
       )}
