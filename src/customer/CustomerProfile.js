@@ -161,15 +161,20 @@ const CustomerProfile = () => {
   };
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000);
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    };
-    return date.toLocaleDateString(undefined, options);
+    if (timestamp && timestamp.seconds) {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
+        return date.toLocaleString('en-US', {
+            weekday: 'long', 
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true, 
+        });
+    }
+    return 'N/A';
   };
 
   return (
@@ -219,7 +224,7 @@ const CustomerProfile = () => {
               <tbody>
                 {userOrders.map((order) => (
                   <tr key={order.id}>
-                    <td>{formatDate(order.date)}</td>
+                    <td>{formatDate(order.createdDate)}</td>
                     <td>
                       <button onClick={() => handleViewOrder(order)}>
                         View
