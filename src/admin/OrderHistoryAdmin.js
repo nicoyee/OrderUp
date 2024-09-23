@@ -15,14 +15,15 @@ const OrderHistoryAdmin = () => {
       try {
           const usersData = await Admin.fetchUsers();
           setUsers(usersData);
-        const allOrders = [];
-        for (const user of usersData) {
-          const userOrders = await Admin.fetchOrderHistory(user.email);
-          allOrders.push(...userOrders);
-        }
-        allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
+          
+          const allOrders = [];
+          for (const user of usersData) {
+            const userOrders = await Admin.fetchOrderHistory(user.email);
+            allOrders.push(...userOrders);
+          }
+          allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
 
-        setOrders(allOrders);
+          setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
       }

@@ -19,20 +19,21 @@ const CustomerProfile = () => {
   const [remainingBalance, setRemainingBalance] = useState(null);
   const [paymentLink, setPaymentLink] = useState(null);
   const [userOrders, setUserOrders] = useState([]);
-
+  const [balanceStatus, setBalanceStatus] = useState("Paid");
+  
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUid(user.uid);
-      } else {
-        // If user is null, you can perform any cleanup or redirect logic here
-        // For now, just log that the user is null
-        console.log("User is null");
-        navigate("/");
-      }
-    });
-    return () => unsubscribe();
+    // const auth = getAuth();
+    // const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     setUid(user.uid);
+    //   } else {
+    //     // If user is null, you can perform any cleanup or redirect logic here
+    //     // For now, just log that the user is null
+    //     console.log("User is null");
+    //     navigate("/");
+    //   }
+    // });
+    // return () => unsubscribe();
   }, []);
 
   useEffect(() => {

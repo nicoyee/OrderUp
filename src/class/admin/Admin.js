@@ -53,8 +53,8 @@ class Admin extends User {
     }
 
     // Order Management
-    static async fetchOrderHistory(user) {
-        return await OrderController.viewHistory(user);
+    static async fetchOrderHistory(userEmail) {
+        return await OrderController.viewHistory(userEmail);
     }
 
     static async updateCustomerOrderStatus(userEmail, referenceNumber, newStatus) {
@@ -62,8 +62,8 @@ class Admin extends User {
     }
 
     // Fetch all balances
-    static async fetchAllBalances() {
-        return await OrderController.fetchBalances();
+    static async fetchBalances(userEmail){
+        return await OrderController.fetch(userEmail);
     }
 
     // Fetch transactions for a specific user
