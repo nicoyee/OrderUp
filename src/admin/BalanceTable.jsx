@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import OrderController from "../class/controllers/OrderController";
+import Admin from "../class/admin/Admin";
 import "../css/Admin/BalanceTable.css";
 
 const BalanceTable = () => {
@@ -14,29 +14,31 @@ const BalanceTable = () => {
             setLoading(true);
             setError(null);
             try {
-                const usersData = await OrderController.getAllBalances();
+                console.log("Fetching balances from Admin class..."); // Debugging log
+                const usersData = await Admin.fetchAllBalances();
+
+                console.log("Fetched users data:", usersData); // Debugging log
                 
                 if (usersData.length === 0) {
                     setError("No users found with balances.");
                     return;
                 }
-    
-                const allBalances = [];
-        
-                for (const user of usersData) {
-                    const userEmail = user.userEmail;
-    
-                    const latestTransaction = user.transactions.length > 0 ? user.transactions[user.transactions.length - 1] : null;
-        
-                    allBalances.push({
-                        userEmail,
+
+                const allBalances = usersData.map((user) => {
+                    const latestTransaction = user.transactions.length > 0 
+                        ? user.transactions[user.transactions.length - 1] 
+                        : null;
+
+                    return {
+                        userEmail: user.userEmail,
                         remainingBalance: latestTransaction ? latestTransaction.remainingBalance : 0,
-                        status: latestTransaction ? latestTransaction.status : 'No transactions',
+                        status: latestTransaction ? latestTransaction.status : "No transactions",
                         createdDate: latestTransaction ? latestTransaction.createdDate : new Date(),
                         transactions: user.transactions,
-                    });
-                }
-    
+                    };
+                });
+
+                console.log("Formatted balances:", allBalances); // Debugging log
                 setBalances(allBalances);
             } catch (err) {
                 console.error("Error fetching balances:", err);
@@ -45,15 +47,16 @@ const BalanceTable = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchBalances();
     }, []);
-    
 
+    // Handle view transactions for a user
     const handleViewTransactions = (userEmail) => {
         const userBalance = balances.find((balance) => balance.userEmail === userEmail);
         if (userBalance) {
             setSelectedTransactions(userBalance.transactions);
+            console.log(`Viewing transactions for user: ${userEmail}`); // Debugging log
             setShowModal(true);
         }
     };

@@ -143,81 +143,69 @@ class OrderController {
         }
     }
 
-    static async getAllBalances() {
+    static async fetchBalances() {
         try {
-            const balanceCollectionPath = 'Balance'; // Adjusted path
-            console.log("Querying Balance collection at path:", balanceCollectionPath);
-            const userSnapshots = await FService.getDocuments(balanceCollectionPath);
-
-            console.log("User Snapshots:", userSnapshots);
+            const balancesSnapshot = await FService.getDocuments("Balance");
+            const balances = [];
     
-            if (userSnapshots.empty) {
-                console.log("No documents found in Balance collection");
-                return [];
+            for (const doc of balancesSnapshot.docs) {
+                const balanceData = doc.data();
+                const userEmail = doc.id;
+    
+                // Fetch transactions for this user
+                const transactionsPath = `Balance/${userEmail}/transactions`;
+                const transactionsSnapshot = await FService.getDocuments(transactionsPath);
+    
+                const transactions = transactionsSnapshot.docs.map(transactionDoc => ({
+                    id: transactionDoc.id,
+                    ...transactionDoc.data(),
+                }));
+    
+                balances.push({
+                    userEmail,
+                    remainingBalance: balanceData.remainingBalance || 0,
+                    status: balanceData.status || "No status",
+                    createdDate: balanceData.createdDate || new Date(),
+                    transactions,
+                });
             }
     
-            console.log(`Found ${userSnapshots.size} user(s) in Balance collection`);
-    
-            const usersWithBalances = [];
-    
-            await Promise.all(userSnapshots.docs.map(async (doc) => {
-                const userEmail = doc.id; // Each document ID is the user's email
-                console.log(`Fetching transactions for user: ${userEmail}`);
-                
-                const transactions = await this.getTransactions(userEmail); // Fetch transactions for this user
-                console.log(`Fetched ${transactions.length} transaction(s) for ${userEmail}`, transactions);
-    
-                // Check if there are balances
-                const totalBalance = transactions.reduce((sum, transaction) => sum + transaction.remainingBalance, 0); // Ensure you're using the correct field
-    
-                if (totalBalance > 0) {
-                    usersWithBalances.push({
-                        userEmail,
-                        totalBalance,
-                        createdDate: doc.data().createdDate, // Adjust as needed
-                    });
-                }
-            }));
-    
-            if (usersWithBalances.length === 0) {
-                console.log("No users found with balances.");
-            }
-    
-            return usersWithBalances;
+            console.log("Processed balances:", balances);
+            return balances;
         } catch (error) {
             console.error("Error fetching balances:", error);
             throw error;
         }
-    }
+    }    
 
-    static async getTransactions(userEmail) {
+    // Method to fetch transactions for a specific user
+    static async fetchUserTransactions(userEmail) {
         try {
+            console.log(`Fetching transactions for user: ${userEmail}`);
+            
             const transactionsPath = `Balance/${userEmail}/transactions`;
-            const transactionSnapshots = await FService.getDocuments(transactionsPath); // Fetch all documents in the transactions sub-collection
+            const transactionSnapshots = await FService.getDocuments(transactionsPath);
     
+            // Check if there are any transactions
             if (transactionSnapshots.empty) {
                 console.log(`No transactions found for user: ${userEmail}`);
-                return []; // Return an empty array if no transactions
+                return []; // Return an empty array if no transactions exist
             }
     
-            const transactions = [];
+            // Process the fetched transactions
+            const transactions = transactionSnapshots.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
     
-            // Use .forEach to iterate over the Firestore snapshot
-            transactionSnapshots.forEach((doc) => {
-                console.log(`Transaction found for ${userEmail}: ID = ${doc.id}, Data =`, doc.data());
-                transactions.push({
-                    id: doc.id,
-                    ...doc.data(), // Spread the document data into the object
-                });
-            });
-    
-            console.log(`Total transactions fetched for ${userEmail}:`, transactions.length);
-            return transactions; // Return the array of transactions
+            console.log(`Fetched ${transactions.length} transactions for user: ${userEmail}`);
+            return transactions;
         } catch (error) {
             console.error(`Error fetching transactions for user ${userEmail}:`, error);
-            throw error; // Re-throw the error after logging
+            throw error; // Rethrow the error for handling upstream
         }
     }
+    
 
 
     static generateReferenceNumber() {
