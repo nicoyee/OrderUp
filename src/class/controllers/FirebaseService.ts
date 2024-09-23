@@ -106,6 +106,7 @@ class FirebaseService implements IFirebase{
             throw error;
         }
     }
+
 }   
 
 const FService = new FirebaseService()

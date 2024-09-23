@@ -65,15 +65,6 @@ class Admin extends User {
         return await OrderController.updateStatus(userEmail, referenceNumber, newStatus);
     }
 
-    //Balance management
-    static async fetchUserBalance(userEmail) {
-        return await OrderController.fetchUserBalance(userEmail);
-    }
-
-    static async updateTransactionStatus(userEmail, transactionId, newStatus) {
-        return await OrderController.updateTransactionStatus(userEmail, transactionId, newStatus);
-    }
-
 }
 
 export default Admin;

@@ -12,7 +12,7 @@ class OrderController {
             if (!email) {
                 throw new Error("User email is undefined");
             }
-
+    
             // Check if the user has an unpaid balance
             const userBalanceDoc = await FService.getDocument("Balance", email);
             let balance = new Balance(email);
@@ -21,11 +21,11 @@ class OrderController {
                 balance.remainingBalance = balanceData.remainingBalance || 0;
                 balance.status = balanceData.status || "unpaid";
             }
-
+    
             if (balance.remainingBalance > 0 && balance.status !== "paid") {
                 throw new Error("You cannot create a new order with an unpaid balance.");
             }
-
+    
             // Order data to be stored
             const orderData = {
                 userEmail: email,
@@ -39,18 +39,18 @@ class OrderController {
                 createdDate: new Date(),
                 referenceNumber: referenceNumber
             };
-
+    
             // Create Order document in Firestore
             const path = `Orders/${email}/orders`;
             await FService.setDocument(path, referenceNumber, orderData); // Storing order in Firestore
             console.log("Order created successfully.");
-
+    
             // If the user chose downpayment, calculate and store remaining balance in separate collection
             if (paymentOption === "downpayment") {
                 const remainingBalance = totalAmount * 0.8; // 80% remaining after downpayment
-                await this.storeRemainingBalance(email, remainingBalance); // Storing remaining balance
+                await this.storeRemainingBalance(email, remainingBalance); // Updated: no reference number passed
             }
-
+    
             return referenceNumber; // Return reference number for further use
         } catch (error) {
             console.error("Error creating order:", error.message || error);
@@ -58,23 +58,30 @@ class OrderController {
         }
     }
     
+    
     // Separate method to store remaining balance in Firestore
     static async storeRemainingBalance(userEmail, remainingBalance) {
         try {
             if (!userEmail) {
                 throw new Error("User email is undefined");
             }
-
+    
             const transactionPath = `Balance/${userEmail}/transactions`;
+            const referenceNumber = this.generateReferenceNumber(); // Generate a new reference number for the transaction
             const transactionData = {
                 remainingBalance,
                 status: remainingBalance > 0 ? "unpaid" : "paid", // Set status based on remaining balance
                 createdDate: new Date(),
             };
-
-            // Create a new transaction entry in the "transactions" sub-collection using the reference number
-            await FService.setDocument(transactionPath, this.generateReferenceNumber(), transactionData); // Storing balance transaction
+    
+            // Create a new transaction entry in the "transactions" sub-collection using the generated reference number
+            await FService.setDocument(transactionPath, referenceNumber, transactionData); // Storing balance transaction
             console.log("New balance transaction created successfully.");
+    
+            return {
+                id: referenceNumber,
+                ...transactionData,
+            };
         } catch (error) {
             console.error("Error storing balance transaction:", error.message || error);
             throw error;
@@ -108,7 +115,7 @@ class OrderController {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;
             const querySnapshot = await FService.getDocuments(ordersCollectionPath);
             const orders = [];
-
+            
             querySnapshot.forEach((doc) => {
                 const orderData = doc.data();
                 orders.push({
@@ -136,72 +143,83 @@ class OrderController {
         }
     }
 
-    static async fetchUserBalance(userEmail) {
+    static async getAllBalances() {
         try {
-            if (!userEmail) {
-                throw new Error("User email is undefined");
+            const balanceCollectionPath = 'Balance'; // Adjusted path
+            console.log("Querying Balance collection at path:", balanceCollectionPath);
+            const userSnapshots = await FService.getDocuments(balanceCollectionPath);
+
+            console.log("User Snapshots:", userSnapshots);
+    
+            if (userSnapshots.empty) {
+                console.log("No documents found in Balance collection");
+                return [];
             }
-
-            // Fetch the balance document
-            const userBalanceDoc = await FService.getDocument("Balance", userEmail);
-            if (!userBalanceDoc.exists()) {
-                return {
-                    remainingBalance: 0,
-                    status: "unpaid",
-                    transactions: [],
-                };
+    
+            console.log(`Found ${userSnapshots.size} user(s) in Balance collection`);
+    
+            const usersWithBalances = [];
+    
+            await Promise.all(userSnapshots.docs.map(async (doc) => {
+                const userEmail = doc.id; // Each document ID is the user's email
+                console.log(`Fetching transactions for user: ${userEmail}`);
+                
+                const transactions = await this.getTransactions(userEmail); // Fetch transactions for this user
+                console.log(`Fetched ${transactions.length} transaction(s) for ${userEmail}`, transactions);
+    
+                // Check if there are balances
+                const totalBalance = transactions.reduce((sum, transaction) => sum + transaction.remainingBalance, 0); // Ensure you're using the correct field
+    
+                if (totalBalance > 0) {
+                    usersWithBalances.push({
+                        userEmail,
+                        totalBalance,
+                        createdDate: doc.data().createdDate, // Adjust as needed
+                    });
+                }
+            }));
+    
+            if (usersWithBalances.length === 0) {
+                console.log("No users found with balances.");
             }
+    
+            return usersWithBalances;
+        } catch (error) {
+            console.error("Error fetching balances:", error);
+            throw error;
+        }
+    }
 
-            const userBalanceData = userBalanceDoc.data();
-
-            // Fetching transactions for the user
-            const transactionsCollectionPath = `Balance/${userEmail}/transactions`;
-            const transactionsSnapshot = await FService.getDocuments(transactionsCollectionPath);
+    static async getTransactions(userEmail) {
+        try {
+            const transactionsPath = `Balance/${userEmail}/transactions`;
+            const transactionSnapshots = await FService.getDocuments(transactionsPath); // Fetch all documents in the transactions sub-collection
+    
+            if (transactionSnapshots.empty) {
+                console.log(`No transactions found for user: ${userEmail}`);
+                return []; // Return an empty array if no transactions
+            }
+    
             const transactions = [];
-
-            transactionsSnapshot.forEach((doc) => {
-                const transactionData = doc.data();
+    
+            // Use .forEach to iterate over the Firestore snapshot
+            transactionSnapshots.forEach((doc) => {
+                console.log(`Transaction found for ${userEmail}: ID = ${doc.id}, Data =`, doc.data());
                 transactions.push({
-                    ...transactionData,
-                    id: doc.id // Add the document ID for later reference
+                    id: doc.id,
+                    ...doc.data(), // Spread the document data into the object
                 });
             });
-
-            return {
-                remainingBalance: userBalanceData.remainingBalance || 0,
-                status: userBalanceData.status || "unpaid",
-                transactions, // Return the user's transactions as well
-            };
+    
+            console.log(`Total transactions fetched for ${userEmail}:`, transactions.length);
+            return transactions; // Return the array of transactions
         } catch (error) {
-            console.error("Error fetching user balance:", error);
-            throw error;
+            console.error(`Error fetching transactions for user ${userEmail}:`, error);
+            throw error; // Re-throw the error after logging
         }
     }
 
-    static async updateTransactionStatus(userEmail, transactionId, newStatus) {
-        try {
-            const transactionPath = `Balance/${userEmail}/transactions`;
-            await FService.updateDocument(transactionPath, transactionId, { status: newStatus });
-            console.log("Transaction status updated successfully.");
-        } catch (error) {
-            console.error("Error updating transaction status:", error);
-            throw error;
-        }
-    }
 
-    static async getBalanceDocuments() {
-        try {
-            const path = "Balance"; // Path to the balance collection
-            const querySnapshot = await FService.getDocuments(path);
-            return querySnapshot.docs; // Return documents
-        } catch (error) {
-            console.error("Error fetching balance documents:", error);
-            throw error;
-        }
-    }
-    
-    
-    
     static generateReferenceNumber() {
         return Math.floor(Math.random() * 1000000000).toString();
     }
