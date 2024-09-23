@@ -61,6 +61,7 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
                 <option value={MenuType.VEGETARIAN}>{MenuType.VEGETARIAN}</option>
                 <option value={MenuType.DESSERT}>{MenuType.DESSERT}</option>
                 <option value={MenuType.SEAFOOD}>{MenuType.SEAFOOD}</option>
+                <option value={MenuType.FOODPACKAGE}>{MenuType.FOODPACKAGE}</option>
               </select>
             </div>
             <div className="form-group">

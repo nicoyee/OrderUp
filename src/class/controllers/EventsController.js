@@ -48,7 +48,8 @@ class EventsController {
             }
             const updatedEvent = {
                 ...eventData,
-                photoURL
+                photoURL,
+                socialLink: eventData.socialLink.trim()
             };
             // Update event document in Firestore
             await FService.updateDocument('events', eventId, updatedEvent);

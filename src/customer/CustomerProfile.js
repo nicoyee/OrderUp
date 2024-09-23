@@ -1,5 +1,6 @@
 import "../css/Dashboard.css";
 import "../css/Profile.css";
+import Customer from "../class/Customer.ts";
 
 import React, { useContext, useState, useEffect } from "react";
 import HeaderCustomer from "./HeaderCustomer";
@@ -38,8 +39,6 @@ const CustomerProfile = () => {
       if (user) {
         setUid(user.uid);
       } else {
-        // If user is null, you can perform any cleanup or redirect logic here
-        // For now, just log that the user is null
         console.log("User is null");
         navigate("/");
       }
@@ -57,6 +56,9 @@ const CustomerProfile = () => {
           id: doc.id,
           ...doc.data(),
         }));
+        console.log("Fetched orders:", orders);
+
+        orders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
         setUserOrders(orders);
       } catch (error) {
         console.error("Error fetching user orders:", error);
@@ -67,8 +69,9 @@ const CustomerProfile = () => {
   }, [user]);
 
   if (!user) {
-    return <div>Loading...</div>; // or any other placeholder or redirect logic
+    return <div>Loading...</div>;
   }
+
   const handleViewOrder = (order) => {
     setSelectedOrder(order);
     setIsViewModalOpen(true);
@@ -87,7 +90,6 @@ const CustomerProfile = () => {
     try {
       const newName = event.target.elements.username.value;
 
-      // Update username if it is changed
       if (newName !== user.name) {
         await updateProfile(uid, newName);
       }
@@ -125,13 +127,11 @@ const CustomerProfile = () => {
 
   const updateProfilePicture = async (userId, newImageFile, name) => {
     try {
-      // Step 1: Fetch the old profile picture image URL from Firestore
       const userDocRef = doc(db, "users", userId);
       const userDocSnapshot = await getDoc(userDocRef);
       const userData = userDocSnapshot.data();
       const oldImageUrl = userData.profilePicture;
 
-      // Step 2: Delete the old profile picture image from Firebase Storage
       if (
         oldImageUrl !==
         `https://ui-avatars.com/api/?name=${name}&background=random`
@@ -141,7 +141,6 @@ const CustomerProfile = () => {
         console.log("Old profile picture image deleted successfully");
       }
 
-      // Step 3: Upload the new profile picture image to Firebase Storage
       const newImageRef = ref(
         storage,
         `/profile/${userId}/${newImageFile.name}`
@@ -149,7 +148,6 @@ const CustomerProfile = () => {
       await uploadBytes(newImageRef, newImageFile);
       console.log("New profile picture image uploaded successfully");
 
-      // Step 4: Update the profilePicture field in the Firestore document with the new URL
       const newImageUrl = await getDownloadURL(newImageRef);
       await updateDoc(userDocRef, {
         profilePicture: newImageUrl,
@@ -175,14 +173,15 @@ const CustomerProfile = () => {
         });
     }
     return 'N/A';
-  };
+};
+
 
   return (
     <div className="dashboardContainer">
       <HeaderCustomer user={user} />
 
-      <div class="big-rectangle">
-        <div class="square left-square">
+      <div className="big-rectangle">
+        <div className="square left-square">
           <div
             className="back-button-profile"
             onClick={() => navigate("/dashboard")}
@@ -210,15 +209,15 @@ const CustomerProfile = () => {
             Edit
           </button>
         </div>
-        <div class="square right-square">
+        <div className="square right-square">
           <h3>Order History</h3>
-          <div class="inner-square">
+          <div className="inner-square">
             <table>
               <thead>
                 <tr>
                   <th>Date</th>
                   <th>View</th>
-                  <th>status</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,24 +268,45 @@ const CustomerProfile = () => {
         </div>
       )}
       {isViewModalOpen && (
-        <div className="modal">
+        <div className="user-order-details-modal">
           <div className="modal-content">
-            <h2>Order Details</h2>
-            <p>Date: {formatDate(selectedOrder.date)}</p>
-            <p>Reference Order: {selectedOrder.referenceNumber}</p>
-            <ul className="item-list">
-              {Object.values(selectedOrder.items).map((item, index) => (
-                <li key={index}>
-                  {item.name} - Quantity: {item.quantity} - Price: {item.price}
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setIsViewModalOpen(false)}>Close</button>
+            <span className="close" onClick={() => setIsViewModalOpen(false)}>&times;</span>
+            <h1>Order Details</h1>
+            <p>Date: {formatDate(selectedOrder.createdDate)}</p>
+            <p>Reference Number: {selectedOrder.referenceNumber}</p>
+            <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(selectedOrder.items || {}).map(([itemId, item]) => (
+                      <tr key={itemId}>
+                        <td>{item.name}</td>
+                        <td>{item.description}</td>
+                        <td>₱{item.price}</td>
+                        <td>{item.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className='status'>Status: {selectedOrder.status}</p>
+                <p className="total">Total: ₱{calculateTotal(selectedOrder.items)}</p>
           </div>
         </div>
       )}
     </div>
   );
 };
-
+const calculateTotal = (items) => {
+  let total = 0;
+  Object.values(items || {}).forEach(item => {
+    total += item.price * item.quantity;
+  });
+  return total.toFixed(2);
+};
 export default CustomerProfile;
