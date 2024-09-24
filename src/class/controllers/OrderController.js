@@ -59,34 +59,34 @@ class OrderController {
     }
     
     
-    // // Separate method to store remaining balance in Firestore
-    // static async storeRemainingBalance(userEmail, remainingBalance) {
-    //     try {
-    //         if (!userEmail) {
-    //             throw new Error("User email is undefined");
-    //         }
+    // Separate method to store remaining balance in Firestore
+    static async storeRemainingBalance(userEmail, remainingBalance) {
+        try {
+            if (!userEmail) {
+                throw new Error("User email is undefined");
+            }
     
-    //         const transactionPath = `Balance/${userEmail}/transactions`;
-    //         const referenceNumber = this.generateReferenceNumber(); // Generate a new reference number for the transaction
-    //         const transactionData = {
-    //             remainingBalance,
-    //             status: remainingBalance > 0 ? "unpaid" : "paid", // Set status based on remaining balance
-    //             createdDate: new Date(),
-    //         };
+            const transactionPath = `Balance/${userEmail}/transactions`;
+            const referenceNumber = this.generateReferenceNumber(); // Generate a new reference number for the transaction
+            const transactionData = {
+                remainingBalance,
+                status: remainingBalance > 0 ? "unpaid" : "paid", // Set status based on remaining balance
+                createdDate: new Date(),
+            };
     
-    //         // Create a new transaction entry in the "transactions" sub-collection using the generated reference number
-    //         await FService.setDocument(transactionPath, referenceNumber, transactionData); // Storing balance transaction
-    //         console.log("New balance transaction created successfully.");
+            // Create a new transaction entry in the "transactions" sub-collection using the generated reference number
+            await FService.setDocument(transactionPath, referenceNumber, transactionData); // Storing balance transaction
+            console.log("New balance transaction created successfully.");
     
-    //         return {
-    //             id: referenceNumber,
-    //             ...transactionData,
-    //         };
-    //     } catch (error) {
-    //         console.error("Error storing balance transaction:", error.message || error);
-    //         throw error;
-    //     }
-    // }
+            return {
+                id: referenceNumber,
+                ...transactionData,
+            };
+        } catch (error) {
+            console.error("Error storing balance transaction:", error.message || error);
+            throw error;
+        }
+    }
 
     static async viewHistory(userEmail) {
         try {
