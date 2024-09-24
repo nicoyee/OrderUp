@@ -19,14 +19,16 @@ const Checkout = ({ onClose, cartItems }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Calculate total and downpayment amounts whenever cartItems change
-  useEffect(() => {
-    let total = 0;
-    Object.values(cartItems).forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    setTotalAmount(total);
-    setDownpaymentAmount(total * 0.2); // 20% downpayment
-  }, [cartItems]);
+  // Calculate total and downpayment amounts whenever cartItems change
+useEffect(() => {
+  let total = 0;
+  Object.values(cartItems).forEach((item) => {
+    total += item.price * item.quantity;
+  });
+  setTotalAmount(total);
+  setDownpaymentAmount(total * 0.4); // 40% downpayment
+}, [cartItems]);
+
 
   const handleChange = (e) => {
     setFormData({
