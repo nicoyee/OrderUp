@@ -10,15 +10,23 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+    const [loginError, setLoginError] = useState(false); 
 
     const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
     };
 
-    const signIn = (e) => {
+    const signIn = async (e) => {
         e.preventDefault();
-        AuthController.logIn(email, password);
-    }
+        setLoginError(false); 
+
+        try {
+            await AuthController.logIn(email, password);
+        } catch (error) {
+            setLoginError(true);
+            setErrorMessage('Invalid email or password');
+        }
+    };
 
     return (
         <form id='authForm' className="modalForm" onSubmit={ signIn }>
@@ -63,7 +71,12 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
                             }
                         </span>
                     </div>
-                    <span onClick={ setForgot }className='authRedirect-link forgotPass'>Forgot Password?</span>
+                    {loginError && (
+                        <div className='error-message'>
+                            {errorMessage}
+                        </div>
+                    )}
+                    <span onClick={ setForgot } className='authRedirect-link forgotPass'>Forgot Password?</span>
                 </div>
                 <button className="authForm-submit">Log In</button>
                 <p className='authRedirect-context'>Don't have an account? <span className='authRedirect-link' onClick={ setSignup }>Sign Up</span></p>

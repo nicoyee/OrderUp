@@ -12,6 +12,9 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+    const [signInError, setSignInError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
@@ -19,7 +22,13 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
 
     const signUp = async (e) => {
         e.preventDefault();
-        await AuthController.signUp(name, email, password, UserType.CUSTOMER);
+
+        try{
+            await AuthController.signUp(name, email, password, UserType.CUSTOMER);
+        } catch(error){
+            setSignInError(true);
+            setErrorMessage('Email already exist');
+        }
     };
 
     return (
@@ -71,6 +80,12 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
                             }
                         </span>
                     </div>
+
+                    {signInError && (
+                        <div className='error-message'>
+                            {errorMessage}
+                        </div>
+                    )}
                 </div>
                 <button className="authForm-submit">Sign Up</button>
                 <p className='authRedirect-context'>Already have an account? <span className='authRedirect-link' onClick={ setLogin }>Log In</span></p>
