@@ -7,6 +7,7 @@
   height: auto;      
   margin: 0 auto;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 .menu-title {
@@ -37,7 +38,7 @@
 
 .menu-type-btn {
   background-color: #6f803d; 
-  color: white;
+  color: #D5DBBD;
   border: none;
   padding: 10px 20px; 
   border-radius: 4px;
@@ -112,13 +113,13 @@
 .menu-item-name {
   font-size: 22px;
   margin-bottom: 10px;
-  color: #f0f0f0;
+  color: #D5DBBD;
   font-weight: bold;
 }
 
 .menu-item-description {
   font-size: 16px;
-  color: #cec9c9;
+  color: #D5DBBD;
   margin-bottom: 12px;
   flex-grow: 0; 
 }
@@ -153,7 +154,7 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   background-color: #2c2c2c;
-  color: #f0f0f0;
+  color: #D5DBBD;
   transition: transform 0.3s ease-in-out;
 }
 
