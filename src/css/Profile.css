@@ -296,50 +296,66 @@ button {
 }
 
 
-/* Styles for the Check Remaining Balance Modal */
+
 .check-remaining-balance-modal {
-  position: fixed;
-  z-index: 1000; 
-  left: 0;
+  position: fixed; 
   top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex; 
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6); 
+  justify-content: center;
+  z-index: 1000; 
 }
 
 .check-remaining-balance-modal .modal-content {
-  background-color: #ffffff; 
-  width: 80%;
+  background-color: white; 
+  border-radius: 8px; 
+  padding: 20px; 
+  width: 80%; 
   max-width: 500px; 
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
+.check-remaining-balance-modal .close {
+  color: #aaa; 
+  float: right; 
+  font-size: 28px; 
+  font-weight: bold; 
+}
 
-.check-remaining-balance-table {
-  width: 100%;
+.check-remaining-balance-modal .close:hover,
+.check-remaining-balance-modal .close:focus {
+  color: black; 
+  text-decoration: none; 
+  cursor: pointer; 
+}
+
+.check-remaining-balance-modal h2 {
+  margin-top: 0; 
+}
+
+.check-remaining-balance-modal .check-remaining-balance-table {
+  width: 100%; 
   border-collapse: collapse; 
-  margin-top: 20px; 
 }
 
-.check-remaining-balance-table th,
-.check-remaining-balance-table td {
-  border: 1px solid #cccccc; 
-  padding: 10px; 
+.check-remaining-balance-modal .check-remaining-balance-table th,
+.check-remaining-balance-modal .check-remaining-balance-table td {
+  border: 1px solid #ddd; 
+  padding: 8px; 
   text-align: left; 
 }
 
-.check-remaining-balance-table th {
+.check-remaining-balance-modal .check-remaining-balance-table th {
   background-color: #f2f2f2;
-  font-weight: bold;
 }
 
-.check-remaining-balance-table tr:hover {
-  background-color: #f9f9f9; 
+.check-remaining-balance-modal .error-message {
+  color: red; 
+  text-align: center; 
 }
 
 .check-remaining-balance-table button {
@@ -354,8 +370,6 @@ button {
 .check-remaining-balance-table button:hover {
   background-color: #45a049; /* Darker green on hover */
 }
-
-
 
 .error-message {
   color: red; 

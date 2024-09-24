@@ -1,7 +1,6 @@
 import "../css/Dashboard.css";
 import "../css/Profile.css";
 
-
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderCustomer from "./HeaderCustomer";
@@ -38,8 +37,8 @@ const CustomerProfile = () => {
     const userEmail = user.email; // Current user's email from auth
 
     try {
-      // Fetch balance transactions using the updated fetchTransactions method
       const transactions = await OrderController.fetchTransactions(userEmail);
+      console.log("Fetched Transactions:", transactions); // Log the transactions
 
       if (transactions.length === 0) {
         setErrorMessage("No balance found for this user.");
@@ -73,23 +72,32 @@ const CustomerProfile = () => {
 
   const handlePay = async (transactionId) => {
     try {
-      const transactionToPay = balanceTransactions.find(t => t.id === transactionId);
-      if (!transactionToPay) {
-        throw new Error("Transaction not found.");
-      }
-  
-      const paymentLink = await PaymentController.createPaymentLink(
-        transactionToPay.amount,
-        `Payment for balance ${transactionId}`,
-        `Payment for transaction ID: ${transactionId}`
-      );
-  
-      window.location.href = paymentLink;
+        const userEmail = user.email; 
+        
+        const transactions = await OrderController.fetchTransactions(userEmail);
+        
+        const transactionToPay = transactions.find(t => t.id === transactionId);
+        
+        if (!transactionToPay) {
+            console.error("Transaction not found for ID:", transactionId); 
+            throw new Error("Transaction not found.");
+        }
+
+        if (transactionToPay.status === "paid") {
+            throw new Error("This transaction is already paid.");
+        }
+
+        const amountInCents = transactionToPay.remainingBalance;
+        const description = `Payment for Remaining Balance ID: ${transactionId}`;
+        const paymentLink = await PaymentController.createPaymentLink(amountInCents, description, null);
+
+        window.location.href = paymentLink;
     } catch (error) {
-      console.error("Error processing payment:", error);
-      alert("Failed to process payment. Please try again.");
+        console.error("Error processing payment:", error.message || error);
+        setErrorMessage("Error processing payment. Please try again.");
     }
-  };
+};
+
 
   const formatDate = (timestamp) => {
     if (timestamp && timestamp.seconds) {
@@ -173,43 +181,50 @@ const CustomerProfile = () => {
       </button>
 
       {/* Modal to display remaining balance in a table */}
-{showModal && (
-  <div className="check-remaining-balance-modal">
-    <div className="modal-content">
-      <span className="close" onClick={closeModal}>&times;</span>
-      <h2>Remaining Balance</h2>
-      {balanceTransactions.length > 0 ? (
-        <table className="check-remaining-balance-table">
-          <thead>
-            <tr>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Action</th> {/* Added Action column for the Pay button */}
-            </tr>
-          </thead>
-          <tbody>
-            {balanceTransactions.map((transaction) => (
-              <tr key={transaction.id}>
-                <td>₱{transaction.amount}</td>
-                <td>{formatDate(transaction.createdDate)}</td>
-                <td>{transaction.status}</td>
-                <td>
-                  {transaction.status !== "Paid" && ( // Check if status is not Paid
-                    <button onClick={() => handlePay(transaction.id)}>Pay</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="error-message">No balance found for this user.</p>
-      )}
-    </div>
-  </div>
-)}
+      {showModal && (
+        <div className="check-remaining-balance-modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <h2>Remaining Balance</h2>
+            {balanceTransactions.length > 0 ? (
+              <table className="check-remaining-balance-table">
+                <thead>
+                  <tr>
+                    <th>Remaining Balance</th> {/* Updated header to reflect the right information */}
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+  {balanceTransactions.map((transaction) => (
+    <tr key={transaction.id}>
+      <td>₱{transaction.remainingBalance}</td>
+      <td>{formatDate(transaction.createdDate)}</td>
+      <td>{transaction.status}</td>
+      <td>
+        {transaction.status === "paid" ? (
+          <span>(Paid)</span>
+        ) : (
+          <button 
+            onClick={() => handlePay(transaction.id)} 
+            disabled={transaction.status === "paid"}
+          >
+            Pay
+          </button>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
 
+              </table>
+            ) : (
+              <p className="error-message">No balance found for this user.</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Display error message */}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -241,7 +256,7 @@ const CustomerProfile = () => {
                 ))}
               </tbody>
             </table>
-            <h2>Total: ₱{calculateTotal(selectedOrder.items)}</h2>
+            <p>Total: ₱{calculateTotal(selectedOrder.items)}</p>
           </div>
         </div>
       )}
