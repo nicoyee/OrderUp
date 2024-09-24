@@ -23,6 +23,7 @@
     max-width: 500px;
     color: #fff;
 }
+
 .close {
     color: #ff8500;
     float: right;
@@ -30,8 +31,8 @@
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.create-event-modal .modal-content .close:hover,
+.create-event-modal .modal-content .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;

@@ -2,8 +2,7 @@ import { FService } from "./FirebaseService.ts";
 import { Order } from "../Order.ts";
 
 class OrderController {
-    // Method to create an order based on checkout form data and cart items
-    // Updated createOrder method in OrderController.js
+    
     static async createOrder(orderDetails) {
     try {
         const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
@@ -28,6 +27,8 @@ class OrderController {
         throw error;
     }
     }
+
+
 
 
     // Method to fetch all orders
@@ -71,6 +72,7 @@ class OrderController {
         }
     }
 
+
     // Method to update the order status (e.g., to 'completed', 'shipped', etc.)
     static async updateStatus(userEmail, referenceNumber, newStatus) {
         try {
@@ -83,7 +85,7 @@ class OrderController {
         }
     }
 
-    // Utility method to generate a unique reference number
+    
     static generateReferenceNumber() {
         return Math.floor(Math.random() * 1000000000).toString();
     }

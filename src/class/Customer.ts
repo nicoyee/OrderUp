@@ -18,24 +18,25 @@ class Customer extends User {
     }
 
     static async getOrders() {
-        await OrderController.getOrderDetails;
+        await OrderController.getOrders;
     }
 
-    static async createOrder(email, cartData) {
-        if (!cartData.referenceNumber) {
+    static async createOrder(orderDetails) {
+        if (!orderDetails.referenceNumber) {
             throw new Error('Reference number is missing in cartData');
         }
-        await OrderController.createOrder(email, cartData);
+        await OrderController.createOrder(orderDetails);  
     }
+    
 
-    static async uploadOrderTransactionSlip(slip) {
-        await OrderController.uploadSlip(slip);
-    }
+    // static async uploadOrderTransactionSlip(slip) {
+    //     await OrderController.uploadSlip(slip);
+    // }
 
-    static async getGcashQrCode() {
-        const gcashDoc = await FService.getDocument('qr_code', 'gcash');
-        return gcashDoc.exists() ? gcashDoc.data() : null;
-    }
+    // static async getGcashQrCode() {
+    //     const gcashDoc = await FService.getDocument('qr_code', 'gcash');
+    //     return gcashDoc.exists() ? gcashDoc.data() : null;
+    // }
 
     static async getBestSellers() {
         return await CartController.getBestSellers();
