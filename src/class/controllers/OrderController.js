@@ -47,7 +47,7 @@ class OrderController {
             });
             return orders;
         } catch (error) {
-            console.error("Error fetching orders:", error);
+            console.error("Error fetching order history:", error);
             throw error;
         }
     }

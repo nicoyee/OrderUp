@@ -3,6 +3,7 @@ export const MenuType = Object.freeze({
     VEGETARIAN: 'Vegetarian',
     SEAFOOD: 'Seafood',
     DESSERT: 'Dessert',
+    BEVERAGES: 'Beverages',
     FOODPACKAGE: 'Food Package'
 })
 

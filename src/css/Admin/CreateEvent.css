@@ -23,7 +23,8 @@
     max-width: 500px;
     color: #fff;
 }
-.create-event-modal .modal-content .close {
+
+.close {
     color: #ff8500;
     float: right;
     font-size: 28px;

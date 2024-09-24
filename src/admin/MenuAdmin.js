@@ -7,7 +7,7 @@ import Admin from '../class/admin/Admin.js';
 const MenuAdmin = ({ dishes, setDishes }) => {
   const [editRowIndex, setEditRowIndex] = useState({}); // Track index of row being edited by category
   const [editedDishDetails, setEditedDishDetails] = useState({});
-  const [openCategory, setOpenCategory] = useState(null); // Track the open category
+  const [openCategory, setOpenCategory] = useState('All'); // Track the open category and default to 'All'
   const [currentPagePerCategory, setCurrentPagePerCategory] = useState({}); // Track current page for each category
   const dishesPerPage = 10;
 
@@ -28,14 +28,22 @@ const MenuAdmin = ({ dishes, setDishes }) => {
 
     fetchDishes();
   }, []);
-
+  
   // Group dishes by category (menuType)
   const categorizedDishes = dishes?.reduce((categories, dish) => {
     const category = dish.menuType || 'Uncategorized';
+    //'All' category
+    if (!categories['All']) {
+      categories['All'] = [];
+    }
+    categories['All'].push(dish);
     if (!categories[category]) {
       categories[category] = [];
     }
     categories[category].push(dish);
+
+    
+
     return categories;
   }, {});
 
