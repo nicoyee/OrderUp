@@ -1,4 +1,4 @@
-import '../css/DashboardCustomer.css';
+
 import '../css/Dashboard.css';
 
 import React, { useState, useContext, useEffect } from 'react';
