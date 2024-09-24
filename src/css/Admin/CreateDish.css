@@ -37,27 +37,27 @@
     cursor: pointer;
 }
 
-h1 {
+.create-dish-modal .modal-content h1 {
     font-size: 1.5em;
     color: #ff8500;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.form-group {
+.create-dish-modal .modal-content .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.create-dish-modal .modal-content .form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
     text-align: left;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.create-dish-modal .modal-content .form-group input,
+.create-dish-modal .modal-content .form-group textarea,
+.create-dish-modal .modal-content .form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -69,12 +69,12 @@ h1 {
     font-family: 'Arial', sans-serif;
 }
 
-.form-group textarea {
+.create-dish-modal .modal-content .form-group textarea {
     height: 100px;
     resize: vertical;
 }
 
-.add-button {
+.create-dish-modal .modal-content .add-button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -86,6 +86,6 @@ h1 {
     font-family: 'Arial', sans-serif;
 }
 
-.add-button:hover {
+.create-dish-modal .modal-content .add-button:hover {
     background-color: #45a049;
 }

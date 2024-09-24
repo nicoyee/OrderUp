@@ -60,7 +60,7 @@ const DashboardAdmin = () => {
           </div>
           <MenuAdmin dishes={dishes} setDishes={setDishes} />
           <OrderHistoryAdmin />
-        </div>
+        
         {createDishModalIsOpen && (
           <CreateDish
             setDishes={setDishes}
@@ -82,6 +82,7 @@ const DashboardAdmin = () => {
           />
         )}
         <BalanceTable /> {/* Place BalanceTable at the bottom */}
+        </div>
       </div>
     </div>
   );

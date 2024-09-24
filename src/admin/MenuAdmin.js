@@ -1,5 +1,4 @@
 import '../css/common/modals.css';
-import '../css/DashboardComponents.css';
 import "../css/MenuTable.css"
 import React, { useState, useEffect } from 'react';
 import Admin from '../class/admin/Admin.js';
@@ -187,13 +186,13 @@ const MenuAdmin = ({ dishes, setDishes }) => {
                       <td className='actionBtns'>
                         {editRowIndex[category] === index ? (
                           <div>
-                            <button onClick={() => handleConfirmEdit(category, index)}>Confirm</button>
-                            <button onClick={handleCancelEdit}>Cancel</button>
+                            <button className='confirmBtn' onClick={() => handleConfirmEdit(category, index)}>Confirm</button>
+                            <button className='cancelBtn' onClick={handleCancelEdit}>Cancel</button>
                           </div>
                         ) : (
                           <div>
-                            <button onClick={() => handleEdit(category, index)}>Edit</button>
-                            <button onClick={() => handleDelete(dish.id)}>Delete</button>
+                            <button className = 'editBtn' onClick={() => handleEdit(category, index)}>Edit</button>
+                            <button className = 'deleteBtn' onClick={() => handleDelete(dish.id)}>Delete</button>
                           </div>
                         )}
                       </td>

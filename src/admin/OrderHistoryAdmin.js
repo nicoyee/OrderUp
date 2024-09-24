@@ -67,7 +67,7 @@ const OrderHistoryAdmin = () => {
 
 
   return (
-    <div className="menuTable">
+    <div className="table-history">
       <h1>All Orders</h1>
       <table className="dataTableHistory">
         <thead>

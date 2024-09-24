@@ -24,12 +24,5 @@
     padding: 20px; /* Inner padding */
 }
 
-.balanceTableContainer {
-    margin-top: 20px; /* Space above the BalanceTable */
-    padding: 20px;
-    background-color: #fff; /* Ensure background matches */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-}
 
 
