@@ -4,7 +4,8 @@
   border-radius: 4px;
   padding: 20px;
   width: 500px;
-  height: 800px;
+  height: 1200px;
+  font-family: "Roboto", sans-serif;
 }
 
 .avatar {
@@ -16,6 +17,7 @@
 .editButton {
   border: 2px solid;
 }
+
 .close {
   color: #000000;
   float: right;
@@ -30,29 +32,24 @@
   cursor: pointer;
 }
 
-.menuTable h1 {
-  font-family: "Inter";
-  color: rgb(0, 0, 0);
-}
-
 .big-rectangle {
-  width: 800px; /* Adjust the width as needed */
-  height: 300px; /* Adjust the height as needed */
+  width: 800px; 
+  height: 300px; 
   background-color: white;
   position: relative;
 }
 
 .square {
-  height: 100%; /* Each square takes the full height of the big rectangle */
-  background-color: #fefefe; /* Adjust the color as needed */
-  float: left; /* Float squares left to align them side by side */
-  border: 0.5px solid black; /* Add a border with 2px width and black color */
-  box-sizing: border-box; /* Include border width in the total width */
-  position: relative; /* Required for positioning child elements */
+  height: 100%; 
+  background-color: #fefefe; 
+  float: left; 
+  border: 0.5px solid black; 
+  box-sizing: border-box; 
+  position: relative; 
 }
 
 .left-square {
-  width: 30%; /* Left square takes 30% of the big rectangle */
+  width: 30%; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,44 +57,46 @@
 }
 
 .profile-picture {
-  width: 80px; /* Adjust the size of the profile picture */
-  height: 80px; /* Adjust the size of the profile picture */
-  border-radius: 50%; /* Make the image round */
-  border: 3px solid black; /* Add a border with 3px width and black color */
-  object-fit: cover; /* Ensure the image covers the entire space */
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%; 
+  border: 3px solid black; 
+  object-fit: cover; 
 }
 
 .right-square {
-  width: 70%; /* Right square takes 70% of the big rectangle */
+  width: 70%; 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  position: relative; /* Needed for positioning the inner square */
+  position: relative; 
 }
 
 .inner-square {
-  width: 70%; /* Adjust the size of the inner square */
-  height: 70%; /* Adjust the size of the inner square */
-  background-color: #ffffff; /* Adjust the color of the inner square */
+  width: 70%; 
+  height: 70%; 
+  background-color: #ffffff; 
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-sizing: border-box; /* Ensure border width is included in the total width */
-  max-height: 200px; /* Set a fixed height for the inner square */
-  overflow-y: auto; /* Enable vertical scrolling */
+  box-sizing: border-box; 
+  max-height: 200px; 
+  overflow-y: auto; 
 }
 
 button {
-  padding: 8px 16px; /* Adjust button padding */
-  border-radius: 20px; /* Make the button rounder */
+  padding: 8px 16px; 
+  border-radius: 20px; 
   border: none;
-  background-color: #f05006; /* Adjust button color */
+  background-color: #f05006; 
   color: white;
   cursor: pointer;
   outline: none;
 }
+
+/* 
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -105,12 +104,8 @@ button {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* Styles for the modal */
 .modal {
   background-color: white;
   border-radius: 10px;
@@ -118,43 +113,279 @@ button {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Styles for the modal close button */
 .modal-close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px; 
+  color: #000; 
+  width: 18px; 
+  height: 18px; 
+}
+
+
+.modal-close:hover {
+  color: #f05006; 
 }
 
 .modal-content {
-  width: 800px;
-  text-align: center;
-  /* Add other styles as needed */
+  padding: 20px; 
+  text-align: left; 
 }
 
+.modal-content label {
+  display: block;
+  margin: 10px 0; 
+}
+
+.modal-content input {
+  width: calc(100% - 20px); 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.modal-content button {
+  padding: 10px 20px; 
+  border-radius: 20px; 
+  border: none;
+  background-color: #f05006; 
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.modal-content button:hover {
+  background-color: #d04305; 
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px; 
+  color: #000; 
+} */
+
+
+
 .item-list {
-  padding-left: 15px; /* Adjust this value as needed */
+  padding-left: 15px; 
 }
 
 .inner-square table {
-  border-collapse: collapse; /* Ensure borders collapse properly */
-  width: 100%; /* Adjust the width as needed */
+  border-collapse: collapse; 
+  width: 100%; 
 }
 
 .inner-square th,
 .inner-square td {
-  border: 1px solid #000; /* Add border to table cells */
-  padding: 8px; /* Add padding to table cells */
+  border: 1px solid #000; 
+  padding: 8px; 
 }
 
 .inner-square th {
-  background-color: #f2f2f2; /* Add background color to table header */
+  background-color: #f2f2f2; 
 }
 
-.back-button-profile {
+.back-icon {
+  cursor: pointer;
   position: absolute;
-  top: 10px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
-  z-index: 1; /* Ensure it's above other content */
+  margin-top: 100px;
+  margin-left: 570px; 
+  z-index: 1; 
+
 }
+
+
+/* Styles for the modal */
+.user-order-details-modal {
+  position: fixed;
+  z-index: 1000; /* Ensure the modal is on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2b2b2b;
+  background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background */
+  animation: fadeIn 0.3s ease-in-out; /* Fade-in effect */
+  font-family: "Roboto", sans-serif;
+}
+
+.user-order-details-modal .modal-content {
+  background-color: #ffffff; /* Dark gray background */
+  width: 80%;
+  max-width: 950px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); 
+}
+
+.user-order-details-modal h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ff8500;
+}
+
+.user-order-details-modal .close {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ff8500;
+  transition: color 0.3s ease;
+}
+.user-order-details-modal .close:hover {
+  color: #ffa733; 
+}
+
+.user-order-details-modal .user-list {
+  margin-top: 20px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 600px; /* Set a maximum height */
+}
+
+.user-order-details-modal table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-order-details-modal th,
+.user-order-details-modal td {
+  border: 1px solid #555555;
+  padding: 10px;
+  text-align: left;
+}
+
+.user-order-details-modal th {
+  background-color: #ff8500;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.order-details-modal .status {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #f0f0f0;
+}
+
+.order-details-modal .total {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 18px;
+  color: #f0f0f0;
+}
+
+.user-order-details-modal .status {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #2b2b2b;
+}
+
+.user-order-details-modal .total {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 18px;
+  color: #2b2b2b;
+}
+
+
+
+.check-remaining-balance-modal {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; 
+}
+
+.check-remaining-balance-modal .modal-content {
+  background-color: white; 
+  border-radius: 8px; 
+  padding: 20px; 
+  width: 80%; 
+  max-width: 500px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.check-remaining-balance-modal .close {
+  color: #aaa; 
+  float: right; 
+  font-size: 28px; 
+  font-weight: bold; 
+}
+
+.check-remaining-balance-modal .close:hover,
+.check-remaining-balance-modal .close:focus {
+  color: black; 
+  text-decoration: none; 
+  cursor: pointer; 
+}
+
+.check-remaining-balance-modal h2 {
+  margin-top: 0; 
+}
+
+.check-remaining-balance-modal .check-remaining-balance-table {
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+.check-remaining-balance-modal .check-remaining-balance-table th,
+.check-remaining-balance-modal .check-remaining-balance-table td {
+  border: 1px solid #ddd; 
+  padding: 8px; 
+  text-align: left; 
+}
+
+.check-remaining-balance-modal .check-remaining-balance-table th {
+  background-color: #f2f2f2;
+}
+
+.check-remaining-balance-modal .error-message {
+  color: red; 
+  text-align: center; 
+}
+
+.check-remaining-balance-table button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.check-remaining-balance-table button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.error-message {
+  color: red; 
+  margin-top: 10px;
+  text-align: center; 
+}
+
+
+.close {
+  color: #000; 
+  float: right; 
+  font-size: 24px; 
+  cursor: pointer; 
+}
+
+.close:hover {
+  color: #f05006; 
+}
+

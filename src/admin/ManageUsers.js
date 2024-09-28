@@ -91,22 +91,22 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
           );
         }
 
-        const formatDate = (timestamp) => {
-            if (timestamp && timestamp.seconds) {
-                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
-                return date.toLocaleString('en-US', {
-                    weekday: 'long', 
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true, 
-                });
-            }
-            return 'N/A';
-        };
+    const formatDate = (timestamp) => {
+        if (timestamp && timestamp.seconds) {
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
+            return date.toLocaleString('en-US', {
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true, 
+            });
+        }
+        return 'N/A';
+    };
 
         return (
           <div className="order-details-modal">
@@ -137,21 +137,13 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                   </tbody>
                 </table>
                 <p className='status'>Status: {order.status}</p>
-                <p className="total">Total: ₱{calculateTotal(order.items)}</p>
+                <p className="total">Total: ₱{order.totalAmount.toFixed(2)}</p>
               </div>
             </div>
           </div>
         );
       };
       
-      // Helper function to calculate the total price
-      const calculateTotal = (items) => {
-        let total = 0;
-        Object.values(items || {}).forEach(item => {
-          total += item.price * item.quantity;
-        });
-        return total.toFixed(2);
-      };
 
     const openOrderDetailsModal = (order) => {
         setSelectedOrder(order);

@@ -1,6 +1,3 @@
-import "../css/DashboardAdmin.css";
-import "../css/Dashboard.css";
-
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App";
 import OrderHistoryAdmin from "./OrderHistoryAdmin";
@@ -9,6 +6,10 @@ import MenuAdmin from "./MenuAdmin";
 import CreateDish from "./CreateDish";
 import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
+import BalanceTable from "./BalanceTable"; // Import BalanceTable
+
+import "../css/DashboardAdmin.css";
+import "../css/Dashboard.css";
 
 const DashboardAdmin = () => {
   const user = useContext(UserContext);
@@ -80,6 +81,7 @@ const DashboardAdmin = () => {
             setModalIsOpen={setManageEventsModalIsOpen}
           />
         )}
+        <BalanceTable /> {/* Place BalanceTable at the bottom */}
       </div>
     </div>
   );

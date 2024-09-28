@@ -23,7 +23,6 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
         const fetchEvents = async () => {
             try {
                 const eventsData = await Admin.fetchEvents();
-                console.log('Fetched events:', eventsData);
                 if (Array.isArray(eventsData)) {
                     setEvents(eventsData);
                 } else {
