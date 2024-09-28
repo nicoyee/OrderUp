@@ -53,17 +53,24 @@ class Admin extends User {
     }
 
     // Order Management
-    static async fetchOrderHistory(user) {
-        return await OrderController.viewHistory(user);
+    static async fetchOrderHistory(userEmail) {
+        return await OrderController.viewHistory(userEmail);
     }
 
-    static async getCustomerOrders() {
-        return await OrderController.getOrders();
-    }
-    
     static async updateCustomerOrderStatus(userEmail, referenceNumber, newStatus) {
         return await OrderController.updateStatus(userEmail, referenceNumber, newStatus);
     }
+
+    // Fetch all balances
+    static async fetchBalances(userEmail){
+        return await OrderController.fetch(userEmail);
+    }
+
+    // Fetch transactions for a specific user
+    static async getUserTransactions(userEmail) {
+        return await OrderController.fetchUserTransactions(userEmail);
+    }
+
 
 }
 

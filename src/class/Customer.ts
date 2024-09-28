@@ -17,17 +17,12 @@ class Customer extends User {
         await CartController.quantity(dishId, newQuantity);
     }
 
-    static async getOrders() {
-        await OrderController.getOrders;
-    }
-
     static async createOrder(orderDetails) {
         if (!orderDetails.referenceNumber) {
             throw new Error('Reference number is missing in cartData');
         }
         await OrderController.createOrder(orderDetails);  
     }
-    
 
     // static async uploadOrderTransactionSlip(slip) {
     //     await OrderController.uploadSlip(slip);
