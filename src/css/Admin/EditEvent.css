@@ -78,6 +78,7 @@
     float: right;
     margin-left: 10px;
     border-radius: 4px;
+    padding: 10px ;
 }
 
 .edit-event-modal .form-group button[type="button"] {
@@ -85,4 +86,5 @@
     color: white;
     float: right;
     border-radius: 4px;
+    padding: 10px;
 }
