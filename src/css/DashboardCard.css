@@ -25,7 +25,7 @@
     width: 100%;
     max-width: 500px; 
     height: 250px; 
-    border-radius: 15px;
+    border-radius: 8px;
     border: 1px solid #252525;
     background: rgba(105, 13, 197, 0.103);
     display: flex;
@@ -84,12 +84,11 @@
     justify-content: center; /* Center icons horizontally */
     align-items: center;
     overflow: hidden;
-    gap: 10px; /* Adds spacing between icons */
 }
 
 .dashboardCardBtn {
     position: relative;
-    width: 100%;
+    width: 1000%;
     height: 40px;
     background-color: #252525;
     display: flex;
@@ -100,7 +99,6 @@
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     color: #d5dbbd;
-    gap: 5px;
     box-sizing: border-box;
 }
 

@@ -1,5 +1,5 @@
 import '../css/common/modals.css';
-import "../css/MenuTable.css"
+import "../css/Admin/MenuTable.css"
 import React, { useState, useEffect } from 'react';
 import Admin from '../class/admin/Admin.js';
 

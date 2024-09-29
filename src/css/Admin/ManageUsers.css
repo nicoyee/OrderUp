@@ -85,12 +85,13 @@
     padding: 10px 20px;
     margin: 5px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
     transition-duration: 0.4s ease;
+    color: #e0e0e0;
   }
   
 
@@ -249,6 +250,7 @@
 .order-history-modal .order-list td {
   padding: 10px;
   border-bottom: 1px solid #555;
+  text-align: center;
 }
 
 .order-history-modal .order-list th {

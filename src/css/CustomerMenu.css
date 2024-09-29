@@ -227,6 +227,7 @@
   padding: 16px 29px;
   margin: 0 5px;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .pagination-btn:hover {

@@ -23,41 +23,41 @@
     max-width: 500px;
     color: #fff;
 }
-.create-event-modal .modal-content .close {
+.create-event-modal .close {
     color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.create-event-modal .modal-content .close:hover,
-.create-event-modal .modal-content .close:focus {
+.create-event-modal .close:hover,
+.create-event-modal .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
 }
 
-.create-event-modal .modal-content h1 {
+.create-event-modal h1 {
     font-size: 1.5em;
     color: #ff8500;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.create-event-modal .modal-content .form-group {
+.create-event-modal .form-group {
     margin-bottom: 20px;
 }
 
-.create-event-modal .modal-content .form-group label {
+.create-event-modal .form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
     text-align: left;
 }
 
-.create-event-modal .modal-content .form-group input,
-.create-event-modal .modal-content .form-group select,
-.create-event-modal .modal-content .form-group textarea {
+.create-event-modal .form-group input,
+.create-event-modal .form-group select,
+.create-event-modal .form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -69,18 +69,18 @@
     font-family: 'Arial', sans-serif;
 }
 
-.create-event-modal .modal-content .form-group textarea {
+.create-event-modal .form-group textarea {
     height: 100px;
     background: #3b3b3b;
 }
 
-.create-event-modal .modal-content .error-message {
+.create-event-modal .error-message {
     color: red;
     text-align: center;
     margin-bottom: 15px;
 }
 
-.create-event-modal .modal-content .create-event-modal button {
+.create-event-modal button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -91,6 +91,6 @@
     font-size: 16px;
 }
 
-.create-event-modal .modal-content button:hover {
+.create-event-modal button:hover {
     background-color: #45a049;
 }

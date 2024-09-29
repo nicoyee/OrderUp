@@ -8,8 +8,7 @@ import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
 import BalanceTable from "./BalanceTable"; // Import BalanceTable
 
-import "../css/DashboardAdmin.css";
-import "../css/Dashboard.css";
+import "../css/DashboardCard.css";
 
 const DashboardAdmin = () => {
   const user = useContext(UserContext);

@@ -1,5 +1,5 @@
 
-import '../css/Dashboard.css';
+import '../css/DashboardCard.css';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';
@@ -38,20 +38,6 @@ const DashboardCustomer = () => {
             <div className="dashboardCardText">
               <span>Dashboard</span>
               <p className="dashboardCardSubtitle">Welcome Back, <span className='dashboardCardName'>{user.name}</span></p>
-            </div>
-            <div className="dashboardCardIcons">
-              <a className="dashboardCardBtn" href="#">
-                <span className="material-symbols-outlined">
-                  room_service
-                </span>
-                Create Order
-              </a>
-              <a className="dashboardCardBtn" href="#">
-                <span className="material-symbols-outlined">
-                  confirmation_number
-                </span>
-                Add Voucher
-              </a>
             </div>
           </div>
         </div>

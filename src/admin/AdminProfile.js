@@ -1,5 +1,4 @@
-import "../css/Dashboard.css";
-import "../css/AdminProfile.css";
+import "../css/Admin/AdminProfile.css";
 
 import React, { useContext, useState, useEffect } from "react";
 import HeaderAdmin from "./HeaderAdmin";
@@ -174,10 +173,10 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="dashboardContainer">
+    <div className="admin-profile">
       <HeaderAdmin user={user} />
 
-      <div class="big-rectangle-admin">
+      <div className="modal-content">
         <div
           className="back-button-profile"
           onClick={() => navigate("/dashboard")}
@@ -185,12 +184,19 @@ const AdminProfile = () => {
           <a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
               width="24"
               height="24"
-              fill="currentColor"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="back-button-profile"
+              onClick={() => navigate("/dashboard")}
+              style={{ cursor: 'pointer'}}
             >
-              <path d="M14.71 5.71a.996.996 0 0 0-1.41 0L8.91 11.5H20c.55 0 1 .45 1 1s-.45 1-1-1H8.91l4.39 4.39a.996.996 0 1 0 1.41-1.41L6.71 12l6.71-6.71c.38-.38.38-1.02 0-1.41z" />
+              <polyline points="15 18 9 12 15 6" />
             </svg>
           </a>
         </div>
@@ -204,11 +210,10 @@ const AdminProfile = () => {
         <button onClick={editClick} className="button">
           Edit
         </button>
-        <h3>Set GCash</h3>
-        <input type="file" accept="image/*" onChange={handleGcashImage} />
       </div>
       {isModalOpen && (
-        <div className="square modal-content">
+        <div className="admin-edit-profile">
+          <div className="modal-content">
           <span className="close" onClick={closeModal}>
             &times;
           </span>
@@ -223,19 +228,12 @@ const AdminProfile = () => {
               Username:
               <input type="text" name="username" defaultValue={user.name} />
             </label>
-            <label>
-              Select Option:
-              <select value={paymentType} onChange={handlePaymentChange}>
-                <option value="option1">Cash</option>
-                <option value="option2">Debit</option>
-                <option value="option3">GCash</option>
-              </select>
-            </label>
             <div>
               <button type="submit">Save</button>
             </div>
           </form>
         </div>
+      </div>
       )}
     </div>
   );

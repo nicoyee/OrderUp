@@ -23,15 +23,15 @@
     color: #fff;
 }
 
-.create-dish-modal .modal-content .close {
+.create-dish-modal .close {
     color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.create-dish-modal .modal-content .close:hover,
-.create-dish-modal .modal-content .close:focus {
+.create-dish-modal .close:hover,
+.create-dish-modal .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
@@ -44,20 +44,20 @@
     margin-bottom: 20px;
 }
 
-.create-dish-modal .modal-content .form-group {
+.create-dish-modal .form-group {
     margin-bottom: 20px;
 }
 
-.create-dish-modal .modal-content .form-group label {
+.create-dish-modal .form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
     text-align: left;
 }
 
-.create-dish-modal .modal-content .form-group input,
-.create-dish-modal .modal-content .form-group textarea,
-.create-dish-modal .modal-content .form-group select {
+.create-dish-modal .form-group input,
+.create-dish-modal .form-group textarea,
+.create-dish-modal .form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -69,12 +69,12 @@
     font-family: 'Arial', sans-serif;
 }
 
-.create-dish-modal .modal-content .form-group textarea {
+.create-dish-modal .form-group textarea {
     height: 100px;
     resize: vertical;
 }
 
-.create-dish-modal .modal-content .add-button {
+.create-dish-modal .add-button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -86,6 +86,6 @@
     font-family: 'Arial', sans-serif;
 }
 
-.create-dish-modal .modal-content .add-button:hover {
+.create-dish-moda .add-button:hover {
     background-color: #45a049;
 }
