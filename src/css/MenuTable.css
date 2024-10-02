@@ -107,33 +107,49 @@
   background-color: #45a049; /* Active page button color */
 }
 
-.actionBtns {
+.action-buttons {
   display: flex;
-  text-align: center;
-  justify-content: center;
+  justify-content: space-between; /* Ensure equal spacing between buttons */
   align-items: center;
 }
 
-.actionBtns button {
-  padding: 8px;
-  cursor: pointer;
+.edit-btn, .delete-btn, .confirm-btn {
+  padding: 8px 12px;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 8px; 
 }
 
-.actionBtns button.editBtn {
-  background-color: #2196f3; /* Blue color for edit button */
-  color: white;
+.edit-btn {
+  background-color: #007bff; 
+  color: #ffffff; 
 }
 
-.actionBtns button.editBtn:hover {
-  background-color: #1976d2; /* Darker shade of blue on hover */
+.edit-btn:hover {
+  background-color: #0056b3; 
+  color: #ffffff; 
 }
 
-.actionBtns button.deleteBtn {
-  background-color: #f44336; /* Red color for delete button */
-  color: white;
+/* Delete button */
+.delete-btn {
+  background-color: #dc3545;  
+  color: #ffcccc;  
 }
 
-.actionBtns button.deleteBtn:hover {
-  background-color: #d32f2f; /* Darker shade of red on hover */
+.delete-btn:hover {
+  background-color: #c82333;  
+  color: #ffe6e6;  
+}
+
+.confirm-btn {
+  background-color: #027a24;  
+  color: #ffcccc;  
+}
+
+.confirm-btn:hover {
+  background-color: #035624;  
+  color: #ffe6e6;  
 }
