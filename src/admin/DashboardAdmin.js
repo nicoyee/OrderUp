@@ -8,8 +8,7 @@ import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
 import BalanceTable from "./BalanceTable"; // Import BalanceTable
 
-import "../css/DashboardAdmin.css";
-import "../css/Dashboard.css";
+import "../css/DashboardCard.css";
 
 const DashboardAdmin = () => {
   const user = useContext(UserContext);
@@ -60,7 +59,7 @@ const DashboardAdmin = () => {
           </div>
           <MenuAdmin dishes={dishes} setDishes={setDishes} />
           <OrderHistoryAdmin />
-        </div>
+        
         {createDishModalIsOpen && (
           <CreateDish
             setDishes={setDishes}
@@ -82,6 +81,7 @@ const DashboardAdmin = () => {
           />
         )}
         <BalanceTable /> {/* Place BalanceTable at the bottom */}
+        </div>
       </div>
     </div>
   );

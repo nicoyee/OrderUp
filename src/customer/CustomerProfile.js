@@ -1,4 +1,3 @@
-import "../css/Dashboard.css";
 import "../css/Profile.css";
 
 import React, { useContext, useState, useEffect } from "react";
@@ -121,36 +120,37 @@ const CustomerProfile = () => {
   }
 
   return (
-    <div className="dashboardContainer">
+    <div className="customer-profile">
       <HeaderCustomer user={user} />
+    <div className="modal-content">
 
       {/* Back Icon */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="back-icon"
-        onClick={() => navigate("/dashboard")}
-        style={{ cursor: 'pointer', position: 'absolute', top: '10px', left: '10px', zIndex: 1 }}
-      >
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
 
-      <div className="big-rectangle">
-        <div className="square left-square">
+      <div className="profile-grid">
+        <div className="left-grid">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="back-icon"
+              onClick={() => navigate("/dashboard")}
+              style={{ cursor: 'pointer'}}
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
           <img src={user.profilePicture} className="profile-picture" alt="avatar" />
           <h3>{user.name}</h3>
           <h4>{user.email}</h4>
         </div>
-        <div className="square right-square">
+        <div className="right-grid">
           <h3>Order History</h3>
-          <div className="inner-square">
+          <div className="customer-table-history">
             <table>
               <thead>
                 <tr>
@@ -172,13 +172,14 @@ const CustomerProfile = () => {
               </tbody>
             </table>
           </div>
+            <div className="remaining-balance-container">
+              <button className="remaining-balance-button" onClick={checkRemainingBalance}>
+                Check Remaining Balance
+              </button>
+            </div>
         </div>
       </div>
-
-      {/* Check Remaining Balance Button */}
-      <button className="button" onClick={checkRemainingBalance}>
-        Check Remaining Balance
-      </button>
+      
 
       {/* Modal to display remaining balance in a table */}
       {showModal && (
@@ -197,27 +198,26 @@ const CustomerProfile = () => {
                   </tr>
                 </thead>
                 <tbody>
-  {balanceTransactions.map((transaction) => (
-    <tr key={transaction.id}>
-      <td>₱{transaction.remainingBalance}</td>
-      <td>{formatDate(transaction.createdDate)}</td>
-      <td>{transaction.status}</td>
-      <td>
-        {transaction.status === "paid" ? (
-          <span>(Paid)</span>
-        ) : (
-          <button 
-            onClick={() => handlePay(transaction.id)} 
-            disabled={transaction.status === "paid"}
-          >
-            Pay
-          </button>
-        )}
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+                  {balanceTransactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td>₱{transaction.remainingBalance}</td>
+                      <td>{formatDate(transaction.createdDate)}</td>
+                      <td>{transaction.status}</td>
+                      <td>
+                        {transaction.status === "paid" ? (
+                          <span>(Paid)</span>
+                        ) : (
+                          <button 
+                            onClick={() => handlePay(transaction.id)} 
+                            disabled={transaction.status === "paid"}
+                          >
+                            Pay
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             ) : (
               <p className="error-message">No balance found for this user.</p>
@@ -256,11 +256,12 @@ const CustomerProfile = () => {
                 ))}
               </tbody>
             </table>
-            <p>Total: ₱{calculateTotal(selectedOrder.items)}</p>
+            <p className="total">Total: ₱{calculateTotal(selectedOrder.items)}</p>
           </div>
         </div>
       )}
     </div>
+  </div>
   );
 };
 

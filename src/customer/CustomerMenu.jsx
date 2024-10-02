@@ -149,10 +149,12 @@ const CustomerMenu = () => {
                       alt={dish.name}
                       className="best-seller-item-image"
                     />
+                    <div className="best-seller-item-description-overlay">
+                      {dish.description}
+                    </div>
                   </div>
                   <div className="best-seller-item-details">
                     <h3 className="best-seller-item-name">{dish.name}</h3>
-                    <p className="best-seller-item-description">{dish.description}</p>
                     <p className="best-seller-item-price">Price: ${dish.price}</p>
                     <button
                       className="add-to-cart-btn"
@@ -181,10 +183,13 @@ const CustomerMenu = () => {
                   alt={dish.name}
                   className="menu-item-image"
                 />
+              <div className='menu-item-description-overlay'>
+                  {dish.description}
+              </div>
+                
               </div>
               <div className="menu-item-details">
                 <h3 className="menu-item-name">{dish.name}</h3>
-                <p className="menu-item-description">{dish.description}</p>
                 <p className="menu-item-price">Price: ${dish.price}</p>
                 <button
                   className="add-to-cart-btn"
