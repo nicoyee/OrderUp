@@ -167,6 +167,74 @@
   background-color: #e04006;
 }
 
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Modal message */
+.modal-content p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Modal buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 10px; /* Small gap between buttons */
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Confirm button */
+.modal-confirm {
+  background-color: #007bff; /* Neutral blue color */
+  color: white;
+}
+
+.modal-confirm:hover {
+  background-color: #0056b3; /* Slightly darker blue on hover */
+}
+
+/* Cancel button */
+.modal-cancel {
+  background-color: #be2d2d; /* Neutral gray color */
+  color: white;
+}
+
+.modal-cancel:hover {
+  background-color: #5a6268; /* Slightly darker gray on hover */
+}
+
 @media screen and (max-width: 768px) {
   .cart-container {
     max-width: 600px;
@@ -188,3 +256,4 @@
     margin-left: 10px;
   }
 }
+

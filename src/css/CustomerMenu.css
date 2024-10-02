@@ -243,3 +243,22 @@
   color: #999;
   cursor: not-allowed;
 }
+
+.modal {
+  width: 80%; 
+  height: 80px; 
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #000;
+}
