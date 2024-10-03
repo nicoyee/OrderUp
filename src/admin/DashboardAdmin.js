@@ -7,6 +7,7 @@ import CreateDish from "./CreateDish";
 import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
 import BalanceTable from "./BalanceTable"; // Import BalanceTable
+import AdminSales from "./AdminSales"; // Import AdminSales
 
 import "../css/DashboardAdmin.css";
 import "../css/Dashboard.css";
@@ -16,6 +17,7 @@ const DashboardAdmin = () => {
   const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
   const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
   const [manageEventsModalIsOpen, setManageEventsModalIsOpen] = useState(false);
+  const [adminSalesModalIsOpen, setAdminSalesModalIsOpen] = useState(false); // State for AdminSales modal
   const [dishes, setDishes] = useState([]);
   const [events, setEvents] = useState([]);
 
@@ -56,6 +58,13 @@ const DashboardAdmin = () => {
                 <span className="material-symbols-outlined">event</span>
                 Manage Events
               </button>
+              <button
+                className="dashboardCardBtn"
+                onClick={() => setAdminSalesModalIsOpen(true)} // Button to open AdminSales modal
+              >
+                <span className="material-symbols-outlined">bar_chart</span>
+                Sales Overview
+              </button>
             </div>
           </div>
           <MenuAdmin dishes={dishes} setDishes={setDishes} />
@@ -79,6 +88,12 @@ const DashboardAdmin = () => {
             setEvents={setEvents}
             modalIsOpen={manageEventsModalIsOpen}
             setModalIsOpen={setManageEventsModalIsOpen}
+          />
+        )}
+        {adminSalesModalIsOpen && (
+          <AdminSales
+            show={adminSalesModalIsOpen}
+            handleClose={() => setAdminSalesModalIsOpen(false)} 
           />
         )}
         <BalanceTable /> {/* Place BalanceTable at the bottom */}
