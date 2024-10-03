@@ -4,12 +4,7 @@ import HeaderAdmin from "./HeaderAdmin";
 import { UserContext } from "../App";
 import { storage, db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from 'react-image-crop';
@@ -19,7 +14,7 @@ const AdminProfile = () => {
   const user = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [src, setSrc] = useState(null);
-  const [crop, setCrop] = useState({ aspect: 1, width: 100, unit: '%' });
+  const [crop, setCrop] = useState({ unit: 'px', width: 200, height: 200, aspect: 1 });
   const [completedCrop, setCompletedCrop] = useState(null);
   const [uid, setUid] = useState(null);
   const navigate = useNavigate();
@@ -49,19 +44,14 @@ const AdminProfile = () => {
     event.preventDefault();
     try {
       const newName = event.target.elements.username.value;
-
       if (newName !== user.name) {
         await updateProfile(uid, newName);
       }
-
       if (completedCrop && imgRef.current) {
         const croppedImageBlob = await getCroppedImg(imgRef.current, completedCrop);
         await updateProfilePicture(uid, croppedImageBlob, newName);
       }
-
-      if (newName !== user.name || (completedCrop && imgRef.current)) {
-        window.location.reload();
-      }
+      window.location.reload();
     } catch (error) {
       console.error("Error handling submit: ", error);
     }
@@ -81,8 +71,8 @@ const AdminProfile = () => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-      setSrc(reader.result);
-      setCrop({ unit: '%', width: 100, aspect:1 });
+        setSrc(reader.result);
+        setCrop({ unit: 'px', width: 200, height: 200, x: 0, y: 0 });
       });
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -92,55 +82,62 @@ const AdminProfile = () => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    const size = Math.min(crop.width, crop.height);
-    canvas.width = size;
-    canvas.height = size;
+
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
     const ctx = canvas.getContext('2d');
+
 
     ctx.drawImage(
       image,
       crop.x * scaleX,
       crop.y * scaleY,
-      size * scaleX,
-      size * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
       0,
       0,
-      size,
-      size
+      crop.width,
+      crop.height
     );
 
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
         resolve(blob);
-      }, 'image/jpeg');
+      }, 'image/jpeg', 1);
     });
   };
 
-  const updateProfilePicture = async (userId, imageBlob, name) => {
+  const updateProfilePicture = async (userId, imageBlob) => {
     try {
       const userDocRef = doc(db, "users", userId);
       const userDocSnapshot = await getDoc(userDocRef);
       const userData = userDocSnapshot.data();
       const oldImageUrl = userData.profilePicture;
-  
+
       if (oldImageUrl && !oldImageUrl.includes("ui-avatars.com")) {
         const oldImageRef = ref(storage, oldImageUrl);
-        await deleteObject(oldImageRef);
+        await deleteObject(oldImageRef).catch((error) => {
+          if (error.code !== "storage/object-not-found") {
+            throw error;
+          }
+        });
         console.log("Old profile picture deleted successfully");
       }
-  
-      const newImageRef = ref(storage, `/profile/${userId}/${Date.now()}_profile.jpg`);
+
+      const newImageRef = ref(storage, `profile/${userId}/${Date.now()}_profile.jpg`);
       await uploadBytes(newImageRef, imageBlob);
       console.log("New profile picture uploaded successfully");
-  
+
       const newImageUrl = await getDownloadURL(newImageRef);
       await updateDoc(userDocRef, { profilePicture: newImageUrl });
       console.log("Profile picture URL updated successfully in Firestore");
     } catch (error) {
       console.error("Error updating profile picture: ", error);
+      throw error;
     }
   };
-  
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -183,13 +180,12 @@ const AdminProfile = () => {
                 <ReactCrop
                   src={src}
                   crop={crop}
-                  onChange={(_, percentCrop) => setCrop(percentCrop)}
+                  onChange={(newCrop) => setCrop(newCrop)}
                   onComplete={(c) => setCompletedCrop(c)}
-                  aspect={1}
                   circularCrop
                 >
                   <div className="crop-image-container">
-                  <img ref={imgRef} src={src} alt="Crop me" className="crop-image"/>
+                    <img ref={imgRef} src={src} alt="Crop me" className="crop-image" style={{ maxWidth: '100%' }} />
                   </div>
                 </ReactCrop>
               )}

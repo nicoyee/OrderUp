@@ -114,11 +114,11 @@ function App() {
             element={<PrivateRoute element={<Checkout />} requiredUserType="customer" />}
           />
           {user && user.userType === "admin" && (
-            <Route path={`/profile/${user?.name}`} element={<AdminProfile />} />
+            <Route path={`/profile/:username`} element={<AdminProfile />} />
           )}
           {user && user.userType === "customer" && (
             <Route
-              path={`/profile/${user?.name}`}
+              path={`/profile/:username`}
               element={<CustomerProfile />}
             />
           )}

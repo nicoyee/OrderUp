@@ -95,7 +95,7 @@
 .admin-edit-profile form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Add spacing between form elements */
+  gap: 15px; 
 }
 
 
