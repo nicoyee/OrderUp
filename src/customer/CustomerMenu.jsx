@@ -175,6 +175,7 @@ const CustomerMenu = () => {
             {bestSellers.map((dish) => (
               <div key={dish.id} className="best-seller-item">
                 <div className="best-seller-item-image-container">
+                  <Modal message={modalMessage} />
                   <img
                     src={dish.photoURL}
                     alt={dish.name}
@@ -187,7 +188,6 @@ const CustomerMenu = () => {
                 <div className="best-seller-item-details">
                   <h3 className="best-seller-item-name">{dish.name}</h3>
                   <p className="best-seller-item-price">Price: ${dish.price}</p>
-                  <Modal message={modalMessage} />
                   <button
                     className="add-to-cart-btn"
                     onClick={() => handleAddToCart(dish.id, dish.name)}
