@@ -199,6 +199,11 @@
   background-color: #444444; 
 }
 
+.customer-profile .user-order-details-modal .cancel-order-button {
+  float: right;
+  background-color: #ff5500;
+}
+
 .check-remaining-balance-table {
   width: 100%;
   border-collapse: collapse;

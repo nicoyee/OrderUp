@@ -1,7 +1,7 @@
 import { FService } from "./FirebaseService.ts";
 import { Order } from "../Order.ts";
 import { Balance } from "../Balance.ts";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, updateDoc, getFirestore } from "firebase/firestore";
 
     class OrderController {
         
@@ -27,7 +27,6 @@ import { getDoc } from "firebase/firestore";
                     throw new Error("You cannot create a new order with an unpaid balance.");
                 }
         
-                // Order data to be stored
                 const orderData = {
                     userEmail: email,
                     receiverName,
@@ -36,7 +35,7 @@ import { getDoc } from "firebase/firestore";
                     paymentOption,
                     items,
                     totalAmount,
-                    status: "pending", // default status
+                    status: "pending", 
                     createdDate: new Date(),
                     referenceNumber: referenceNumber
                 };
@@ -109,8 +108,6 @@ import { getDoc } from "firebase/firestore";
             }
         }
 
-
-        // Method to update the order status (e.g., to 'completed', 'shipped', etc.)
         static async updateStatus(userEmail, referenceNumber, newStatus) {
             try {
                 const path = `Orders/${userEmail}/orders`;
@@ -217,14 +214,86 @@ import { getDoc } from "firebase/firestore";
                 throw error;
             }
         }
-    
 
+        static async requestCancellation(userEmail, orderReference) {
+            try {
+                // Logic to create a cancellation request
+                const cancellationRequest = {
+                    userEmail,
+                    referenceNumber: orderReference,
+                    createdAt: new Date(),
+                    status: "cancellation-requested", 
+                };
+        
+                // Store cancellation request in Firestore
+                const requestId = this.generateReferenceNumber(); // Use a unique ID for the request
+                await FService.setDocument("cancellationRequests", requestId, cancellationRequest);
+        
+                console.log("Cancellation request created successfully.");
+                return requestId; // Return the ID of the created request if needed
+            } catch (error) {
+                console.error("Error requesting cancellation:", error);
+                throw error; // Rethrow error to handle it in the calling function
+            }
+        }
     
+        static async fetchCancellationRequests() {
+            const querySnapshot = await FService.getDocuments('cancellationRequests');
+            const requests = [];
+            querySnapshot.forEach((doc) => {
+                requests.push({ id: doc.id, ...doc.data() });
+            });
+            return requests;
+        }
+    
+        static async confirmCancellation(requestId) {
+            try {
+                // Fetch the cancellation request to get the user email and order reference
+                const requestDocRef = doc(FService.db, "cancellationRequests", requestId);
+                const requestData = (await getDoc(requestDocRef)).data();
+    
+                if (requestData) {
+                    const { userEmail, referenceNumber } = requestData;
+    
+                    await OrderController.updateStatus(userEmail, referenceNumber, "cancelled");
+    
+                    // After confirmation, delete the cancellation request
+                    await deleteDoc(requestDocRef);
+                    console.log("Cancellation request confirmed and removed.");
+                } else {
+                    throw new Error("Cancellation request not found.");
+                }
+            } catch (error) {
+                console.error("Error confirming cancellation:", error);
+                throw error;
+            }
+        }
+    
+        static async rejectCancellation(requestId) {
+            try {
+                const requestDocRef = doc(FService.db, "cancellationRequests", requestId);
+                const requestData = (await getDoc(requestDocRef)).data();
+    
+                if (requestData) {
+                    const { userEmail, referenceNumber } = requestData;
+    
+                    await OrderController.updateStatus(userEmail, referenceNumber, "pending");
+    
+                    // Delete the cancellation request
+                    await deleteDoc(requestDocRef);
+                    console.log("Order cancellation request rejected and order status reverted to pending.");
+                } else {
+                    throw new Error("Cancellation request not found.");
+                }
+            } catch (error) {
+                console.error("Error rejecting cancellation request:", error);
+                throw error;
+            }
+        }
 
         static generateReferenceNumber() {
             return Math.floor(Math.random() * 1000000000).toString();
         }
-
-}
+    }
 
 export default OrderController;

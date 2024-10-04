@@ -1,7 +1,7 @@
-import { doc, setDoc} from 'firebase/firestore';
+import { doc, setDoc, deleteDoc} from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { FService } from "./FirebaseService.ts";
-
+import OrderController from './OrderController.js';
 
 class AdminController{
     static async fetch() {
@@ -68,6 +68,24 @@ class AdminController{
             }
             throw error;
         }
+    }
+
+    static async fetchCancellationRequests() {
+        const querySnapshot = await FService.getDocuments('cancellationRequests');
+        const requests = [];
+        querySnapshot.forEach((doc) => {
+            requests.push({ id: doc.id, ...doc.data() });
+        });
+        return requests;
+    }
+
+    static async confirmCancellation(requestId) {
+        await OrderController.updateOrderStatus(requestId, 'canceled');
+        await deleteDoc(doc(FService().db, 'cancellationRequests', requestId));
+    }
+
+    static async rejectCancellation(requestId) {
+        await deleteDoc(doc(FService().db, 'cancellationRequests', requestId));
     }
 
 }

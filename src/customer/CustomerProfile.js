@@ -1,5 +1,5 @@
 import "../css/Profile.css";
-
+import Admin from "../class/admin/Admin";
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderCustomer from "./HeaderCustomer";
@@ -16,6 +16,7 @@ const CustomerProfile = () => {
   const [balanceTransactions, setBalanceTransactions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isCancelling, setIsCancelling] = useState(false);
 
   useEffect(() => {
     const fetchUserOrders = async () => {
@@ -95,7 +96,9 @@ const CustomerProfile = () => {
         console.error("Error processing payment:", error.message || error);
         setErrorMessage("Error processing payment. Please try again.");
     }
-};
+  };
+
+
 
 
   const formatDate = (timestamp) => {
@@ -113,6 +116,25 @@ const CustomerProfile = () => {
       });
     }
     return 'N/A';
+  };
+
+  const handleCancelOrder = async () => {
+    if (selectedOrder && selectedOrder.status === "pending") {
+      try {
+        setIsCancelling(true);
+        await OrderController.requestCancellation(user.email, selectedOrder.referenceNumber);
+        await OrderController.updateStatus(user.email, selectedOrder.referenceNumber, "cancellation-requested");
+        alert("Cancellation request has been sent!");
+        setIsCancelling(false);
+        setIsViewModalOpen(false); 
+      } catch (error) {
+        console.error("Error requesting cancellation:", error);
+        setErrorMessage("Failed to send cancellation request.");
+        setIsCancelling(false);
+      }
+    } else if (selectedOrder && selectedOrder.status === "cancellation-requested") {
+      alert("Cancellation request has already been sent for this order.");
+    }
   };
 
   if (!user) {
@@ -161,7 +183,7 @@ const CustomerProfile = () => {
               </thead>
               <tbody>
                 {userOrders.map((order) => (
-                  <tr key={order.id}>
+                  <tr key={order.referenceNumber}>
                     <td>{formatDate(order.createdDate)}</td>
                     <td>
                       <button onClick={() => handleViewOrder(order)}>View</button>
@@ -191,7 +213,7 @@ const CustomerProfile = () => {
               <table className="check-remaining-balance-table">
                 <thead>
                   <tr>
-                    <th>Remaining Balance</th> {/* Updated header to reflect the right information */}
+                    <th>Remaining Balance</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -257,9 +279,22 @@ const CustomerProfile = () => {
               </tbody>
             </table>
             <p className="total">Total: ₱{calculateTotal(selectedOrder.items)}</p>
+            {selectedOrder.status === "pending" && (
+                <button
+                className="cancel-order-button"
+                onClick={handleCancelOrder}
+                disabled={isCancelling || selectedOrder.status === "cancellation-requested"}
+                style={{
+                  backgroundColor: selectedOrder.status === "cancellation-requested" ? 'gray' : '',
+                  cursor: selectedOrder.status === "cancellation-requested" ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {isCancelling ? "Cancelling..." : "Cancel Order"}
+              </button>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   </div>
   );

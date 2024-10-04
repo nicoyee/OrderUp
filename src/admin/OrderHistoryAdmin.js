@@ -101,6 +101,9 @@ const OrderHistoryAdmin = () => {
                   <option value="order-processed">Order Processed</option>
                   <option value="full-payment-paid">Full Payment Paid</option>
                   <option value="delivered">Delivered</option>
+                  <option value="cancellation-requested">Cancellation Requested</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="refunded">Refunded</option>
                 </select>
               </td>
               <td>

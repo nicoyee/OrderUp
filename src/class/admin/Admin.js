@@ -71,6 +71,19 @@ class Admin extends User {
         return await OrderController.fetchUserTransactions(userEmail);
     }
 
+    static async fetchCancellationRequests() {
+        return await OrderController.fetchCancellationRequests();
+    }
+
+    static async approveCancellation(requestId) {
+        return await OrderController.confirmCancellation(requestId); // Call the OrderController to confirm
+    }
+    
+    static async rejectCancellation(requestId) {
+        return await OrderController.rejectCancellation(requestId); // Call the OrderController to reject
+    }
+
+
 
 }
 
