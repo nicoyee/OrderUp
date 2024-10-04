@@ -19,13 +19,14 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 900px; /* Adjusted max width */
-    max-height: 80vh; /* Maintain max height for the modal */
+    max-width: 900px; 
+    max-height: 80vh;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     color: #f2f2f2;
     font-size: 16px;
-    overflow: hidden; /* Prevent overflow of content */
+    position: relative; /* Ensure that the close button stays inside the modal content */
+    overflow: hidden;
 }
 
 .admin-sales-modal .modal-content .btn-close {
@@ -37,6 +38,9 @@
     position: absolute; 
     top: 10px; 
     right: 10px; 
+    padding: 0;
+    line-height: 1;
+    z-index: 10; /* Ensure the button appears on top of other content */
 }
 
 .admin-sales-modal .modal-content .btn-close:hover,
@@ -82,23 +86,6 @@
     margin-top: 20px; 
 }
 
-.close-modal-button {
-    background-color: #4CAF50; 
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.close-modal-button:hover {
-    opacity: 0.8;
-}
 
 /* Ensure the chart is responsive */
 .chart-container {
