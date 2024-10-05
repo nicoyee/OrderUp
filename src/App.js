@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
-import Landing from "./pages/Landing";
+import Landing from "./pages/landing/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
 import DashboardCustomer from "./customer/DashboardCustomer";
 import CartPage from "./customer/CartPage";

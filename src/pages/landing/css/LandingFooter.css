@@ -1,0 +1,70 @@
+#landingFooter {
+    position: fixed;
+    bottom: 0;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: "Inter";
+    z-index: 1;
+    pointer-events: none;
+}
+
+#landingFooter .landingFooter-left {
+    pointer-events: auto;
+}
+
+#landingFooter .landingFooter-left a {
+    text-decoration: none;
+}
+
+#landingFooter .landingFooter-left h1 {
+
+    color: #f05006;
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+#landingFooter .landingFooter-left h1:hover {
+    text-decoration: underline;
+}
+
+#landingFooter .landingFooter-left h2 {
+    color: #d5dbbd;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+#landingFooter .landingFooter-right {
+    display: flex;
+    align-self: flex-end;
+}
+
+#landingFooter .landingFooter-right h3 {
+    color: #f05006;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: -10px;
+}
+
+#landingFooter .landingFooter-right h3 span {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+@media only screen and (max-width: 768px) {
+    #landingFooter {
+        position: relative;
+        padding: 40px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    
+}

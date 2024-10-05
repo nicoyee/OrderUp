@@ -86,6 +86,8 @@
   overflow-y: auto; 
 }
 
+/*
+
 button {
   padding: 8px 16px; 
   border-radius: 20px; 
@@ -95,6 +97,8 @@ button {
   cursor: pointer;
   outline: none;
 }
+
+*/
 
 /* 
 .modal-overlay {

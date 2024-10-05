@@ -37,13 +37,6 @@
     cursor: pointer;
 }
 
-h1 {
-    font-size: 1.5em;
-    color: #ff8500;
-    text-align: left;
-    margin-bottom: 20px;
-}
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -89,3 +82,14 @@ h1 {
 .add-button:hover {
     background-color: #45a049;
 }
+
+/*
+
+h1 {
+    font-size: 1.5em;
+    color: #ff8500;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+*/

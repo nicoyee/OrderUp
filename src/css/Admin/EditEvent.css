@@ -35,13 +35,6 @@
     cursor: pointer;
 }
 
-h1 {
-    font-size: 1.5em;
-    color: #ff8500;
-    text-align: left;
-    margin-bottom: 20px;
-}
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -86,3 +79,11 @@ h1 {
     float: right;
     border-radius: 4px;
 }
+/*
+h1 {
+    font-size: 1.5em;
+    color: #ff8500;
+    text-align: left;
+    margin-bottom: 20px;
+}
+*/
