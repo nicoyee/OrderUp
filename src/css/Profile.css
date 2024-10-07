@@ -204,6 +204,12 @@
   background-color: #ff5500;
 }
 
+.customer-profile .user-order-details-modal .refund-request-button {
+  float: right;
+  background-color: #ff5500;
+}
+
+
 .check-remaining-balance-table {
   width: 100%;
   border-collapse: collapse;

@@ -23,7 +23,7 @@ const OrderHistoryAdmin = () => {
             allOrders.push(...userOrders);
           }
           allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
-
+          console.log("Orders Fetched:", allOrders);
           setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -103,6 +103,7 @@ const OrderHistoryAdmin = () => {
                   <option value="delivered">Delivered</option>
                   <option value="cancellation-requested">Cancellation Requested</option>
                   <option value="cancelled">Cancelled</option>
+                  <option value="refund-requested">Refund Requested</option>
                   <option value="refunded">Refunded</option>
                 </select>
               </td>

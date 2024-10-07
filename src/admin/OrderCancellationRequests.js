@@ -4,35 +4,50 @@ import "../css/Admin/OrderCancellationRequests.css";
 import Admin from '../class/admin/Admin';
 
 const OrderCancellationRequests = () => {
-    const [cancellationRequests, setCancellationRequests] = useState([]);
+    const [requests, setRequests] = useState([]);
 
     useEffect(() => {
-        const fetchCancellationRequests = async () => {
+        const fetchRequests = async () => {
             try {
-                const requests = await Admin.fetchCancellationRequests();
-                setCancellationRequests(requests);
-                console.log("Cancellation Requests Fetched:", requests);
+                const cancellationRequests = await Admin.fetchCancellationRequests();
+                const refundRequests = await Admin.fetchRefundRequests();
+
+                const allRequests = [
+                    ...cancellationRequests.map(req => ({ ...req, type: 'cancellation' })),
+                    ...refundRequests.map(req => ({ ...req, type: 'refund' }))
+                ];
+
+                setRequests(allRequests);
+                console.log("All Requests Fetched:", allRequests);
             } catch (error) {
                 alert(error.message);
             }
         };
 
-        fetchCancellationRequests();
+        fetchRequests();
     }, []);
 
-    const handleConfirm = async (requestId) => {
+    const handleConfirm = async (request) => {
         try {
-            await Admin.approveCancellation(requestId);
-            setCancellationRequests((prev) => prev.filter(req => req.id !== requestId));
+            if (request.type === 'cancellation') {
+                await Admin.approveCancellation(request.id);
+            } else if (request.type === 'refund') {
+                await Admin.approveRefund(request.id);
+            }
+            setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
             alert(error.message);
         }
     };
 
-    const handleReject = async (requestId) => {
+    const handleReject = async (request) => {
         try {
-            await Admin.rejectCancellation(requestId); // Reject the cancellation using Admin class
-            setCancellationRequests((prev) => prev.filter(req => req.id !== requestId));
+            if (request.type === 'cancellation') {
+                await Admin.rejectCancellation(request.id);
+            } else if (request.type === 'refund') {
+                await Admin.rejectRefund(request.id);
+            }
+            setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
             alert(error.message);
         }
@@ -42,7 +57,7 @@ const OrderCancellationRequests = () => {
     return (
         <div className="cancellationTableContainer">
             <h2>Order Cancellation Requests</h2>
-            {cancellationRequests.length === 0 ? (
+            {requests.length === 0 ? (
                 <p className="noRequestsMessage">No cancellation requests available.</p>
             ) : (
                 <div className="tableWrapper">
@@ -57,15 +72,15 @@ const OrderCancellationRequests = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cancellationRequests.map((request) => (
+                            {requests.map((request) => (
                                 <tr key={request.id}>
                                     <td>{request.id}</td>
                                     <td>{request.userEmail}</td>
                                     <td>{request.referenceNumber}</td>
                                     <td>{request.status}</td>
                                     <td>
-                                        <button className="confirmButton" onClick={() => handleConfirm(request.id)}>Confirm</button>
-                                        <button className="rejectButton" onClick={() => handleReject(request.id)}>Reject</button>
+                                        <button className="confirmButton" onClick={() => handleConfirm(request)}>Confirm</button>
+                                        <button className="rejectButton" onClick={() => handleReject(request)}>Reject</button>
                                     </td>
                                 </tr>
                             ))}
