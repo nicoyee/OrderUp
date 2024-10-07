@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import AuthController from "../class/controllers/AuthController";
 
 const HeaderAdmin = ({ user }) => {
-  const [profileContext, showProfileContext] = useState(true);
+  const [profileContext, showProfileContext] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State to control logout modal
   const profileContextBounds = useRef();
   const navigate = useNavigate();
 
@@ -14,7 +15,16 @@ const HeaderAdmin = ({ user }) => {
   };
 
   const handleSignOut = () => {
+    setIsLogoutModalOpen(true); // Open the logout confirmation modal
+  };
+
+  const confirmSignOut = () => {
     AuthController.signOut();
+    setIsLogoutModalOpen(false); // Close the modal after sign out
+  };
+
+  const cancelSignOut = () => {
+    setIsLogoutModalOpen(false); // Close the modal without signing out
   };
 
   const handleAdminProfile = (user) => {
@@ -35,7 +45,7 @@ const HeaderAdmin = ({ user }) => {
       <div className="headerDashboardRight">
         <div className="profileHeader" onClick={toggleProfileContext}>
           <h2>{user.email}</h2>
-          <img src={user.profilePicture}></img>
+          <img src={user.profilePicture} alt="Profile" />
 
           {profileContext && (
             <div className="profileContext">
@@ -63,7 +73,25 @@ const HeaderAdmin = ({ user }) => {
           )}
         </div>
       </div>
+
+      {/* Modal for confirming logout */}
+      {isLogoutModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Are you sure you want to log out?</p>
+            <div className="modal-buttons">
+              <button className="modal-confirm" onClick={confirmSignOut}>
+                Yes
+              </button>
+              <button className="modal-cancel" onClick={cancelSignOut}>
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default HeaderAdmin;

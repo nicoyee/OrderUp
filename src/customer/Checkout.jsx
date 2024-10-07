@@ -5,6 +5,7 @@ import OrderController from "../class/controllers/OrderController.js";
 import PaymentController from "../class/controllers/PaymentController.jsx";
 import { auth } from '../firebase'; // Import auth from the firebase.js file
 import { FService } from "../class/controllers/FirebaseService.ts";
+import AdminSalesController from "../class/controllers/AdminSalesController.jsx";
 
 const Checkout = ({ onClose, cartItems }) => {
   const [formData, setFormData] = useState({
@@ -19,16 +20,14 @@ const Checkout = ({ onClose, cartItems }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Calculate total and downpayment amounts whenever cartItems change
-  // Calculate total and downpayment amounts whenever cartItems change
-useEffect(() => {
-  let total = 0;
-  Object.values(cartItems).forEach((item) => {
-    total += item.price * item.quantity;
-  });
-  setTotalAmount(total);
-  setDownpaymentAmount(total * 0.4); // 40% downpayment
-}, [cartItems]);
-
+  useEffect(() => {
+    let total = 0;
+    Object.values(cartItems).forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    setTotalAmount(total);
+    setDownpaymentAmount(total * 0.4); // 40% downpayment
+  }, [cartItems]);
 
   const handleChange = (e) => {
     setFormData({
@@ -91,6 +90,9 @@ useEffect(() => {
         items: cartItems,
         totalAmount: paymentAmount,
       });
+
+      // Update sales data after creating the order
+      await AdminSalesController.getSales(email); // Call to update sales data
 
       // Create a description for the order items
       const orderDescription = Object.keys(cartItems)
@@ -173,7 +175,7 @@ useEffect(() => {
               />
               <span className="circle"></span>
               <span className="description">
-                Downpayment - Pay 20% ({downpaymentAmount.toFixed(2)})
+                Downpayment - Pay 40% ({downpaymentAmount.toFixed(2)})
               </span>
             </label>
 

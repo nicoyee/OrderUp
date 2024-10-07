@@ -294,3 +294,15 @@
   color: #999;
   cursor: not-allowed;
 }
+
+.modal {
+  width: 100%; 
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  color: #000;
+}

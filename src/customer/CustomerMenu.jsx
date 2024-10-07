@@ -11,7 +11,11 @@ const CustomerMenu = () => {
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMenuType, setSelectedMenuType] = useState(''); // New state for menu type filter
+  const [selectedMenuType, setSelectedMenuType] = useState('');
+
+  // Modal state management
+  const [modalMessage, setModalMessage] = useState(''); // Define modal message state
+  const [isModalOpen, setIsModalOpen] = useState(false); // Define modal visibility state
 
   useEffect(() => {
     const fetchDishes = () => {
@@ -20,7 +24,7 @@ const CustomerMenu = () => {
           const dishesData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
-            menuType: doc.data().menuType, // Ensure menuType is included
+            menuType: doc.data().menuType,
           }));
           setDishes(dishesData);
           setLoading(false);
@@ -47,10 +51,36 @@ const CustomerMenu = () => {
     fetchBestSellers();
   }, []);
 
-  // Extract unique menu types
-  const menuTypes = [...new Set(dishes.map((dish) => dish.menuType))];
+  // Trigger modal with a custom message
+  const triggerModal = (message) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+    setTimeout(() => setIsModalOpen(false), 2000); // Close after 2 seconds
+  };
 
-  // Filter dishes by menu type if one is selected
+  // Handle adding to cart and triggering modal
+  const handleAddToCart = async (dishId, name) => {
+    try {
+      await Customer.addToCart(dishId);
+      triggerModal(name +' added to cart!');
+    } catch (error) {
+      triggerModal('Failed to add item to cart.');
+    }
+  };
+  
+
+  // Modal component for displaying messages
+  const Modal = ({ message }) => (
+    isModalOpen ? (
+      <div className="modal">
+        <div className="modal-content">
+          <p>{message}</p>
+        </div>
+      </div>
+    ) : null
+  );
+
+  // Pagination logic
   const filteredDishes = dishes
     .filter((dish) => dish.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter((dish) => selectedMenuType === '' || dish.menuType === selectedMenuType);
@@ -77,6 +107,14 @@ const CustomerMenu = () => {
     setCurrentPage(pageNumber);
   };
 
+  // Menu type filter logic
+  const menuTypes = [...new Set(dishes.map((dish) => dish.menuType))];
+
+  const handleMenuTypeClick = (menuType) => {
+    setSelectedMenuType(menuType);
+    setCurrentPage(1); // Reset to the first page when a new menu type is selected
+  };
+
   const renderPaginationButtons = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -94,12 +132,6 @@ const CustomerMenu = () => {
     ));
   };
 
-  // Handle menu type button click
-  const handleMenuTypeClick = (menuType) => {
-    setSelectedMenuType(menuType);
-    setCurrentPage(1); // Reset to first page when a new menu type is selected
-  };
-
   return (
     <div className="customer-menu">
       <h1 className="menu-title">Our Menu</h1>
@@ -113,7 +145,7 @@ const CustomerMenu = () => {
         className="search-bar"
       />
 
-      {/* Menu Type Filter Buttons - Positioned below search filter */}
+      {/* Menu Type Filter Buttons */}
       <div className="menu-type-buttons">
         <button
           onClick={() => handleMenuTypeClick('')}
@@ -140,32 +172,31 @@ const CustomerMenu = () => {
           <p>No best sellers available</p>
         ) : (
           <div className="best-sellers-slider">
-            <div className="best-sellers-slider-container">
-              {bestSellers.map((dish) => (
-                <div key={dish.id} className="best-seller-item">
-                  <div className="best-seller-item-image-container">
-                    <img
-                      src={dish.photoURL}
-                      alt={dish.name}
-                      className="best-seller-item-image"
-                    />
-                    <div className="best-seller-item-description-overlay">
-                      {dish.description}
-                    </div>
-                  </div>
-                  <div className="best-seller-item-details">
-                    <h3 className="best-seller-item-name">{dish.name}</h3>
-                    <p className="best-seller-item-price">Price: ${dish.price}</p>
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => Customer.addToCart(dish.id)}
-                    >
-                      Add to Cart
-                    </button>
+            {bestSellers.map((dish) => (
+              <div key={dish.id} className="best-seller-item">
+                <div className="best-seller-item-image-container">
+                  <Modal message={modalMessage} />
+                  <img
+                    src={dish.photoURL}
+                    alt={dish.name}
+                    className="best-seller-item-image"
+                  />
+                  <div className="best-seller-item-description-overlay">
+                    {dish.description}
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="best-seller-item-details">
+                  <h3 className="best-seller-item-name">{dish.name}</h3>
+                  <p className="best-seller-item-price">Price: ${dish.price}</p>
+                  <button
+                    className="add-to-cart-btn"
+                    onClick={() => handleAddToCart(dish.id, dish.name)}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -178,22 +209,22 @@ const CustomerMenu = () => {
           currentDishes.map((dish) => (
             <div key={dish.id} className="menu-item">
               <div className="menu-item-image-container">
+              <Modal message={modalMessage} />
                 <img
                   src={dish.photoURL}
                   alt={dish.name}
                   className="menu-item-image"
                 />
-              <div className='menu-item-description-overlay'>
+                <div className="menu-item-description-overlay">
                   {dish.description}
-              </div>
-                
+                </div>
               </div>
               <div className="menu-item-details">
                 <h3 className="menu-item-name">{dish.name}</h3>
                 <p className="menu-item-price">Price: ${dish.price}</p>
                 <button
                   className="add-to-cart-btn"
-                  onClick={() => Customer.addToCart(dish.id)}
+                  onClick={() => handleAddToCart(dish.id, dish.name)}
                 >
                   Add to Cart
                 </button>

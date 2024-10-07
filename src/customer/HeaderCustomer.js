@@ -4,25 +4,39 @@ import { useNavigate } from "react-router-dom";
 import AuthController from "../class/controllers/AuthController";
 
 const HeaderCustomer = ({ user }) => {
-  const [profileContext, showProfileContext] = useState(true);
+  const [profileContext, showProfileContext] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State for logout confirmation modal
   const profileContextBounds = useRef();
   const navigate = useNavigate();
 
+  // Toggle profile context visibility
   const toggleProfileContext = () => {
     showProfileContext(!profileContext);
   };
 
+  // Open logout confirmation modal
   const handleSignOut = () => {
-    AuthController.signOut();
+    setIsLogoutModalOpen(true);
   };
 
+  // Confirm and process the logout
+  const confirmSignOut = () => {
+    AuthController.signOut();
+    setIsLogoutModalOpen(false);
+  };
+
+  // Cancel logout process
+  const cancelSignOut = () => {
+    setIsLogoutModalOpen(false);
+  };
+
+  // Navigate to the cart page
   const handleCartClick = () => {
-    // Navigate to the cart page when the cart icon is clicked
     navigate("/cart");
   };
 
+  // Navigate to the user profile page
   const handleProfile = (user) => {
-    // Navigate to the profile page when the cart icon is clicked
     if (user) {
       navigate(`/profile/${user?.name}`);
     }
@@ -37,6 +51,7 @@ const HeaderCustomer = ({ user }) => {
       <div className="headerDashboardCenter"></div>
 
       <div className="headerDashboardRight">
+        {/* Cart Icon */}
         <div className="cart-icon" onClick={handleCartClick}>
           <svg
             viewBox="0 0 24 24"
@@ -51,10 +66,12 @@ const HeaderCustomer = ({ user }) => {
           </svg>
         </div>
 
+        {/* User Profile Header */}
         <div className="profileHeader" onClick={toggleProfileContext}>
           <h2>{user.email}</h2>
-          <img src={user.profilePicture}></img>
+          <img src={user.profilePicture} alt="Profile" />
 
+          {/* Profile dropdown context */}
           {profileContext && (
             <div className="profileContext">
               <div
@@ -81,7 +98,25 @@ const HeaderCustomer = ({ user }) => {
           )}
         </div>
       </div>
+
+      {/* Modal for confirming logout */}
+      {isLogoutModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Are you sure you want to log out?</p>
+            <div className="modal-buttons">
+              <button className="modal-confirm" onClick={confirmSignOut}>
+                Yes
+              </button>
+              <button className="modal-cancel" onClick={cancelSignOut}>
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default HeaderCustomer;

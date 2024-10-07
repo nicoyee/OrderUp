@@ -8,6 +8,8 @@ const MenuAdmin = ({ dishes, setDishes }) => {
   const [editedDishDetails, setEditedDishDetails] = useState({});
   const [openCategory, setOpenCategory] = useState('All'); // Track the open category and default to 'All'
   const [currentPagePerCategory, setCurrentPagePerCategory] = useState({}); // Track current page for each category
+  const [deleteDishId, setDeleteDishId] = useState(null); // Track the dish id to delete
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Track the delete modal state
   const dishesPerPage = 10;
 
   useEffect(() => {
@@ -26,12 +28,12 @@ const MenuAdmin = ({ dishes, setDishes }) => {
     };
 
     fetchDishes();
-  }, []);
-  
+  }, [setDishes]);
+
   // Group dishes by category (menuType)
   const categorizedDishes = dishes?.reduce((categories, dish) => {
     const category = dish.menuType || 'Uncategorized';
-    //'All' category
+    // 'All' category
     if (!categories['All']) {
       categories['All'] = [];
     }
@@ -40,8 +42,6 @@ const MenuAdmin = ({ dishes, setDishes }) => {
       categories[category] = [];
     }
     categories[category].push(dish);
-
-    
 
     return categories;
   }, {});
@@ -61,14 +61,12 @@ const MenuAdmin = ({ dishes, setDishes }) => {
 
       // Update the state in real-time
       setDishes((prevDishes) => {
-        // Find the dish in the entire dishes list and update
         const updatedDishes = prevDishes.map((dish) => {
           if (dish.id === dishToUpdate.id) {
             return { ...dish, ...editedDishDetails };
           }
           return dish;
         });
-
         return updatedDishes;
       });
 
@@ -84,14 +82,27 @@ const MenuAdmin = ({ dishes, setDishes }) => {
     setEditedDishDetails({}); // Reset edited details
   };
 
-  const handleDelete = async (id) => {
+  // Open delete confirmation modal
+  const openDeleteModal = (id) => {
+    setDeleteDishId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  // Confirm deletion of the dish
+  const confirmDelete = async () => {
     try {
-      await Admin.deleteDish(id);
-      const newDishes = dishes?.filter((dish) => dish.id !== id);
+      await Admin.deleteDish(deleteDishId);
+      const newDishes = dishes?.filter((dish) => dish.id !== deleteDishId);
       setDishes(newDishes);
+      setIsDeleteModalOpen(false); // Close modal after deletion
     } catch (error) {
       console.error('Error deleting dish:', error);
     }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false); // Close delete modal
+    setDeleteDishId(null); // Reset selected dish ID for deletion
   };
 
   const toggleCategory = (category) => {
@@ -147,7 +158,7 @@ const MenuAdmin = ({ dishes, setDishes }) => {
                 <tbody>
                   {currentDishes.map((dish, index) => (
                     <tr key={dish.id}>
-                      <td id='dataTableImage'><img src={dish.photoURL} alt={dish.name} /></td>
+                      <td id="dataTableImage"><img src={dish.photoURL} alt={dish.name} /></td>
                       <td>
                         {editRowIndex[category] === index
                           ? <input
@@ -191,7 +202,7 @@ const MenuAdmin = ({ dishes, setDishes }) => {
                             />
                           : dish.price}
                       </td>
-                      <td className='actionBtns'>
+                      <td className="action-buttons">
                         {editRowIndex[category] === index ? (
                           <div>
                             <button className='confirmBtn' onClick={() => handleConfirmEdit(category, index)}>Confirm</button>
@@ -242,6 +253,23 @@ const MenuAdmin = ({ dishes, setDishes }) => {
           )
         );
       })}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Are you sure you want to delete this dish?</p>
+            <div className="modal-buttons">
+              <button className="modal-confirm" onClick={confirmDelete}>
+                Yes, Delete
+              </button>
+              <button className="modal-cancel" onClick={cancelDelete}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
