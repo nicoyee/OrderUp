@@ -211,7 +211,7 @@ const MenuAdmin = ({ dishes, setDishes }) => {
                         ) : (
                           <div>
                             <button className = 'editBtn' onClick={() => handleEdit(category, index)}>Edit</button>
-                            <button className = 'deleteBtn' onClick={() => handleDelete(dish.id)}>Delete</button>
+                            <button className = 'deleteBtn' onClick={() => openDeleteModal(dish.id)}>Delete</button>
                           </div>
                         )}
                       </td>

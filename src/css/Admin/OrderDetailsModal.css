@@ -36,8 +36,11 @@
     color: #ffa733;
   }
   
-  .order-details-modal h1 {
+  .order-details-modal h1,
+  .order-details-modal .order-info {
     color: #d5dbbd;
+    text-align: left;
+    margin: 5px 0;
   }
   
   .order-details-modal table {
@@ -61,6 +64,7 @@
   .order-details-modal td {
     color: #e0e0e0;
   }
+  
   
   
   .order-details-modal tr:nth-child(even) {

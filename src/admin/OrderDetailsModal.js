@@ -35,9 +35,11 @@ const OrderDetailsModal = ({ order, closeModal }) => {
       <div className="modal-content">
         <span className="close" onClick={closeModal}>&times;</span>
         <div>
+          <div className='order-info'>
           <h1>Order Details</h1>
           <p>Date: {formatDate(order.createdDate)}</p>
           <p>Reference Number: {order.referenceNumber}</p>
+          </div>
           <table>
             <thead>
               <tr>

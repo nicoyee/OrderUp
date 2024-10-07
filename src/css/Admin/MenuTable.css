@@ -110,48 +110,47 @@
   background-color: #45a049; /* Active page button color */
 }
 
-.actionBtns button {
+.action-buttons button {
   padding: 8px 12px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 5px;
   border: none;
-  min-width: 90px;
-  margin: 5px 5px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.actionBtns button.editBtn {
-  background-color: #2196f3; /* Blue color for edit button */
+.action-buttons .editBtn {
+  background-color: #2196f3; /* Blue for edit */
   color: white;
 }
 
-.actionBtns button.editBtn:hover {
-  background-color: #1976d2; /* Darker shade of blue on hover */
+.action-buttons .editBtn:hover {
+  background-color: #1976d2; /* Darker blue on hover */
 }
 
-.actionBtns button.deleteBtn {
-  background-color: #f44336; /* Red color for delete button */
+.action-buttons .deleteBtn {
+  background-color: #f44336; /* Red for delete */
   color: white;
 }
 
-.actionBtns button.deleteBtn:hover {
-  background-color: #d32f2f; /* Darker shade of red on hover */
+.action-buttons .deleteBtn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
 }
 
-
-.actionBtns button.confirmBtn {
-  background-color: #4caf50; /* Green color for confirm button */
+.action-buttons .confirmBtn {
+  background-color: #4caf50; /* Green for confirm */
   color: white;
 }
 
-.actionBtns button.confirmBtn:hover {
-  background-color: #388e3c; /* Darker shade of green on hover */
+.action-buttons .confirmBtn:hover {
+  background-color: #388e3c; /* Darker green on hover */
 }
 
-.actionBtns button.cancelBtn {
-  background-color: #ff9800; /* Orange color for cancel button */
+.action-buttons .cancelBtn {
+  background-color: #ff9800; /* Orange for cancel */
   color: white;
 }
 
-.actionBtns button.cancelBtn:hover {
-  background-color: #f57c00; /* Darker shade of orange on hover */
+.action-buttons .cancelBtn:hover {
+  background-color: #f57c00; /* Darker orange on hover */
 }

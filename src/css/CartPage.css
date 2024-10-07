@@ -182,7 +182,7 @@
 }
 
 /* Modal content box */
-.modal-content {
+.modal-overlay .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -193,7 +193,7 @@
 }
 
 /* Modal message */
-.modal-content p {
+.modal-overlay .modal-content p {
   margin-bottom: 20px;
   font-size: 1.1rem;
   color: #333;
