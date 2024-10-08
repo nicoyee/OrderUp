@@ -77,6 +77,8 @@ const BalanceTable = () => {
                                 >
                                     <option value="unpaid">Unpaid</option>
                                     <option value="paid">Paid</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="refunded">Refunded</option>
                                 </select>
                             </td>
                         </tr>

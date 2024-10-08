@@ -1,29 +1,31 @@
 /* BalanceTable.css */
 .balanceTableContainer {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #2b2b2b;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     margin: 20px 0;
+    width: 850px;
+    font-family: "Roboto", sans-serif;
 }
 
 .balanceTableContainer h2 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #333;
+    color: #f0f0f0;
 }
 
 .tableWrapper {
-    max-height: 250px; /* Allow some height for content */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-    border: 1px solid #ddd; /* Optional: Add border for visibility */
-    border-radius: 8px; /* Round the corners */
+    max-height: 250px; 
+    overflow-y: auto; 
+    border: 1px solid #444; 
+    border-radius: 8px; 
 }
 
 .balanceTable {
-    width: 100%;
+    width: 800px;
     border-collapse: collapse;
-    background-color: white;
+    background-color: #333;
 }
 
 .balanceTable thead {
@@ -33,17 +35,18 @@
 
 .balanceTable th,
 .balanceTable td {
-    padding: 8px 10px; /* Adjust padding for compactness */
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 8px 10px;
+    text-align: center;
+    border-bottom: 1px solid #444;
+    color: #f0f0f0;
 }
 
 .balanceTable tbody tr:nth-child(even) {
-    background-color: #f4f4f4;
+    background-color: #2e2e2e;
 }
 
 .balanceTable tbody tr:hover {
-    background-color: #e0e0e0;
+    background-color: #444;
 }
 
 .balanceTable th {
@@ -51,21 +54,19 @@
 }
 
 .balanceTable td {
-    color: #333;
+    color: #f0f0f0;
 }
 
-.statusSelect {
-    padding: 6px 8px; /* Adjust select padding */
-    border: 1px solid #ccc;
+
+.balanceTableContainer select {
+    padding: 5px;
+    font-size: 14px;
     border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #e0e0e0;
 }
 
-.statusSelect:focus {
-    outline: none;
-    border-color: #e20041;
-}
 
 .error {
     color: red;

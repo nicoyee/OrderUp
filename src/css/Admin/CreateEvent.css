@@ -24,41 +24,41 @@
     color: #fff;
 }
 
-.close {
+.create-event-modal .close {
     color: #ff8500;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.create-event-modal .modal-content .close:hover,
-.create-event-modal .modal-content .close:focus {
+.create-event-modal .close:hover,
+.create-event-modal .close:focus {
     color: #ff7a33;
     text-decoration: none;
     cursor: pointer;
 }
 
-h1 {
+.create-event-modal h1 {
     font-size: 1.5em;
     color: #ff8500;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.form-group {
+.create-event-modal .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.create-event-modal .form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
     text-align: left;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.create-event-modal .form-group input,
+.create-event-modal .form-group select,
+.create-event-modal .form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -70,12 +70,12 @@ h1 {
     font-family: 'Arial', sans-serif;
 }
 
-.form-group textarea {
+.create-event-modal .form-group textarea {
     height: 100px;
     background: #3b3b3b;
 }
 
-.error-message {
+.create-event-modal .error-message {
     color: red;
     text-align: center;
     margin-bottom: 15px;

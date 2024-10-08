@@ -1,50 +1,35 @@
 /* DashboardAdmin.css */
-.dashboard-admin__container {
+.dashboardContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
- 
-.dashboard-admin__content {
+
+.dashboardContent {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     width: 100%;
 }
- 
-.dashboard-admin__content-main {
+
+.dashboardContent-main {
     flex: 1; /* Allow the main content to grow */
     padding: 20px; /* Add some padding */
 }
- 
-.dashboard-admin__card {
+
+.dashboardCard {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px; /* Add margin to separate from other elements */
     padding: 20px; /* Inner padding */
 }
- 
-.dashboard-admin__balance-table-container {
+
+.balanceTableContainer {
     margin-top: 20px; /* Space above the BalanceTable */
     padding: 20px;
     background-color: #fff; /* Ensure background matches */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
- 
-/* Additional styles to prevent overlap with other components */
-/* .dashboard-admin__header,
-.dashboard-admin__footer { */
-    /* Add styles for header and footer if necessary */
-/* }
-  */
-  
-@media (max-width: 768px) {
-    .dashboard-admin__content {
-        flex-direction: column; /* Adjust for mobile */
-    }
- 
-    .dashboard-admin__card {
-        margin-bottom: 15px; /* Adjust spacing for smaller screens */
-    }
-}
+
+

@@ -6,11 +6,10 @@ import MenuAdmin from "./MenuAdmin";
 import CreateDish from "./CreateDish";
 import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
-import BalanceTable from "./BalanceTable"; // Import BalanceTable
-import AdminSales from "./AdminSales"; // Import AdminSales
-
-import "../css/DashboardAdmin.css";
-import "../css/Dashboard.css";
+import BalanceTable from "./BalanceTable"; 
+import OrderCancellationRequests from "./OrderCancellationRequests";
+import "../css/Admin/DashboardAdmin.css";
+import "../css/DashboardCard.css";
 
 const DashboardAdmin = () => {
   const user = useContext(UserContext);
@@ -69,34 +68,32 @@ const DashboardAdmin = () => {
           </div>
           <MenuAdmin dishes={dishes} setDishes={setDishes} />
           <OrderHistoryAdmin />
+        
+          {createDishModalIsOpen && (
+            <CreateDish
+              setDishes={setDishes}
+              modalIsOpen={createDishModalIsOpen}
+              setModalIsOpen={setCreateDishModalIsOpen}
+            />
+          )}
+          {manageUsersModalIsOpen && (
+            <ManageUsers
+              modalIsOpen={manageUsersModalIsOpen}
+              setModalIsOpen={setManageUsersModalIsOpen}
+            />
+          )}
+          {manageEventsModalIsOpen && (
+            <ManageEvents
+              setEvents={setEvents}
+              modalIsOpen={manageEventsModalIsOpen}
+              setModalIsOpen={setManageEventsModalIsOpen}
+            />
+          )}
+          <div className="tableContainer">
+              <BalanceTable />
+              <OrderCancellationRequests />
+          </div>
         </div>
-        {createDishModalIsOpen && (
-          <CreateDish
-            setDishes={setDishes}
-            modalIsOpen={createDishModalIsOpen}
-            setModalIsOpen={setCreateDishModalIsOpen}
-          />
-        )}
-        {manageUsersModalIsOpen && (
-          <ManageUsers
-            modalIsOpen={manageUsersModalIsOpen}
-            setModalIsOpen={setManageUsersModalIsOpen}
-          />
-        )}
-        {manageEventsModalIsOpen && (
-          <ManageEvents
-            setEvents={setEvents}
-            modalIsOpen={manageEventsModalIsOpen}
-            setModalIsOpen={setManageEventsModalIsOpen}
-          />
-        )}
-        {adminSalesModalIsOpen && (
-          <AdminSales
-            show={adminSalesModalIsOpen}
-            handleClose={() => setAdminSalesModalIsOpen(false)} 
-          />
-        )}
-        <BalanceTable /> {/* Place BalanceTable at the bottom */}
       </div>
     </div>
   );
