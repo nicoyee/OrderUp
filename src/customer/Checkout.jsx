@@ -17,6 +17,8 @@ const Checkout = ({ onClose, cartItems }) => {
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [downpaymentAmount, setDownpaymentAmount] = useState(0);
+  const [paymentAmount, setPaymentAmount] = useState(0); // New state for actual payment amount
+  const [remainingBalance, setRemainingBalance] = useState(0); // New state to store remaining balance
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Calculate total and downpayment amounts whenever cartItems change
@@ -26,8 +28,24 @@ const Checkout = ({ onClose, cartItems }) => {
       total += item.price * item.quantity;
     });
     setTotalAmount(total);
-    setDownpaymentAmount(total * 0.4); // 40% downpayment
+    const downpayment = total * 0.4; // 40% downpayment
+    setDownpaymentAmount(downpayment);
+    setRemainingBalance(total - downpayment); // Set remaining balance initially
+
+    // Set the default payment amount as the full total (initially full payment selected)
+    setPaymentAmount(total);
   }, [cartItems]);
+
+  // Update the payment amount when payment option changes
+  useEffect(() => {
+    if (formData.paymentOption === "downpayment") {
+      setPaymentAmount(downpaymentAmount); // If downpayment, show 40% amount
+      setRemainingBalance(totalAmount - downpaymentAmount); 
+    } else {
+      setPaymentAmount(totalAmount); // If full payment, show total amount
+      setRemainingBalance(0); // No remaining balance for full payment
+    }
+  }, [formData.paymentOption, downpaymentAmount, totalAmount]);
 
   const handleChange = (e) => {
     setFormData({
@@ -41,21 +59,18 @@ const Checkout = ({ onClose, cartItems }) => {
     setIsSubmitting(true);
 
     try {
-      // Check if the cart is empty
       const userCartItems = await CartController.getCartData();
       if (!userCartItems || Object.keys(userCartItems).length === 0) {
-        alert("Your cart is empty! Please add items before checking out.");
+        alert("Your cart is empty!");
         return;
       }
 
-      // Check if the user is logged in
       const email = auth.currentUser?.email;
       if (!email) {
         alert("You must be logged in to place an order.");
         return;
       }
 
-      // Fetch transaction documents under "Balance/{email}/transactions"
       const transactionsPath = `Balance/${email}/transactions`;
       const transactionsSnapshot = await FService.getDocuments(transactionsPath);
       let hasUnpaidBalance = false;
@@ -67,18 +82,10 @@ const Checkout = ({ onClose, cartItems }) => {
         }
       });
 
-      // If there is any unpaid balance, stop the process and alert the user
       if (hasUnpaidBalance) {
-        alert("You cannot checkout with an unpaid balance. Please pay the remaining balance first.");
+        alert("You cannot checkout with an unpaid balance.");
         return;
       }
-
-      // Determine the payment amount based on the payment option
-      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
-
-      console.log("Total Amount:", totalAmount);
-      console.log("Downpayment Amount:", downpaymentAmount);
-      console.log("Payment Amount being sent:", paymentAmount);
 
       // Create the order
       const orderId = await OrderController.createOrder({
@@ -88,36 +95,34 @@ const Checkout = ({ onClose, cartItems }) => {
         address: formData.address,
         paymentOption: formData.paymentOption,
         items: cartItems,
-        totalAmount: paymentAmount,
+        totalAmount: totalAmount,
+        amountSent: paymentAmount,
+        remainingBalance: remainingBalance,
       });
 
-      // Update sales data after creating the order
-      await AdminSalesController.getSales(email); // Call to update sales data
+      // Update sales data
+      await AdminSalesController.getSales(email);
 
-      // Create a description for the order items
       const orderDescription = Object.keys(cartItems)
         .map((key) => `${cartItems[key].name} x ${cartItems[key].quantity}`)
         .join(", ");
 
-      console.log("Order Description:", orderDescription);
-
-      // Create a payment link
       const paymentLink = await PaymentController.createPaymentLink(
         paymentAmount,
         email,
         orderDescription
       );
 
-      // Redirect user to payment link
       window.location.href = paymentLink;
 
     } catch (error) {
       console.error("Error during payment:", error.message || error);
-      alert(error.message || "Failed to submit order. Please try again.");
+      alert(error.message || "Failed to submit order.");
     } finally {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="checkout-modal">
@@ -175,7 +180,7 @@ const Checkout = ({ onClose, cartItems }) => {
               />
               <span className="circle"></span>
               <span className="description">
-                Downpayment - Pay 40% ({downpaymentAmount.toFixed(2)})
+                Downpayment - Pay 40% ({downpaymentAmount.toFixed(2)}) <br />
               </span>
             </label>
 
@@ -189,7 +194,7 @@ const Checkout = ({ onClose, cartItems }) => {
               />
               <span className="circle"></span>
               <span className="description">
-                Full Payment - Pay total amount ({totalAmount.toFixed(2)})
+                Full Payment - Pay total amount ({totalAmount.toFixed(2)}) <br />
               </span>
             </label>
           </div>

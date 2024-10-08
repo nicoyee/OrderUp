@@ -1,93 +1,89 @@
-    import { FService } from "./FirebaseService.ts";
-    import { Order } from "../Order.ts";
-    import { Balance } from "../Balance.ts";
-    import { doc, getDoc, deleteDoc, updateDoc, getFirestore } from "firebase/firestore";
+import { FService } from "./FirebaseService.ts";
+import { Order } from "../Order.ts";
+import { Balance } from "../Balance.ts";
+import { doc, getDoc, deleteDoc, updateDoc, getFirestore } from "firebase/firestore";
 
-        class OrderController {
+class OrderController {
             
-            static async createOrder(orderDetails) {
-                try {
-                    const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
-                    const referenceNumber = this.generateReferenceNumber();
-                    
-                    if (!email) {
-                        throw new Error("User email is undefined");
-                    }
-            
-                    // Check if the user has an unpaid balance
-                    const userBalanceDoc = await FService.getDocument("Balance", email);
-                    let balance = new Balance(email);
-                    if (userBalanceDoc.exists()) {
-                        const balanceData = userBalanceDoc.data();
-                        balance.remainingBalance = balanceData.remainingBalance || 0;
-                        balance.status = balanceData.status || "unpaid";
-                    }
-            
-                    if (balance.remainingBalance > 0 && balance.status !== "paid") {
-                        throw new Error("You cannot create a new order with an unpaid balance.");
-                    }
-            
-                    const orderData = {
-                        userEmail: email,
-                        receiverName,
-                        contactNo,
-                        address,
-                        paymentOption,
-                        items,
-                        totalAmount,
-                        status: "pending", 
-                        createdDate: new Date(),
-                        referenceNumber: referenceNumber
-                    };
-            
-                    // Create Order document in Firestore
-                    const path = `Orders/${email}/orders`;
-                    await FService.setDocument(path, referenceNumber, orderData); // Storing order in Firestore
-                    console.log("Order created successfully.");
-            
-                    // If the user chose downpayment, calculate and store remaining balance in separate collection
-                    if (paymentOption === "downpayment") {
-                        const remainingBalance = totalAmount * 0.8; // 80% remaining after downpayment
-                        await this.storeRemainingBalance(email, remainingBalance); // Updated: no reference number passed
-                    }
-            
-                    return referenceNumber; // Return reference number for further use
-                } catch (error) {
-                    console.error("Error creating order:", error.message || error);
-                    throw error;
-                }
-            }
-            
-            
-            // Separate method to store remaining balance in Firestore
-            static async storeRemainingBalance(userEmail, remainingBalance) {
-                try {
-                    if (!userEmail) {
-                        throw new Error("User email is undefined");
-                    }
-            
-                    const transactionPath = `Balance/${userEmail}/transactions`;
-                    const referenceNumber = this.generateReferenceNumber(); // Generate a new reference number for the transaction
-                    const transactionData = {
-                        remainingBalance,
-                        status: remainingBalance > 0 ? "unpaid" : "paid", // Set status based on remaining balance
-                        createdDate: new Date(),
-                    };
-            
-                    // Create a new transaction entry in the "transactions" sub-collection using the generated reference number
-                    await FService.setDocument(transactionPath, referenceNumber, transactionData); // Storing balance transaction
-                    console.log("New balance transaction created successfully.");
-            
-                    return {
-                        id: referenceNumber,
-                        ...transactionData,
-                    };
-                } catch (error) {
-                    console.error("Error storing balance transaction:", error.message || error);
-                    throw error;
-                }
-            }
-
+    static async createOrder(orderDetails) {
+        try {
+          const { email, receiverName, contactNo, address, paymentOption, items, totalAmount } = orderDetails;
+          const referenceNumber = this.generateReferenceNumber();
+    
+          if (!email) {
+            throw new Error("User email is undefined");
+          }
+    
+          // Calculate amountSent and remaining balance based on payment option
+          let amountSent = 0;
+          let remainingBalance = 0;
+    
+          if (paymentOption === "downpayment") {
+            amountSent = totalAmount * 0.4; // 40% downpayment
+            remainingBalance = totalAmount - amountSent;
+          } else if (paymentOption === "fullpayment") {
+            amountSent = totalAmount; // Full payment (100%)
+            remainingBalance = 0;
+          }
+    
+          // Order data to be stored in Firestore
+          const orderData = {
+            userEmail: email,
+            receiverName,
+            contactNo,
+            address,
+            paymentOption,
+            items,
+            totalAmount,
+            amountSent,
+            remainingBalance,
+            status: "pending", // default status
+            createdDate: new Date(),
+            referenceNumber: referenceNumber,
+          };
+    
+          // Create Order document in Firestore
+          const path = `Orders/${email}/orders`;
+          await FService.setDocument(path, referenceNumber, orderData);
+    
+          // Check if there is a remaining balance
+          if (remainingBalance > 0) {
+            await this.storeRemainingBalance(email, remainingBalance);
+          }
+    
+          return referenceNumber;
+        } catch (error) {
+          console.error("Error creating order:", error.message || error);
+          throw error;
+        }
+      }
+    
+      // Method to store remaining balance in Firestore
+      static async storeRemainingBalance(userEmail, remainingBalance) {
+        try {
+          if (!userEmail) {
+            throw new Error("User email is undefined");
+          }
+    
+          const transactionPath = `Balance/${userEmail}/transactions`;
+          const referenceNumber = this.generateReferenceNumber();
+          const transactionData = {
+            remainingBalance,
+            status: remainingBalance > 0 ? "unpaid" : "paid",
+            createdDate: new Date(),
+          };
+    
+          await FService.setDocument(transactionPath, referenceNumber, transactionData);
+        } catch (error) {
+          console.error("Error storing balance transaction:", error.message || error);
+          throw error;
+        }
+      }
+      
+      // Generate a unique reference number (simulating the method)
+      static generateReferenceNumber() {
+        return Math.random().toString(36).substr(2, 9).toUpperCase();
+      }
             static async viewHistory(userEmail) {
                 try {
                     const ordersCollectionPath = `Orders/${userEmail}/orders`;

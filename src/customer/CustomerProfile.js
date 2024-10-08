@@ -248,26 +248,30 @@ const CustomerProfile = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {balanceTransactions.map((transaction) => (
-                      <tr key={transaction.id}>
-                        <td>₱{transaction.remainingBalance}</td>
-                        <td>{formatDate(transaction.createdDate)}</td>
-                        <td>{transaction.status}</td>
-                        <td>
+            {balanceTransactions.map((transaction) => (
+             <tr key={transaction.id}>
+                <td>₱{transaction.remainingBalance}</td>
+                      <td>{formatDate(transaction.createdDate)}</td>
+                            <td>{transaction.status}</td>
+                             <td>
                           {transaction.status === "paid" ? (
-                            <span>(Paid)</span>
-                          ) : (
-                            <button 
-                              onClick={() => handlePay(transaction.id)} 
-                              disabled={transaction.status === "paid"}
-                            >
+                           <span>(Paid)</span>
+                       ) : transaction.status === "cancelled" ? (
+                           <span>(Cancelled)</span>
+                          ) : transaction.status === "refunded" ? (
+                              <span>(Refunded)</span>
+                                     ) : (
+                                      <button
+                          onClick={() => handlePay(transaction.id)}
+                      disabled={transaction.status === "paid" || transaction.status === "cancelled" || transaction.status === "refunded"}
+                                >
                               Pay
-                            </button>
+                       </button>
                           )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                       </td>
+                    </tr>
+                   ))}
+               </tbody>
                 </table>
               ) : (
                 <p className="error-message">No balance found for this user.</p>
