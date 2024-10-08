@@ -8,6 +8,24 @@ import { Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import Checkout from "./Checkout.jsx";
 
+// Modal for confirmation
+const ConfirmationModal = ({ onClose, onConfirm, message }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <p>{message}</p>
+        <div className="modal-buttons">
+          <button className="modal-confirm" onClick={onConfirm}>
+            Confirm
+          </button>
+          <button className="modal-cancel" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CartPage = () => {
   const user = useContext(UserContext);
@@ -15,7 +33,8 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState(new Set());
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false); // State to handle modal visibility
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); // Modal for deletion
   const cart = useRef(new Cart()).current;
   const navigate = useNavigate();
 
@@ -23,22 +42,20 @@ const CartPage = () => {
     const fetchCartData = async () => {
       try {
         if (!user) throw new Error("User not authenticated.");
-        
+
         const cartInstance = new Cart();
         await cartInstance.fetchCartData(user);
         setCartItems(cartInstance.items); // Update the state with fetched items
-        
+
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchCartData();
   }, [user]); // Depend on user, but not cart directly
-  
-  
 
   const handleQuantityChange = async (dishId, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from being less than 1
@@ -74,6 +91,10 @@ const CartPage = () => {
     }
   };
 
+  const openConfirmDeleteModal = () => {
+    setIsConfirmModalOpen(true);
+  };
+
   const handleDeleteSelectedItems = async () => {
     try {
       const updatedCartItems = Object.fromEntries(
@@ -85,6 +106,7 @@ const CartPage = () => {
       await Customer.persistDeletedCartItems(updatedCartItems);
       setCartItems(updatedCartItems);
       setSelectedItems(new Set());
+      setIsConfirmModalOpen(false); // Close the modal after deletion
     } catch (error) {
       setError(error.message);
     }
@@ -101,6 +123,10 @@ const CartPage = () => {
 
   const closeModal = () => {
     setIsCheckoutOpen(false); // Close the modal
+  };
+
+  const closeConfirmModal = () => {
+    setIsConfirmModalOpen(false); // Close the confirmation modal
   };
 
   const totalPrice = Object.values(cartItems).reduce(
@@ -135,7 +161,7 @@ const CartPage = () => {
             onChange={handleSelectAll}
           />
           <label htmlFor="select-all">Select all</label>
-          <button type="button" onClick={handleDeleteSelectedItems}>
+          <button type="button" onClick={openConfirmDeleteModal}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -230,6 +256,15 @@ const CartPage = () => {
 
       {/* Modal Checkout */}
       {isCheckoutOpen && <Checkout onClose={closeModal} cartItems={cartItems} />}
+
+      {/* Confirmation Modal */}
+      {isConfirmModalOpen && (
+        <ConfirmationModal
+          message="Are you sure you want to delete the selected items?"
+          onConfirm={handleDeleteSelectedItems}
+          onClose={closeConfirmModal}
+        />
+      )}
     </div>
   );
 };

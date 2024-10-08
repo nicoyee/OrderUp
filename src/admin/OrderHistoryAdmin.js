@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Admin from "../class/admin/Admin";
+import OrderDetailsModal from "./OrderDetailsModal";
 import '../css/Admin/OrderHistoryAdmin.css';
 import '../css/Admin/OrderDetailsModal.css';
 const OrderHistoryAdmin = () => {
@@ -22,7 +23,7 @@ const OrderHistoryAdmin = () => {
             allOrders.push(...userOrders);
           }
           allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
-
+          console.log("Orders Fetched:", allOrders);
           setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -67,7 +68,7 @@ const OrderHistoryAdmin = () => {
 
 
   return (
-    <div className="menuTable">
+    <div className="table-history">
       <h1>All Orders</h1>
       <table className="dataTableHistory">
         <thead>
@@ -100,10 +101,14 @@ const OrderHistoryAdmin = () => {
                   <option value="order-processed">Order Processed</option>
                   <option value="full-payment-paid">Full Payment Paid</option>
                   <option value="delivered">Delivered</option>
+                  <option value="cancellation-requested">Cancellation Requested</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="refund-requested">Refund Requested</option>
+                  <option value="refunded">Refunded</option>
                 </select>
               </td>
               <td>
-                <button onClick={() => openOrderDetailsModal(order)}>View Details</button>
+                <button className="view-details-button" onClick={() => openOrderDetailsModal(order)}>View Details</button>
               </td>
             </tr>
           ))}
@@ -133,71 +138,4 @@ const OrderHistoryAdmin = () => {
     </div>
   );
 };
-
-const OrderDetailsModal = ({ order, closeModal}) => {
-  if (!order) {
-    return (
-      <div className="order-details-modal">
-        <div className="modal-content">
-          <span className="close" onClick={closeModal}>&times;</span>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const formatDate = (timestamp) => {
-      if (timestamp && timestamp.seconds) {
-          const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
-          return date.toLocaleString('en-US', {
-              weekday: 'long', 
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              hour12: true, 
-          });
-      }
-      return 'N/A';
-  };
-
-  return (
-      <div className="order-details-modal">
-        <div className="modal-content">
-          <span className="close" onClick={closeModal}>&times;</span>
-          <div>
-            <h1>Order Details</h1>
-            <p>Date: {formatDate(order.createdDate)}</p>
-            <p>Reference Number: {order.referenceNumber}</p>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(order.items || {}).map(([itemId, item]) => (
-                  <tr key={itemId}>
-                    <td>{item.name}</td>
-                    <td>{item.description}</td>
-                    <td>₱{item.price}</td>
-                    <td>{item.quantity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className='status'>Status: {order.status}</p>
-            <p className="total">Total: ₱{order.totalAmount.toFixed(2)}</p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  
 export default OrderHistoryAdmin;

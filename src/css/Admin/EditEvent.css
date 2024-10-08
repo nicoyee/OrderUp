@@ -35,20 +35,27 @@
     cursor: pointer;
 }
 
-.form-group {
+.edit-event-modal h1 {
+    font-size: 1.5em;
+    color: #ff8500;
+    text-align: left;
     margin-bottom: 20px;
 }
 
-.form-group label {
+.edit-event-modal .form-group {
+    margin-bottom: 20px;
+}
+
+.edit-event-modal .form-group label {
     display: block;
     margin-bottom: 5px;
     color: #ff8500;
     text-align: left;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.edit-event-modal .form-group input,
+.edit-event-modal .form-group select,
+.edit-event-modal .form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -60,24 +67,26 @@
     font-family: 'Arial', sans-serif;
 }
 
-.form-group textarea {
+.edit-event-modal .form-group textarea {
     height: 100px;
     background: #3b3b3b;
 }
 
-.form-group button[type="submit"] {
+.edit-event-modal .form-group button[type="submit"] {
     background-color: #4caf50;
     color: white;
     float: right;
     margin-left: 10px;
     border-radius: 4px;
+    padding: 10px ;
 }
 
-.form-group button[type="button"] {
+.edit-event-modal .form-group button[type="button"] {
     background-color: #f44336;
     color: white;
     float: right;
     border-radius: 4px;
+    padding: 10px;
 }
 /*
 h1 {
