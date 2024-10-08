@@ -169,7 +169,7 @@ const CustomerMenu = () => {
       </div>
 
       {/* Menu Items Section */}
-      <div className="menu-items">
+      <div className="customerMenu-items">
         {loading ? (
           <p>Loading...</p>
         ) : (

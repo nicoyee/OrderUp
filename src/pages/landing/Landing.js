@@ -6,18 +6,24 @@ import { useMediaQuery } from 'react-responsive';
 import Header from "./LandingHeader";
 import Navigation from "./LandingNavigation";
 import Footer from "./LandingFooter";
+import Menu from "./Menu";
 
 const LandingPage = () => {
- 
-    return (
-        <div id='landingContainer'>
-    
-          <Header />
-          <Navigation />
-          <Footer />
-    
-        </div>
-      );
+
+  const [landingContent, setLandingContent] = useState('navigation');
+
+  return (
+    <div id='landingContainer'>
+
+      <Header />
+
+      { landingContent === 'navigation' && ( <Navigation setLandingContent={setLandingContent} /> ) }
+      { landingContent === 'menu' && ( <Menu setLandingContent={setLandingContent} /> )}
+
+      <Footer />
+
+    </div>
+  );
  
 };
 

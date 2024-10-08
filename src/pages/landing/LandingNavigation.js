@@ -10,7 +10,7 @@ import LogIn from '../../auth/LogIn';
 import SignUp from '../../auth/SignUp';
 import ForgotPassword from '../../auth/ForgotPassword';
 
-const LandingNavigation = () => {
+const LandingNavigation = ({ setLandingContent }) => {
   
     const [alignment, setAlignment] = useState('center');
     const [ activeSection, setActiveSection ] = useState("");
@@ -58,7 +58,10 @@ const LandingNavigation = () => {
 
             <div className='landingNavigation-left'>
 
-                <MenuButton setAlignment={ setAlignment } />
+                <MenuButton 
+                    setAlignment={ setAlignment } 
+                    setLandingContent={ setLandingContent }
+                />
 
             </div>
 
