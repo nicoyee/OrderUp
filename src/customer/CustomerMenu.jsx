@@ -51,14 +51,14 @@ const CustomerMenu = () => {
     fetchBestSellers();
   }, []);
 
-  // Trigger modal with a custom message
+  
   const triggerModal = (message) => {
     setModalMessage(message);
     setIsModalOpen(true);
     setTimeout(() => setIsModalOpen(false), 2000); // Close after 2 seconds
   };
 
-  // Handle adding to cart and triggering modal
+  
   const handleAddToCart = async (dishId, name) => {
     try {
       await Customer.addToCart(dishId);
@@ -69,7 +69,7 @@ const CustomerMenu = () => {
   };
   
 
-  // Modal component for displaying messages
+  
   const Modal = ({ message }) => (
     isModalOpen ? (
       <div className="modal">
@@ -80,7 +80,7 @@ const CustomerMenu = () => {
     ) : null
   );
 
-  // Pagination logic
+  
   const filteredDishes = dishes
     .filter((dish) => dish.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter((dish) => selectedMenuType === '' || dish.menuType === selectedMenuType);
@@ -107,12 +107,12 @@ const CustomerMenu = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Menu type filter logic
+  
   const menuTypes = [...new Set(dishes.map((dish) => dish.menuType))];
 
   const handleMenuTypeClick = (menuType) => {
     setSelectedMenuType(menuType);
-    setCurrentPage(1); // Reset to the first page when a new menu type is selected
+    setCurrentPage(1); 
   };
 
   const renderPaginationButtons = () => {
