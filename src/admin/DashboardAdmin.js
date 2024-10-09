@@ -6,7 +6,8 @@ import MenuAdmin from "./MenuAdmin";
 import CreateDish from "./CreateDish";
 import ManageUsers from "./ManageUsers";
 import ManageEvents from "./ManageEvents";
-import BalanceTable from "./BalanceTable"; 
+import BalanceTable from "./BalanceTable";
+import AdminSales from "./AdminSales"; // Import AdminSales component
 import OrderCancellationRequests from "./OrderCancellationRequests";
 import "../css/Admin/DashboardAdmin.css";
 import "../css/DashboardCard.css";
@@ -68,7 +69,8 @@ const DashboardAdmin = () => {
           </div>
           <MenuAdmin dishes={dishes} setDishes={setDishes} />
           <OrderHistoryAdmin />
-        
+
+          {/* Modals */}
           {createDishModalIsOpen && (
             <CreateDish
               setDishes={setDishes}
@@ -89,9 +91,16 @@ const DashboardAdmin = () => {
               setModalIsOpen={setManageEventsModalIsOpen}
             />
           )}
+           {adminSalesModalIsOpen && (
+            <AdminSales
+              show={adminSalesModalIsOpen}
+              handleClose={() => setAdminSalesModalIsOpen(false)}
+              userEmail={user.email} // Pass user email for fetching sales data
+            />
+          )}
           <div className="tableContainer">
-              <BalanceTable />
-              <OrderCancellationRequests />
+            <BalanceTable />
+            <OrderCancellationRequests />
           </div>
         </div>
       </div>
