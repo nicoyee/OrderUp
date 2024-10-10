@@ -34,12 +34,6 @@ const LandingHeader = () => {
                     <div className='tooltip'>Facebook</div>
                 </li>
 
-                <li>
-                    <a>
-                        <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/link--v1.png" alt="link--v1"/>
-                    </a>
-                    <div className='tooltip'>URL</div>
-                </li>
             </ul>
 
         </div>
