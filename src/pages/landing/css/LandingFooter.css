@@ -22,12 +22,12 @@
 
 #landingFooter .landingFooter-left h1 {
 
-    color: #f05006;
+    color: #c0963d;
     font-weight: 800;
     font-size: 14px;
     text-transform: uppercase;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 #landingFooter .landingFooter-left h1:hover {
@@ -35,9 +35,8 @@
 }
 
 #landingFooter .landingFooter-left h2 {
-    color: #d5dbbd;
+    color: #334d66;
     font-size: 11px;
-    letter-spacing: 1px;
     margin-bottom: 3px;
 }
 
@@ -47,7 +46,7 @@
 }
 
 #landingFooter .landingFooter-right h3 {
-    color: #f05006;
+    color: #ea4619;
     font-size: 2rem;
     font-weight: 800;
     margin-bottom: -10px;

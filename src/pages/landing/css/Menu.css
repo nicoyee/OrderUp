@@ -8,7 +8,7 @@
     overflow: hidden;
 }
 
-#menuContainer .menu-right, .menu-left {
+#menuContainer .menu-left, .menu-right {
     padding-top: 100px;
     width: 50%;
     height: 100%;
@@ -16,20 +16,20 @@
     flex-direction: column;
 }
 
-#menuContainer .menu-right {
+#menuContainer .menu-left {
     align-items: end;
     gap: 50px;
 }
 
-#menuContainer .menu-right .menu-header, #menuContainer .menu-right .menu-nav {
+#menuContainer .menu-left .menu-header, #menuContainer .menu-left .menu-nav {
     display: flex;
     flex-direction: column;
     align-items: end;
 }
 
-#menuContainer .menu-right h1 {
+#menuContainer .menu-left h1 {
     margin-top: -40px;
-    color: #f05006;
+    color: #c0963d;
     font-family: 'Kare';
     text-transform: uppercase;
     font-size: 96px;
@@ -37,10 +37,11 @@
 }
 
 #menuContainer .menu-back-button {
-    color: #ffff;
+    color: #252525;
     width: fit-content;
     font-size: 32px;
     font-family: 'Roboto';
+    font-weight: 700;
     text-transform: uppercase;
     opacity: 0.5;
     transition: opacity 0.3s ease;
@@ -51,65 +52,65 @@
     opacity: 1;
 }
 
-#menuContainer .menu-right .menu-nav .menu-nav-btn {
-    color: #d5dbbd;
-    font-size: 44px;
+#menuContainer .menu-left .menu-nav .menu-nav-btn {
+    color: #334d66;
+    font-size: 40px;
     text-transform: lowercase;
     transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
-#menuContainer .menu-right .menu-nav .menu-nav-btn:hover {
+#menuContainer .menu-left .menu-nav .menu-nav-btn:hover {
     cursor: pointer;
     transform: translateY(-3px);
     text-shadow: 0 3px 2px rgba(240, 80, 6, 0.7);
 }
 
-#menuContainer .menu-right .menu-nav .menu-nav-btn.active { 
-    color: #f05006;
+#menuContainer .menu-left .menu-nav .menu-nav-btn.active { 
+    color: #c0963d;
     transition: color .2s ease-in-out;
     pointer-events: none;
 }
 
-#menuContainer .menu-left {
+#menuContainer .menu-right {
     overflow: auto;
 }
 
-#menuContainer .menu-left .menu-items-container {
+#menuContainer .menu-right .menu-items-container {
     display: flex;
     gap: 20px;
     flex-direction: column;
 }
 
-#menuContainer .menu-left .menu-items-container .menu-item h1 {
+#menuContainer .menu-right .menu-items-container .menu-item h1 {
     margin-bottom: -10px;
-    color: #F05006;
+    color: #c0963d;
     font-family: "Abril Fatface";
-    font-size: 38px;
+    font-size: 32px;
     font-weight: 400;
 }
 
-#menuContainer .menu-left .menu-item h2 {
-    color: #d5dbbd;
+#menuContainer .menu-right .menu-item h2 {
+    color: #334d66;
     font-family: "Abril Fatface";
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 400;
     text-transform: uppercase;
 }
 
-#menuContainer .menu-left .menu-item p {
-    color: #d5dbbd;
+#menuContainer .menu-right .menu-item p {
+    color: #334d66;
     max-width: 80%;
     font-family: "Inter";
     font-size: 18px;
-    font-weight: 200;
+    font-weight: 300;
     font-style: italic;
 }
 
 @media only screen and (max-width: 768px) {
-    #menuContainer .menu-right, .menu-left {
+    #menuContainer .menu-left, .menu-right {
         padding-top: 0;
     }
-    #menuContainer .menu-right .menu-nav h3 {
+    #menuContainer .menu-left .menu-nav h3 {
         font-size: 38px;
     }
 }

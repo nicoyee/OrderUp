@@ -53,7 +53,7 @@ const MenuPage = ({ setLandingContent }) => {
   return (
       <div id='menuContainer'>
   
-          <div className='menu-right'>
+          <div className='menu-left'>
             
             <div className='menu-header'>
               <h1>Menu</h1>
@@ -74,7 +74,7 @@ const MenuPage = ({ setLandingContent }) => {
 
           </div>
 
-          <div className='menu-left'>
+          <div className='menu-right'>
             {Object.keys(categorizedDishes).map((category) => (
               openCategory === category && (
                 <div key={category} className="menu-items-container">

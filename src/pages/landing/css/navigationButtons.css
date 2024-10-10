@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    color: #d5dbbd;
+    color: #334d66;
     z-index: 2;
 }
 
@@ -26,27 +26,28 @@
 
 .navigationButtons:hover h1 {
     max-width: 100%;
-    color: #f05006;
+    color: #c0963d;
+    transition: color .4s ease-in-out, max-width .4s ease-in-out;
 }
 
 .navigationButtons h2 {
     font-size: 1vw;
     font-family: "Inter";
     text-transform: uppercase;
-    color: #f05006;
+    color: #c0963d;
 }
 
 .navigationButtons:hover h2 {
-    color: #d5dbbd;
+    color: #334d66;
     transition: color .3s ease-in-out;
 }
 
 .navigationButtons h2 span {
-    color: #d5dbbd;
+    color: #334d66;
 }
 
 .navigationButtons:hover h2 span {
-    color: #f05006;
+    color: #c0963d;
     transition: color .3s ease-in-out;
 }
 

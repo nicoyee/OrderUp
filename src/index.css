@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  background-color: #252525;
+  background-color: #fbf0df;
 }
 
 body::before {
@@ -24,7 +24,7 @@ body::before {
   width: 100%;
   z-index: -1;                                                                                                                                                                                                                                                                                                                                
   background-image: url("./assets/noise.png");
-  opacity: 0.1;
+  opacity: 0;
 }
 
 .material-symbols-outlined {

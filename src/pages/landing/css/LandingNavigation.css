@@ -26,7 +26,7 @@
 }
 
 #landingNavigation .landingNavigation-center button {
-    color: #d5dbbd;
+    color: #334d66;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
     width: 47%;
     height: 1.55vh;
     border-radius: 10px 0 10px 0;
-    background-color: #f05006;
+    background-color: #c0963d;
     left: 53%;
     bottom: 0;
     transform-origin: right;
@@ -52,7 +52,7 @@
 }
 
 #landingNavigation .landingNavigation-center button:hover {
-    color: #f05006;
+    color: #c0963d;
     transition: color .3s ease-in-out;
 }
 
@@ -65,21 +65,21 @@
     font-size: 1vw;
     font-family: "Inter";
     text-transform: uppercase;
-    color: #f05006;
+    color: #c0963d;
     margin-bottom: -2%;
 }
 
 #landingNavigation .landingNavigation-center button:hover h2 {
-    color: #d5dbbd;
+    color: #334d66;
     transition: color .3s ease-in-out;
 }
 
 #landingNavigation .landingNavigation-center button h2 span {
-    color: #d5dbbd;
+    color: #334d66;
 }
 
 #landingNavigation .landingNavigation-center button:hover h2 span {
-    color: #f05006;
+    color: #c0963d;
     transition: color .3s ease-in-out;
 }
 
