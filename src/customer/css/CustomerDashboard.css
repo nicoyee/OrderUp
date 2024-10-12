@@ -6,7 +6,7 @@
     grid-template-columns: minmax(auto, 65%) 1fr;
     gap: 20px;
     padding: 0 1rem;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 #customerDashboard .customerDashboard-main {
