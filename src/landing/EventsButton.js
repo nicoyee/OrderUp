@@ -1,5 +1,5 @@
 import './css/navigationButtons.css';
-import events from "../../assets/events.svg";
+import events from "../assets/events.svg";
 
 import React, { useState, useEffect } from "react";
 

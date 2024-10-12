@@ -1,0 +1,13 @@
+#customerHeader {
+    max-width: 80rem;
+    position: sticky;
+    top: 0;
+    padding: 10px 1rem;
+    width: 100%;
+    background-color: #FBF0DF;
+}
+
+#customerHeader h1 {
+    color: #c0963d;
+    font-family: 'Kare';
+}

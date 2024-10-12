@@ -1,0 +1,12 @@
+.dashboardContainer {
+    width: 100%;
+    height: 100dvh;
+}
+
+.dashboardContainer .sectionHeader {
+    color: #334d66;
+    font-size: 38px;
+    font-family: 'Abril Fatface';
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

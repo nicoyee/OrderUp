@@ -1,5 +1,5 @@
 import './css/navigationButtons.css';
-import menu from "../../assets/menu.svg";
+import menu from "../assets/menu.svg";
 
 import React, { useState, useEffect } from "react";
 

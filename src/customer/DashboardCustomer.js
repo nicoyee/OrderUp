@@ -1,5 +1,5 @@
 
-import '../css/DashboardCard.css';
+import './css/DashboardCustomer.css';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';

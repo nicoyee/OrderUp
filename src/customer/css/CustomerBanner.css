@@ -1,0 +1,33 @@
+#customerBanner {
+    padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #c0963d;
+    border-radius: 10px;
+}
+
+#customerBanner h1 {
+    color: #FBF0DF;
+    font-family: 'Inter';
+    font-size: 22px;
+    font-weight: 900;
+}
+
+#customerBanner .customerBanner-right {
+    display: flex;
+    gap: 15px;
+}
+
+#customerBanner .customerBanner-right a {
+    color: #FBF0DF;
+    font-family: 'Inter';
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+#customerBanner .customerBanner-right a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

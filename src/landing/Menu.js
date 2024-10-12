@@ -3,7 +3,7 @@ import './css/Menu.css';
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-import Admin from '../../class/admin/Admin';
+import Admin from '../class/admin/Admin';
 
 const MenuPage = ({ setLandingContent }) => {
  

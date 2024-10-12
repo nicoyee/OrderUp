@@ -1,0 +1,114 @@
+#customerMenu {
+    width: 100%;
+    height: 100%;
+
+}
+
+#customerMenu .customerMenu-categories {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#customerMenu .customerMenu-categories button {
+    flex-grow: 1;
+    padding: 10px;
+    border-bottom: 1px solid blue;
+    transition: all 0.1s ease;
+}
+
+#customerMenu .customerMenu-categories button span {
+
+}
+
+#customerMenu .customerMenu-categories button:hover {
+    padding: 10px;
+    border-bottom: 3px solid blue;
+    background-color: aliceblue;
+}
+
+#customerMenu .customerMenu-categories .active {
+    border-bottom: 3px solid blue;
+}
+
+#customerMenu .customerMenu-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+
+}
+
+#customerMenu .customerMenu-item {
+    width: 250px;
+    height: 295px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+#customerMenu .customerMenu-itemMain {
+    height: 220px;
+    flex-shrink: 0;
+}
+
+#customerMenu .customerMenu-itemMain img {
+    width: 100%;
+    height: 215px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+#customerMenu .customerMenu-itemSub {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+#customerMenu .customerMenu-itemSub-description {
+    width: 70%;
+    overflow: hidden;
+}
+
+#customerMenu .customerMenu-itemSub-description h2 {
+    color: #252525;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 900;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+
+#customerMenu .customerMenu-itemSub-description p {
+    color: #334d66;
+    font-family: 'Inter';
+    font-size: 12px;
+    font-style: italic;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#customerMenu .customerMenu-itemSub-price {
+    width: 30%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+#customerMenu .customerMenu-itemSub-price h3 {
+    color: #c0963d;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 900;
+}

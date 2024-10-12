@@ -14,19 +14,6 @@ body {
   background-color: #fbf0df;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  z-index: -1;                                                                                                                                                                                                                                                                                                                                
-  background-image: url("./assets/noise.png");
-  opacity: 0;
-}
-
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,

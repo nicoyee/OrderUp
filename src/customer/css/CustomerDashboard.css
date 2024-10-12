@@ -1,0 +1,39 @@
+#customerDashboard {
+    width: 100%;
+    max-width: 80rem;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(auto, 65%) 1fr;
+    gap: 20px;
+    padding: 0 1rem;
+    overflow: auto;
+}
+
+#customerDashboard .customerDashboard-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+@media only screen and (max-width: 768px) {
+    #customerDashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .customerDashboard-side {
+        position: fixed;
+        top: 60px; /* Adjust based on your Header height */
+        right: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .customerDashboard-side.open {
+        transform: translateX(0);
+    }
+}
