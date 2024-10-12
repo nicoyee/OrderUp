@@ -61,6 +61,13 @@ const OrderDetailsModal = ({ order, closeModal }) => {
             </tbody>
           </table>
           <p className="total">Total: ₱{order.totalAmount.toFixed(2)}</p>
+          {order.remainingBalance > 0 ? (
+            <>
+            <p className="amount-paid">Amount Paid: ₱{order.amountSent.toFixed(2)}</p>
+            <p className="remaining-balance">Remaining Balance: ₱{order.remainingBalance.toFixed(2)}</p>
+            </>
+          ): null }
+          
         </div>
       </div>
     </div>
