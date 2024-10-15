@@ -19,34 +19,46 @@ class AdminSalesController {
 
                     // Add or update dish count in the map
                     if (dishCountMap[dishId]) {
-                        dishCountMap[dishId] += quantity;
+                        dishCountMap[dishId].count += quantity;
                     } else {
-                        dishCountMap[dishId] = quantity;
+                        dishCountMap[dishId] = { count: quantity, salesDates: [] }; // Initialize salesDates
                     }
+                    // Add the current date to salesDates
+                    const currentDate = new Date().toISOString();
+                    dishCountMap[dishId].salesDates.push(currentDate); // Store each sale date
                 });
             });
 
-            // Check if the sales collection exists and create an initial document if necessary
-            const salesSnapshot = await FService.getDocuments('sales');
-            if (salesSnapshot.empty) {
-                // If the collection is empty, create an initial document
-                await FService.setDocument('sales', 'initial', { message: 'Sales collection created' });
-            }
-
             // Update or add the sales data
             for (const dishId in dishCountMap) {
-                const count = dishCountMap[dishId];
+                const { count, salesDates } = dishCountMap[dishId];
                 const dishDoc = await FService.getDocument('dishes', dishId);
 
                 if (dishDoc.exists()) {
                     const dishData = {
                         id: dishId,
                         ...dishDoc.data(),
-                        count: count,
+                        count,
+                        salesDates, // Assign salesDates to a different field
                     };
 
+                    // Retrieve current sales data to merge salesDates
+                    const salesSnapshot = await FService.getDocument('sales', dishId);
+                    let existingSalesDates = [];
+
+                    if (salesSnapshot.exists()) {
+                        existingSalesDates = salesSnapshot.data().salesDates || [];
+                    }
+
+                    // Merge new salesDates, avoiding duplicates
+                    const uniqueSalesDates = [...new Set([...existingSalesDates, ...salesDates])];
+
                     // Use setDocument to update or create sales data for each dish
-                    await FService.setDocument('sales', dishId, { ...dishData, count });
+                    await FService.setDocument('sales', dishId, { 
+                        ...dishData, 
+                        count, 
+                        salesDates: uniqueSalesDates // Store in the new field
+                    });
                 }
             }
 
