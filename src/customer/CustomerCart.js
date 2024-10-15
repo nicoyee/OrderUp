@@ -11,7 +11,21 @@ const CustomerCart = () => {
   return (
     <div id='customerCart'>
 
-        
+        <div className='customerCart-label card'>
+          <h1>My Cart</h1>
+        </div>
+
+        <div className='customerCart-productList card'>
+          <div className='customerCart-product'>
+            <div className='customerCart-productInfo'>
+              <h1>Sizzling Sisig</h1>
+              <img />
+            </div>
+            <div className='customerCart-productAction'>
+              
+            </div>
+          </div>
+        </div>
       
     </div>
   );

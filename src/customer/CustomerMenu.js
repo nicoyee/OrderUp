@@ -144,17 +144,19 @@ const CustomerMenu = () => {
               <div className='customerMenu-bestsellers-container'>
                 <div key={dish.id} className='customerMenu-bestsellersItem'>
 
-                  <h1>{dish.name}</h1>
-
-                  <div className='customerMenu-bestsellersItemSub'>
-                    
+                  <div className='customerMenu-bestsellersItemMain'>
                     <img src={dish.photoURL} />
                   </div>
 
+                  <div className='customerMenu-bestsellersItemMain-caption'>
+                      <h1>{dish.name}</h1>
+                  </div>
+
                   <div className='customerMenu-bestsellersItemSub'>
                     
-                    
                   </div>
+
+                  
 
                 </div>
               </div>   
@@ -167,6 +169,7 @@ const CustomerMenu = () => {
       </div>
 
       <h1 className='sectionHeader'>Menu</h1>
+      
       <div className='customerMenu-categories'>
         <button
           onClick={() => handleMenuTypeClick('')}

@@ -5,9 +5,10 @@
 }
 
 .dashboardContainer .sectionHeader {
+    margin: 10px 0;
     color: #334d66;
-    font-size: 38px;
+    font-size: 3rem;
     font-family: 'Abril Fatface';
-    text-transform: uppercase;
     letter-spacing: 1px;
+    text-align: center;
 }
