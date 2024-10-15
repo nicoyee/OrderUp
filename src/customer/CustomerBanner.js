@@ -1,25 +1,21 @@
 import './css/CustomerBanner.css';
 
 import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../App';
-import { useLocation } from 'react-router-dom'; // For accessing the URL
 
-
-const CustomerBanner = () => {
-  
+const CustomerBanner = ({ user }) => {
 
   return (
     <div id='customerBanner'>
 
       <div className='customerBanner-left'>
 
-        <h1>Welcome Back, <span>Yee!</span></h1>
+        <h1>Welcome Back, <span>{user.name}!</span></h1>
 
       </div>
 
       <div className='customerBanner-right'>
-        <a>Profile</a>
-        <a>Logout</a>
+        <button>Profile</button>
+        <button>Logout</button>
       </div>
       
     </div>

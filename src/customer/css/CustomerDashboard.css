@@ -5,15 +5,16 @@
     display: grid;
     grid-template-columns: minmax(auto, 65%) 1fr;
     gap: 20px;
-    padding: 0 1rem;
     overflow-y: scroll;
 }
 
 #customerDashboard .customerDashboard-main {
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    gap: 5px;
+    border-radius: 5px;
 }
 
 @media only screen and (max-width: 768px) {

@@ -6,6 +6,11 @@
     justify-content: space-between;
     background-color: #c0963d;
     border-radius: 10px;
+
+    background-image: radial-gradient(rgba(12, 12, 12, 0.171) 2px, transparent 0);
+    background-size: 30px 30px;
+    background-position: -5px -5px;
+    
 }
 
 #customerBanner h1 {
@@ -20,14 +25,14 @@
     gap: 15px;
 }
 
-#customerBanner .customerBanner-right a {
+#customerBanner .customerBanner-right button {
     color: #FBF0DF;
     font-family: 'Inter';
     font-size: 14px;
     text-transform: uppercase;
 }
 
-#customerBanner .customerBanner-right a:hover {
+#customerBanner .customerBanner-right button:hover {
     cursor: pointer;
     text-decoration: underline;
 }
