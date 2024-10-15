@@ -2,37 +2,37 @@
 
 .cancellationTableContainer {
     padding: 20px;
-    background-color: #2b2b2b;
-    border-radius: 10px;
+    background-color: #fbf0df;
+    border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     margin: 20px 0;
     width: 100%;
-    max-width: 850px;
+    min-width: 700px;
+    max-width: 700px;
     font-family: "Roboto", sans-serif;
 }
 
 .cancellationTableContainer h2 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #f0f0f0;
+    color: #334d66;
 }
 
 .tableWrapper {
     max-height: 250px;
     overflow-y: auto;
-    border: 1px solid #444;
     border-radius: 8px;
 }
 
 .cancellationTable {
     width: 100%;
     border-collapse: collapse;
-    background-color: #333;
+    background-color: #fff8ec;
 }
 
 .cancellationTable thead {
-    background-color: #e20041;
-    color: white;
+    background-color: #334d66;
+    color: #fff8ec;
 }
 
 .cancellationTable th,
@@ -40,23 +40,24 @@
     padding: 8px 10px;
     text-align: center;
     border-bottom: 1px solid #444;
-    color: #f0f0f0;
 }
 
+
 .cancellationTable tbody tr:nth-child(even) {
-    background-color: #2e2e2e;
+    background-color: #fbf0df;
 }
 
 .cancellationTable tbody tr:hover {
-    background-color: #444;
+    background-color: #fff8ec;
 }
 
 .cancellationTable th {
     font-weight: bold;
+    color: #fff8ec;
 }
 
 .cancellationTable td {
-    color: #f0f0f0;
+    color: #334d66;
 }
 
 .confirmButton, .rejectButton {

@@ -1,7 +1,7 @@
 /* BalanceTable.css */
 .balanceTableContainer {
     padding: 20px;
-    background-color: #2b2b2b;
+    background-color: #fbf0df;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     margin: 20px 0;
@@ -12,7 +12,7 @@
 .balanceTableContainer h2 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #f0f0f0;
+    color: #334d66;
 }
 
 .tableWrapper {
@@ -25,12 +25,12 @@
 .balanceTable {
     width: 800px;
     border-collapse: collapse;
-    background-color: #333;
+    background-color: #fbf0df;
 }
 
 .balanceTable thead {
-    background-color: #e20041;
-    color: white;
+    background-color: #334d66;
+    color: #fff8ec;
 }
 
 .balanceTable th,
@@ -38,15 +38,15 @@
     padding: 8px 10px;
     text-align: center;
     border-bottom: 1px solid #444;
-    color: #f0f0f0;
+    color: #fff8ec;
 }
 
 .balanceTable tbody tr:nth-child(even) {
-    background-color: #2e2e2e;
+    background-color: #fff8ec;
 }
 
 .balanceTable tbody tr:hover {
-    background-color: #444;
+    background-color: #fff8ec;
 }
 
 .balanceTable th {
@@ -54,7 +54,7 @@
 }
 
 .balanceTable td {
-    color: #f0f0f0;
+    color: #334d66;
 }
 
 
@@ -63,7 +63,7 @@
     font-size: 14px;
     border-radius: 4px;
     border: 1px solid #444;
-    background-color: #333;
+    background-color: #334d66;
     color: #e0e0e0;
 }
 
