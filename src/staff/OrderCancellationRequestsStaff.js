@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import OrderController from '../class/controllers/OrderController';
 import "../css/Admin/OrderCancellationRequests.css";
 import Admin from '../class/admin/Admin';
+import Staff from '../class/admin/Staff';
 
 const OrderCancellationRequests = () => {
     const [requests, setRequests] = useState([]);
@@ -8,8 +10,8 @@ const OrderCancellationRequests = () => {
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const cancellationRequests = await Admin.fetchCancellationRequests();
-                const refundRequests = await Admin.fetchRefundRequests();
+                const cancellationRequests = await Staff.fetchCancellationRequests();
+                const refundRequests = await Staff.fetchRefundRequests();
 
                 const allRequests = [
                     ...cancellationRequests.map(req => ({ ...req, type: 'cancellation' })),
@@ -29,9 +31,9 @@ const OrderCancellationRequests = () => {
     const handleConfirm = async (request) => {
         try {
             if (request.type === 'cancellation') {
-                await Admin.approveCancellation(request.id);
+                await Staff.approveCancellation(request.id);
             } else if (request.type === 'refund') {
-                await Admin.approveRefund(request.id);
+                await Staff.approveRefund(request.id);
             }
             setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
@@ -42,9 +44,9 @@ const OrderCancellationRequests = () => {
     const handleReject = async (request) => {
         try {
             if (request.type === 'cancellation') {
-                await Admin.rejectCancellation(request.id);
+                await Staff.rejectCancellation(request.id);
             } else if (request.type === 'refund') {
-                await Admin.rejectRefund(request.id);
+                await Staff.rejectRefund(request.id);
             }
             setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
