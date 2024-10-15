@@ -131,6 +131,7 @@ const CustomerMenu = () => {
   return (
     <div id='customerMenu'>
       <div className='customerMenu-bestsellers'>
+        <h1 className='sectionHeader'>Bestsellers</h1>
         {loadingBestSellers ? (
           <p>Loading best sellers...</p>
         ) : bestSellers.length === 0 ? (
@@ -165,7 +166,7 @@ const CustomerMenu = () => {
         
       </div>
 
-
+      <h1 className='sectionHeader'>Menu</h1>
       <div className='customerMenu-categories'>
         <button
           onClick={() => handleMenuTypeClick('')}
