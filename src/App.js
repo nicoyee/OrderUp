@@ -4,15 +4,18 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Landing from "./pages/landing/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
 import DashboardCustomer from "./customer/DashboardCustomer";
+import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
+import StaffProfile from "./staff/StaffProfile.js";
 import { UserType } from "./constants";
 import { Toaster } from "react-hot-toast";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
+
 
 export const UserContext = createContext(null);
 
@@ -95,6 +98,8 @@ function App() {
               isLoggedIn ? (
                 user?.userType === "admin" ? (
                   <DashboardAdmin />
+                ) : user?.userType === "staff" ? (
+                  <DashboardStaff/>
                 ) : user?.userType === "customer" ? (
                   <DashboardCustomer />
                 ) : (
@@ -115,6 +120,9 @@ function App() {
           />
           {user && user.userType === "admin" && (
             <Route path={`/profile/:username`} element={<AdminProfile />} />
+          )}
+          {user && user.userType === "staff" && (
+            <Route path={`/profile/:username`} element={<StaffProfile />} />
           )}
           {user && user.userType === "customer" && (
             <Route
