@@ -9,8 +9,9 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.6); 
     font-family: "Roboto", sans-serif;
+    color: #334d66;
 }
 
 .admin-sales-modal .modal-content {
@@ -31,8 +32,8 @@
 }
 
 .admin-sales-modal .modal-content .btn-close {
-    color: #ff8500;
-    font-size: 28px;
+    color: #334d66;
+    font-size: 20px;
     background: none;
     border: none;
     cursor: pointer;
@@ -41,12 +42,26 @@
     right: 10px; 
     padding: 0;
     line-height: 1;
-    z-index: 10; /* Ensure the button appears on top of other content */
+    z-index: 10; 
 }
 
+.mr-2 {
+    font-size: 20px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #fff8ec;
+    color: #334d66;
+}
 .admin-sales-modal .modal-content .btn-close:hover,
 .admin-sales-modal .modal-content .btn-close:focus {
-    color: #ff7a33;
+    color: #5383af;
     text-decoration: none;
 }
 
@@ -54,13 +69,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-.admin-sales-modal .modal-header h1 {
-    margin: 0;
+    margin-bottom: 16px;
+    font-weight: bold;
     font-size: 24px;
-    color: #ff8500;
 }
 
 .admin-sales-modal .modal-body {
@@ -72,26 +83,14 @@
 }
 
 .admin-sales-modal .modal-body h5 {
-    margin: 20px 0 10px; /* Add spacing around chart headings */
+    margin: 20px 0 0 0;
+    font-size: 16px;
 }
 
-.admin-sales-modal .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.admin-sales-modal .button-container {
-    display: flex;
-    justify-content: flex-end; 
-    gap: 10px; 
-    margin-top: 20px; 
-}
-
-
-/* Ensure the chart is responsive */
 .chart-container {
     position: relative;
     width: 100%;
-    height: 300px; /* Adjusted height for the chart to fit better */
-    margin-bottom: 30px; /* Add margin to create space between charts */
+    height: 300px; 
+    margin-bottom: 20px;
+    
 }
