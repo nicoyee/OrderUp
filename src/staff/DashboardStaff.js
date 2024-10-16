@@ -19,7 +19,7 @@ const DashboardStaff = () => {
         <HeaderStaff user={user} />
         <div className="dashboardContent">
           <div className="dashboardContent-main">
-            <div className="dashboardCard cardStaff">
+            <div className="dashboardCard">
               <div className="dashboardCardText">
                 <span>Dashboard</span>
                 <p className="dashboardCardSubtitle">

@@ -24,7 +24,7 @@
 }
 
 .table-history .dataTableHistory th {
-    background-color: #c0963d;
+    background-color: #c0613d ;
     color: #fff8ec;
     font-size: 1.2em;
     padding: 12px 0;
@@ -46,7 +46,7 @@
 
 .table-history .dataTableHistory .view-details-button {
     padding: 10px 20px;
-    background-color: #c0963d;
+    background-color: #c0613d;
     color: #fff8ec;
     border: none;
     border-radius: 60px 20px;

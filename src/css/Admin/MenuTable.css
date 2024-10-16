@@ -35,7 +35,7 @@
 }
 
 .menuTable .category-btn:hover {
-  background-color: #334d66; 
+  background-color: #657e99; 
 }
 
 
@@ -99,7 +99,7 @@
 }
 
 .pagination button:hover {
-  background-color: #c0963d; /* Darker shade of green on hover */
+  background-color: #c0613d ; /* Darker shade of green on hover */
 }
 
 .pagination button:disabled {
@@ -108,7 +108,7 @@
 }
 
 .pagination .active {
-  background-color: #c0963d; /* Active page button color */
+  background-color: #c0613d; /* Active page button color */
 }
 
 .action-buttons button {
