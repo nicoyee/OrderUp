@@ -4,65 +4,79 @@ class AdminSalesController {
     static async getSales(userEmail) {
         try {
             const ordersCollectionPath = `Orders/${userEmail}/orders`;
-            // Fetch orders for the specified user
             const ordersSnapshot = await FService.getDocuments(ordersCollectionPath);
             const dishCountMap = {};
+
+            if (ordersSnapshot.empty) {
+                return []; // No orders to process
+            }
 
             // Loop through each order for the user
             ordersSnapshot.forEach(orderDoc => {
                 const orderData = orderDoc.data();
                 const orderItems = orderData.items || {};
 
+                // Parse the order date to a valid Date object
+                const createdDate = orderData.createdDate?.toDate ? orderData.createdDate.toDate() : new Date(orderData.createdDate);
+                const year = createdDate.getFullYear();
+                const month = String(createdDate.getMonth() + 1).padStart(2, '0');
+
                 // Loop through each item in the order
                 Object.keys(orderItems).forEach(dishId => {
-                    const quantity = orderItems[dishId].quantity || 0;
+                    if (!dishId) return; // Skip invalid dishId
 
-                    // Add or update dish count in the map
-                    if (dishCountMap[dishId]) {
-                        dishCountMap[dishId].count += quantity;
-                    } else {
-                        dishCountMap[dishId] = { count: quantity, salesDates: [] }; // Initialize salesDates
+                    const quantity = orderItems[dishId]?.quantity || 0;
+
+                    if (!dishCountMap[dishId]) dishCountMap[dishId] = {};
+                    if (!dishCountMap[dishId][year]) dishCountMap[dishId][year] = {};
+                    if (!dishCountMap[dishId][year][month]) {
+                        dishCountMap[dishId][year][month] = { count: 0, salesDates: [] };
                     }
-                    // Add the current date to salesDates
-                    const currentDate = new Date().toISOString();
-                    dishCountMap[dishId].salesDates.push(currentDate); // Store each sale date
+
+                    dishCountMap[dishId][year][month].count += quantity;
+                    dishCountMap[dishId][year][month].salesDates.push(createdDate.toISOString());
                 });
             });
 
-            // Update or add the sales data
+            // Update or add the sales data in Firestore by year/month/dishId
             for (const dishId in dishCountMap) {
-                const { count, salesDates } = dishCountMap[dishId];
-                const dishDoc = await FService.getDocument('dishes', dishId);
+                for (const year in dishCountMap[dishId]) {
+                    for (const month in dishCountMap[dishId][year]) {
+                        const { count, salesDates } = dishCountMap[dishId][year][month];
+                        
+                        // Retrieve dish data from the 'dishes' collection to get the dish name
+                        const dishDoc = await FService.getDocument('dishes', dishId);
 
-                if (dishDoc.exists()) {
-                    const dishData = {
-                        id: dishId,
-                        ...dishDoc.data(),
-                        count,
-                        salesDates, // Assign salesDates to a different field
-                    };
+                        if (dishDoc.exists()) {
+                            const dishData = dishDoc.data();
+                            const dishName = dishData.name || 'Unknown Dish';
 
-                    // Retrieve current sales data to merge salesDates
-                    const salesSnapshot = await FService.getDocument('sales', dishId);
-                    let existingSalesDates = [];
+                            const salesPath = `sales/${year}/${month}`; // The path should point to the year and month collection
+                            const salesDocId = dishId; // Use dishId as the document ID
 
-                    if (salesSnapshot.exists()) {
-                        existingSalesDates = salesSnapshot.data().salesDates || [];
+                            // Retrieve current sales data if exists, and merge salesDates
+                            const salesSnapshot = await FService.getDocument(salesPath, salesDocId);
+                            let existingSalesDates = [];
+
+                            if (salesSnapshot.exists()) {
+                                existingSalesDates = salesSnapshot.data().salesDates || [];
+                            }
+
+                            // Merge new sales dates, avoiding duplicates
+                            const uniqueSalesDates = [...new Set([...existingSalesDates, ...salesDates])];
+
+                            // Set or update the document in Firestore with the dish name, count, and salesDates
+                            await FService.setDocument(salesPath, salesDocId, {
+                                dishName, // Store the dish name
+                                count,
+                                salesDates: uniqueSalesDates,
+                            });
+                        }
                     }
-
-                    // Merge new salesDates, avoiding duplicates
-                    const uniqueSalesDates = [...new Set([...existingSalesDates, ...salesDates])];
-
-                    // Use setDocument to update or create sales data for each dish
-                    await FService.setDocument('sales', dishId, { 
-                        ...dishData, 
-                        count, 
-                        salesDates: uniqueSalesDates // Store in the new field
-                    });
                 }
             }
 
-            // Retrieve and sort the updated sales data
+            // Retrieve and return updated sales data, sorted by count
             const updatedSalesSnapshot = await FService.getDocuments('sales');
             let updatedSales = updatedSalesSnapshot.docs.map(doc => ({
                 id: doc.id,
@@ -71,28 +85,54 @@ class AdminSalesController {
 
             updatedSales = updatedSales.sort((a, b) => b.count - a.count);
             return updatedSales;
+
         } catch (error) {
-            console.error('Error fetching sales:', error);
+            console.error('Error fetching or updating sales:', error);
             throw error;
         }
     }
 
-    static async updateSales({ dishId, quantity }) {
-        const salesRef = `sales/${dishId}`; // Corrected reference path
+    static async getSalesByYearAndMonth(userEmail, selectedYear, selectedMonth) {
+    try {
+        const salesPath = `sales/${selectedYear}/${String(selectedMonth).padStart(2, '0')}`;
+        const salesSnapshot = await FService.getDocuments(salesPath);
+        const salesData = salesSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
 
-        // Fetch current sales data
-        const salesSnapshot = await FService.getDocument(salesRef);
-        let currentQuantity = 0;
+        return salesData;
+    } catch (error) {
+        console.error('Error fetching sales by year and month:', error);
+        throw error;
+    }
+}
 
-        if (salesSnapshot.exists()) {
-            currentQuantity = salesSnapshot.data().count || 0; // Ensure you access the correct field
+
+    static async updateSales({ dishId, quantity, year, month }) {
+        try {
+            const salesPath = `sales/${year}/${month}`; // Path includes year and month
+            const salesDocId = dishId;
+    
+            // Fetch current sales data
+            const salesSnapshot = await FService.getDocument(salesPath, salesDocId);
+    
+            if (salesSnapshot.exists()) {
+                // Document exists, update the quantity
+                const currentQuantity = salesSnapshot.data().count || 0;
+                const newQuantity = currentQuantity + quantity;
+    
+                // Update the document with the new quantity
+                await FService.updateDocument(salesPath, salesDocId, { count: newQuantity });
+            } else {
+                // Document doesn't exist, create a new document with the initial quantity
+                await FService.setDocument(salesPath, salesDocId, { count: quantity });
+            }
+    
+        } catch (error) {
+            console.error('Error updating sales:', error);
+            throw error;
         }
-
-        // Update the quantity
-        const newQuantity = currentQuantity + quantity;
-
-        // Set or update the sales document
-        await FService.setDocument(salesRef, { count: newQuantity }); // Ensure you're updating the correct field
     }
 }
 
