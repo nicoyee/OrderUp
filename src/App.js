@@ -127,7 +127,8 @@ function App() {
           {user && user.userType === "customer" && (
             <Route
               path={`/profile/:username`}
-              element={<Navigate to="/dashboard" />} />
+              element={<CustomerProfile />}
+            />
           )}
         </Routes>
       </BrowserRouter>
