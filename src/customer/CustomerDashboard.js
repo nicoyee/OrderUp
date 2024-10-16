@@ -1,13 +1,13 @@
 
 import '../common/css/Dashboard.css';
 import './css/CustomerDashboard.css';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 import { UserContext } from '../App';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // For accessing the URL
-import { ToastContainer, toast } from 'react-toastify';
+
 
 import Header from "./CustomerHeader";
 import Banner from "./CustomerBanner";
@@ -23,7 +23,6 @@ const CustomerDashboard = () => {
   return (
     <div className='dashboardContainer'>
       
-      <ToastContainer />
       <Header />
 
       <div id='customerDashboard'>
