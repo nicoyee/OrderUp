@@ -7,7 +7,7 @@
 .tableContainer .balanceTableContainer,
 .tableContainer .cancellationTableContainer {
     flex: 1; /* Allow both tables to take equal space */
-    margin: 0 10px; /* Add some margin between the two tables */
+    margin-right: 10px; /* Add some margin between the two tables */
 }
 
 .tableContainer .balanceTableContainer {

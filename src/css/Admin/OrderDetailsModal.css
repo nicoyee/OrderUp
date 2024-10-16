@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #d5dbbd;
+    color: #334d66;
     background-color: rgba(0, 0, 0, 0.6); 
     animation: fadeIn 0.3s ease-in-out; 
     font-family: "Roboto", sans-serif;
@@ -15,7 +15,7 @@
   }
   
   .order-details-modal .modal-content {
-    background-color: #2b2b2b; 
+    background-color: #fbf0df; 
     width: 80%;
     max-width: 950px;
     padding: 20px;
@@ -27,18 +27,18 @@
   .order-details-modal .close {
     cursor: pointer;
     font-size: 28px;
-    color: #ff8500;
+    color: #334d66;
     float: right;
     transition: color 0.3s ease;
   }
   
   .order-details-modal .close:hover {
-    color: #ffa733;
+    color: #5383af;
   }
   
   .order-details-modal h1,
   .order-details-modal .order-info {
-    color: #d5dbbd;
+    color: #334d66;
     text-align: left;
     margin: 5px 0;
   }
@@ -56,49 +56,42 @@
   }
   
   .order-details-modal th {
-    background-color: #333333; 
-    color: #ff8500; 
+    background-color: #c0613d ; 
+    color: #fff8ec; 
     font-weight: bold;
   }
 
   .order-details-modal td {
-    color: #e0e0e0;
+    color: #334d66;
   }
   
   
   
   .order-details-modal tr:nth-child(even) {
-    background-color: #3a3a3a; 
+    background-color: #fff8ec; 
   }
   
   .order-details-modal tr:hover {
-    background-color: #444444; 
-  }
-  
-  .order-details-modal .status {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-    color: #f0f0f0;
+    background-color: #fff8ec; 
   }
   
   .order-details-modal .total {
     margin-top: 20px;
     text-align: right;
     font-size: 18px;
-    color: #f0f0f0;
+    color: #334d66;
   }
     
   .order-details-modal .amount-paid {
     margin-top: 20px;
     text-align: right;
     font-size: 18px;
-    color: #f0f0f0;
+    color: #334d66;
   }
   .order-details-modal .remaining-balance {
     margin-top: 20px;
     text-align: right;
     font-size: 18px;
-    color: #f0f0f0;
+    color: #334d66;
   }
   

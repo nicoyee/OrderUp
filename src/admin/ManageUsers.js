@@ -4,6 +4,7 @@ import '../css/Admin/ManageUsers.css';
 import { UserType } from '../constants';
 import Admin from '../class/admin/Admin';
 import OrderDetailsModal from './OrderDetailsModal';
+import AuthController from '../class/controllers/AuthController';
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
     const [staffModalIsOpen, setStaffModalIsOpen] = useState(false);
@@ -65,7 +66,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password) => {
         try {
-            await Admin.signUpStaff(name, email, password, UserType.STAFF);
+            await AuthController.signUp(name, email, password, UserType.STAFF);
             console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);
         } catch (error) {

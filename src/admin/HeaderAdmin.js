@@ -45,25 +45,12 @@ const HeaderAdmin = ({ user }) => {
       <div className="headerDashboardRight">
         <div className="profileHeader" onClick={toggleProfileContext}>
           <h2>{user.email}</h2>
-          <img src={user.profilePicture} alt="Profile" />
-
           {profileContext && (
             <div className="profileContext">
-              <div
-                className="profileContextSelection"
-                onClick={() => handleAdminProfile(user)}
-              >
-                <span className="material-symbols-outlined">person</span>
-                Profile
-              </div>
-              <div className="profileContextSelection">
-                <span className="material-symbols-outlined">settings</span>
-                Settings
-              </div>
               <div className="profileContextSelection" onClick={handleSignOut}>
                 <span
                   className="material-symbols-outlined"
-                  style={{ color: "#f05006" }}
+                  style={{ color: "#c0963d" }}
                 >
                   logout
                 </span>
