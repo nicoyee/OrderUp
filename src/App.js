@@ -9,7 +9,6 @@ import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
-import StaffProfile from "./staff/StaffProfile.js";
 import { UserType } from "./constants";
 import { Toaster } from "react-hot-toast";
 import { FService } from "./class/controllers/FirebaseService.ts";
@@ -119,16 +118,16 @@ function App() {
             element={<PrivateRoute element={<Checkout />} requiredUserType="customer" />}
           />
           {user && user.userType === "admin" && (
-            <Route path={`/profile/:username`} element={<AdminProfile />} />
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}
+            />
           )}
           {user && user.userType === "staff" && (
-            <Route path={`/profile/:username`} element={<StaffProfile />} />
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}            />
           )}
           {user && user.userType === "customer" && (
             <Route
               path={`/profile/:username`}
-              element={<CustomerProfile />}
-            />
+              element={<Navigate to="/dashboard" />} />
           )}
         </Routes>
       </BrowserRouter>

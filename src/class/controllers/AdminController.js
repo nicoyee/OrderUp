@@ -35,12 +35,8 @@ class AdminController{
 
     static async addStaff(name, email, password, userType) {
         try {
-            const firebase = FService();
-
             // Create the user account with email and password
-            const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);
-
-            // Access the created user object
+            const userCredential = await createUserWithEmailAndPassword(FService.auth, email, password);
             const user = userCredential.user;
 
             // Update the user profile with the provided name
@@ -48,8 +44,8 @@ class AdminController{
                 displayName: name
             });
 
-            // Save user information including userType in Firestore
-            await setDoc(doc(firebase.db, 'users', user.uid), {
+            // Save user information in Firestore
+            await setDoc(doc(FService.db, 'users', user.uid), {
                 name,
                 email,
                 userType: 'staff',

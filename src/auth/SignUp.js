@@ -1,8 +1,7 @@
 import '../css/common/modals.css';
 import './authForm.css';
-
 import React, { useState } from 'react';
-
+import Admin from '../class/admin/Admin';
 import { userInstance } from '../class/User';
 import { UserType } from '../constants';
 import AuthController from '../class/controllers/AuthController';
@@ -23,11 +22,17 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
     const signUp = async (e) => {
         e.preventDefault();
 
-        try{
-            await AuthController.signUp(name, email, password, UserType.CUSTOMER);
-        } catch(error){
+        try {
+            if (isStaffSignUp) {
+                // Assuming you have access to the Admin class methods
+                await Admin.signUpStaff(name, email, password, UserType.STAFF);
+            } else {
+                await AuthController.signUp(name, email, password, UserType.CUSTOMER);
+            }
+            // Handle successful sign-up (e.g., show a success message, close modal, etc.)
+        } catch (error) {
             setSignInError(true);
-            setErrorMessage('Email already exist');
+            setErrorMessage(error.message || 'An error occurred during sign-up');
         }
     };
 
