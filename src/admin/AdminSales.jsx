@@ -3,7 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import AdminSalesController from '../class/controllers/AdminSalesController';
-import CartController from '../class/controllers/CartController'; // Ensure to import CartController for best sellers
+import CartController from '../class/controllers/CartController';
 import '../css/Admin/AdminSales.css';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
 
@@ -13,6 +13,7 @@ Chart.register(...registerables);
 const AdminSales = ({ show, handleClose, userEmail }) => {
     const [bestSellers, setBestSellers] = useState([]);
     const [salesData, setSalesData] = useState([]);
+    const [filteredSalesData, setFilteredSalesData] = useState([]);
     const [bestSellersChartData, setBestSellersChartData] = useState({});
     const [salesChartData, setSalesChartData] = useState({});
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Default to current month
@@ -28,13 +29,14 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
         return color;
     };
 
+    // Placeholder chart data when there's no sales data
     const emptyChartData = {
-        labels: ['No Data'],  // Placeholder label when there's no data
+        labels: ['No Data'],
         datasets: [
             {
                 label: 'Number of Sales',
-                data: [0],  // Empty data set
-                backgroundColor: ['rgba(0, 0, 0, 0.1)'],  // Transparent or light color
+                data: [0],
+                backgroundColor: ['rgba(0, 0, 0, 0.1)'],
                 borderColor: ['rgba(0, 0, 0, 0.1)'],
                 borderWidth: 1,
             },
@@ -69,38 +71,25 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
         }
     };
 
-    // Fetch sales data using getSales from AdminSalesController
+    // Fetch sales data with year/month filtering
     const fetchSalesData = async () => {
         try {
-            // Pass selectedMonth and selectedYear to filter data
-            const salesData = await AdminSalesController.getSales(userEmail, selectedMonth, selectedYear);
-            
-            // Prepare default empty data structure for the chart
-            const emptyChartData = {
-                labels: ['No Data'],  // Placeholder label when there's no data
-                datasets: [
-                    {
-                        label: 'Number of Sales',
-                        data: [0],  // Empty data set
-                        backgroundColor: ['rgba(0, 0, 0, 0.1)'],  // Transparent or light color
-                        borderColor: ['rgba(0, 0, 0, 0.1)'],
-                        borderWidth: 1,
-                    },
-                ],
-            };
-
-            // Check if salesData is empty and set the empty chart data
+            const salesData = await AdminSalesController.getSalesByYearAndMonth(userEmail, selectedYear, selectedMonth);
+            console.log('Fetched Sales Data:', salesData); // Log the sales data
+    
+            // Sort the sales data by count in descending order
+            salesData.sort((a, b) => b.count - a.count);
+    
+            setSalesData(salesData); // Store fetched sales data
+    
+            // Prepare data for sales chart
             if (salesData.length === 0) {
-                setSalesData([]);  // No sales data available
-                setSalesChartData(emptyChartData);  // Display empty chart
+                setSalesChartData(emptyChartData); // Display empty chart
             } else {
-                setSalesData(salesData);
-
-                // Prepare data for sales chart
-                const dishNames = salesData.map(dish => dish.name);
+                const dishNames = salesData.map(dish => dish.dishName);
                 const dishCounts = salesData.map(dish => dish.count);
                 const dishColors = salesData.map(() => generateRandomColor());
-
+    
                 setSalesChartData({
                     labels: dishNames,
                     datasets: [
@@ -116,7 +105,7 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
             }
         } catch (error) {
             console.error('Error fetching sales data:', error);
-            setSalesChartData(emptyChartData);  // Display empty chart on error
+            setSalesChartData(emptyChartData); // Display empty chart on error
         }
     };
 
@@ -124,10 +113,10 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
     useEffect(() => {
         if (show) {
             fetchBestSellers();
-            fetchSalesData();  // Fetch sales data whenever the modal is shown or month/year changes
+            fetchSalesData();  // Fetch sales data whenever the modal is shown or when month/year changes
         }
     }, [show, userEmail, selectedMonth, selectedYear]);
-
+    
     // Handle month change
     const handleMonthChange = (e) => {
         setSelectedMonth(Number(e.target.value));
@@ -158,7 +147,7 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
                 </Button>
             </Modal.Header>
             <Modal.Body>
-                <Form className="mb-4"> {/* Removed 'inline' */}
+                <Form className="mb-4">
                     <Form.Group controlId="formBasicEmail" className="mr-2">
                         <Form.Label className="mr-2">Month:</Form.Label>
                         <Form.Control as="select" value={selectedMonth} onChange={handleMonthChange}>
@@ -250,7 +239,7 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
                         />
                     </div>
                 ) : (
-                    <p>No sales data available for the selected month.</p> // Updated message
+                    <p>No sales data available for the selected month.</p>
                 )}
             </Modal.Body>
             <Modal.Footer>
