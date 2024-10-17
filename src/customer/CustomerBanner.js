@@ -3,6 +3,8 @@ import './css/CustomerBanner.css';
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';
 
+import Bestsellers from "./CustomerBestsellers";
+
 import landingpic from '../assets/landing.jpg';
 
 const CustomerBanner = () => {

@@ -15,10 +15,11 @@
 }
 
 .dashboardContainer .sectionHeader {
-    margin: 10px 0;
-    color: var(--c01);
+    margin: 40px 0;
+    color: var(--bgc02);
     font-size: 2.5rem;
     font-family: 'Abril Fatface';
+    font-weight: 900;
     letter-spacing: 1px;
     text-align: center;
 }

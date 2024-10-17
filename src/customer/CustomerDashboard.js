@@ -20,6 +20,20 @@ import Menu from "./CustomerMenu";
 const CustomerDashboard = () => {
   
   const user = useContext(UserContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    if (queryParams.get('status') === 'success') {
+      alert('Payment successful! Welcome back to your dashboard.');
+    } else if (queryParams.get('status') === 'cancel') {
+      alert('Payment was canceled. You have been redirected to your dashboard.');
+    }
+  }, [location.search]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='dashboardContainer'>
