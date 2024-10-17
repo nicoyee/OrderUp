@@ -58,7 +58,7 @@ const HeaderCustomer = ({ user }) => {
             width="24"
             height="24"
             xmlns="http://www.w3.org/2000/svg"
-            fill="white"
+            fill="#c0963d"
           >
             <path d="M3 3h2.554l3.954 12h9.492l3.954-9H6.775" />
             <circle cx="9" cy="19" r="2" />
@@ -79,10 +79,6 @@ const HeaderCustomer = ({ user }) => {
               >
                 <span className="material-symbols-outlined">person</span>
                 Profile
-              </div>
-              <div className="profileContextSelection">
-                <span className="material-symbols-outlined">settings</span>
-                Settings
               </div>
               <div className="profileContextSelection" onClick={handleSignOut}>
                 <span
