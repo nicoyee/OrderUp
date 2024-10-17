@@ -1,38 +1,68 @@
 #customerBanner {
-    padding: 15px 20px;
     width: 100%;
+    padding: 30px;
     display: flex;
+    gap: 20px;
+    background-color: var(--bgc02);
+}
+
+#customerBanner .customerBanner-image, #customerBanner .customerBanner-caption {
+    flex-basis: 50%;
+}
+
+#customerBanner .customerBanner-image {
+    padding: 10px;
+}
+
+#customerBanner .customerBanner-image img {
+    border-radius: 17px;
+    width: 100%;
+}
+
+#customerBanner .customerBanner-caption {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    background-color: #c0963d;
-    border-radius: 10px;
-
-    background-image: radial-gradient(rgba(12, 12, 12, 0.171) 2px, transparent 0);
-    background-size: 30px 30px;
-    background-position: -5px -5px;
-    
+    justify-content: center;
+    gap: 50px;
+    text-align: center;
 }
 
-#customerBanner h1 {
-    color: #FBF0DF;
-    font-family: 'Inter';
-    font-size: 22px;
-    font-weight: 900;
-}
-
-#customerBanner .customerBanner-right {
-    display: flex;
-    gap: 15px;
-}
-
-#customerBanner .customerBanner-right button {
-    color: #FBF0DF;
-    font-family: 'Inter';
-    font-size: 14px;
+#customerBanner .customerBanner-caption h1 {
+    color: var(--c02);
+    font-family: 'Abril Fatface';
     text-transform: uppercase;
+    font-size: 4vw;
+    line-height: 1;
+    letter-spacing: 5px;
+    font-weight: 400;
 }
 
-#customerBanner .customerBanner-right button:hover {
-    cursor: pointer;
+#customerBanner .customerBanner-caption-buttons {
+    display: flex;
+    gap: 50px;
+}
+
+#customerBanner .customerBanner-caption-buttons a {
+    color: var(--bgc00);
+    font-family: 'Inter';
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+#customerBanner .customerBanner-caption-buttons a:hover {
+    color: var(--c02);
     text-decoration: underline;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    #customerBanner {
+        flex-direction: column;
+    }
+
 }

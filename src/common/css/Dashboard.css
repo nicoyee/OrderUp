@@ -1,13 +1,23 @@
 .dashboardContainer {
     width: 100%;
     height: 100dvh;
-    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.dashboardContainer .sectionContainer {
+    width: 100%;
+    max-width: 80rem !important;
+    padding: 0 1rem;
+    border: 5px solid yellow;
 }
 
 .dashboardContainer .sectionHeader {
     margin: 10px 0;
-    color: #334d66;
-    font-size: 3rem;
+    color: var(--c01);
+    font-size: 2.5rem;
     font-family: 'Abril Fatface';
     letter-spacing: 1px;
     text-align: center;
