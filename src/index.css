@@ -1,3 +1,13 @@
+:root {
+  --bgc00: #fbf0df;
+  --bgc01: #fff8ec;
+  --bgc02: #151515;
+
+  --c01: #334d66;
+  --c02: #c0963d;
+  --c03: #c3c6ce;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,20 +21,7 @@ html {
 }
 
 body {
-  background-color: #252525;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  z-index: -1;                                                                                                                                                                                                                                                                                                                                
-  background-image: url("./assets/noise.png");
-  opacity: 0.1;
+  background-color: var(--bgc00);
 }
 
 .material-symbols-outlined {
@@ -70,7 +67,7 @@ button {
   width: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #f1f1f1;
+  background: black;
   border-radius: 20px;
 }
 ::-webkit-scrollbar-track {

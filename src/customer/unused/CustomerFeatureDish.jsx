@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Customer from '../class/Customer.ts';
+import Customer from '../../class/Customer.ts';
 import '../css/CustomerFeatureDish.css';
 
 const CustomerFeatureDish = () => {

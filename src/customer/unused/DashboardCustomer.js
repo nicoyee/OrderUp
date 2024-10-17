@@ -1,12 +1,12 @@
 
-import '../css/DashboardCard.css';
+import './css/DashboardCustomer.css';
 
 import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 import { useLocation } from 'react-router-dom'; // For accessing the URL
 
-import HeaderCustomer from './CustomerHeader';
-import CustomerMenu from './CustomerMenu';
+import HeaderCustomer from '../HeaderCustomer';
+import CustomerMenu from '../CustomerMenu';
 import CustomerFeatureDish from './CustomerFeatureDish';
 
 const DashboardCustomer = () => {

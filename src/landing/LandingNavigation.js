@@ -6,9 +6,9 @@ import Modal from 'react-modal';
 
 import MenuButton from './MenuButton';
 import EventsButton from './EventsButton';
-import LogIn from '../../auth/LogIn';
-import SignUp from '../../auth/SignUp';
-import ForgotPassword from '../../auth/ForgotPassword';
+import LogIn from '../auth/LogIn';
+import SignUp from '../auth/SignUp';
+import ForgotPassword from '../auth/ForgotPassword';
 
 const LandingNavigation = ({ setLandingContent }) => {
   
