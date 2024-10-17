@@ -18,7 +18,7 @@
     font-family: "Kare";
     font-size: 250%;
     letter-spacing: 2px;
-    color: #f05006;
+    color: #c0963d;
     user-select: none;
 }
 
@@ -38,7 +38,6 @@
 }
 
 #socialsLanding li a {
-    
     position: relative;
     overflow: hidden;
     display: flex;
@@ -47,10 +46,10 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    color: #252525;
-    background-color: #d5dbbd;
+    background-color: #334d66;
     transition: transform 0.2s ease;
     cursor: pointer;
+    fill: white;
 }
 
 #socialsLanding li a:hover {
@@ -64,6 +63,7 @@
 }
 
 #socialsLanding li .tooltip {
+    color: white;
     font-family: "Inter";
     position: absolute;
     bottom: -30px;
@@ -76,7 +76,7 @@
     visibility: hidden;
     user-select: none;
     border-radius: 5px;
-    background-color: #f05006;
+    background-color: #c0963d;
     transition: all 0.3s ease;
 }
 
@@ -89,7 +89,7 @@
   top: -0.3em;
   left: 50%;
   transform: translate(-50%) rotate(45deg);
-  background-color: #f05006;
+  background-color: #c0963d;
 }
 
 #socialsLanding li:hover .tooltip {

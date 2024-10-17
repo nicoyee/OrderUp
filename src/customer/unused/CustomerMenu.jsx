@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Customer from '../class/Customer.ts';
+import Customer from '../../class/Customer.ts';
 import '../css/CustomerMenu.css';
 
 const ITEMS_PER_PAGE = 6;
