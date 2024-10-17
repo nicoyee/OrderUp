@@ -6,27 +6,30 @@
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
   color: #d5dbbd;
+  background-color: #fbf0df;
 }
 
 .customer-profile .modal-content {
-  background-color: #2a2a2a;
+  background-color: #fbf0df;
   padding: 20px;
   border-radius: 10px;
-  color: #d5dbbd;
+  color: #334d66;
   width: 800px;
   position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
 }
 
 .customer-profile .back-icon {
-  color: #ff5500;
-  position: relative;
-  right: 80px;
+  color: #c0613d ;
+  position: relative; 
+  right: 380px;
+  bottom: 20px;
   cursor: pointer;
 }
 
 .customer-profile .profile-grid {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   width: 100%;
   height: auto;
@@ -36,18 +39,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2c2c2c;
+  background-color: #fbf0df;
   padding: 20px;
   border-radius: 8px;
-  height: 500px;
-}
-
-.customer-profile .left-grid img.profile-picture {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 3px solid #ff5500;
-  margin-bottom: 15px;
 }
 
 .customer-profile .left-grid h3,
@@ -56,21 +50,18 @@
 }
 
 .customer-profile .right-grid {
-  background-color: #2a2a2a;
-  padding: 20px ;
+  background-color:#fff8ec;
+  padding: 20px;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  max-height: 500px;
 }
 
 .customer-profile .right-grid .customer-table-history {
-  background-color: #2a2a2a;
+  background-color: #fff8ec;
   border-radius: 8px;
   overflow-y: scroll;
-  width: 500px;
+  width: 720px;
   margin: 20px 0;
+  box-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .customer-profile .customer-table-history table {
@@ -87,20 +78,20 @@
 }
 
 .customer-profile .customer-table-history th {
-  background-color: #ff5500;
-  color: #e0e0e0;
+  background-color: #c0613d ;
+  color: #fff8ec;
   position: sticky;
 }
 
 .customer-profile .customer-table-history tbody {
-  color:  #e0e0e0;
+  color:  #334d66;
 }
 
 .customer-profile .customer-table-history tr:nth-child(even) {
-  background-color: #3a3a3a; 
+  background-color: #fbf0df; 
 }
 .customer-profile .customer-table-history tr:hover {
-  background-color: #444444; 
+  background-color: #fbf0df; 
 }
 
 .customer-profile .remaining-balance-container {
@@ -109,20 +100,20 @@
 }
 
 .customer-profile .remaining-balance-button {
-  background-color: #ff5500;
-  color: #fff;
+  background-color: #334d66;
+  color: #fff8ec;
   border: none;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .customer-profile .remaining-balance-button:hover {
-  background-color: #e44d00;
+  background-color: #5383af;
 }
 
 
 .customer-profile button {
-  background-color: #ff5500;
+  background-color: #c0613d;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -132,7 +123,7 @@
 }
 
 .customer-profile button:hover {
-  background-color: #e44d00;
+  background-color: #c0963d;
 }
 
 .customer-profile .user-order-details-modal,
@@ -145,14 +136,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #d5dbbd;
+  color: #fff8ec;
   background-color: rgba(0, 0, 0, 0.6);
   animation: fadeIn 0.3s ease-in-out;
   z-index: 1000;
 }
 
 .customer-profile .user-order-details-modal .modal-content {
-  background-color: #2a2a2a;
+  background-color: #fbf0df;
   width: 80%;
   max-width: 950px;
   padding: 20px;
@@ -174,15 +165,15 @@
 }
 
 .customer-profile .user-order-details-modal th {
-  background-color: #333333;
-  color: #ff8500;
+  background-color: #c0613d ;
+  color: #fff8ec;
   font-weight: bold;
   position: sticky;
   top: 0;
 }
 
 .customer-profile .user-order-details-modal tbody {
-  color: #e0e0e0;
+  color: #334d66;
 }
 
 .customer-profile .user-order-details-modal .total {
@@ -193,10 +184,10 @@
 }
 
 .customer-profile .user-order-details-modal tr:nth-child(even) {
-  background-color: #3a3a3a; 
+  background-color: #fff8ec; 
 }
 .customer-profile .user-order-details-modal tr:hover {
-  background-color: #444444; 
+  background-color: #fff8ec; 
 }
 
 .customer-profile .user-order-details-modal .cancel-order-button {
@@ -223,8 +214,8 @@
 }
 
 .check-remaining-balance-table th {
-  background-color: #333333;
-  color: #ff8500;
+  background-color: #334d66;
+  color: #fff8ec;
   font-weight: bold;
 }
 

@@ -195,7 +195,6 @@ const CustomerProfile = () => {
             >
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            <img src={user.profilePicture} className="profile-picture" alt="avatar" />
             <h3>{user.name}</h3>
             <h4>{user.email}</h4>
           </div>

@@ -53,6 +53,7 @@
     border: none;
     border-radius: 30px;
     width: 170px;
+    z-index: 9999;
 }
 
 .profileContextSelection {
@@ -66,7 +67,6 @@
     color: #fff8ec;
     cursor: pointer;
     /* border: 1px solid #3F3F40; */
-    z-index: 50;    
 }
 
 .profileContextSelection:hover {
@@ -79,6 +79,7 @@
     filter: blur(1px);
     transform: scale(0.90,0.90);
     border: 1px solid #252525;
+    
 }
 
 @media only screen and (max-width: 768px) {
