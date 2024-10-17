@@ -291,6 +291,17 @@ color: #334d66;
   background-color: #0056b3;
 }
 
+
+.banned-label {
+  color: red;
+  font-weight: bold;
+
+}
+
+.manage-users-modal table th:nth-child(4),
+.manage-users-modal table td:nth-child(4) {
+    text-align: center;
+}
 /* Responsive Styles */
 @media (max-width: 768px) {
   .order-history-modal .modal-content {
@@ -311,8 +322,6 @@ color: #334d66;
       padding: 6px 10px;
   }
 }
-
-
 
 /* Keyframes for fade-in animation */
 @keyframes fadeIn {

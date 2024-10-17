@@ -14,21 +14,23 @@ const MenuAdmin = ({ dishes, setDishes }) => {
 
   useEffect(() => {
     const fetchDishes = async () => {
-      try {
-        const dishesData = await Admin.getDishes().then((res) => {
-          return res?.docs?.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-        });
-        setDishes(dishesData);
-      } catch (error) {
-        console.error('Error fetching dishes:', error);
-      }
+        try {
+            const dishesData = await Admin.getDishes().then((res) => {
+                return res?.docs
+                    ?.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }))
+                    .filter(dish => !dish.deleted);
+            });
+            setDishes(dishesData);
+        } catch (error) {
+            console.error('Error fetching dishes:', error);
+        }
     };
 
     fetchDishes();
-  }, [setDishes]);
+}, [setDishes]);
 
   // Group dishes by category (menuType)
   const categorizedDishes = dishes?.reduce((categories, dish) => {
