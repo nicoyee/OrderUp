@@ -1,11 +1,9 @@
 /* BalanceTable.css */
 .balanceTableContainer {
-    padding: 20px;
+    padding: 10px;
     background-color: #fbf0df;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-    margin: 20px 0;
-    width: 850px;
     font-family: "Roboto", sans-serif;
 }
 
@@ -16,7 +14,6 @@
 }
 
 .tableWrapper {
-    max-height: 250px; 
     overflow-y: auto; 
     border: 1px solid #444; 
     border-radius: 8px; 
