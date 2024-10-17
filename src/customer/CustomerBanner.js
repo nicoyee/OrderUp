@@ -23,15 +23,9 @@ const CustomerBanner = () => {
 
         <div className='customerBanner-caption-buttons'>
 
-          <a>
-            Our Events
-          </a>
-
           <a href='#customerMenu'>
             Our Menu
-          </a>
-
-          
+          </a>  
 
         </div>
       </div>
