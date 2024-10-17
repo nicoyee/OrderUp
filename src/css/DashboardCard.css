@@ -1,3 +1,4 @@
+/*
 .dashboardContainer {
     width: 100%;
     display: flex;
@@ -81,10 +82,12 @@
 
 .dashboardCardIcons {
     display: flex;
-    justify-content: center; /* Center icons horizontally */
+    justify-content: center;
     align-items: center;
     overflow: hidden;
 }
+
+
 
 .dashboardCardBtn {
     position: relative;
@@ -145,3 +148,5 @@
         width: 90%;
     }
 }
+
+*/

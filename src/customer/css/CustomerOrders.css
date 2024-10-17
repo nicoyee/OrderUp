@@ -1,0 +1,22 @@
+#customerOrders {
+    
+}
+
+#customerOrders .customerOrders-preview {
+    display: flex;
+}
+
+#customerOrders .customerOrders-preview .customerOrders-previewCard {
+    width: 15rem;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+#customerOrders .customerOrders-preview .customerOrders-previewCard h2 {
+    color: black;
+    font-family: 'Inter';
+    font-size: 1rem;
+    font-weight: 500;
+}

@@ -1,16 +1,18 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 
-import Landing from "./pages/landing/Landing";
+import Landing from "./landing/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
-import DashboardCustomer from "./customer/DashboardCustomer";
+import DashboardCustomer from "./customer/CustomerDashboard";
 import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
 import { UserType } from "./constants";
-import { Toaster } from "react-hot-toast";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
@@ -85,7 +87,7 @@ function App() {
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
-        <Toaster />
+        <ToastContainer />
         <Routes>
           <Route
             path="/"

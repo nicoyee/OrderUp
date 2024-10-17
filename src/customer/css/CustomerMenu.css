@@ -1,0 +1,220 @@
+#customerMenu {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#customerMenu .customerMenu-categories {
+    width: 100%;
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    background-color: var(--bgc00);
+    z-index: 99;
+}
+
+#customerMenu .customerMenu-categories-container {
+    padding: 0 5px;
+    width: 100%;
+    max-width: 80rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#customerMenu .customerMenu-categories button {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    border-bottom: 1px solid #c3c6ce;
+    transition: all 0.1s ease;
+}
+
+#customerMenu .customerMenu-categories button h1 {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter';
+}
+
+#customerMenu .customerMenu-categories button span svg {
+    height: 16px;
+    width: 16px;
+    color: #c0963d;
+}
+
+#customerMenu .customerMenu-categories button:hover {
+    padding: 10px;
+    border-bottom: 3px solid #c3c6ce;
+    background-color: #fff8ec;
+}
+
+#customerMenu .customerMenu-categories .active {
+    pointer-events: none;
+    border-bottom: 3px solid #c0963d;
+}
+
+#customerMenu .customerMenu-container {
+    width: 100%;
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bgc01);
+}
+
+#customerMenu .customerMenu-content {
+    padding-bottom: 30px;
+    width: 100%;
+    max-width: 80rem;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#customerMenu .customerMenu-item {
+    width: 250px;
+    max-width: 250px;
+    height: 100%;
+    padding: 15px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    border-radius: 15px;
+    transition: all 0.3s;
+
+}
+
+#customerMenu .customerMenu-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 2px 15px rgba(46, 229, 157, 0.3);
+}
+
+#customerMenu .customerMenu-itemMain {
+    position: relative;
+    height: auto;
+    flex-shrink: 0;
+}
+
+#customerMenu .customerMenu-itemMain span {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+#customerMenu .customerMenu-itemMain:hover span {
+    
+}
+
+#customerMenu .customerMenu-itemMain span button {
+    width: 0;
+    height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, .5);
+    transition: all .3s ease;
+}
+
+#customerMenu .customerMenu-itemMain:hover span button {
+    width: 40px;
+    height: 40px;
+}
+
+#customerMenu .customerMenu-itemMain span button:hover {
+    cursor: pointer;
+    background-color: rgb(255, 65, 65);
+}
+
+#customerMenu .customerMenu-itemMain span button svg {
+    fill: #000;
+    width: 18px;
+    height: 18px;
+}
+
+#customerMenu .customerMenu-itemMain span button:hover svg {
+    fill: #fff;
+}
+
+#customerMenu .customerMenu-itemMain img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+#customerMenu .customerMenu-itemSub {
+    height: 55px;
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+
+}
+
+#customerMenu .customerMenu-itemSub-description {
+    width: 70%;
+    overflow: hidden;
+}
+
+#customerMenu .customerMenu-itemSub-description h2 {
+    color: #252525;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 900;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+
+#customerMenu .customerMenu-itemSub-description p {
+    color: #334d66;
+    font-family: 'Inter';
+    font-size: 12px;
+    font-style: italic;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#customerMenu .customerMenu-itemSub-price {
+    width: 30%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+#customerMenu .customerMenu-itemSub-price h3 {
+    color: #c0963d;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 900;
+}
+
+@media only screen and (max-width: 768px) {
+    #customerMenu .customerMenu-categories button h1 {
+        display: none;
+    }
+
+    #customerMenu .customerMenu-bestsellers {
+        display: none;
+    }
+}
