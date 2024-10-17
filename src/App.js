@@ -6,7 +6,8 @@ import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";
 import DashboardAdmin from "./admin/DashboardAdmin";
-import DashboardCustomer from "./customer/CustomerDashboard.js";
+import DashboardCustomer from "./customer/CustomerDashboard";
+import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
@@ -15,6 +16,7 @@ import { UserType } from "./constants";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
+
 
 export const UserContext = createContext(null);
 
@@ -97,6 +99,8 @@ function App() {
               isLoggedIn ? (
                 user?.userType === "admin" ? (
                   <DashboardAdmin />
+                ) : user?.userType === "staff" ? (
+                  <DashboardStaff/>
                 ) : user?.userType === "customer" ? (
                   <DashboardCustomer />
                 ) : (
@@ -116,7 +120,11 @@ function App() {
             element={<PrivateRoute element={<Checkout />} requiredUserType="customer" />}
           />
           {user && user.userType === "admin" && (
-            <Route path={`/profile/:username`} element={<AdminProfile />} />
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}
+            />
+          )}
+          {user && user.userType === "staff" && (
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}            />
           )}
           {user && user.userType === "customer" && (
             <Route

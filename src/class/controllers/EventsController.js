@@ -1,5 +1,5 @@
 import { FService } from "./FirebaseService.ts";
-
+import { doc, setDoc } from "firebase/firestore";
 class EventsController {
     static async create(eventName, description, location, status, date, socialLink, photo) {
         try {
@@ -30,13 +30,16 @@ class EventsController {
     static async fetch() {
         try {
             const querySnapshot = await FService.getDocuments('events');
-            const events = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const events = querySnapshot.docs
+                .map(doc => ({ id: doc.id, ...doc.data() }))
+                .filter(event => !event.deleted);
             return events;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
         }
     }
+    
 
     static async update(eventId, eventData) {
         try {
@@ -62,14 +65,17 @@ class EventsController {
 
     static async delete(eventId) {
         try {
-            // Delete event document from Firestore
-            await FService.deleteDocument('events', eventId);
-            console.log('Event deleted successfully');
+            await setDoc(doc(FService.db, 'events', eventId), {
+                deleted: true
+            }, { merge: true });
+    
+            console.log('Event marked as deleted successfully');
         } catch (error) {
-            console.error('Error deleting event:', error);
+            console.error('Error marking event as deleted:', error);
             throw error;
         }
     }
+    
 }
 
 export default EventsController;

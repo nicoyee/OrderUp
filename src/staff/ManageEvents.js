@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
 import '../css/Admin/ManageEvents.css';
-import Admin from '../class/admin/Admin';
+import Staff from '../class/admin/Staff';
 
 const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     const [events, setEvents] = useState([]);
@@ -22,21 +21,18 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const eventsData = await Admin.fetchEvents();
+                const eventsData = await Staff.fetchEvents();
                 if (Array.isArray(eventsData)) {
-                    // Filter out events that are marked as deleted
-                    const activeEvents = eventsData.filter(event => !event.deleted);
-                    setEvents(activeEvents);
+                    setEvents(eventsData);
                 } else {
                     console.error('Fetched events data is not an array:', eventsData);
-                    setEvents([]);
+                    setEvents([]); // Ensure events state is set to an empty array if data is not valid
                 }
             } catch (error) {
                 console.error('Error fetching events:', error);
-                setEvents([]);
+                setEvents([]); // Ensure events state is set to an empty array on error
             }
         };
-        
     
         if (modalIsOpen) {
             fetchEvents();
@@ -45,7 +41,7 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleUpdateEvent = async (updatedEvent) => {
         try {
-            await Admin.updateEvent(selectedEvent.id, updatedEvent);
+            await Staff.updateEvent(selectedEvent.id, updatedEvent);
             setEvents(events.map(event => event.id === selectedEvent.id ? updatedEvent : event));
             setEditEventModalIsOpen(false);
         } catch (error) {
@@ -53,20 +49,6 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
         }
     };
 
-    const handleDeleteEvent = async (eventId) => {
-        const isConfirmed = window.confirm('Are you sure you want to delete this event?');
-        
-        if (isConfirmed) {
-            try {
-                // If confirmed, mark the event as deleted
-                await Admin.deleteEvent(eventId);
-                setEvents(events.filter(event => event.id !== eventId)); // Optionally remove it from the UI
-            } catch (error) {
-                console.error('Error marking event as deleted:', error);
-            }
-        }
-    };
-    
 
     return (
         <>
@@ -106,7 +88,6 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                             <td>
                                                 <div className='button-container'>
                                                 <button className="edit-event-button" onClick={() => handleOpenEditEventModal(event)}>Edit</button>
-                                                <button className="delete-event-button" onClick={() => handleDeleteEvent(event.id)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -114,19 +95,12 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="button-container">
-                            <button className="create-event-button" onClick={() => setCreateEventModalIsOpen(true)}>Create Event</button>
-                        </div>
                     </div>
                 </div>
             )}
 
             {editEventModalIsOpen && (
                 <EditEvent event={selectedEvent} onUpdateEvent={handleUpdateEvent} onCancel={handleCloseEditEventModal} />
-            )}
-
-            {createEventModalIsOpen && (
-                <CreateEvent setEvents={setEvents} modalIsOpen={createEventModalIsOpen} setModalIsOpen={setCreateEventModalIsOpen} />
             )}
         </>
     );

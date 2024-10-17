@@ -67,6 +67,14 @@
     border: 1px solid black;
 }
 
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
 @keyframes fadeInForm {
     from {
         margin-bottom: 50px;

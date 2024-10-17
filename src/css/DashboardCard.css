@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    background-color: #fbf0df;
 }
 
 .dashboardContent {
@@ -27,8 +28,7 @@
     max-width: 500px; 
     height: 250px; 
     border-radius: 8px;
-    border: 1px solid #252525;
-    background: rgba(105, 13, 197, 0.103);
+    background: #334d66;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -37,7 +37,7 @@
 }
 
 .cardAdmin {
-    background-color: #e20041;
+    background-color: #334d66;
 }
 
 .dashboardCard::before {
@@ -58,7 +58,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    color: white;
+    color: #c0963d;
     font-family: "Open Sans", sans-serif;
     font-weight: 900;
     font-size: 1.5em;
@@ -68,11 +68,11 @@
 .dashboardCardSubtitle {
     font-size: 1em;
     font-weight: 300;
-    color: #d5dbbd;
+    color: #fff8ec;
 }
 
 .dashboardCardName {
-    color: #f05006;
+    color: #c0963d;
     font-weight: 600;
 }
 
@@ -93,7 +93,7 @@
     position: relative;
     width: 1000%;
     height: 40px;
-    background-color: #252525;
+    background-color: #657e99;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +101,7 @@
     font-size: 16px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
-    color: #d5dbbd;
+    color: #fff8ec;
     box-sizing: border-box;
 }
 
@@ -122,7 +122,7 @@
 }
 
 .dashboardCardBtn:hover {
-    background-color: #4b4b4b;
+    background-color: #c5a256;
 }
 
 .dashboardCard:hover::before {

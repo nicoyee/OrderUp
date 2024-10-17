@@ -80,11 +80,8 @@ class OrderController {
         }
       }
       
-      // Generate a unique reference number (simulating the method)
-      static generateReferenceNumber() {
-        return Math.random().toString(36).substr(2, 9).toUpperCase();
-      }
-            static async viewHistory(userEmail) {
+
+     static async viewHistory(userEmail) {
                 try {
                     const ordersCollectionPath = `Orders/${userEmail}/orders`;
                     const querySnapshot = await FService.getDocuments(ordersCollectionPath);
@@ -386,4 +383,4 @@ class OrderController {
             }
         }
 
-    export default OrderController;
+export default OrderController;

@@ -2,7 +2,7 @@ import '../css/common/modals.css';
 import './authForm.css';
 
 import React, { useState } from 'react';
-
+import { FService } from '../class/controllers/FirebaseService.ts';
 import AuthController from '../class/controllers/AuthController';
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
@@ -18,16 +18,22 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
 
     const signIn = async (e) => {
         e.preventDefault();
-        setLoginError(false); 
-
+        setLoginError(false);
+    
         try {
             await AuthController.logIn(email, password);
+            closeModal();
         } catch (error) {
             setLoginError(true);
-            setErrorMessage('Invalid email or password');
+            if (error.message === 'Your account has been banned.') {
+                setErrorMessage('Your account has been banned. Please contact support.');
+            } else {
+                setErrorMessage('Invalid email or password.');
+            }
         }
     };
-
+    
+ 
     return (
         <form id='authForm' className="modalForm" onSubmit={ signIn }>
             <div className='modalForm-header'>
