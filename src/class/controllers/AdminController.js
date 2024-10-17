@@ -25,8 +25,11 @@ class AdminController{
 
     static async ban(userId) {
         try {
-            await FService.deleteDocument('users', userId);
-            console.log('User banned successfully');
+            await setDoc(doc(FService.db, 'users', userId), {
+                banned: true
+            }, { merge: true }); // Use merge to update only the 'banned' field without overwriting other data
+    
+            console.log('User marked as banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
             throw error;

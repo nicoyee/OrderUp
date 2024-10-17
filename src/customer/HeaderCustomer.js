@@ -69,7 +69,6 @@ const HeaderCustomer = ({ user }) => {
         {/* User Profile Header */}
         <div className="profileHeader" onClick={toggleProfileContext}>
           <h2>{user.email}</h2>
-          <img src={user.profilePicture} alt="Profile" />
 
           {/* Profile dropdown context */}
           {profileContext && (

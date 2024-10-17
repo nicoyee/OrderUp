@@ -24,16 +24,19 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
             try {
                 const eventsData = await Admin.fetchEvents();
                 if (Array.isArray(eventsData)) {
-                    setEvents(eventsData);
+                    // Filter out events that are marked as deleted
+                    const activeEvents = eventsData.filter(event => !event.deleted);
+                    setEvents(activeEvents);
                 } else {
                     console.error('Fetched events data is not an array:', eventsData);
-                    setEvents([]); // Ensure events state is set to an empty array if data is not valid
+                    setEvents([]);
                 }
             } catch (error) {
                 console.error('Error fetching events:', error);
-                setEvents([]); // Ensure events state is set to an empty array on error
+                setEvents([]);
             }
         };
+        
     
         if (modalIsOpen) {
             fetchEvents();
@@ -51,13 +54,19 @@ const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     };
 
     const handleDeleteEvent = async (eventId) => {
-        try {
-            await Admin.deleteEvent(eventId);
-            setEvents(events.filter(event => event.id !== eventId));
-        } catch (error) {
-            console.error('Error deleting event:', error);
+        const isConfirmed = window.confirm('Are you sure you want to delete this event?');
+        
+        if (isConfirmed) {
+            try {
+                // If confirmed, mark the event as deleted
+                await Admin.deleteEvent(eventId);
+                setEvents(events.filter(event => event.id !== eventId)); // Optionally remove it from the UI
+            } catch (error) {
+                console.error('Error marking event as deleted:', error);
+            }
         }
     };
+    
 
     return (
         <>

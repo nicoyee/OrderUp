@@ -37,6 +37,11 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     };
 
     const handleBanUser = async (userId) => {
+        const isConfirmed = window.confirm("Are you sure you want to ban this user?");
+    
+        if (!isConfirmed) {
+            return; 
+        }
         try {
             await Admin.banUser(userId);
             setUsers(users.filter(user => user.id !== userId));
@@ -114,9 +119,15 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                                             <td>{user.email}</td>
                                             <td>{user.userType}</td>
                                             <td>
-                                                <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
-                                                {user.userType === UserType.CUSTOMER && (
-                                                    <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.email)}>View Order History</button>
+                                                {user.banned ? (
+                                                    <span className="banned-label">Banned</span>
+                                                ) : (
+                                                    <>
+                                                        <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
+                                                        {user.userType === UserType.CUSTOMER && (
+                                                            <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.email)}>View Order History</button>
+                                                        )}
+                                                    </>
                                                 )}
                                             </td>
                                         </tr>
