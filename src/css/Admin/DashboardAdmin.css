@@ -1,19 +1,9 @@
 .tableContainer {
-    display: flex; /* Use flexbox to align items side by side */
-    justify-content: space-between; /* Space out the tables */
-    margin: 20px 0; /* Add some margin for separation */
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 20px;
+
 }
 
-.tableContainer .balanceTableContainer,
-.tableContainer .cancellationTableContainer {
-    flex: 1; /* Allow both tables to take equal space */
-    margin-right: 10px; /* Add some margin between the two tables */
-}
-
-.tableContainer .balanceTableContainer {
-    max-width: 850px; /* Set max-width for the balance table */
-}
-
-.tableContainer .cancellationTableContainer {
-    max-width: 850px; /* Set max-width for the cancellation table */
-}
