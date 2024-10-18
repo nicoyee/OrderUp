@@ -1,7 +1,11 @@
-import "../css/DashboardCard.css";
+import "../admin/css/AdminDashboard.css";
+import "../css/Admin/DashboardAdmin.css";
+
 import React, { useState, useContext } from "react";
+
 import { UserContext } from "../App";
-import HeaderStaff from "./HeaderStaff";
+
+import HeaderStaff from "../admin/HeaderAdmin";
 import MenuStaff from "./MenuStaff";
 import OrderHistory from "./OrderHistory";
 import ManageEvents from "./ManageEvents";
@@ -16,42 +20,47 @@ const DashboardStaff = () => {
   
     return (
       <div className="dashboardContainer">
+
         <HeaderStaff user={user} />
-        <div className="dashboardContent">
-          <div className="dashboardContent-main">
-            <div className="dashboardCard">
-              <div className="dashboardCardText">
-                <span>Dashboard</span>
-                <p className="dashboardCardSubtitle">
-                  Welcome Back,{" "}
-                  <span className="dashboardCardName nameStaff">{user.name}</span>
-                </p>
-              </div>
-              <div className="dashboardCardIcons">
-                <button
-                  className="dashboardCardBtn"
-                  onClick={() => setManageEventsModalIsOpen(true)}
-                >
-                  <span className="material-symbols-outlined">event</span>
-                  Manage Events
-                </button>
-              </div>
+
+        <div id="adminDashboard">
+
+          <div className="adminDashboard-actions">
+
+            <h1 className="sectionHeader">Staff Dashboard</h1>
+
+            <div className="adminDashboard-actions-container">
+
+              <button
+                className="dashboardCardBtn"
+                onClick={() => setManageEventsModalIsOpen(true)}
+              >
+                <span className="material-symbols-outlined">event</span>
+                Manage Events
+              </button>
+
             </div>
-            <MenuStaff dishes={dishes} setDishes={setDishes} />
-            <OrderHistory />
-            {manageEventsModalIsOpen && (
-              <ManageEvents
-                modalIsOpen={manageEventsModalIsOpen}
-                setModalIsOpen={setManageEventsModalIsOpen}
-                isStaff={true}
-              />
-            )}
-            <div className="tableContainer">
+            
+          </div>
+
+          <MenuStaff dishes={dishes} setDishes={setDishes} />
+          <OrderHistory />
+
+          {manageEventsModalIsOpen && (
+            <ManageEvents
+              modalIsOpen={manageEventsModalIsOpen}
+              setModalIsOpen={setManageEventsModalIsOpen}
+              isStaff={true}
+            />
+          )}
+
+          <div className="tableContainer">
             <BalanceTable />
             <OrderCancellationRequestsStaff />
           </div>
-          </div>
+
         </div>
+  
       </div>
     );
   };

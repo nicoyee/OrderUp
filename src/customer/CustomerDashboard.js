@@ -50,8 +50,6 @@ const CustomerDashboard = () => {
 
       </div>
 
-
-
     </div>
   );
 };
