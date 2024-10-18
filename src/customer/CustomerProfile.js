@@ -2,6 +2,7 @@ import "../css/Profile.css";
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderCustomer from "./CustomerHeader";
+import Header from "./CustomerHeader";
 import { UserContext } from "../App";
 import OrderController from "../class/controllers/OrderController"; 
 import PaymentController from "../class/controllers/PaymentController";
