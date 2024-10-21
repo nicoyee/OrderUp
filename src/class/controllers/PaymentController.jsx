@@ -116,6 +116,97 @@ class PaymentController {
     }
   }
   
+  static async getPayment(paymentId) {
+    try {
+      const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
+      if (!apiKey) {
+        throw new Error("PayMongo API Key is not configured");
+      }
+
+      const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
+
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          authorization: authHeader,
+        },
+      };
+
+      const response = await fetch(`https://api.paymongo.com/v1/payments/${paymentId}`, options);
+      const responseData = await response.json();
+      console.log('PayMongo payment response:', responseData);
+
+      if (responseData && responseData.data) {
+        return responseData.data; // Return the specific payment data
+      } else {
+        throw new Error('Unexpected response format from PayMongo API');
+      }
+    } catch (error) {
+      console.error('Error retrieving payment:', error.message);
+      throw error;
+    }
+  }
+  
+  static async createRefund(paymentId, amount, reason) {
+    try {
+      const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
+      if (!apiKey) {
+        throw new Error("PayMongo API Key is not configured");
+      }
+
+      const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
+
+      const formattedAmount = amount * 100; // PayMongo accepts amounts in cents
+
+      const requestData = {
+        data: {
+          attributes: {
+            amount: formattedAmount,
+            reason: reason,
+            payment_id: paymentId,
+          }
+        }
+      };
+
+      console.log('Creating refund with data:', requestData);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          authorization: authHeader,
+        },
+        body: JSON.stringify(requestData),
+      };
+
+      const response = await fetch('https://api.paymongo.com/v1/refunds', options);
+      const responseData = await response.json();
+      console.log('PayMongo refund response:', responseData);
+
+      if (responseData && responseData.data) {
+        return responseData.data; // Return the created refund data
+      } else {
+        throw new Error('Unexpected response format from PayMongo API');
+      }
+    } catch (error) {
+      console.error('Error creating refund:', error.message);
+      throw error;
+    }
+  }
+
+  static async updatePaymentStatus(paymentId, status) {
+    try {
+      const paymentRef = FService.collection('payments').doc(paymentId);
+      await paymentRef.update({ status: status });
+      console.log(`Payment status successfully updated to ${status} in Firestore.`);
+    } catch (error) {
+      console.error('Error updating payment status in Firestore:', error.message);
+      throw error;
+    }
+  }
+
 }
 
 export default PaymentController;
