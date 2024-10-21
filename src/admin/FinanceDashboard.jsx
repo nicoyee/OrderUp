@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import * as XLSX from 'xlsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Admin/FinanceDashboard.css';
+import { FService } from "../class/controllers/FirebaseService.ts";
 
 const FinanceDashboard = () => {
   const [payments, setPayments] = useState([]);
@@ -22,9 +23,23 @@ const FinanceDashboard = () => {
   const fetchPayments = async (cursor = null, direction = "next") => {
     try {
       setLoading(true);
+      // Fetch payments
       const paymentData = await PaymentController.getAllPayments(50, direction === "next" ? cursor : null, direction === "previous" ? cursor : null);
+      
       if (paymentData.length > 0) {
-        setPayments(paymentData);
+        // Fetch refunds and cross-check
+        const refunds = await PaymentController.getAllRefunds(); // Get refunds separately
+        const refundMap = new Map(refunds.map((refund) => [refund.attributes.payment_id, refund]));
+
+        // Update payments with refund status
+        const updatedPayments = paymentData.map((payment) => {
+          if (refundMap.has(payment.id)) {
+            payment.attributes.status = "refunded"; // Mark as refunded if found in refunds
+          }
+          return payment;
+        });
+
+        setPayments(updatedPayments);
       } else {
         console.warn("No payment data available");
       }
@@ -42,14 +57,26 @@ const FinanceDashboard = () => {
 
   const handleRowClick = async (paymentId) => {
     try {
+      // Fetch payment details
       const paymentData = await PaymentController.getPayment(paymentId);
-      setSelectedPayment(paymentData);
-      setShowModal(true);
+  
+      // Fetch all refunds and check if this payment has been refunded
+      const refunds = await PaymentController.getAllRefunds();
+      const refundForPayment = refunds.find(refund => refund.attributes.payment_id === paymentId);
+  
+      // Update payment status if refunded
+      if (refundForPayment) {
+        paymentData.attributes.status = "refunded"; // Set the status to refunded
+      }
+  
+      setSelectedPayment(paymentData); // Set updated payment data with refund status
+      setShowModal(true); // Show modal with updated payment info
     } catch (err) {
       console.error("Failed to fetch payment details:", err);
       setError("Failed to fetch payment details. Please try again later.");
     }
   };
+  
 
   const handleLimitChange = (event) => {
     setLimit(parseInt(event.target.value, 10));
@@ -74,11 +101,21 @@ const FinanceDashboard = () => {
     setRefundSuccess(null);
 
     try {
-      const amount = selectedPayment.attributes.amount / 100; // Refund full amount
-      const reason = "requested_by_customer"; // Example reason
+      const amount = selectedPayment.attributes.amount / 100; // Amount in PHP
+      const reason = "requested_by_customer"; // Reason for refund
+
+      // Create refund through PayMongo
       const refundData = await PaymentController.createRefund(selectedPayment.id, amount, reason);
       setRefundSuccess("Refund created successfully.");
+
+      // Update the status in Firestore
+      await FService.updateDocument('payments', selectedPayment.id, {
+        status: 'refunded',
+        refunded_at: new Date().toISOString(),
+      });
+
       console.log("Refund Data:", refundData);
+      fetchPayments(); // Refresh payments after refund
     } catch (err) {
       console.error("Failed to create refund:", err);
       setRefundError("Failed to create refund. Please try again later.");
