@@ -72,50 +72,50 @@ class PaymentController {
     }
   }
 
-  static async fetchAllPaymentLinks() {
-    const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
-    // const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
-
+  static async getAllPayments(limit = 50, after = null, before = null) {
     try {
-      const response = await fetch('https://api.paymongo.com/v1/links?page[limit]=10', {
-        method: 'GET',
-        headers: {
-          Authorization: `Basic ${btoa(`${apiKey}:`)}`,
-          Accept: 'application/json',
-        },
-      });
-      
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        console.error('PayMongo API Error:', errorResponse);
-        throw new Error(`Error fetching payment links: ${response.status} - ${JSON.stringify(errorResponse)}`);
+      const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
+      if (!apiKey) {
+        throw new Error("PayMongo API Key is not configured");
       }
 
-      const data = await response.json();
-      console.log('Fetched payment links:', data);
+      const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
+      const params = new URLSearchParams();
 
-      // Optionally store links in Firestore
-      data.data.forEach(async (link) => {
-        const paymentData = {
-          linkId: link.id,
-          amount: link.attributes.amount / 100, // Convert from centavos to PHP
-          description: link.attributes.description,
-          status: link.attributes.status,
-          created_at: new Date(link.attributes.created_at * 1000), // Convert timestamp
-        };
+      // Set the limit for the number of payments to fetch
+      params.append("limit", limit);
 
-        await FService.collection('payments').doc(link.id).set(paymentData, { merge: true });
-        console.log('Payment link synced to Firestore:', paymentData);
-      });
+      // If after or before cursors are provided, append them as well
+      if (after) {
+        params.append("after", after);
+      }
+      if (before) {
+        params.append("before", before);
+      }
 
-      return data;
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          authorization: authHeader,
+        },
+      };
+
+      const response = await fetch(`https://api.paymongo.com/v1/payments?${params.toString()}`, options);
+      const responseData = await response.json();
+      console.log("PayMongo payments response:", responseData);
+
+      if (responseData && responseData.data) {
+        return responseData.data; // Return the list of payments
+      } else {
+        throw new Error("Unexpected response format from PayMongo API");
+      }
     } catch (error) {
-      console.error('Error fetching payment links:', error);
-      throw error; // Re-throw the error for further handling
+      console.error("Error fetching all payments:", error.message);
+      throw error;
     }
   }
-
+  
 }
 
 export default PaymentController;
