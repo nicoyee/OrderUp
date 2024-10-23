@@ -166,9 +166,9 @@ const FinanceDashboard = () => {
                 />
               </div>
               <div className="filter-item">
-              <Button onClick={toggleRefundList} className="btn btn-info toggle-button">
-               {showRefundsOnly ? "Show All Payments" : "Show Refunds Only"}
-              </Button>
+                <Button onClick={toggleRefundList} className="btn btn-info toggle-button">
+                  {showRefundsOnly ? "Show All Payments" : "Show Refunds Only"}
+                </Button>
               </div>
             </div>
             <div className="download-button">
@@ -241,28 +241,24 @@ const FinanceDashboard = () => {
               <p><strong>Description:</strong> {selectedPayment.attributes.description || "N/A"}</p>
               <p><strong>Status:</strong> {selectedPayment.attributes.status}</p>
               <p><strong>Created At:</strong> {new Date(selectedPayment.attributes.created_at * 1000).toLocaleString()}</p>
+              {selectedPayment.attributes.status === "refunded" && <p><strong>Refund Status:</strong> Refunded</p>}
             </>
           ) : (
             <p>Loading payment details...</p>
           )}
-          {refundError && <div className="alert alert-danger">{refundError}</div>}
-          {refundSuccess && <div className="alert alert-success">{refundSuccess}</div>}
         </Modal.Body>
         <Modal.Footer>
-          {selectedPayment && (
-             <>
-              {selectedPayment.attributes.status === "refunded" ? (
-                <Button variant="secondary" disabled>
-                  Refunded
-                   </Button>
-                 ) : (
-                  <Button variant="danger" onClick={handleRefund} disabled={refundLoading}>
-                  {refundLoading ? "Processing..." : "Refund"}
-                  </Button>                
-                 )}
-              </>
-             )}
-       </Modal.Footer>
+          {refundError && <div className="alert alert-danger">{refundError}</div>}
+          {refundSuccess && <div className="alert alert-success">{refundSuccess}</div>}
+          {selectedPayment && selectedPayment.attributes.status !== "refunded" && (
+            <Button variant="danger" onClick={handleRefund} disabled={refundLoading}>
+              {refundLoading ? "Processing..." : "Refund Payment"}
+            </Button>
+          )}
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
