@@ -72,7 +72,7 @@ class PaymentController {
     }
   }
 
-  static async getAllPayments(limit = 100, after = null, before = null) {
+  static async getAllPayments(limit = 100, maxPayments = 1000, after = null, before = null) {
     try {
         const apiKey = process.env.REACT_APP_PAYMONGO_SECRET_KEY;
         if (!apiKey) {
@@ -80,54 +80,73 @@ class PaymentController {
         }
 
         const authHeader = `Basic ${btoa(`${apiKey}:`)}`;
-        const params = new URLSearchParams();
+        const allPayments = []; // Array to store all payments
+        let hasMore = true; // Flag to check if there are more payments to fetch
 
-        
-        params.append("limit", limit);
+        while (hasMore && allPayments.length < maxPayments) {
+            const params = new URLSearchParams();
+            params.append("limit", limit);
 
-        
-        if (after) {
-            params.append("after", after);
-        }
-        if (before) {
-            params.append("before", before);
-        }
-
-        const options = {
-            method: "GET",
-            headers: {
-                accept: "application/json",
-                authorization: authHeader,
-            },
-        };
-
-        const response = await fetch(`https://api.paymongo.com/v1/payments?${params.toString()}`, options);
-        const responseData = await response.json();
-        
-
-        if (responseData && responseData.data) {
-            // Save each payment data to the Firestore 'payments' collection
-            for (const payment of responseData.data) {
-                const paymentData = {
-                    id: payment.id, // Payment ID from PayMongo
-                    amount: payment.attributes.amount / 100, // Convert back from cents
-                    description: payment.attributes.description || null,
-                    status: payment.attributes.status || null,
-                    remarks: payment.attributes.remarks || null,
-                    created_at: payment.attributes.created_at
-                        ? new Date(payment.attributes.created_at * 1000)
-                        : null, // Convert timestamp
-                };
-
-                // Use FService to save the payment data to Firestore
-                await FService.setDocument('payments', payment.id, paymentData);
-                
+            if (after) {
+                params.append("after", after);
+            }
+            if (before) {
+                params.append("before", before);
             }
 
-            return responseData.data; // Return the list of payments
-        } else {
-            throw new Error("Unexpected response format from PayMongo API");
+            const options = {
+                method: "GET",
+                headers: {
+                    accept: "application/json",
+                    authorization: authHeader,
+                },
+            };
+
+            const response = await fetch(`https://api.paymongo.com/v1/payments?${params.toString()}`, options);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("API Response Error:", errorData);
+                throw new Error(`Error ${response.status}: ${errorData.message || 'Failed to fetch payments'}`);
+            }
+
+            const responseData = await response.json();
+
+            if (responseData && responseData.data) {
+                allPayments.push(...responseData.data); // Add fetched payments to the array
+
+                // Check if there's a next page of payments
+                if (responseData.meta && responseData.meta.has_next_page) {
+                    after = responseData.data[responseData.data.length - 1].id; // Set the 'after' parameter to the last payment ID
+                } else {
+                    hasMore = false; // No more payments to fetch
+                }
+            } else {
+                throw new Error("Unexpected response format from PayMongo API");
+            }
         }
+
+        // Limit the results to the maximum requested
+        const limitedPayments = allPayments.slice(0, maxPayments);
+
+        // Save each payment data to the Firestore 'payments' collection
+        for (const payment of limitedPayments) {
+            const paymentData = {
+                id: payment.id, // Payment ID from PayMongo
+                amount: payment.attributes.amount / 100, // Convert back from cents
+                description: payment.attributes.description || null,
+                status: payment.attributes.status || null,
+                remarks: payment.attributes.remarks || null,
+                created_at: payment.attributes.created_at
+                    ? new Date(payment.attributes.created_at * 1000)
+                    : null, // Convert timestamp
+            };
+
+            // Use FService to save the payment data to Firestore
+            await FService.setDocument('payments', payment.id, paymentData);
+        }
+
+        return limitedPayments; // Return the limited list of payments
     } catch (error) {
         console.error("Error fetching all payments:", error.message);
         throw error;
@@ -338,6 +357,7 @@ class PaymentController {
       throw error;
     }
   }
+  
   
 
 }
