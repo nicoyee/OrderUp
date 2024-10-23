@@ -230,36 +230,39 @@ const FinanceDashboard = () => {
         </div>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Payment Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedPayment ? (
-            <>
-              <p><strong>Payment ID:</strong> {selectedPayment.id}</p>
-              <p><strong>Amount (PHP):</strong> {(selectedPayment.attributes.amount / 100).toFixed(2)}</p>
-              <p><strong>Description:</strong> {selectedPayment.attributes.description || "N/A"}</p>
-              <p><strong>Status:</strong> {selectedPayment.attributes.status}</p>
-              <p><strong>Created At:</strong> {new Date(selectedPayment.attributes.created_at * 1000).toLocaleString()}</p>
-              {selectedPayment.attributes.status === "refunded" && <p><strong>Refund Status:</strong> Refunded</p>}
-            </>
-          ) : (
-            <p>Loading payment details...</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          {refundError && <div className="alert alert-danger">{refundError}</div>}
-          {refundSuccess && <div className="alert alert-success">{refundSuccess}</div>}
-          {selectedPayment && selectedPayment.attributes.status !== "refunded" && (
-            <Button variant="danger" onClick={handleRefund} disabled={refundLoading}>
-              {refundLoading ? "Processing..." : "Refund Payment"}
-            </Button>
-          )}
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Modal.Header closeButton>
+         <Modal.Title>Payment Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+         {selectedPayment ? (
+             <>
+        <p><strong>Payment ID:</strong> {selectedPayment.id}</p>
+        <p><strong>Amount (PHP):</strong> {(selectedPayment.attributes.amount / 100).toFixed(2)}</p>
+        <p><strong>Description:</strong> {selectedPayment.attributes.description || "N/A"}</p>
+        <p><strong>Status:</strong> {selectedPayment.attributes.status}</p>
+        <p><strong>Created At:</strong> {new Date(selectedPayment.attributes.created_at * 1000).toLocaleString()}</p>
+        {selectedPayment.attributes.status === "refunded" && <p><strong>Refund Status:</strong> Refunded</p>}
+      </>
+    ) : (
+      <p>Loading payment details...</p>
+    )}
+   </Modal.Body>
+   <Modal.Footer>
+    {refundError && <div className="alert alert-danger">{refundError}</div>}
+    {refundSuccess && <div className="alert alert-success">{refundSuccess}</div>}
+    {selectedPayment && selectedPayment.attributes.status === "refunded" ? (
+      <Button variant="secondary" disabled>
+        Refunded
+      </Button>
+    ) : (
+      selectedPayment && selectedPayment.attributes.status !== "refunded" && (
+        <Button variant="danger" onClick={handleRefund} disabled={refundLoading}>
+          {refundLoading ? "Processing..." : "Refund Payment"}
+        </Button>
+      )
+    )}
+    </Modal.Footer>
+   </Modal>
     </div>
   );
 };
