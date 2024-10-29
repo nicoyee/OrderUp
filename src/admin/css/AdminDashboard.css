@@ -2,6 +2,18 @@
     width: 100%;
     height: 100%;
     display: flex;
+    background-color: var(--bgc00);
+}
+
+#adminDashboard .dashboard-main {
+    background-color: var(--bgc01);
+}
+
+/*
+#adminDashboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 50px;
@@ -43,3 +55,4 @@
 #adminDashboard .dashboardCardBtn span {
     
 }
+*/

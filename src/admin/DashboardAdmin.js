@@ -31,6 +31,7 @@ const DashboardAdmin = () => {
 
   return (
     <div className="dashboardContainer">
+      
       <HeaderAdmin user={user} />
 
       <div id="adminDashboard">

@@ -5,7 +5,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";
-import DashboardAdmin from "./admin/DashboardAdmin";
+import DashboardAdmin from "./admin/AdminDashboard.js";
 import DashboardCustomer from "./customer/CustomerDashboard";
 import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
