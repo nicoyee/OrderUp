@@ -3,7 +3,7 @@
     padding: 30px;
     display: flex;
     gap: 20px;
-    background-color: var(--bgc02);
+    background-color: var(--dark00);
 }
 
 #customerBanner .customerBanner-image, #customerBanner .customerBanner-caption {
@@ -30,7 +30,7 @@
 }
 
 #customerBanner .customerBanner-caption h1 {
-    color: var(--c02);
+    color: var(--primary01);
     font-family: 'Abril Fatface';
     text-transform: uppercase;
     font-size: 4vw;
@@ -45,7 +45,7 @@
 }
 
 #customerBanner .customerBanner-caption-buttons a {
-    color: var(--bgc00);
+    color: var(--light00);
     font-family: 'Inter';
     font-size: 1em;
     font-weight: 500;
@@ -55,7 +55,7 @@
 }
 
 #customerBanner .customerBanner-caption-buttons a:hover {
-    color: var(--c02);
+    color: var(--primary01);
     text-decoration: underline;
     cursor: pointer;
 }

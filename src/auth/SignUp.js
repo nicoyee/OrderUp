@@ -1,4 +1,4 @@
-import '../css/common/modals.css';
+import '../common/css/Modal.css';
 import './authForm.css';
 import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';

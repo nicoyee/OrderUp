@@ -1,11 +1,24 @@
 :root {
-  --bgc00: #fbf0df;
-  --bgc01: #fff8ec;
-  --bgc02: #151515;
 
-  --c01: #334d66;
-  --c02: #c0963d;
-  --c03: #c3c6ce;
+  --light00: #fbf0df;
+  --light01: #fff8ec;
+  --light02: #f5f5f5;
+
+  --dark00: #151515;
+  --dark01: #0F172A;
+
+  --gray00: #c3c6ce;
+  --gray01: #919EAB;
+  --gray02: #71717A;
+  --gray03: #F4F4F5;
+
+  --primary00: #c0613d;
+  --primary01: #c0963d;
+
+  --secondary00: #0F172A;
+  --secondary01: #334d66;
+  
+
 }
 
 * {
@@ -21,7 +34,7 @@ html {
 }
 
 body {
-  background-color: var(--bgc00);
+  background-color: var(--light00);
 }
 
 .material-symbols-outlined {
@@ -34,7 +47,7 @@ body {
 
 body.modal-open {
   overflow-y: hidden; /* Disable vertical scrolling */
-  padding-right: 6px; /* Adjust for scrollbar width */
+   /* Adjust for scrollbar width */
 }
 
 button {

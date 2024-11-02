@@ -1,0 +1,206 @@
+#customerProfile {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+#customerProfile .customerProfile-wrapper {
+    padding: 30px 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+#customerProfile .customerProfile-container {
+    width: 100%;
+    max-width: 80rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#customerProfile .userInfo {
+    flex: 1.5;
+    padding: 30px;
+    margin: 0 -30px;
+    width: 100%;
+    font-family: 'Inter';
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    
+}
+
+#customerProfile .userInfo .userInfo-left h1 {   
+    font-size: 28px;
+    font-weight: 900;
+}
+
+#customerProfile .userInfo .userInfo-left h1 span {
+    color: var(--primary00);
+    font-weight: 600;
+}
+
+#customerProfile .userInfo .userInfo-left h2 {
+    color: var(--secondary00);
+    font-size: 18px;
+    font-weight: 300;
+}
+
+#customerProfile .userInfo .userInfo-right {
+    
+}
+
+#customerProfile .userInfo .userInfo-right button {
+    padding: 10px;
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 500;
+    border: 1px solid var(--gray00);
+    border-radius: 6px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+#customerProfile .userInfo .userInfo-right button:hover {
+    background-color: var(--gray00);
+}
+
+#customerProfile .userOrders {
+    flex: 3;
+    width: 100%;
+    border: 1px solid var(--gray00);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+#customerProfile .userOrders th {
+    color: var(--light01);
+}
+
+/*
+
+#customerProfile .userInfo {
+    margin: 50px;
+    height: 100%;
+    flex: 1;
+    padding: 30px;
+    border: 5px solid var(--border00);
+    border-radius: 15px;
+}
+
+#customerProfile .userOrders {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#customerProfile .userInfo h1 {
+    color: var(--c02);
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: 900;
+}
+
+#customerProfile .userInfo h2 {
+    color: var(--bgc00);
+    font-size: 18px;
+    font-family: 'Inter';
+    font-weight: 300;
+}
+
+#customerProfile .userInfo h3 {
+    color: var(--bgc01);
+    font-size: 16px;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+#customerProfile .userInfo h3:hover {
+    color: var(--c03);
+}
+
+#orderInfoProfile {
+   max-width: 60rem;
+}
+
+#orderInfoProfile .modalTable-header h1 {
+    font-size: 24px;
+}
+
+#orderInfoProfile .modalTable-header h2 {
+    color: var(--c03);
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+#orderInfoProfile .modalTable-header h3 {
+    color: #515151;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#orderInfoProfile .modalTable-body {
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+#orderInfoProfile .modalTable-body table td {
+    border: 1px solid var(--c04);
+}
+
+#orderInfoProfile .modalTable-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total h1, #orderInfoProfile .modalTable-footer .orderInfo-total h2 {
+    font-size: 20px;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total h2 {
+    color: var(--c03);
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-actions {
+    display: flex;
+}
+
+#orderInfoProfile .cancel-request-button:hover, #orderInfoProfile .refund-request-button:hover {
+    cursor: pointer;
+}
+
+#orderInfoProfile .cancel-request-button  {
+    padding: 5px 10px;
+    color: var(--bgc00);
+    background-color: var(--c02);
+    border-radius: 5px;
+}
+
+*/
+
+@media only screen and (max-width: 768px) {
+    #customerProfile .customerProfile-container {
+        flex-direction: column;
+    }
+
+    #customerProfile .userInfo {
+        flex: 0;
+    }
+}
+

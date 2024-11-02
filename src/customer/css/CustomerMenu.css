@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     top: 0;
-    background-color: var(--bgc00);
+    background-color: var(--light00);
     z-index: 99;
 }
 
@@ -63,7 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bgc01);
+    background-color: var(--light01);
 }
 
 #customerMenu .customerMenu-content {
@@ -127,7 +127,7 @@
     border-radius: 50%;
     background-color: #fff;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, .5);
-    transition: all .3s ease;
+    transition: all .2s ease;
 }
 
 #customerMenu .customerMenu-itemMain:hover span button {
