@@ -3,7 +3,7 @@
   font-family: "Roboto", sans-serif;
 }
 
-.menuTable .category-headers {
+.category-headers {
   display: flex;
   justify-content: space-between;
   width: 100%; 
@@ -16,7 +16,7 @@
   color: #334d66;
 }
 
-.menuTable .category-btn {
+.category-btn {
   flex-grow: 1; 
   padding: 10px; 
   background-color: #c0963d; 
@@ -30,11 +30,11 @@
   transition: background-color 0.3s ease; 
 }
 
-.menuTable .category-btn + .category-btn {
+.category-btn + .category-btn {
   border-left: 1px solid #334d66; 
 }
 
-.menuTable .category-btn:hover {
+.category-btn:hover {
   background-color: #657e99; 
 }
 
