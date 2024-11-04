@@ -27,6 +27,14 @@ class Admin extends User {
         return await AdminController.fetch();
     }
 
+    static async fetchStaff() {
+        return await AdminController.fetchStaff();
+    }
+
+    static async fetchCustomers() {
+        return await AdminController.fetchCustomers();
+    }
+
     static async banUser(userId) {
         return await AdminController.ban(userId);
     }

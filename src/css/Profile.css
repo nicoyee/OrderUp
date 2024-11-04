@@ -17,6 +17,7 @@
   width: 800px;
   position: relative;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+  margin: 24px 0;
 }
 
 .customer-profile .back-icon {
@@ -180,7 +181,7 @@
   margin-top: 20px;
   text-align: right;
   font-size: 18px;
-  color: #e0e0e0;
+  color: #334d66;
 }
 
 .customer-profile .user-order-details-modal tr:nth-child(even) {
