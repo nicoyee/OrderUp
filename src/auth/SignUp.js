@@ -1,5 +1,6 @@
 import '../common/css/Modal.css';
 import './authForm.css';
+
 import React, { useState } from 'react';
 import Admin from '../class/admin/Admin';
 import { userInstance } from '../class/User';
@@ -37,8 +38,8 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
     };
 
     return (
-        <form id='authForm' className="modalForm" onSubmit={ signUp }>
-            <div className='modalForm-header'>
+        <form id='authForm' className="modal" onSubmit={ signUp }>
+            <div className='modal-header'>
                 <span>
                     <h1>Sign Up</h1>
                     <svg

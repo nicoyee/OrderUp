@@ -32,8 +32,8 @@ const ForgotPassword = ({ closeModal, setLogin, currentEmail }) => {
     
 
     return (
-        <form id='authForm' className="modalForm" onSubmit={ resetPassword }>
-            <div className='modalForm-header'>
+        <form id='authForm' className="modal" onSubmit={ resetPassword }>
+            <div className='modal-header'>
                 <span>
                     <h1>Reset Your Password</h1>
                     <svg
