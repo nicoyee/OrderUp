@@ -98,7 +98,8 @@
 #customerProfile .userInfo .userInfo-right button:hover {
     background-color: var(--secondary00);
     border: 1px solid transparent;
-=======
+}
+
 .dashboardContainer .dashboard-nav {
     padding: 15px;
     display: flex;
