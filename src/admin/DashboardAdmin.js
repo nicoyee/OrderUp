@@ -2,6 +2,8 @@ import "../css/Admin/DashboardAdmin.css";
 import "./css/AdminDashboard.css";
 
 import React, { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 import { UserContext } from "../App";
 
@@ -24,16 +26,16 @@ const DashboardAdmin = () => {
   const [adminSalesModalIsOpen, setAdminSalesModalIsOpen] = useState(false); // State for AdminSales modal
   const [dishes, setDishes] = useState([]);
   const [events, setEvents] = useState([]);
+  
+  const navigate = useNavigate(); // Initialize useNavigate
 
   return (
     <div className="dashboardContainer">
-
+      
       <HeaderAdmin user={user} />
 
       <div id="adminDashboard">
-
         <div className="adminDashboard-actions">
-
           <h1 className="sectionHeader">Admin Dashboard</h1>
 
           <div className="adminDashboard-actions-container">
@@ -41,9 +43,7 @@ const DashboardAdmin = () => {
               className="dashboardCardBtn"
               onClick={() => setCreateDishModalIsOpen(true)}
             >
-              <span className="material-symbols-outlined">
-                restaurant_menu
-              </span>
+              <span className="material-symbols-outlined">restaurant_menu</span>
               Create Dish
             </button>
             <button
@@ -67,49 +67,53 @@ const DashboardAdmin = () => {
               <span className="material-symbols-outlined">bar_chart</span>
               Sales Overview
             </button>
+            <button
+              className="dashboardCardBtn"
+              onClick={() => navigate('/financedashboard')}// Navigate to FinanceDashboard on click
+            >
+              <span className="material-symbols-outlined">attach_money</span>
+              Finance Dashboard
+            </button>
           </div>
-
         </div>
-        
+
         <MenuAdmin dishes={dishes} setDishes={setDishes} />
         <OrderHistoryAdmin />
 
         {/* Modals */}
         {createDishModalIsOpen && (
-            <CreateDish
-              setDishes={setDishes}
-              modalIsOpen={createDishModalIsOpen}
-              setModalIsOpen={setCreateDishModalIsOpen}
-            />
-          )}
-          {manageUsersModalIsOpen && (
-            <ManageUsers
-              modalIsOpen={manageUsersModalIsOpen}
-              setModalIsOpen={setManageUsersModalIsOpen}
-            />
-          )}
-          {manageEventsModalIsOpen && (
-            <ManageEvents
-              setEvents={setEvents}
-              modalIsOpen={manageEventsModalIsOpen}
-              setModalIsOpen={setManageEventsModalIsOpen}
-            />
-          )}
-           {adminSalesModalIsOpen && (
-            <AdminSales
-              show={adminSalesModalIsOpen}
-              handleClose={() => setAdminSalesModalIsOpen(false)}
-              userEmail={user.email} // Pass user email for fetching sales data
-            />
-          )}
+          <CreateDish
+            setDishes={setDishes}
+            modalIsOpen={createDishModalIsOpen}
+            setModalIsOpen={setCreateDishModalIsOpen}
+          />
+        )}
+        {manageUsersModalIsOpen && (
+          <ManageUsers
+            modalIsOpen={manageUsersModalIsOpen}
+            setModalIsOpen={setManageUsersModalIsOpen}
+          />
+        )}
+        {manageEventsModalIsOpen && (
+          <ManageEvents
+            setEvents={setEvents}
+            modalIsOpen={manageEventsModalIsOpen}
+            setModalIsOpen={setManageEventsModalIsOpen}
+          />
+        )}
+        {adminSalesModalIsOpen && (
+          <AdminSales
+            show={adminSalesModalIsOpen}
+            handleClose={() => setAdminSalesModalIsOpen(false)}
+            userEmail={user.email} // Pass user email for fetching sales data
+          />
+        )}
 
-          <div className="tableContainer">
-            <BalanceTable />
-            <OrderCancellationRequests />
-          </div>
-
+        <div className="tableContainer">
+          <BalanceTable />
+          <OrderCancellationRequests />
+        </div>
       </div>
-
     </div>
   );
 };

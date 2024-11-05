@@ -54,9 +54,8 @@ const CustomerProfile = () => {
                 <button onClick={ openModal }>Reset Password</button>
               </div>
             </div>
-
             <Balance />
-
+                  
           </div>
 
           <Orders />

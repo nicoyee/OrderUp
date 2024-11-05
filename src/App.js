@@ -5,13 +5,14 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";
-import DashboardAdmin from "./admin/DashboardAdmin";
+import DashboardAdmin from "./admin/AdminDashboard.js";
 import DashboardCustomer from "./customer/CustomerDashboard";
 import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
+import FinanceDashboard from './admin/FinanceDashboard.jsx';
 import { UserType } from "./constants";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
@@ -110,6 +111,10 @@ function App() {
                 <Navigate to="/" />
               )
             }
+          />
+           <Route
+            path="/financedashboard" // Add this line
+            element={<PrivateRoute element={<FinanceDashboard />} requiredUserType="admin" />} // Make sure to wrap it in PrivateRoute if needed
           />
           <Route
             path="/cart"

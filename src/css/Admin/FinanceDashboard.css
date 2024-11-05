@@ -1,0 +1,206 @@
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    background-color: #f9f9f9; 
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease; 
+}
+
+.container:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+.finance-dashboard h1 {
+    font-size: 2.5rem;
+    font-family: 'Merriweather', serif; 
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    color: #2c3e50; 
+    padding-left: 15px;
+}
+
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+.filters {
+    display: flex;
+    gap: 25px; 
+    align-items: center; 
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    color: #34495e;
+}
+
+.filter-item label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filter-item .form-select, .filter-item .form-control {
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.filter-item .form-select:focus, .filter-item .form-control:focus {
+    border-color: #3498db; 
+}
+
+
+/* Toggle Button */
+.toggle-button {
+    margin-left: auto;
+    padding-right: 20px;
+}
+
+.toggle-button .btn {
+    background-color: #3498db; /* Blue background */
+    background-image: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
+    color: #ffffff; 
+    border: none;
+    padding: 12px 25px; 
+    font-weight: bold;
+    font-size: 1rem; /* Slightly larger font size */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+    cursor: pointer; 
+}
+
+.toggle-button .btn:hover {
+    background-color: #1abc9c; 
+    background-image: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.toggle-button .btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); 
+}
+
+.toggle-button .btn:active {
+    background-color: #2980b9; 
+    box-shadow: none; 
+}
+
+.download-button {
+    margin-left: 20px;
+    padding-right: 20px;
+}
+
+.download-button .btn {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.download-button .btn:hover {
+    background-color: #2980b9;
+}
+
+
+.payments-table {
+    overflow-x: auto; 
+    margin-bottom: 20px;
+}
+
+.payments-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payments-table th, .payments-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.95rem;
+}
+
+.payments-table th {
+    background-color: #ecf0f1;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.payments-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.payments-table td {
+    color: #34495e;
+}
+
+.finance-dashboard button[disabled] {
+    background-color: #95a5a6; 
+    cursor: not-allowed;
+}
+  
+
+/* Loader styles */
+.loading {
+    text-align: center;
+    font-size: 1.75rem;
+    color: #34495e;
+    margin-top: 40px;
+}
+
+/* Alert styles */
+.alert {
+    margin-top: 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.alert-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.alert-success {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Pagination buttons */
+.pagination button {
+    border: none;
+    padding: 8px 12px;
+    margin: 0 3px;
+    background-color: #bdc3c7;
+    color: #2c3e50;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.pagination button.active {
+    background-color: #2980b9;
+    color: white;
+}

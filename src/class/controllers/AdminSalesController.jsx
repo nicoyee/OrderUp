@@ -134,6 +134,24 @@ class AdminSalesController {
             throw error;
         }
     }
+
+    static async getfinancesales() {
+        try {
+            const paymentsSnapshot = await FService.getDocuments('payments');
+            const paymentsData = paymentsSnapshot.docs.map(doc => doc.data());
+    
+            const financeData = paymentsData.map(payment => ({
+                date: new Date(payment.created_at.seconds * 1000), // Convert Firestore timestamp to JS Date
+                amount: payment.amount,
+            }));
+    
+            return financeData;
+        } catch (error) {
+            console.error('Error fetching finance sales data:', error);
+            throw error;
+        }
+    }    
+    
 }
 
 export default AdminSalesController;

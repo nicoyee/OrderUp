@@ -98,4 +98,95 @@
 #customerProfile .userInfo .userInfo-right button:hover {
     background-color: var(--secondary00);
     border: 1px solid transparent;
+=======
+.dashboardContainer .dashboard-nav {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid var(--c04);
+}
+
+.dashboardContainer .dashboard-nav-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.dashboardContainer .dashboard-nav-section label {
+    text-transform: uppercase;
+    color: var(--c03);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dashboardContainer .dashboard-nav ul {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style-type: none;
+}
+
+.dashboardContainer .dashboard-nav li {
+    border-radius: 5px;
+    padding: 10px 15px;
+    background-color: var(--c04);
+    cursor: pointer;
+}
+
+.dashboardContainer .dashboard-nav li:hover {
+    background-color: var(--c02);
+}
+
+.dashboardContainer .dashboard-nav li span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dashboardContainer .dashboard-nav li a, .dashboardContainer .dashboard-nav li button {
+    color: var(--c01);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: left;
+}
+
+
+
+.dashboardContainer .dashboard-main {
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+
+.dashboardContainer .dashboardHeader {
+    padding: 10px;
+    width: 100%;
+
+    border-radius: 15px;
+}
+
+.dashboardContainer .dashboardHeader h1 {
+    margin: 0;
+
+    color: var(--c01);
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.dashboardContainer .dashboardSection {
+    width: 100%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .dashboardContainer .dashboard-nav {
+        display: none;
+    }
 }

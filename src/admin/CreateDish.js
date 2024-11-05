@@ -35,7 +35,7 @@ const CreateDish = ({ setDishes, modalIsOpen, setModalIsOpen }) => {
     modalIsOpen && (
       <div className="create-dish-modal">
         <div className="modal-content">
-          <span className="close" onClick={() => setModalIsOpen(false)}>&times;</span>
+        <button className="close" onClick={() => setModalIsOpen(false)}>&times;</button>
           <h1>Create a Dish</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group">

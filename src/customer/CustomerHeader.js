@@ -8,7 +8,7 @@ import AuthController from "../class/controllers/AuthController";
 
 const CustomerHeader = () => {
     const user = useContext(UserContext); 
-    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State for logout confirmation modal
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); 
     const navigate = useNavigate();
 
     const handleSignOut = () => {

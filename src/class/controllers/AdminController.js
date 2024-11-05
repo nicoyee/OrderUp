@@ -23,6 +23,30 @@ class AdminController{
         return usersData;
     }
 
+    static async fetchStaff() {
+        const querySnapshot = await FService.getDocuments('users');
+        const staffData = [];
+        querySnapshot.forEach((doc) => {
+            const userData = { id: doc.id, ...doc.data() };
+            if (userData.userType === 'staff') {
+                staffData.push(userData);
+            }
+        });
+        return staffData;
+    }
+
+    static async fetchCustomers() {
+        const querySnapshot = await FService.getDocuments('users');
+        const customerData = [];
+        querySnapshot.forEach((doc) => {
+            const userData = { id: doc.id, ...doc.data() };
+            if (userData.userType === 'customer') {
+                customerData.push(userData);
+            }
+        });
+        return customerData;
+    }
+
     static async ban(userId) {
         try {
             await setDoc(doc(FService.db, 'users', userId), {
