@@ -1,11 +1,13 @@
+import '../css/Admin/FinanceDashboard.css';
+import '../common/css/Bootstrap.css';
+
 import React, { useEffect, useState } from "react";
 import PaymentController from "../class/controllers/PaymentController";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import * as XLSX from 'xlsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/Admin/FinanceDashboard.css';
+
 import HeaderAdmin from "./HeaderAdmin";
 
 const FinanceDashboard = () => {
@@ -138,7 +140,7 @@ const FinanceDashboard = () => {
   };
 
   return (
-    <div className="finance-dashboard">
+    <div className="finance-dashboard bootstrap-scope">
       <HeaderAdmin />
       <div className="content">
         <h1>Finance Dashboard</h1>

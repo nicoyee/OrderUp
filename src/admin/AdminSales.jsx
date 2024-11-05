@@ -1,10 +1,13 @@
+import '../css/Admin/AdminSales.css';
+import '../common/css/Bootstrap.css';
+
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Bar, Line } from 'react-chartjs-2'; // Import Line chart
 import { Chart, registerables } from 'chart.js';
 import AdminSalesController from '../class/controllers/AdminSalesController';
 import CartController from '../class/controllers/CartController';
-import '../css/Admin/AdminSales.css';
+
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Register all Chart.js components
@@ -162,7 +165,7 @@ const AdminSales = ({ show, handleClose, userEmail }) => {
     };
 
     return (
-        <Modal show={show} onHide={handleClose} size="lg" centered dialogClassName="admin-sales-modal">
+        <Modal show={show} onHide={handleClose} size="lg" centered dialogClassName="admin-sales-modal bootstrap-scope">
             <Modal.Header closeButton>
                 <Modal.Title>Sales Overview</Modal.Title>
                 <Button variant="close" className="btn-close" onClick={handleClose}>
