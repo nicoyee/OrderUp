@@ -52,7 +52,7 @@ const CustomerMenu = () => {
         progress: undefined,
         theme: "light",
         transition: Flip,
-        });
+      });
     } catch (error) {
       toast.error(`Failed to add item to cart.`, {
         position: "bottom-center",

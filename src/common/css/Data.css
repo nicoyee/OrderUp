@@ -1,21 +1,66 @@
 .dataCard {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    background-color: var(--bgc01);
-    border-radius: 12px;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    background-color: var(--light00);
+    border-radius: 6px;
+    border: 1px solid var(--gray00);
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
     overflow: hidden;
 }
 
 .dataCard .dataCard-header {
-    padding: 30px 0 10px 30px;
+    padding: 30px 30px 20px 30px;
     display: flex;
+    border-bottom: 1px solid var(--gray00);
 }
 
 .dataCard .dataCard-header .dataCard-header-left {
     display: flex;
     align-items: center;
+    gap: 7px;
+}
+
+.dataCard .dataCard-header .dataCard-header-left svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary00);
+}
+
+.dataCard .dataCard-header .dataCard-header-left h1 {
+    color: var(--secondary00);
+    font-family: 'Inter';
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.dataCard .dataCard-footer {
+    padding: 20px 0;
+    border-top: 1px solid var(--gray00);
+}
+
+.dataCard .dataCard-text-section {
+    padding: 30px;
+    text-align: center;
+}
+
+.dataCard .dataCard-text-section h1 {
+    color: var(--gray01);
+    font-size: 18px;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+.dataCard-table-full {
+    
+}
+
+.dataCard-table-in {
+    
+}
+
+.dataCard table {
+    width: 100%;
+    border-collapse: collapse;
     gap: 10px;
 }
 
@@ -39,16 +84,24 @@
 
 .dataCard table thead th {
     padding: 5px 30px;
-    color: var(--bgc01);
+    color: var(--gray01);
     font-size: 14px;
-    font-family: 'Open Sans';
+    font-family: 'Roboto Condensed';
     font-weight: 700;
     text-align: left;
-    background-color: var(--c03);
+    border-bottom: 1px solid var(--gray00);
+    border-top: 1px solid var(--gray00);
+    cursor: pointer;
+}
+
+.dataCard table thead th:hover {
+    color: var(--dark00);
 }
 
 .dataCard table tbody tr {
-    border-bottom: 1px solid var(--c04);
+    background-color: #ffff;
+    border-bottom: 1px solid var(--gray00);
+    transition: all .1s ease;
 }
 
 .dataCard table tbody tr:last-child {
@@ -56,18 +109,22 @@
 }
 
 .dataCard table tbody tr:nth-child(even) {
-    background-color: #f5f5f5;
+    background-color: var(--light02);
 }
 
 .dataCard table tbody tr:hover {
-    background-color: var(--c02);
+    background-color: var(--gray00);
     cursor: pointer;
 }
 
 .dataCard table tbody td {
-    padding: 15px 30px;
+    padding: 10px 30px;
     font-family: 'Roboto';
-    font-size: 16px;
+    font-size: 14px;
+}
+
+.dataCard table .refNum {
+    font-family: 'Roboto Condensed';
 }
 
 .dataCard .button-01 {

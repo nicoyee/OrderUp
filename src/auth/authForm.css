@@ -2,6 +2,13 @@
     width: 400px;
 }
 
+#authForm .modal-header h2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #515151;
+    margin-bottom: 15px;
+}
+
 #authForm .authForm-body {
     flex-direction: column;
     gap: 10px;

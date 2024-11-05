@@ -40,7 +40,7 @@ const CustomerHeader = () => {
         <div id='customerHeader'>
 
             <div className="customerHeader-container">
-                <h1>RiceBoy</h1>
+                <h1 onClick={() => navigate("/dashboard")}>RiceBoy</h1>
 
                 <div className="customerHeader-actions">
                     <button onClick={handleCartClick}>

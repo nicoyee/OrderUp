@@ -13,7 +13,7 @@
     justify-content: center;
     background-color: #FBF0DF;
     z-index: 100;
-    border-bottom: 1px solid #c3c6ce;
+    border-bottom: 1px solid var(--gray00);
 }
 
 #customerHeader .customerHeader-container {
@@ -28,6 +28,7 @@
     font-family: 'Kare';
     letter-spacing: 1px;
     margin-top: -16px;
+    cursor: pointer;
 }
 
 #customerHeader .customerHeader-actions {

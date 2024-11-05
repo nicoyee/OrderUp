@@ -1,25 +1,35 @@
-import '../css/common/modals.css';
+import '../common/css/Modal.css';
 import './authForm.css';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthController from '../class/controllers/AuthController';
 
-const ForgotPassword = ({ closeModal, setLogin }) => {
+const ForgotPassword = ({ closeModal, setLogin, currentEmail }) => {
     const [email, setEmail] = useState('');
     const [emailSent, setEmailSent] = useState(false);
     const [errorMessage, setErrorMessage] = useState(''); // New state for error message
+
+    useEffect(() => {
+        if (currentEmail) {
+            setEmail(currentEmail);
+        }
+    }, [currentEmail]);
 
     const resetPassword = async (e) => {
         e.preventDefault();
         setErrorMessage(''); // Clear any previous errors
 
         try {
-            await AuthController.resetPass(email);
+            await AuthController.resetPassword(email);
+            console.log('yes');
             setEmailSent(true); // If successful, set emailSent to true
         } catch (error) {
+            console.log('no');
             setErrorMessage('Email does not exist. Please try again.'); // Handle error
         }
     };
+
+    
 
     return (
         <form id='authForm' className="modalForm" onSubmit={ resetPassword }>
@@ -74,9 +84,13 @@ const ForgotPassword = ({ closeModal, setLogin }) => {
                     <button type="submit" name="submit" className="authForm-submit">Reset Password</button>
                 }
                 
-                <p className='authRedirect-context'>
-                    Already have an account? <span className='authRedirect-link' onClick={setLogin}>Log In</span>
-                </p>
+                {setLogin && (
+                    <p className='authRedirect-context'>
+                        Already have an account? <span className='authRedirect-link' onClick={setLogin}>Log In</span>
+                    </p>
+                )}
+
+                
             </div>
         </form>
     );
