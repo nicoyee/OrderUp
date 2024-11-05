@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 
-.modalForm {
+.modal {
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -22,36 +22,48 @@
     animation: fadeInForm 0.1s forwards;
 }
 
-.modalForm > div {
+.modal .modalButton-primary {
+    padding: 10px 15px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    background-color: #151717;
+    cursor: pointer;
+}
+
+.modal .modalButton-primary:hover {
+    background-color: #252727;
+}
+
+.modal .modalButton-primary.disabled {
+    
+}
+
+.modal > div {
     display: flex;
 }
 
-.modalForm .modalForm-header {
+.modal .modal-header {
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.modalForm .modalForm-header span, .modalTable .modalTable-header .modalTable-header-label {
+.modal .modal-header span {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.modalForm .modalForm-header h1 {
+.modal  .modal-header span h1 {
     font-size: 28px;
     font-weight: 800;
 }
 
-.modalForm .modalForm-header h2 {
-    font-size: 14px;
-    font-weight: 400;
-    color: #515151;
-    margin-bottom: 15px;
-}
-
-.modalForm .modalForm-header svg, .modalTable .modalTable-header .modalTable-header-label svg { 
+.modal .modal-header span svg { 
     width: 30px;
     height: 30px;
     padding: 5px;
@@ -62,15 +74,31 @@
     cursor: pointer;
 }
 
-.modalForm .modalForm-header svg:hover, .modalTable .modalTable-header .modalTable-header-label svg:hover {
+.modal .modal-header svg:hover {
     background-color: transparent;
     border: 1px solid black;
 }
 
-.modalForm .modalForm-body {
-
+.modal .modal-header-section {
+    display: flex;
 }
 
+.modal .modal-header-section-left, .modal .modal-header-section-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.modal .modal-footer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/*
 .modalForm .modalForm-body table {
     width: 100%;
     border-collapse: collapse;
@@ -85,6 +113,7 @@
 .modalForm .modalForm-body table tbody td {
     padding: 10px;
 }
+
 
 .modalTable {
     display: flex;
@@ -138,6 +167,7 @@
     border-top: 1px solid var(--c04);
 
 }
+*/
 
 @keyframes fadeInForm {
     from {

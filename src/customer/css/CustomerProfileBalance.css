@@ -1,0 +1,20 @@
+#customerProfileBalance {
+    
+}
+
+#customerProfileBalance .dataCard-header {
+    border-bottom: none;
+}
+
+#customerProfileBalance table {
+    width: 100%;
+}
+
+#customerProfileBalance table th {
+    color: var(--primary00);
+    border-top: none;
+}
+
+#customerProfileBalance .transactionDate {
+    width: 50%;
+}

@@ -1,39 +1,61 @@
 .dataCard {
     display: flex;
     flex-direction: column;
-    background-color: var(--light01);
+    background-color: var(--light00);
     border-radius: 6px;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--gray00);
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
     overflow: hidden;
 }
 
 .dataCard .dataCard-header {
     padding: 30px 30px 20px 30px;
     display: flex;
+    border-bottom: 1px solid var(--gray00);
 }
 
 .dataCard .dataCard-header .dataCard-header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
 }
 
 .dataCard .dataCard-header .dataCard-header-left svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     color: var(--primary00);
 }
 
 .dataCard .dataCard-header .dataCard-header-left h1 {
     color: var(--secondary00);
     font-family: 'Inter';
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 900;
 }
 
 .dataCard .dataCard-footer {
     padding: 20px 0;
     border-top: 1px solid var(--gray00);
+}
+
+.dataCard .dataCard-text-section {
+    padding: 30px;
+    text-align: center;
+}
+
+.dataCard .dataCard-text-section h1 {
+    color: var(--gray01);
+    font-size: 18px;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+.dataCard-table-full {
+    
+}
+
+.dataCard-table-in {
+    
 }
 
 .dataCard table {
@@ -45,13 +67,12 @@
     padding: 5px 30px;
     color: var(--gray01);
     font-size: 14px;
-    font-family: 'Open Sans';
+    font-family: 'Roboto Condensed';
     font-weight: 700;
     text-align: left;
     border-bottom: 1px solid var(--gray00);
     border-top: 1px solid var(--gray00);
     cursor: pointer;
-    background-color: var(--primary00);
 }
 
 .dataCard table thead th:hover {
@@ -59,7 +80,9 @@
 }
 
 .dataCard table tbody tr {
+    background-color: #ffff;
     border-bottom: 1px solid var(--gray00);
+    transition: all .1s ease;
 }
 
 .dataCard table tbody tr:last-child {
@@ -76,9 +99,13 @@
 }
 
 .dataCard table tbody td {
-    padding: 15px 30px;
+    padding: 10px 30px;
     font-family: 'Roboto';
-    font-size: 16px;
+    font-size: 14px;
+}
+
+.dataCard table .refNum {
+    font-family: 'Roboto Condensed';
 }
 
 .dataCard .button-01 {

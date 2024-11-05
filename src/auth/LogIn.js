@@ -35,8 +35,8 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
     
  
     return (
-        <form id='authForm' className="modalForm" onSubmit={ signIn }>
-            <div className='modalForm-header'>
+        <form id='authForm' className="modal" onSubmit={ signIn }>
+            <div className='modal-header'>
                 <span>
                     <h1>Log In</h1>
                     <svg
