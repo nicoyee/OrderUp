@@ -106,7 +106,8 @@
     flex-direction: column;
     width: 250px;
     height: 100%;
-    border-right: 1px solid var(--c04);
+    font-family: 'Inter';
+
 }
 
 .dashboardContainer .dashboard-nav-section {
@@ -118,9 +119,9 @@
 
 .dashboardContainer .dashboard-nav-section label {
     text-transform: uppercase;
-    color: var(--c03);
+    color: var(--primary00);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .dashboardContainer .dashboard-nav ul {
@@ -134,7 +135,7 @@
 .dashboardContainer .dashboard-nav li {
     border-radius: 5px;
     padding: 10px 15px;
-    background-color: var(--c04);
+    background-color: var(--gray00);
     cursor: pointer;
 }
 
@@ -175,9 +176,9 @@
 
 .dashboardContainer .dashboardHeader h1 {
     margin: 0;
-
-    color: var(--c01);
-    font-size: 24px;
+    font-family: 'Abril Fatface';
+    color: var(--secondary01);
+    font-size: 28px;
     font-weight: 700;
     text-transform: uppercase;
 }
