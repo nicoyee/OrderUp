@@ -26,20 +26,20 @@ class EventsController {
             throw error;
         }
     }
-
     static async fetch() {
         try {
-            const querySnapshot = await FService.getDocuments('events');
-            const events = querySnapshot.docs
-                .map(doc => ({ id: doc.id, ...doc.data() }))
-                .filter(event => !event.deleted);
-            return events;
+          const querySnapshot = await FService.getDocuments('events');
+          const events = querySnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(event => !event.deleted); // Assuming you filter out deleted events
+          console.log(events); // Log the fetched events
+          return events;
         } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
+          console.error('Error fetching events:', error);
+          throw error;
         }
     }
-    
+      
 
     static async update(eventId, eventData) {
         try {
