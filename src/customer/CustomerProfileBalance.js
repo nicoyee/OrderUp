@@ -56,9 +56,23 @@ const CustomerProfileBalance = () => {
                 console.error("Transaction not found for ID:", transactionId); 
                 throw new Error("Transaction not found.");
             }
-        
-            if (transactionToPay.status === "paid") {
-                throw new Error("This transaction is already paid.");
+            
+            // Log the status to verify its exact value
+            console.log("Transaction Status:", transactionToPay.status);
+    
+            if (transactionToPay.status && transactionToPay.status.toLowerCase() === "paid") {
+                toast.info("This transaction is already paid.", {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Flip,
+                });
+                return;
             }
         
             const amountInCents = transactionToPay.remainingBalance;
@@ -81,6 +95,7 @@ const CustomerProfileBalance = () => {
             });
         }
     };
+    
 
     const formatDate = (timestamp) => {
         if (timestamp && timestamp.seconds) {

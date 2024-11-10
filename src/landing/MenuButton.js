@@ -9,7 +9,7 @@ const MenuButton = ({ setAlignment = () => {}, setLandingContent = () => {} }) =
 
     const handleClick = () => {
         setLandingContent('menu');
-    };
+    }
 
     return (
         <div className='navigationButtons navLeft'>
