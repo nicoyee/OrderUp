@@ -17,7 +17,6 @@ const OrderCancellationRequests = () => {
                 ];
 
                 setRequests(allRequests);
-                console.log("All Requests Fetched:", allRequests);
             } catch (error) {
                 alert(error.message);
             }

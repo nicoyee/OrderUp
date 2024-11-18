@@ -76,7 +76,6 @@ class FirebaseService implements IFirebase{
     }
 
     addDocument(path, data){
-        console.log("to add", data)
         return addDoc(collection(this.db, path), data)
     }
 

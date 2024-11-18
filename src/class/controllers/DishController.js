@@ -27,7 +27,6 @@ class DishController {
             await setDoc(doc(FService.db, 'dishes', id), {
                 deleted: true
             }, { merge: true });
-            console.log('Dish marked as deleted successfully');
         } catch (error) {
             console.error('Error marking dish as deleted:', error);
             throw error;
@@ -37,7 +36,6 @@ class DishController {
     static async update(id, newData) {
         try {
             await FService.updateDocument('dishes', id, newData);
-            console.log('Dish updated successfully');
         } catch (error) {
             console.error('Error updating dish:', error);
             throw error;

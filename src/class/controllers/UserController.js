@@ -48,7 +48,6 @@ class UserController {
     try {
       const userDocRef = FService.getDocRef('users', uid);
       await FService.updateDocument(userDocRef, userDetails);
-      console.log("User updated successfully");
     } catch (error) {
       console.error("Error updating user:", error);
       throw error;
@@ -60,7 +59,6 @@ class UserController {
       const photoURL = await FService.uploadPhoto(photo, 'profilePictures');
       // Assuming 'photoURL' is the field in the user document where the photo URL is stored
       await this.updateUser(uid, { photoURL });
-      console.log("Profile picture updated successfully");
     } catch (error) {
       console.error("Error updating profile picture:", error);
       throw error;
@@ -78,7 +76,6 @@ class UserController {
         filename: newImageFile.name,
         imageUrl: newImageUrl,
       });
-      console.log("GCash image updated successfully");
     } catch (error) {
       console.error("Error updating GCash image:", error);
       throw error;
