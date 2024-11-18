@@ -19,7 +19,6 @@ class EventsController {
             };
             // Add new event document to Firestore
             const docRef = await FService.addDocument('events', newEvent);
-            console.log('Event created successfully:', { id: docRef.id, ...newEvent });
             return { id: docRef.id, ...newEvent };
         } catch (error) {
             console.error('Error creating event:', error);
@@ -31,8 +30,7 @@ class EventsController {
           const querySnapshot = await FService.getDocuments('events');
           const events = querySnapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
-            .filter(event => !event.deleted); // Assuming you filter out deleted events
-          console.log(events); // Log the fetched events
+            .filter(event => !event.deleted); 
           return events;
         } catch (error) {
           console.error('Error fetching events:', error);
@@ -55,7 +53,6 @@ class EventsController {
             };
             // Update event document in Firestore
             await FService.updateDocument('events', eventId, updatedEvent);
-            console.log('Event updated successfully:', updatedEvent);
             return updatedEvent;
         } catch (error) {
             console.error('Error updating event:', error);
@@ -68,8 +65,6 @@ class EventsController {
             await setDoc(doc(FService.db, 'events', eventId), {
                 deleted: true
             }, { merge: true });
-    
-            console.log('Event marked as deleted successfully');
         } catch (error) {
             console.error('Error marking event as deleted:', error);
             throw error;

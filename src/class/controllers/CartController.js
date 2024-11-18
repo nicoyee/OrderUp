@@ -44,10 +44,6 @@ class CartController {
 
                     await FService.setDocument('cart', user.email, { items: newCartItems });
                 }
-
-                console.log('Item added to cart!');
-            } else {
-                console.log('Dish not found.');
             }
         } catch (error) {
             console.error('Error adding item to cart:', error);

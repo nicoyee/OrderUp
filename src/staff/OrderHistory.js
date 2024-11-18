@@ -26,7 +26,6 @@ const OrderHistory = () => {
             allOrders.push(...userOrders);
           }
           allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
-          console.log("Orders Fetched:", allOrders);
           setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);

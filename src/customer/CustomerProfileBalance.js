@@ -58,7 +58,6 @@ const CustomerProfileBalance = () => {
             }
             
             // Log the status to verify its exact value
-            console.log("Transaction Status:", transactionToPay.status);
     
             if (transactionToPay.status && transactionToPay.status.toLowerCase() === "paid") {
                 toast.info("This transaction is already paid.", {

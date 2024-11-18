@@ -22,9 +22,6 @@ class PaymentController {
           }
         }
       };
-
-      console.log('Creating payment link with data:', requestData);
-
       const options = {
         method: 'POST',
         headers: {
@@ -37,11 +34,9 @@ class PaymentController {
 
       const response = await fetch('https://api.paymongo.com/v1/links', options);
       const responseData = await response.json();
-      console.log('PayMongo response:', responseData);
 
       // if(responseData!=null){
       //   const paymentLink = responseData.data.attributes.checkout_url;
-      //   console.log(paymentLink);
 
       // const paymentData = {
       //     amount: formattedAmount / 100, 
@@ -51,7 +46,6 @@ class PaymentController {
 
       if (responseData && responseData.data && responseData.data.attributes && responseData.data.attributes.checkout_url) {
         const paymentLink = responseData.data.attributes.checkout_url;
-        console.log(paymentLink);
 
         const paymentData = {
           amount: formattedAmount / 100, 
@@ -60,7 +54,6 @@ class PaymentController {
       };
 
         // await FService.collection('payments').add(paymentData);
-        // console.log('Payment data successfully stored in Firestore:', paymentData);
 
         return paymentLink;
       } else {
@@ -207,7 +200,6 @@ class PaymentController {
         }
       };
 
-      console.log('Creating refund with data:', requestData);
 
       const options = {
         method: 'POST',
@@ -221,7 +213,6 @@ class PaymentController {
 
       const response = await fetch('https://api.paymongo.com/v1/refunds', options);
       const responseData = await response.json();
-      console.log('PayMongo refund response:', responseData);
 
       if (responseData && responseData.data) {
         return responseData.data; // Return the created refund data
@@ -253,7 +244,6 @@ class PaymentController {
 
       const response = await fetch(`https://api.paymongo.com/v1/refunds/${refundId}`, options);
       const responseData = await response.json();
-      console.log('PayMongo refund response:', responseData);
 
       if (responseData && responseData.data) {
         return responseData.data; // Return the specific refund data
