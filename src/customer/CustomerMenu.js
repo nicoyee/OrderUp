@@ -1,5 +1,4 @@
 import './css/CustomerMenu.css';
-import 'react-toastify/dist/ReactToastify.css';
 
 import Customer from '../class/Customer.ts';
 

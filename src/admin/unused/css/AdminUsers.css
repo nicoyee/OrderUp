@@ -1,0 +1,31 @@
+#adminUsers {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#adminUsers .dataCard {
+    flex: 1;
+}
+
+#adminUsers .dataCard table button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff8ec;
+    transition: background-color 0.3s ease;
+}
+
+#adminUsers .view-order-history-button {
+    background-color: #ff5100;
+}
+
+#adminUsers .ban-button {
+    background-color: #8B0000;
+}
+
+#adminUsers button:hover {
+    background-color: #0056b3;
+}

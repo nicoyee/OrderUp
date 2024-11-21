@@ -1,6 +1,4 @@
 import "./css/CustomerProfile.css";
-import '../common/css/Modal.css';
-import '../common/css/Dashboard.css';
 
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,16 +42,17 @@ const CustomerProfile = () => {
 
           <div className="customerProfile-container-section">
 
-            <div className="userInfo">
+            <div className="userInfo customer">
               <div className="userInfo-left">
-                <h1>Welcome Back</h1>
-                <h2>{user.name}</h2>
-                <h3>{user.email}</h3>
-              </div>
-              <div className="userInfo-right">
-                <button onClick={ openModal }>Reset Password</button>
+                <span className="vertical">
+                  <h1>Welcome Back</h1>
+                  <h2>{user.name}</h2>
+                  <h3>{user.email}</h3>
+                </span>
+                <button className='primaryButton' onClick={ openModal }>Reset Password</button>
               </div>
             </div>
+            
             <Balance />
                   
           </div>

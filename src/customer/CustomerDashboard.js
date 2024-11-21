@@ -1,4 +1,3 @@
-
 import '../common/css/Dashboard.css';
 import './css/CustomerDashboard.css';
 
@@ -13,7 +12,6 @@ import Header from "./CustomerHeader";
 import Bestsellers from "./CustomerBestsellers";
 import Banner from "./CustomerBanner";
 import Cart from "./CustomerCart";
-import Orders from "./CustomerOrders";
 import Menu from "./CustomerMenu";
 
 

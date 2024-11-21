@@ -76,6 +76,7 @@ button {
   src: url('../public/fonts/Kare-Light.ttf') format('truetype');
 }
 
+/*
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -84,5 +85,8 @@ button {
   border-radius: 20px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent; /* Customize track color */
+  background: transparent;
 }
+
+*/
+

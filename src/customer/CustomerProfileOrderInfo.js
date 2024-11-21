@@ -1,14 +1,11 @@
 import "./css/CustomerProfileOrderInfo.css";
-import "../common/css/Data.css";
 
 import React, { useContext, useState, useEffect } from "react";
-import { toast, Flip } from 'react-toastify';
-import Modal from 'react-modal';
 
 import { UserContext } from "../App";
 import OrderController from "../class/controllers/OrderController";
 
-import OrderStatusIndicator from "../common/OrderStatusIndicator";
+import OrderStatusIndicator from "../common/UserStatusIndicator";
 
 const CustomerProfileOrderInfo = ({ handleCloseOrder, handleCancelOrder, handleRefundRequest, order }) => {
 
@@ -128,7 +125,7 @@ const CustomerProfileOrderInfo = ({ handleCloseOrder, handleCancelOrder, handleR
             <div className="modal-footer">
                 {order.status === "pending" && (
                     <button
-                        className='modalButton-primary'
+                        className='modalButton primary'
                         onClick={ () => handleCancelOrder(order) }
                     >
                         Cancel Order
@@ -136,8 +133,8 @@ const CustomerProfileOrderInfo = ({ handleCloseOrder, handleCancelOrder, handleR
                 )}
                 {order.status === "downpayment-paid" && (
                     <button
-                        className='modalButton-primary'
-                        onClick={ () => handleCancelOrder(order) }
+                        className='modalButton primary'
+                        onClick={ () => handleRefundRequest(order) }
                     >
                         Request Refund
                     </button>

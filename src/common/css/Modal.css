@@ -22,23 +22,30 @@
     animation: fadeInForm 0.1s forwards;
 }
 
-.modal .modalButton-primary {
+.modal .modalButton {
     padding: 10px 15px;
     color: white;
     font-size: 15px;
     font-weight: 500;
     border: none;
     border-radius: 10px;
-    background-color: #151717;
     cursor: pointer;
 }
 
-.modal .modalButton-primary:hover {
+.modal .modalButton.primary {
+    background-color: var(--dark02);
+}
+
+.modal .modalButton.primary:hover {
     background-color: #252727;
 }
 
-.modal .modalButton-primary.disabled {
-    
+.modal .modalButton.secondary {
+    background-color: #FF3838;
+}
+
+.modal .modalButton.secondary:hover {
+    background-color: var(--primary00);
 }
 
 .modal > div {
@@ -69,14 +76,23 @@
     padding: 5px;
     display: flex;
     color: black;
+    border: 1px solid transparent;
     border-radius: 50%;
     background-color: #ecedec;
     cursor: pointer;
+    transition: all 0.2s ease-out;
 }
 
-.modal .modal-header svg:hover {
+.modal .modal-header span svg:hover {
     background-color: transparent;
     border: 1px solid black;
+}
+
+.modal .modal-header h2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray02);
+    margin-bottom: 15px;
 }
 
 .modal .modal-header-section {
@@ -89,6 +105,10 @@
     flex-direction: column;
     word-wrap: break-word;
     overflow: hidden;
+}
+
+.modal .modal-body {
+    display: flex;
 }
 
 .modal .modal-footer {

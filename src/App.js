@@ -1,7 +1,11 @@
 import 'react-toastify/dist/ReactToastify.css';
+import './common/css/Components.css';
+import './common/css/Modal.css';
+import './common/css/Dashboard.css';
 
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import Modal from 'react-modal';
 import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";
@@ -11,13 +15,12 @@ import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
-import AdminProfile from "./admin/AdminProfile";
-import FinanceDashboard from './admin/FinanceDashboard.jsx';
+import AdminProfile from "./admin/unused/AdminProfile.js";
+import FinanceDashboard from './admin/unused/FinanceDashboard.jsx';
 import { UserType } from "./constants";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
-
 
 export const UserContext = createContext(null);
 

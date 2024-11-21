@@ -1,30 +1,30 @@
-import "./css/CustomerHeader.css";
+import "../common/css/Header.css";
 
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from 'react-modal';
 
 import { UserContext } from '../App';
+
+import LogOutConfirmation from '../common/LogOutConfirmation.js';
+
 import AuthController from "../class/controllers/AuthController";
 
 const CustomerHeader = () => {
-    const user = useContext(UserContext); 
-    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); 
+
     const navigate = useNavigate();
 
-    const handleSignOut = () => {
-        setIsLogoutModalOpen(true);
-      };
-    
-      // Confirm and process the logout
-      const confirmSignOut = () => {
-        AuthController.signOut();
-        setIsLogoutModalOpen(false);
-      };
-    
-      // Cancel logout process
-      const cancelSignOut = () => {
-        setIsLogoutModalOpen(false);
-      };
+    const [ modal, showModal ] = useState(false);
+
+    const openModal = () => {
+        showModal(true);
+        document.body.classList.add('modal-open');
+    };
+
+    const closeModal = () => {
+        showModal(false);
+        document.body.classList.remove('modal-open');
+    };
 
     const handleCartClick = () => {
         navigate("/cart");
@@ -37,42 +37,37 @@ const CustomerHeader = () => {
     };
 
     return (
-        <div id='customerHeader'>
+        <div className="header">
 
-            <div className="customerHeader-container">
-                <h1 onClick={() => navigate("/dashboard")}>RiceBoy</h1>
+            <div className="header-wrapper">
+                <div className="header-left">
+                    <h1 className="siteLogo customer" onClick={() => navigate("/dashboard")}>RiceBoy</h1>
+                </div>
 
-                <div className="customerHeader-actions">
-                    <button onClick={handleCartClick}>
+                <div className="header-right">
+                    <a onClick={ handleCartClick }>
                         Cart
-                    </button>
+                    </a>
 
-                    <button onClick={handleProfileClick}>
+                    <a onClick={ handleProfileClick }>
                         Profile
-                    </button>
+                    </a>
 
-                    <button onClick={handleSignOut}>
+                    <a onClick={ openModal }>
                         Log Out
-                    </button>
+                    </a>
                 </div>        
                 
             </div>
    
-            {isLogoutModalOpen && (
-                <div className="modal-overlay">
-                <div className="modal-content">
-                    <p>Are you sure you want to log out?</p>
-                    <div className="modal-buttons">
-                    <button className="modal-confirm" onClick={confirmSignOut}>
-                        Yes
-                    </button>
-                    <button className="modal-cancel" onClick={cancelSignOut}>
-                        No
-                    </button>
-                    </div>
-                </div>
-                </div>
-            )}
+            <Modal
+                isOpen={ modal }
+                onRequestClose={ closeModal }
+                className={`${ modal ? 'modal-open' : '' }`}
+                overlayClassName="modalOverlay"
+            >
+                <LogOutConfirmation closeModal={ closeModal } />
+            </Modal>
 
         </div>
     )

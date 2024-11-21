@@ -1,0 +1,28 @@
+#adminDishes .activeRow {
+    background-color: var(--gray01);
+}
+
+#adminDishes .dataCard {
+    flex: 1;
+}
+
+#adminDishes .dataCard-content {
+    overflow-x: auto;
+}
+
+#adminDishes th, #adminDishes td {
+    text-align: center;
+    
+}
+
+#adminDishes td img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #adminDishes table {
+        table-layout: auto;
+    }
+}

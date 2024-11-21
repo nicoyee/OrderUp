@@ -1,0 +1,50 @@
+#adminHeader {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 20px 1rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light00);
+    z-index: 100;
+    border-bottom: 1px solid var(--gray00);
+}
+
+#adminHeader .adminHeader-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#adminHeader .adminHeader-container h1 {
+    color: var(--secondary00);
+    font-family: 'Kare';
+    letter-spacing: 1px;
+    margin-top: -16px;
+    cursor: pointer;
+}
+
+#adminHeader .adminHeader-actions {
+    display: flex;
+    gap: 20px;
+}
+
+#adminHeader .adminHeader-actions button {
+    font-size: 12px;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+#adminHeader .adminHeader-actions button:hover {
+    color: var(--gray02);
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1200px) {
+    #adminHeader {
+        display: flex;
+    }
+}

@@ -2,22 +2,3 @@
     flex: 3;
     width: 100%;
 }
-
-#customerProfileOrders .dataCard-header {
-    border-bottom: none;
-}
-
-#customerProfileOrders table {
-    width: 100%;
-}
-
-#customerProfileOrders table th {
-    color: var(--primary00);
-    border-top: none;
-}
-
-@media only screen and (max-width: 992px) {
-    #customerProfileOrders {
-        
-    }
-}

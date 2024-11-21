@@ -1,0 +1,13 @@
+#adminAnalytics {
+    
+}
+
+#adminAnalytics .dashboard-section-column.two {
+    flex: 2.5;
+    overflow: hidden;
+}
+
+#adminAnalytics .dataCard-content {
+    min-height: 350px;
+}
+

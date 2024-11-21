@@ -1,4 +1,3 @@
-import '../common/css/Modal.css';
 import './authForm.css';
 
 import React, { useState, useEffect } from 'react';

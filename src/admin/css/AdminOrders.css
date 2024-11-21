@@ -1,0 +1,13 @@
+#adminOrders .dataCard {
+    flex: 1;
+}
+
+#adminOrders .dataCard-content {
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    #adminOrders table {
+        table-layout: auto;
+    }
+}

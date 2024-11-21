@@ -1,11 +1,12 @@
-import "../admin/css/AdminDashboard.css";
-import "../css/Admin/DashboardAdmin.css";
+// import "../admin/css/AdminDashboard.css";
+// import "../css/Admin/DashboardAdmin.css";
 
 import React, { useState, useContext } from "react";
 
 import { UserContext } from "../App";
 
-import HeaderStaff from "../admin/HeaderAdmin";
+// import HeaderStaff from "../admin/AdminHeader";
+import Header from "../admin/AdminHeader";
 import MenuStaff from "./MenuStaff";
 import OrderHistory from "./OrderHistory";
 import ManageEvents from "./ManageEvents";
@@ -31,7 +32,7 @@ const DashboardStaff = () => {
     return (
       <div className="dashboardContainer">
 
-        <HeaderStaff user={user} />
+        <Header />
 
         <div id="adminDashboard">
 
