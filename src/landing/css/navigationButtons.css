@@ -1,0 +1,130 @@
+.navigationButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #334d66;
+    z-index: 2;
+}
+
+.navigationButtons:hover {
+    cursor: pointer;
+}
+
+.navigationButtons h1 {
+    font-family: 'Abril Fatface';
+    font-size: 7vw;
+    line-height: .8;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    max-width: 11vw;
+    text-align: center;
+    transition: max-width .4s ease-in-out;
+    user-select: none;
+}
+
+.navigationButtons:hover h1 {
+    max-width: 100%;
+    color: #c0963d;
+    transition: color .4s ease-in-out, max-width .4s ease-in-out;
+}
+
+.navigationButtons h2 {
+    font-size: 1vw;
+    font-family: "Inter";
+    text-transform: uppercase;
+    color: #c0963d;
+}
+
+.navigationButtons:hover h2 {
+    color: #334d66;
+    transition: color .3s ease-in-out;
+}
+
+.navigationButtons h2 span {
+    color: #334d66;
+}
+
+.navigationButtons:hover h2 span {
+    color: #c0963d;
+    transition: color .3s ease-in-out;
+}
+
+.navMenu, .navEvents {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 27vw;
+}
+
+.navMenu {
+    height: 15vw;
+}
+
+.navEvents {
+    height: 22vw;
+}
+
+.tagLine {
+    position: absolute;
+    width: 40vw;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.menuTag {
+    transform: translate(10vw, -14vw);
+}
+
+.eventsTag {
+    transform: translate(-7vw, -14vw);
+}
+
+.navRight img.left, .navLeft img.right {
+    animation: tagLineAppear .5s ease-in-out forwards;
+}
+
+@keyframes tagLineAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-14vw);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navigationButtons:hover {
+        color: #f05006;
+        transition: color .4s ease-in-out;
+    }
+    .navMenu, .navEvents {
+        width: auto;
+        height: auto;
+    }
+    .navigationButtons h1 {
+        font-size: 8vw;
+        max-width: 100%;
+    }
+    .navigationButtons h2 {
+        font-size: 2vw;
+    }
+    .navigationButtons:hover h2 {
+        color: #d5dbbd;  
+        transition: color .4s ease-in-out;
+    }
+    .navigationButtons:hover h2 span {
+        color: #f05006;
+        transition: color .4s ease-in-out;
+    }
+    .tagLine {
+        display: none;
+    }
+
+}

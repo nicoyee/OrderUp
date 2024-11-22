@@ -1,6 +1,5 @@
 .order-details-modal {
     position: fixed;
-    z-index: 1000; /* Ensure the modal is on top */
     left: 0;
     top: 0;
     width: 100%;
@@ -8,36 +7,40 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background */
-    animation: fadeIn 0.3s ease-in-out; /* Fade-in effect */
+    color: #334d66;
+    background-color: rgba(0, 0, 0, 0.6); 
+    animation: fadeIn 0.3s ease-in-out; 
     font-family: "Roboto", sans-serif;
+    z-index: 1000;
   }
   
   .order-details-modal .modal-content {
-    background-color: #2b2b2b; /* Dark gray background */
+    background-color: #fbf0df; 
     width: 80%;
     max-width: 950px;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); /* Soft white shadow */
+    border-collapse: collapse;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); 
   }
   
   .order-details-modal .close {
     cursor: pointer;
     font-size: 28px;
-    color: #ff8500; /* Orange color */
+    color: #334d66;
     float: right;
     transition: color 0.3s ease;
   }
   
   .order-details-modal .close:hover {
-    color: #ffa733; /* Lighter orange on hover */
+    color: #5383af;
   }
   
-  .order-details-modal h1 {
-    color: #ff8500; /* Orange color */
-    margin-bottom: 20px;
+  .order-details-modal h1,
+  .order-details-modal .order-info {
+    color: #334d66;
+    text-align: left;
+    margin: 5px 0;
   }
   
   .order-details-modal table {
@@ -47,36 +50,48 @@
   
   .order-details-modal th,
   .order-details-modal td {
-    border: 1px solid #555555; /* Darker border */
-    padding: 10px;
+    border: 1px solid #555555;
+    padding: 12px;
     text-align: left;
   }
   
   .order-details-modal th {
-    background-color: #333333; /* Darker gray background */
-    color: #ff8500; /* Orange text */
+    background-color: #c0613d ; 
+    color: #fff8ec; 
     font-weight: bold;
   }
+
+  .order-details-modal td {
+    color: #334d66;
+  }
+  
+  
   
   .order-details-modal tr:nth-child(even) {
-    background-color: #3a3a3a; /* Slightly lighter gray for even rows */
+    background-color: #fff8ec; 
   }
   
   .order-details-modal tr:hover {
-    background-color: #444444; /* Highlight row on hover */
-  }
-  
-  .order-details-modal .status {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-    color: #f0f0f0;
+    background-color: #fff8ec; 
   }
   
   .order-details-modal .total {
     margin-top: 20px;
     text-align: right;
     font-size: 18px;
-    color: #f0f0f0;
+    color: #334d66;
+  }
+    
+  .order-details-modal .amount-paid {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 18px;
+    color: #334d66;
+  }
+  .order-details-modal .remaining-balance {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 18px;
+    color: #334d66;
   }
   

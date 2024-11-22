@@ -1,0 +1,98 @@
+/* OrderCancellationRequests.css */
+
+.cancellationTableContainer {
+    padding: 10px;
+    background-color: #fbf0df;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    font-family: "Roboto", sans-serif;
+}
+
+.cancellationTableContainer h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #334d66;
+}
+
+.tableWrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+.cancellationTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff8ec;
+}
+
+.cancellationTable thead {
+    background-color: #334d66;
+    color: #fff8ec;
+}
+
+.cancellationTable th,
+.cancellationTable td {
+    padding: 8px 10px;
+    text-align: center;
+    border-bottom: 1px solid #444;
+}
+
+
+.cancellationTable tbody tr:nth-child(even) {
+    background-color: #fbf0df;
+}
+
+.cancellationTable tbody tr:hover {
+    background-color: #fff8ec;
+}
+
+.cancellationTable th {
+    font-weight: bold;
+    color: #fff8ec;
+}
+
+.cancellationTable td {
+    color: #334d66;
+}
+
+.confirmButton, .rejectButton {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    margin: 5px 0;
+}
+
+.confirmButton {
+    background-color: #47a8bd;
+}
+
+.rejectButton {
+    background-color: #e20041;
+}
+
+.confirmButton:hover, .rejectButton:hover {
+    opacity: 0.8;
+}
+
+.noRequestsMessage {
+    color: #f0f0f0;
+    text-align: center;
+    margin-top: 10px 0;
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cancellationTableContainer {
+        padding: 10px;
+    }
+
+    .cancellationTable th,
+    .cancellationTable td {
+        padding: 6px; /* Adjust for smaller screens */
+    }
+}

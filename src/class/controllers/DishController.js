@@ -1,5 +1,6 @@
 import { Dish } from '../Dish.js';
 import { FService } from './FirebaseService.ts';
+import { doc, setDoc } from 'firebase/firestore';
 
 class DishController {
     static async add(name, menuType, description, price, photo) {
@@ -23,10 +24,11 @@ class DishController {
 
     static async remove(id) {
         try {
-            await FService.deleteDocument('dishes', id);
-            console.log('Dish deleted successfully');
+            await setDoc(doc(FService.db, 'dishes', id), {
+                deleted: true
+            }, { merge: true });
         } catch (error) {
-            console.error('Error deleting dish:', error);
+            console.error('Error marking dish as deleted:', error);
             throw error;
         }
     }
@@ -34,7 +36,6 @@ class DishController {
     static async update(id, newData) {
         try {
             await FService.updateDocument('dishes', id, newData);
-            console.log('Dish updated successfully');
         } catch (error) {
             console.error('Error updating dish:', error);
             throw error;

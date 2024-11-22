@@ -1,54 +1,58 @@
-.order-history-container {
+.table-history {
+    width: 1250px;
+    margin: 40px 0;
+    padding: 1em;
     font-family: "Roboto", sans-serif;
-    background-color: #fff;
-    color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 100%;
-    overflow-x: auto;
+    color: #334d66;
+    background-color: #fbf0df;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.7);
 }
-
-.dataTableHistory {
-    width: 100%;
+.table-history .dataTableHistory {
+    width: 1200px;
+    max-width: 1200px;
     border-collapse: collapse;
     margin: 20px 0;
+    background-color: #fbf0df;
 }
 
-.dataTableHistory th, .dataTableHistory td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
+.table-history .dataTableHistory th,
+.table-history .dataTableHistory td {
+    padding: 12px 0;
+    border-bottom: 1px solid #444;
     text-align: center;
 }
 
-.dataTableHistory th {
-    background-color: #ff8500;
-    color: white;
-    font-size: 16px;
+.table-history .dataTableHistory th {
+    background-color: #c0613d ;
+    color: #fff8ec;
+    font-size: 1.2em;
+    padding: 12px 0;
 }
 
 
-.dataTableHistory td select {
+.table-history .dataTableHistory  td select {
     padding: 5px;
     font-size: 14px;
     border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid #444;
+    background-color: #fff8ec;
+    color: #334d66;
 }
 
-.dataTableHistory tr:nth-child(even) {
-    background-color: #f9f9f9;
+.table-history .dataTableHistorytr:nth-child(even) {
+    background-color: #2e2e33;
 }
 
-.view-details-button {
+.table-history .dataTableHistory .view-details-button {
     padding: 10px 20px;
-    background-color: #ff8500;
-    color: white;
+    background-color: #c0613d;
+    color: #fff8ec;
     border: none;
-    border-radius: 4px;
+    border-radius: 60px 20px;
     cursor: pointer;
-    font-size: 14px;
 }
 
-.view-details-button:hover {
-    background-color: #ff7a33;
+.table-history .dataTableHistory .view-details-button:hover {
+    background-color: #c5a256;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import '../css/Admin/CreateEvent.css';
-import Admin from '../class/admin/Admin'
+import Admin from '../class/admin/Admin';
 
 
 const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {

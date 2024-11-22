@@ -17,25 +17,21 @@ class Customer extends User {
         await CartController.quantity(dishId, newQuantity);
     }
 
-    static async getOrders() {
-        await OrderController.getOrderDetails;
-    }
-
-    static async createOrder(email, cartData) {
-        if (!cartData.referenceNumber) {
+    static async createOrder(orderDetails) {
+        if (!orderDetails.referenceNumber) {
             throw new Error('Reference number is missing in cartData');
         }
-        await OrderController.createOrder(email, cartData);
+        await OrderController.createOrder(orderDetails);  
     }
 
-    static async uploadOrderTransactionSlip(slip) {
-        await OrderController.uploadSlip(slip);
-    }
+    // static async uploadOrderTransactionSlip(slip) {
+    //     await OrderController.uploadSlip(slip);
+    // }
 
-    static async getGcashQrCode() {
-        const gcashDoc = await FService.getDocument('qr_code', 'gcash');
-        return gcashDoc.exists() ? gcashDoc.data() : null;
-    }
+    // static async getGcashQrCode() {
+    //     const gcashDoc = await FService.getDocument('qr_code', 'gcash');
+    //     return gcashDoc.exists() ? gcashDoc.data() : null;
+    // }
 
     static async getBestSellers() {
         return await CartController.getBestSellers();

@@ -9,24 +9,24 @@
   color: #f05006;
 }
 
-.back-button {
+.cart-container .back-button {
   cursor: pointer;
   margin-bottom: 10px;
 }
 
-.back-button svg {
+.cart-container .back-button svg {
   width: 24px;
   height: 24px;
   fill: #666;
 }
 
-.cart-items {
+.cart-container .cart-items {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.cart-item {
+.cart-container .cart-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,32 +34,32 @@
   border-bottom: 1px solid #ddd;
 }
 
-.cart-item:last-child {
+.cart-container .cart-item:last-child {
   border-bottom: none;
 }
 
-.item-details {
+.cart-container .item-details {
   display: flex;
   align-items: center;
 }
 
-.item-details > div {
+.cart-container .item-details > div {
   margin-left: 20px; 
 }
 
-.item-name {
+.cart-container .item-name {
   font-size: 18px;
   font-weight: bold;
   color: #333;
   margin-right: 10px; 
 }
 
-.item-quantity {
+.cart-container .item-quantity {
   display: flex;
   align-items: center;
 }
 
-.item-quantity button {
+.cart-container .item-quantity button {
   width: 30px;
   height: 30px;
   border: none;
@@ -71,33 +71,33 @@
   justify-content: center;
 }
 
-.item-quantity button:first-child {
+.cart-container .item-quantity button:first-child {
   border-radius: 4px 0 0 4px;
 }
 
-.item-quantity button:last-child {
+.cart-container .item-quantity button:last-child {
   border-radius: 0 4px 4px 0;
 }
 
-.item-quantity input {
+.cart-container .item-quantity input {
   width: 50px;
   text-align: center;
   margin: 0;
 }
 
-.item-quantity button{
+.cart-container .item-quantity button{
   padding: 0;
   color: black;
 }
 
-.item-price {
+.cart-container .item-price {
   font-size: 16px;
   color: #666;
   margin-top: 10px;
   margin-left: 50px;
 }
 
-.select-all-container {
+.cart-container .select-all-container {
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -107,20 +107,20 @@
 }
 
 
-.select-all-checkbox {
+.cart-container .select-all-checkbox {
   margin-right: 10px;
 }
 
-.select-all-label {
+.cart-container .select-all-label {
   font-size: 16px;
   color: #666;
 }
 
-.select-all-container label{
+.cart-container .select-all-container label{
   margin-right: 500px;
 }
 
-.delete-selected-btn {
+.cart-container .delete-selected-btn {
   background-color: #f05006;
   color: #fff;
   border: none;
@@ -130,16 +130,16 @@
   margin-top: 20px;
 }
 
-.delete-selected-btn:hover {
+.cart-container .delete-selected-btn:hover {
   background-color: #e04006;
 }
 
-.total-price {
+.cart-container .total-price {
   padding: 20px;
   color: black;
 }
 
-.trash-icon {
+.cart-container .trash-icon {
   width: 20px;
   height: 20px;
   fill: #fff;
@@ -147,14 +147,14 @@
   background-color: transparent; 
 }
 
-.checkout-container {
+.cart-container .checkout-container {
   text-align: center;
   margin-top: 20px;
   margin-left: 500px;
   position: relative;
 }
 
-.checkout-btn {
+.cart-container .checkout-btn {
   background-color: #f05006;
   color: #fff;
   border: none;
@@ -163,8 +163,76 @@
   cursor: pointer;
 }
 
-.checkout-btn:hover {
+.cart-container .checkout-btn:hover {
   background-color: #e04006;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content box */
+.modal-overlay .modal-content {
+  background-color: #fbf0df;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Modal message */
+.modal-overlay .modal-content p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Modal buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 10px; /* Small gap between buttons */
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Confirm button */
+.modal-confirm {
+  background-color: #007bff; /* Neutral blue color */
+  color: white;
+}
+
+.modal-confirm:hover {
+  background-color: #0056b3; /* Slightly darker blue on hover */
+}
+
+/* Cancel button */
+.modal-cancel {
+  background-color: #be2d2d; /* Neutral gray color */
+  color: white;
+}
+
+.modal-cancel:hover {
+  background-color: #5a6268; /* Slightly darker gray on hover */
 }
 
 @media screen and (max-width: 768px) {
@@ -188,3 +256,4 @@
     margin-left: 10px;
   }
 }
+

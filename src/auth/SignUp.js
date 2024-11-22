@@ -1,8 +1,8 @@
-import '../css/common/modals.css';
+import '../common/css/Modal.css';
 import './authForm.css';
 
 import React, { useState } from 'react';
-
+import Admin from '../class/admin/Admin';
 import { userInstance } from '../class/User';
 import { UserType } from '../constants';
 import AuthController from '../class/controllers/AuthController';
@@ -12,6 +12,9 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+    const [signInError, setSignInError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
@@ -19,12 +22,24 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
 
     const signUp = async (e) => {
         e.preventDefault();
-        await AuthController.signUp(name, email, password, UserType.CUSTOMER);
+
+        try {
+            if (isStaffSignUp) {
+                // Assuming you have access to the Admin class methods
+                await Admin.signUpStaff(name, email, password, UserType.STAFF);
+            } else {
+                await AuthController.signUp(name, email, password, UserType.CUSTOMER);
+            }
+            // Handle successful sign-up (e.g., show a success message, close modal, etc.)
+        } catch (error) {
+            setSignInError(true);
+            setErrorMessage(error.message || 'An error occurred during sign-up');
+        }
     };
 
     return (
-        <form id='authForm' className="modalForm" onSubmit={ signUp }>
-            <div className='modalForm-header'>
+        <form id='authForm' className="modal" onSubmit={ signUp }>
+            <div className='modal-header'>
                 <span>
                     <h1>Sign Up</h1>
                     <svg
@@ -71,6 +86,12 @@ const SignUp = ({ handleSignUp, closeModal, setLogin, isStaffSignUp }) => {
                             }
                         </span>
                     </div>
+
+                    {signInError && (
+                        <div className='error-message'>
+                            {errorMessage}
+                        </div>
+                    )}
                 </div>
                 <button className="authForm-submit">Sign Up</button>
                 <p className='authRedirect-context'>Already have an account? <span className='authRedirect-link' onClick={ setLogin }>Log In</span></p>

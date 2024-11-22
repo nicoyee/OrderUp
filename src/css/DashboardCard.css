@@ -1,0 +1,152 @@
+/*
+.dashboardContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #fbf0df;
+}
+
+.dashboardContent {
+    width: 80%;
+    display: flex;
+    align-self: center;
+    flex-wrap: wrap; 
+    gap: 20px; 
+}
+
+.dashboardContent-main {
+    width: 60%;
+    max-width: 1200px; 
+    min-width: 300px; 
+}
+
+.dashboardCard {
+    width: 100%;
+    max-width: 500px; 
+    height: 250px; 
+    border-radius: 8px;
+    background: #334d66;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cardAdmin {
+    background-color: #334d66;
+}
+
+.dashboardCard::before {
+    content: "";
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    border-radius: 50%;
+    border: 35px solid rgba(255, 255, 255, 0.102);
+    transition: all 0.8s ease;
+    filter: blur(0.5rem);
+}
+
+.dashboardCardText {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: #c0963d;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 900;
+    font-size: 1.5em;
+    box-sizing: border-box;
+}
+
+.dashboardCardSubtitle {
+    font-size: 1em;
+    font-weight: 300;
+    color: #fff8ec;
+}
+
+.dashboardCardName {
+    color: #c0963d;
+    font-weight: 600;
+}
+
+.nameAdmin {
+    color: #eaa924;
+}
+
+.dashboardCardIcons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+
+.dashboardCardBtn {
+    position: relative;
+    width: 1000%;
+    height: 40px;
+    background-color: #657e99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    color: #fff8ec;
+    box-sizing: border-box;
+}
+
+.dashboardCardBtn:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    height: 70%;
+    width: 2px;
+    background-color: #4b4b4b;
+    right: 0;
+    top: 15%;
+}
+
+.dashboardCardSvg {
+    width: 20px;
+    height: 20px;
+    stroke: #d5dbbd;
+}
+
+.dashboardCardBtn:hover {
+    background-color: #c5a256;
+}
+
+.dashboardCard:hover::before {
+    width: 140px;
+    height: 140px;
+    top: -30%;
+    left: 60%;
+    filter: blur(0rem);
+}
+
+@media only screen and (max-width: 768px) {
+    .dashboardContent-main {
+        width: 100%;
+    }
+    .dashboardCard {
+        max-width: 100%; 
+        height: auto; 
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .dashboardContent {
+        width: 90%;
+    }
+}
+
+*/

@@ -1,0 +1,318 @@
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    background-color: #f9f9f9; 
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease; 
+}
+
+.container:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+.finance-dashboard h1 {
+    font-size: 2.5rem;
+    font-family: 'Merriweather', serif; 
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    color: #2c3e50; 
+    padding-left: 15px;
+}
+
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+.filters {
+    display: flex;
+    gap: 25px; 
+    align-items: center; 
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    color: #34495e;
+}
+
+.filter-item label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filter-item .form-select, .filter-item .form-control {
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.filter-item .form-select:focus, .filter-item .form-control:focus {
+    border-color: #3498db; 
+}
+
+
+/* Toggle Button */
+.toggle-button {
+    margin-left: auto;
+    padding-right: 20px;
+}
+
+.toggle-button .btn {
+    background-color: #3498db; /* Blue background */
+    background-image: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
+    color: #ffffff; 
+    border: none;
+    padding: 12px 25px; 
+    font-weight: bold;
+    font-size: 1rem; /* Slightly larger font size */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+    cursor: pointer; 
+}
+
+.toggle-button .btn:hover {
+    background-color: #1abc9c; 
+    background-image: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.toggle-button .btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); 
+}
+
+.toggle-button .btn:active {
+    background-color: #2980b9; 
+    box-shadow: none; 
+}
+
+.download-button {
+    margin-left: 20px;
+    padding-right: 20px;
+}
+
+.download-button .btn {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.download-button .btn:hover {
+    background-color: #2980b9;
+}
+
+
+.payments-table {
+    overflow-x: auto; 
+    margin-bottom: 20px;
+}
+
+.payments-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payments-table th, .payments-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.95rem;
+}
+
+.payments-table th {
+    background-color: #ecf0f1;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.payments-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.payments-table td {
+    color: #34495e;
+}
+
+.finance-dashboard button[disabled] {
+    background-color: #95a5a6; 
+    cursor: not-allowed;
+}
+  
+
+/* Loader styles */
+.loading {
+    text-align: center;
+    font-size: 1.75rem;
+    color: #34495e;
+    margin-top: 40px;
+}
+
+/* Alert styles */
+.alert {
+    margin-top: 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.alert-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.alert-success {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Pagination buttons */
+.pagination button {
+    border: none;
+    padding: 8px 12px;
+    margin: 0 3px;
+    background-color: #bdc3c7;
+    color: #2c3e50;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.pagination button.active {
+    background-color: #2980b9;
+    color: white;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa; /* Softer background */
+    padding: 40px;
+    z-index: 1000;
+    border-radius: 12px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Header Styling */
+.modal .modal-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Body Styling */
+.modal .modal-body {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.modal .modal-body p {
+    margin: 0.5em 0;
+}
+
+/* Strong text in body */
+.modal .modal-body p strong {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Footer Styling */
+.modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Button Styles */
+.modal .btn {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.modal .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: #fff;
+}
+
+.modal .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.modal .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.modal .btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Alert Styling */
+.modal .alert {
+    margin: 10px 0;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+/* Success and Error Messages */
+.modal .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.modal .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}

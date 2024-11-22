@@ -13,76 +13,94 @@
     font-family: "Roboto", sans-serif;
 }
 .edit-event-modal .modal-content {
-    background-color: #2c2c2c;
+    background-color: #fbf0df;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
     max-width: 500px;
-    color: #fff;
+    color: #334d66;
 }
 
 .edit-event-modal .close {
-    color: #ff8500;
-    float: right;
-    font-size: 28px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
     font-weight: bold;
+    color: #334d66;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
 
 .edit-event-modal .close:hover,
 .edit-event-modal .close:focus {
-    color: #ff7a33;
+    color: #5383af;
     text-decoration: none;
     cursor: pointer;
 }
 
-h1 {
+.edit-event-modal h1 {
     font-size: 1.5em;
-    color: #ff8500;
+    color: #334d66;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.form-group {
+.edit-event-modal .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.edit-event-modal .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #ff8500;
+    color: #334d66;
     text-align: left;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.edit-event-modal .form-group input,
+.edit-event-modal .form-group select,
+.edit-event-modal .form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 5px;
-    background: #3b3b3b;
-    color: #fff;
+    background: #fff8ec;
+    color: #334d66;
     font-family: 'Arial', sans-serif;
 }
 
-.form-group textarea {
+.edit-event-modal .form-group textarea {
     height: 100px;
-    background: #3b3b3b;
+    background: #fff8ec;
 }
 
-.form-group button[type="submit"] {
+.edit-event-modal .form-group button[type="submit"] {
     background-color: #4caf50;
-    color: white;
+    color: #fff8ec;
     float: right;
     margin-left: 10px;
     border-radius: 4px;
+    padding: 10px ;
 }
 
-.form-group button[type="button"] {
+.edit-event-modal .form-group button[type="button"] {
     background-color: #f44336;
-    color: white;
+    color: #fff8ec;
     float: right;
     border-radius: 4px;
+    padding: 10px;
 }
+/*
+h1 {
+    font-size: 1.5em;
+    color: #ff8500;
+    text-align: left;
+    margin-bottom: 20px;
+}
+*/

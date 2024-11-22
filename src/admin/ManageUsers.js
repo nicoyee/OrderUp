@@ -3,7 +3,8 @@ import SignUp from '../auth/SignUp';
 import '../css/Admin/ManageUsers.css';
 import { UserType } from '../constants';
 import Admin from '../class/admin/Admin';
-
+import OrderDetailsModal from './OrderDetailsModal';
+import AuthController from '../class/controllers/AuthController';
 const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const [users, setUsers] = useState([]);
     const [staffModalIsOpen, setStaffModalIsOpen] = useState(false);
@@ -36,10 +37,14 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     };
 
     const handleBanUser = async (userId) => {
+        const isConfirmed = window.confirm("Are you sure you want to ban this user?");
+    
+        if (!isConfirmed) {
+            return; 
+        }
         try {
             await Admin.banUser(userId);
             setUsers(users.filter(user => user.id !== userId));
-            console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
         }
@@ -65,8 +70,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
 
     const handleSignUp = async (name, email, password) => {
         try {
-            await Admin.signUpStaff(name, email, password, UserType.STAFF);
-            console.log("User successfully signed up as staff!");
+            await AuthController.signUp(name, email, password, UserType.STAFF);
             setStaffModalIsOpen(false);
         } catch (error) {
             console.error("Error signing up user:", error);
@@ -77,81 +81,7 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         if (a.userType === UserType.STAFF && b.userType !== UserType.STAFF) return -1;
         if (a.userType !== UserType.STAFF && b.userType === UserType.STAFF) return 1;
         return 0;
-    });
-
-    const OrderDetailsModal = ({ order, closeModal }) => {
-        if (!order) {
-          return (
-            <div className="order-details-modal">
-              <div className="modal-content">
-                <span className="close" onClick={closeModal}>&times;</span>
-                <p>Loading...</p>
-              </div>
-            </div>
-          );
-        }
-
-        const formatDate = (timestamp) => {
-            if (timestamp && timestamp.seconds) {
-                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
-                return date.toLocaleString('en-US', {
-                    weekday: 'long', 
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true, 
-                });
-            }
-            return 'N/A';
-        };
-
-        return (
-          <div className="order-details-modal">
-            <div className="modal-content">
-              <span className="close" onClick={closeModal}>&times;</span>
-              <div>
-                <h1>Order Details</h1>
-                <p>Date: {formatDate(order.createdDate)}</p>
-                <p>Reference Number: {order.referenceNumber}</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.entries(order.items || {}).map(([itemId, item]) => (
-                      <tr key={itemId}>
-                        <td>{item.name}</td>
-                        <td>{item.description}</td>
-                        <td>₱{item.price}</td>
-                        <td>{item.quantity}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p className='status'>Status: {order.status}</p>
-                <p className="total">Total: ₱{calculateTotal(order.items)}</p>
-              </div>
-            </div>
-          </div>
-        );
-      };
-      
-      // Helper function to calculate the total price
-      const calculateTotal = (items) => {
-        let total = 0;
-        Object.values(items || {}).forEach(item => {
-          total += item.price * item.quantity;
-        });
-        return total.toFixed(2);
-      };
+    });      
 
     const openOrderDetailsModal = (order) => {
         setSelectedOrder(order);
@@ -187,9 +117,15 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
                                             <td>{user.email}</td>
                                             <td>{user.userType}</td>
                                             <td>
-                                                <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
-                                                {user.userType === UserType.CUSTOMER && (
-                                                    <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.email)}>View Order History</button>
+                                                {user.banned ? (
+                                                    <span className="banned-label">Banned</span>
+                                                ) : (
+                                                    <>
+                                                        <button className="ban-button" onClick={() => handleBanUser(user.id)}>Ban</button>
+                                                        {user.userType === UserType.CUSTOMER && (
+                                                            <button className="view-order-history-button" onClick={() => handleViewOrderHistory(user.email)}>View Order History</button>
+                                                        )}
+                                                    </>
                                                 )}
                                             </td>
                                         </tr>

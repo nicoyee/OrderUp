@@ -22,7 +22,7 @@ import {
     uploadBytes,
     getDownloadURL
 } from "firebase/storage";
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";   
 
 interface IFirebase {
     auth: Auth, 
@@ -76,7 +76,6 @@ class FirebaseService implements IFirebase{
     }
 
     addDocument(path, data){
-        console.log("to add", data)
         return addDoc(collection(this.db, path), data)
     }
 
@@ -106,6 +105,7 @@ class FirebaseService implements IFirebase{
             throw error;
         }
     }
+
 }   
 
 const FService = new FirebaseService()

@@ -1,0 +1,114 @@
+#customerProfileOrderInfo {
+    width: 490px;
+    gap: 10px;
+}
+
+#customerProfileOrderInfo .modal-header {
+    gap: 15px;
+}
+
+#customerProfileOrderInfo .modal-header-section-left, #customerProfileOrderInfo .modal-header-section-right {
+    display: flex;
+    flex-direction: column;
+}
+
+#customerProfileOrderInfo .modal-header-section h1 {
+    color: var(--primary00);
+    font-size: 14px;
+}
+
+#customerProfileOrderInfo .modal-header-section-left h2 {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+#customerProfileOrderInfo .modal-header-section-right h2 {
+    font-size: 24px;
+    font-weight: 300;
+}
+
+#customerProfileOrderInfo .modal-footer {
+    display: flex;
+    align-items: center;
+}
+
+#customerProfileOrderInfo .orderStatus {
+    gap: 5px;
+}
+
+#customerProfileOrderInfo .statusIndicator h1 {
+    font-size: 10px;
+}
+
+#customerProfileOrderInfo .orderInfo {
+    max-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+#customerProfileOrderInfo .orderInfo-item, #customerProfileOrderInfo .orderInfo-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark00);
+    background-color: var(--light00);
+    border-radius: 8px;
+}
+
+#customerProfileOrderInfo .orderInfo-header {
+    padding: 5px 10px;
+    background-color: var(--secondary00);
+    margin-bottom: -4px;
+}
+
+#customerProfileOrderInfo .orderInfo-item h1 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#customerProfileOrderInfo .orderInfo-header h1 {
+    font-size: 12px;
+    font-family: 'Roboto Condensed';
+    color: var(--light01);
+    text-transform: uppercase;
+}
+
+#customerProfileOrderInfo .orderInfo-item-quantity, #customerProfileOrderInfo .orderInfo-header-quantity {
+    width: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+#customerProfileOrderInfo .orderInfo-item-quantity h1 {
+    width: fit-content;
+    padding: 4px 8px;
+    color: var(--light01);
+    font-family: 'Roboto Condensed';
+    font-size: 12px;
+    font-weight: 900;
+    border-radius: 5px;
+    background-color: var(--primary00);
+}
+
+#customerProfileOrderInfo .orderInfo-item-name, #customerProfileOrderInfo .orderInfo-header-name {
+    flex: 3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#customerProfileOrderInfo .orderInfo-item-description, #customerProfileOrderInfo .orderInfo-header-description {
+    flex: 4;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#customerProfileOrderInfo .orderInfo-item-price, #customerProfileOrderInfo .orderInfo-header-price {
+    flex: 1;
+}

@@ -1,7 +1,7 @@
-import { doc, setDoc} from 'firebase/firestore';
+import { doc, setDoc, deleteDoc} from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { FService } from "./FirebaseService.ts";
-
+import OrderController from './OrderController.js';
 
 class AdminController{
     static async fetch() {
@@ -23,10 +23,35 @@ class AdminController{
         return usersData;
     }
 
+    static async fetchStaff() {
+        const querySnapshot = await FService.getDocuments('users');
+        const staffData = [];
+        querySnapshot.forEach((doc) => {
+            const userData = { id: doc.id, ...doc.data() };
+            if (userData.userType === 'staff') {
+                staffData.push(userData);
+            }
+        });
+        return staffData;
+    }
+
+    static async fetchCustomers() {
+        const querySnapshot = await FService.getDocuments('users');
+        const customerData = [];
+        querySnapshot.forEach((doc) => {
+            const userData = { id: doc.id, ...doc.data() };
+            if (userData.userType === 'customer') {
+                customerData.push(userData);
+            }
+        });
+        return customerData;
+    }
+
     static async ban(userId) {
         try {
-            await FService.deleteDocument('users', userId);
-            console.log('User banned successfully');
+            await setDoc(doc(FService.db, 'users', userId), {
+                banned: true
+            }, { merge: true });
         } catch (error) {
             console.error('Error banning user:', error);
             throw error;
@@ -35,12 +60,8 @@ class AdminController{
 
     static async addStaff(name, email, password, userType) {
         try {
-            const firebase = FService();
-
             // Create the user account with email and password
-            const userCredential = await createUserWithEmailAndPassword(firebase.auth, email, password);
-
-            // Access the created user object
+            const userCredential = await createUserWithEmailAndPassword(FService.auth, email, password);
             const user = userCredential.user;
 
             // Update the user profile with the provided name
@@ -48,16 +69,14 @@ class AdminController{
                 displayName: name
             });
 
-            // Save user information including userType in Firestore
-            await setDoc(doc(firebase.db, 'users', user.uid), {
+            // Save user information in Firestore
+            await setDoc(doc(FService.db, 'users', user.uid), {
                 name,
                 email,
                 userType: 'staff',
                 uid: user.uid,
                 profilePicture: ''
             });
-
-            console.log('Staff added successfully:', user);
             return user;
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
@@ -69,6 +88,25 @@ class AdminController{
             throw error;
         }
     }
+
+    static async fetchCancellationRequests() {
+        const querySnapshot = await FService.getDocuments('cancellationRequests');
+        const requests = [];
+        querySnapshot.forEach((doc) => {
+            requests.push({ id: doc.id, ...doc.data() });
+        });
+        return requests;
+    }
+
+    static async confirmCancellation(requestId) {
+        await OrderController.updateOrderStatus(requestId, 'canceled');
+        await deleteDoc(doc(FService().db, 'cancellationRequests', requestId));
+    }
+
+    static async rejectCancellation(requestId) {
+        await deleteDoc(doc(FService().db, 'cancellationRequests', requestId));
+    }
+
 }
 
 

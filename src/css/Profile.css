@@ -1,160 +1,230 @@
-.profileContainer {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+.customer-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  width: 500px;
-  height: 800px;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+  color: #d5dbbd;
+  background-color: #fbf0df;
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+.customer-profile .modal-content {
+  background-color: #fbf0df;
+  padding: 20px;
+  border-radius: 10px;
+  color: #334d66;
+  width: 800px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+  margin: 24px 0;
 }
 
-.editButton {
-  border: 2px solid;
+.customer-profile .back-icon {
+  color: #c0613d ;
+  position: relative; 
+  right: 380px;
+  bottom: 20px;
+  cursor: pointer;
 }
-.close {
-  color: #000000;
+
+.customer-profile .profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.customer-profile .left-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fbf0df;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.customer-profile .left-grid h3,
+.customer-profile .left-grid h4 {
+  text-align: center;
+}
+
+.customer-profile .right-grid {
+  background-color:#fff8ec;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.customer-profile .right-grid .customer-table-history {
+  background-color: #fff8ec;
+  border-radius: 8px;
+  overflow-y: scroll;
+  width: 720px;
+  margin: 20px 0;
+  box-shadow: rgba(0, 0, 0, 0.5);
+}
+
+.customer-profile .customer-table-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-profile .customer-table-history th,
+.customer-profile .customer-table-history td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #444;
+
+}
+
+.customer-profile .customer-table-history th {
+  background-color: #c0613d ;
+  color: #fff8ec;
+  position: sticky;
+}
+
+.customer-profile .customer-table-history tbody {
+  color:  #334d66;
+}
+
+.customer-profile .customer-table-history tr:nth-child(even) {
+  background-color: #fbf0df; 
+}
+.customer-profile .customer-table-history tr:hover {
+  background-color: #fbf0df; 
+}
+
+.customer-profile .remaining-balance-container {
+  display: flex;
+  justify-content: center; 
+}
+
+.customer-profile .remaining-balance-button {
+  background-color: #334d66;
+  color: #fff8ec;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.customer-profile .remaining-balance-button:hover {
+  background-color: #5383af;
+}
+
+
+.customer-profile button {
+  background-color: #c0613d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 60px 20px;
+  margin: 15px 0;
+}
+
+.customer-profile button:hover {
+  background-color: #c0963d;
+}
+
+.customer-profile .user-order-details-modal,
+.customer-profile .check-remaining-balance-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff8ec;
+  background-color: rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.customer-profile .user-order-details-modal .modal-content {
+  background-color: #fbf0df;
+  width: 80%;
+  max-width: 950px;
+  padding: 20px;
+  border-radius: 12px;
+  border-collapse: collapse;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.customer-profile .user-order-details-modal table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-profile .user-order-details-modal th,
+.customer-profile .user-order-details-modal td {
+  padding: 12px;
+  border-bottom: 1px solid #444;
+  text-align: left;
+}
+
+.customer-profile .user-order-details-modal th {
+  background-color: #c0613d ;
+  color: #fff8ec;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+}
+
+.customer-profile .user-order-details-modal tbody {
+  color: #334d66;
+}
+
+.customer-profile .user-order-details-modal .total {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 18px;
+  color: #334d66;
+}
+
+.customer-profile .user-order-details-modal tr:nth-child(even) {
+  background-color: #fff8ec; 
+}
+.customer-profile .user-order-details-modal tr:hover {
+  background-color: #fff8ec; 
+}
+
+.customer-profile .user-order-details-modal .cancel-order-button {
   float: right;
-  font-size: 28px;
+  background-color: #ff5500;
+}
+
+.customer-profile .user-order-details-modal .refund-request-button {
+  float: right;
+  background-color: #ff5500;
+}
+
+
+.check-remaining-balance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.check-remaining-balance-table th,
+.check-remaining-balance-table td {
+  padding: 12px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+.check-remaining-balance-table th {
+  background-color: #334d66;
+  color: #fff8ec;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
+.close {
   cursor: pointer;
+  font-size: 28px;
+  color: #ff5500;
+  float: right;
+  transition: color 0.3s ease;
 }
 
-.menuTable h1 {
-  font-family: "Inter";
-  color: rgb(0, 0, 0);
-}
-
-.big-rectangle {
-  width: 800px; /* Adjust the width as needed */
-  height: 300px; /* Adjust the height as needed */
-  background-color: white;
-  position: relative;
-}
-
-.square {
-  height: 100%; /* Each square takes the full height of the big rectangle */
-  background-color: #fefefe; /* Adjust the color as needed */
-  float: left; /* Float squares left to align them side by side */
-  border: 0.5px solid black; /* Add a border with 2px width and black color */
-  box-sizing: border-box; /* Include border width in the total width */
-  position: relative; /* Required for positioning child elements */
-}
-
-.left-square {
-  width: 30%; /* Left square takes 30% of the big rectangle */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.profile-picture {
-  width: 80px; /* Adjust the size of the profile picture */
-  height: 80px; /* Adjust the size of the profile picture */
-  border-radius: 50%; /* Make the image round */
-  border: 3px solid black; /* Add a border with 3px width and black color */
-  object-fit: cover; /* Ensure the image covers the entire space */
-}
-
-.right-square {
-  width: 70%; /* Right square takes 70% of the big rectangle */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative; /* Needed for positioning the inner square */
-}
-
-.inner-square {
-  width: 70%; /* Adjust the size of the inner square */
-  height: 70%; /* Adjust the size of the inner square */
-  background-color: #ffffff; /* Adjust the color of the inner square */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box; /* Ensure border width is included in the total width */
-  max-height: 200px; /* Set a fixed height for the inner square */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-
-button {
-  padding: 8px 16px; /* Adjust button padding */
-  border-radius: 20px; /* Make the button rounder */
-  border: none;
-  background-color: #f05006; /* Adjust button color */
-  color: white;
-  cursor: pointer;
-  outline: none;
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Styles for the modal */
-.modal {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Styles for the modal close button */
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.modal-content {
-  width: 800px;
-  text-align: center;
-  /* Add other styles as needed */
-}
-
-.item-list {
-  padding-left: 15px; /* Adjust this value as needed */
-}
-
-.inner-square table {
-  border-collapse: collapse; /* Ensure borders collapse properly */
-  width: 100%; /* Adjust the width as needed */
-}
-
-.inner-square th,
-.inner-square td {
-  border: 1px solid #000; /* Add border to table cells */
-  padding: 8px; /* Add padding to table cells */
-}
-
-.inner-square th {
-  background-color: #f2f2f2; /* Add background color to table header */
-}
-
-.back-button-profile {
-  position: absolute;
-  top: 10px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
-  z-index: 1; /* Ensure it's above other content */
-}

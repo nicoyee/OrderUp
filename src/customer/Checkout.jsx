@@ -4,6 +4,8 @@ import CartController from "../class/controllers/CartController.js";
 import OrderController from "../class/controllers/OrderController.js";
 import PaymentController from "../class/controllers/PaymentController.jsx";
 import { auth } from '../firebase'; // Import auth from the firebase.js file
+import { FService } from "../class/controllers/FirebaseService.ts";
+import AdminSalesController from "../class/controllers/AdminSalesController.jsx";
 
 const Checkout = ({ onClose, cartItems }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,8 @@ const Checkout = ({ onClose, cartItems }) => {
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [downpaymentAmount, setDownpaymentAmount] = useState(0);
+  const [paymentAmount, setPaymentAmount] = useState(0); // New state for actual payment amount
+  const [remainingBalance, setRemainingBalance] = useState(0); // New state to store remaining balance
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Calculate total and downpayment amounts whenever cartItems change
@@ -24,8 +28,24 @@ const Checkout = ({ onClose, cartItems }) => {
       total += item.price * item.quantity;
     });
     setTotalAmount(total);
-    setDownpaymentAmount(total * 0.2); // 20% downpayment
+    const downpayment = total * 0.4; // 40% downpayment
+    setDownpaymentAmount(downpayment);
+    setRemainingBalance(total - downpayment); // Set remaining balance initially
+
+    // Set the default payment amount as the full total (initially full payment selected)
+    setPaymentAmount(total);
   }, [cartItems]);
+
+  // Update the payment amount when payment option changes
+  useEffect(() => {
+    if (formData.paymentOption === "downpayment") {
+      setPaymentAmount(downpaymentAmount); // If downpayment, show 40% amount
+      setRemainingBalance(totalAmount - downpaymentAmount); 
+    } else {
+      setPaymentAmount(totalAmount); // If full payment, show total amount
+      setRemainingBalance(0); // No remaining balance for full payment
+    }
+  }, [formData.paymentOption, downpaymentAmount, totalAmount]);
 
   const handleChange = (e) => {
     setFormData({
@@ -37,31 +57,37 @@ const Checkout = ({ onClose, cartItems }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     try {
-     
       const userCartItems = await CartController.getCartData();
       if (!userCartItems || Object.keys(userCartItems).length === 0) {
-        alert("Your cart is empty! Please add items before checking out.");
+        alert("Your cart is empty!");
         return;
       }
-  
-      
+
       const email = auth.currentUser?.email;
       if (!email) {
         alert("You must be logged in to place an order.");
         return;
       }
-  
-      
-      const paymentAmount = formData.paymentOption === "downpayment" ? downpaymentAmount : totalAmount;
 
-      
-      console.log("Total Amount:", totalAmount);
-      console.log("Downpayment Amount:", downpaymentAmount);
-      console.log("Payment Amount being sent:", paymentAmount);
-  
-      
+      const transactionsPath = `Balance/${email}/transactions`;
+      const transactionsSnapshot = await FService.getDocuments(transactionsPath);
+      let hasUnpaidBalance = false;
+
+      transactionsSnapshot.forEach((doc) => {
+        const transaction = doc.data();
+        if (transaction.status === "unpaid") {
+          hasUnpaidBalance = true;
+        }
+      });
+
+      if (hasUnpaidBalance) {
+        alert("You cannot checkout with an unpaid balance.");
+        return;
+      }
+
+      // Create the order
       const orderId = await OrderController.createOrder({
         email,
         receiverName: formData.receiverName,
@@ -69,35 +95,35 @@ const Checkout = ({ onClose, cartItems }) => {
         address: formData.address,
         paymentOption: formData.paymentOption,
         items: cartItems,
-        totalAmount: paymentAmount,
+        totalAmount: totalAmount,
+        amountSent: paymentAmount,
+        remainingBalance: remainingBalance,
       });
-  
-      // Create a description for the order items
-      const orderDescription = Object.keys(cartItems)
-        .map(key => `${cartItems[key].name} x ${cartItems[key].quantity}`)
-        .join(', ');
 
-      // Log order description for debugging
-      console.log("Order Description:", orderDescription);
-  
-      // Create a payment link
-      const paymentLink = await PaymentController.createPaymentLink(paymentAmount, email, orderDescription);
-  
-      // Record the payment
-      // await PaymentController.recordPayment(paymentLink);
-  
-      // Alert and redirect user
-      // alert(`Order placed successfully! Please complete payment via this link: ${paymentLink}`);
+      // Update sales data
+      await AdminSalesController.getSales(email);
+
+      const orderDescription = Object.keys(cartItems)
+        .map((key) => `${cartItems[key].name} x ${cartItems[key].quantity}`)
+        .join(", ");
+
+      const paymentLink = await PaymentController.createPaymentLink(
+        paymentAmount,
+        email,
+        orderDescription
+      );
+
       window.location.href = paymentLink;
 
     } catch (error) {
       console.error("Error during payment:", error.message || error);
-      alert("Failed to submit order. Please try again.");
+      alert(error.message || "Failed to submit order.");
     } finally {
       setIsSubmitting(false);
     }
   };
   
+
   return (
     <div className="checkout-modal">
       <div className="modal-content">
@@ -154,7 +180,7 @@ const Checkout = ({ onClose, cartItems }) => {
               />
               <span className="circle"></span>
               <span className="description">
-                Downpayment - Pay 20% ({downpaymentAmount.toFixed(2)})
+                Downpayment - Pay 40% ({downpaymentAmount.toFixed(2)}) <br />
               </span>
             </label>
 
@@ -168,7 +194,7 @@ const Checkout = ({ onClose, cartItems }) => {
               />
               <span className="circle"></span>
               <span className="description">
-                Full Payment - Pay total amount ({totalAmount.toFixed(2)})
+                Full Payment - Pay total amount ({totalAmount.toFixed(2)}) <br />
               </span>
             </label>
           </div>

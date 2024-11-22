@@ -1,3 +1,26 @@
+:root {
+
+  --light00: #fbf0df;
+  --light01: #fff8ec;
+  --light02: #f5f5f5;
+
+  --dark00: #151515;
+  --dark01: #0F172A;
+  --dark02: #151717;
+
+  --gray00: #c3c6ce;
+  --gray01: #919EAB;
+  --gray02: #71717A;
+  --gray03: #F4F4F5;
+
+  --primary00: #c0613d;
+  --primary01: #c0963d;
+
+  --secondary00: #0F172A;
+  --secondary01: #334d66;
+ 
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,20 +34,7 @@ html {
 }
 
 body {
-  background-color: #252525;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  z-index: -1;                                                                                                                                                                                                                                                                                                                                
-  background-image: url("./assets/noise.png");
-  opacity: 0.1;
+  background-color: var(--light00);
 }
 
 .material-symbols-outlined {
@@ -37,7 +47,7 @@ body::before {
 
 body.modal-open {
   overflow-y: hidden; /* Disable vertical scrolling */
-  padding-right: 6px; /* Adjust for scrollbar width */
+   /* Adjust for scrollbar width */
 }
 
 button {
@@ -70,7 +80,7 @@ button {
   width: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #f1f1f1;
+  background: black;
   border-radius: 20px;
 }
 ::-webkit-scrollbar-track {

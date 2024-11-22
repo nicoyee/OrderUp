@@ -27,6 +27,14 @@ class Admin extends User {
         return await AdminController.fetch();
     }
 
+    static async fetchStaff() {
+        return await AdminController.fetchStaff();
+    }
+
+    static async fetchCustomers() {
+        return await AdminController.fetchCustomers();
+    }
+
     static async banUser(userId) {
         return await AdminController.ban(userId);
     }
@@ -53,17 +61,48 @@ class Admin extends User {
     }
 
     // Order Management
-    static async fetchOrderHistory(user) {
-        return await OrderController.viewHistory(user);
+    static async fetchOrderHistory(userEmail) {
+        return await OrderController.viewHistory(userEmail);
     }
 
-    static async getCustomerOrders() {
-        return await OrderController.getOrders();
-    }
-    
     static async updateCustomerOrderStatus(userEmail, referenceNumber, newStatus) {
         return await OrderController.updateStatus(userEmail, referenceNumber, newStatus);
     }
+
+    // Fetch all balances
+    static async fetchBalances(userEmail){
+        return await OrderController.fetch(userEmail);
+    }
+
+    // Fetch transactions for a specific user
+    static async getUserTransactions(userEmail) {
+        return await OrderController.fetchTransactions(userEmail);
+    }
+
+    static async fetchCancellationRequests() {
+        return await OrderController.fetchCancellationRequests();
+    }
+
+    static async fetchRefundRequests() {
+        return await OrderController.fetchRefundRequests();
+    }
+
+    static async approveCancellation(requestId) {
+        return await OrderController.confirmCancellation(requestId);
+    }
+
+    static async approveRefund(requestId) {
+        return await OrderController.confirmRefund(requestId);
+    }
+
+    static async rejectCancellation(requestId) {
+        return await OrderController.rejectCancellation(requestId);
+    }
+
+    static async rejectRefund(requestId) {
+        return await OrderController.rejectRefund(requestId);
+    }
+
 
 }
 

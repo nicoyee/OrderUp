@@ -12,12 +12,12 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4); 
     font-family: "Roboto", sans-serif;
-    color: #f0f0f0;
+    color: #334d66;
   }
 
   .manage-users-modal .modal-content {
     position: relative;
-    background-color: #2b2b2b;
+    background-color: #fbf0df;
     width: 80%;
     max-width: 950px;
     padding: 20px;
@@ -33,28 +33,35 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
   }
   
   .manage-users-modal .modal-header h1 {
     margin: 0;
     font-size: 24px;
-    color: #ff8500;
+    color: #334d66;
   }
   
   .manage-users-modal .close {
-    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
     font-size: 24px;
-    color: #ff8500;
-    transition: color 0.3s ease;
+    font-weight: bold;
+    color: #334d66;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
   }
   .manage-users-modal .close:hover {
-    color: #ffa733; 
+    color: #5383af; 
   }
   .manage-users-modal .user-list {
     margin-top: 20px;
     overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 600px; /* Set a maximum height */
+    max-height: 400px; /* Set a maximum height */
   }
   
   .manage-users-modal table {
@@ -70,10 +77,14 @@
   }
   
   .manage-users-modal th {
-    background-color: #333333;
-    color: #ff8500;
+    background-color: #fff8ec;
+    color: #334d66;
     font-weight: bold;
     text-align: center;
+  }
+
+  .manage-users-modal td {
+    color: #334d66;
   }
   
   .manage-users-modal .button-container {
@@ -85,12 +96,13 @@
     padding: 10px 20px;
     margin: 5px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
     transition-duration: 0.4s ease;
+    color: #fff8ec;
   }
   
 
@@ -194,14 +206,14 @@
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   z-index: 1000; /* Ensure it's on top */
-  color: #fff;
+  color: #334d66;
   font-family: 'Arial', sans-serif;
 }
 
 /* Modal Content */
 .order-history-modal .modal-content {
   position: relative; /* For the close button */
-  background-color: #2b2b2b;
+  background-color: #fbf0df;
   padding: 20px;
   border-radius: 8px;
   width: 80%;
@@ -215,7 +227,7 @@
 .order-history-modal .close {
   cursor: pointer;
   font-size: 28px;
-  color: #ff8500; 
+  color: #334d66; 
   position: absolute;
   top: 10px;
   right: 20px;
@@ -231,7 +243,7 @@
 .order-history-modal .modal-header h1 {
   margin: 0;
   font-size: 1.5rem;
-  color: #ff8500;
+  color: #334d66;
 }
 
 /* Modal Table */
@@ -249,15 +261,21 @@
 .order-history-modal .order-list td {
   padding: 10px;
   border-bottom: 1px solid #555;
+  text-align: center;
 }
 
 .order-history-modal .order-list th {
-    background-color: #333;
+  background-color: #c0963d;
   font-weight: bold;
+  color: #fff8ec;
+}
+
+.order-history-modal .order-list td {
+color: #334d66;
 }
 
 .order-history-modal .order-list tr:hover {
-  background-color: #3a3a3a;
+  background-color: #fff8ec;
 }
 
 .order-history-modal .order-list tr:last-child td {
@@ -272,7 +290,7 @@
   border-radius: 4px;
   cursor: pointer;
   background-color: #007bff;
-  color: #fff;
+  color: #fff8ec;
   transition: background-color 0.3s ease;
 }
 
@@ -280,6 +298,17 @@
   background-color: #0056b3;
 }
 
+
+.banned-label {
+  color: red;
+  font-weight: bold;
+
+}
+
+.manage-users-modal table th:nth-child(4),
+.manage-users-modal table td:nth-child(4) {
+    text-align: center;
+}
 /* Responsive Styles */
 @media (max-width: 768px) {
   .order-history-modal .modal-content {
@@ -300,8 +329,6 @@
       padding: 6px 10px;
   }
 }
-
-
 
 /* Keyframes for fade-in animation */
 @keyframes fadeIn {

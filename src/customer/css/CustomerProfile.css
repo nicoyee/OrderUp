@@ -1,0 +1,114 @@
+#customerProfile {
+    padding: 20px 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    background-color: var(--light01);
+}
+
+#customerProfile .customerProfile-container {
+    padding: 20px 0;
+    width: 100%;
+    max-width: 80rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    
+}
+
+#customerProfile .customerProfile-container-section {
+    flex: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#customerProfile .userInfo {
+    
+}
+
+/*
+
+#orderInfoProfile {
+   max-width: 60rem;
+}
+
+#orderInfoProfile .modalTable-header h1 {
+    font-size: 24px;
+}
+
+#orderInfoProfile .modalTable-header h2 {
+    color: var(--c03);
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+#orderInfoProfile .modalTable-header h3 {
+    color: #515151;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#orderInfoProfile .modalTable-body {
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+#orderInfoProfile .modalTable-body table td {
+    border: 1px solid var(--c04);
+}
+
+#orderInfoProfile .modalTable-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total h1, #orderInfoProfile .modalTable-footer .orderInfo-total h2 {
+    font-size: 20px;
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-total h2 {
+    color: var(--c03);
+}
+
+#orderInfoProfile .modalTable-footer .orderInfo-actions {
+    display: flex;
+}
+
+#orderInfoProfile .cancel-request-button:hover, #orderInfoProfile .refund-request-button:hover {
+    cursor: pointer;
+}
+
+#orderInfoProfile .cancel-request-button  {
+    padding: 5px 10px;
+    color: var(--bgc00);
+    background-color: var(--c02);
+    border-radius: 5px;
+}
+
+*/
+
+@media only screen and (max-width: 768px) {
+
+}
+
+@media only screen and (max-width: 992px) {
+    #customerProfile .customerProfile-container {
+        flex-direction: column;
+    }
+
+    #customerProfile .customerProfile-container-section {
+        flex: none;
+    }
+}
+

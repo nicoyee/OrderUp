@@ -1,8 +1,8 @@
-import '../css/common/modals.css';
+import '../common/css/Modal.css';
 import './authForm.css';
 
 import React, { useState } from 'react';
-
+import { FService } from '../class/controllers/FirebaseService.ts';
 import AuthController from '../class/controllers/AuthController';
 
 const LogIn = ({ closeModal, setSignup, setForgot }) => {
@@ -10,19 +10,33 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+    const [loginError, setLoginError] = useState(false); 
 
     const togglePasswordVisibility = () => {
         setPasswordShown(!passwordShown);
     };
 
-    const signIn = (e) => {
+    const signIn = async (e) => {
         e.preventDefault();
-        AuthController.logIn(email, password);
-    }
-
+        setLoginError(false);
+    
+        try {
+            await AuthController.logIn(email, password);
+            closeModal();
+        } catch (error) {
+            setLoginError(true);
+            if (error.message === 'Your account has been banned.') {
+                setErrorMessage('Your account has been banned. Please contact support.');
+            } else {
+                setErrorMessage('Invalid email or password.');
+            }
+        }
+    };
+    
+ 
     return (
-        <form id='authForm' className="modalForm" onSubmit={ signIn }>
-            <div className='modalForm-header'>
+        <form id='authForm' className="modal" onSubmit={ signIn }>
+            <div className='modal-header'>
                 <span>
                     <h1>Log In</h1>
                     <svg
@@ -63,7 +77,12 @@ const LogIn = ({ closeModal, setSignup, setForgot }) => {
                             }
                         </span>
                     </div>
-                    <span onClick={ setForgot }className='authRedirect-link forgotPass'>Forgot Password?</span>
+                    {loginError && (
+                        <div className='error-message'>
+                            {errorMessage}
+                        </div>
+                    )}
+                    <span onClick={ setForgot } className='authRedirect-link forgotPass'>Forgot Password?</span>
                 </div>
                 <button className="authForm-submit">Log In</button>
                 <p className='authRedirect-context'>Don't have an account? <span className='authRedirect-link' onClick={ setSignup }>Sign Up</span></p>

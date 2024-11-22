@@ -1,18 +1,23 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 
-import Landing from "./pages/Landing";
-import DashboardAdmin from "./admin/DashboardAdmin";
-import DashboardCustomer from "./customer/DashboardCustomer";
+import Landing from "./landing/Landing";
+import DashboardAdmin from "./admin/AdminDashboard.js";
+import DashboardCustomer from "./customer/CustomerDashboard";
+import DashboardStaff from "./staff/DashboardStaff";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/AdminProfile";
+import FinanceDashboard from './admin/FinanceDashboard.jsx';
 import { UserType } from "./constants";
-import { Toaster } from "react-hot-toast";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import { userInstance } from "./class/User.js";
+
 
 export const UserContext = createContext(null);
 
@@ -83,7 +88,7 @@ function App() {
   return (
     <UserContext.Provider value={user}>
       <BrowserRouter>
-        <Toaster />
+        <ToastContainer />
         <Routes>
           <Route
             path="/"
@@ -95,6 +100,8 @@ function App() {
               isLoggedIn ? (
                 user?.userType === "admin" ? (
                   <DashboardAdmin />
+                ) : user?.userType === "staff" ? (
+                  <DashboardStaff/>
                 ) : user?.userType === "customer" ? (
                   <DashboardCustomer />
                 ) : (
@@ -105,6 +112,10 @@ function App() {
               )
             }
           />
+           <Route
+            path="/financedashboard" // Add this line
+            element={<PrivateRoute element={<FinanceDashboard />} requiredUserType="admin" />} // Make sure to wrap it in PrivateRoute if needed
+          />
           <Route
             path="/cart"
             element={<PrivateRoute element={<CartPage />} requiredUserType="customer" />}
@@ -114,11 +125,15 @@ function App() {
             element={<PrivateRoute element={<Checkout />} requiredUserType="customer" />}
           />
           {user && user.userType === "admin" && (
-            <Route path={`/profile/${user?.name}`} element={<AdminProfile />} />
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}
+            />
+          )}
+          {user && user.userType === "staff" && (
+            <Route path={`/profile/:username`} element={<Navigate to="/dashboard" />}            />
           )}
           {user && user.userType === "customer" && (
             <Route
-              path={`/profile/${user?.name}`}
+              path={`/profile/:username`}
               element={<CustomerProfile />}
             />
           )}
