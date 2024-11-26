@@ -5,7 +5,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../App";
 import OrderController from "../class/controllers/OrderController";
 
-import OrderStatusIndicator from "../common/UserStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 
 const CustomerProfileOrderInfo = ({ handleCloseOrder, handleCancelOrder, handleRefundRequest, order }) => {
 
@@ -63,7 +63,7 @@ const CustomerProfileOrderInfo = ({ handleCloseOrder, handleCancelOrder, handleR
                 <div className="modal-header-section">
                     <div className="modal-header-section-left orderStatus">
                         <h1>Status</h1>
-                        <OrderStatusIndicator status={order.status} />
+                        <StatusIndicator status={order.status} />
                     </div>
 
                     <div className="modal-header-section-right">

@@ -11,7 +11,7 @@ import OrderController from "../class/controllers/OrderController";
 import PaymentController from "../class/controllers/PaymentController";
 
 import OrderInfo from "./CustomerProfileOrderInfo";
-import OrderStatusIndicator from "../common/UserStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 
 const CustomerProfileOrders = () => {
 
@@ -166,7 +166,7 @@ const CustomerProfileOrders = () => {
                   {userOrders.map((order) => (
                     <tr key={order.referenceNumber} onClick={() => handleViewOrder(order)}>
                       <td className='refNum'>{order.referenceNumber}</td>
-                      <td><OrderStatusIndicator status={order.status} /></td>
+                      <td><StatusIndicator status={order.status} /></td>
                       <td>{formatDate(order.createdDate)}</td>
                     </tr>
                   ))}

@@ -2,6 +2,10 @@
 
 }
 
+#adminAnalyticsBestsellers .dataCard-content {
+    padding: 0 10px;
+}
+
 #adminAnalyticsBestsellers .bestsellers-container {
     display: flex;
     flex-direction: column;
@@ -19,7 +23,7 @@
     gap: 10px;
     color: var(--secondary00);
     font-family: 'Inter';
-    background-color: var(--light00);
+    background-color: var(--light01);
     border-radius: 10px;
 }
 

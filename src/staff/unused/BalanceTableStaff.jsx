@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Staff from "../class/admin/Staff";
-import Admin from "../class/admin/Admin";
-import OrderController from "../class/controllers/OrderController";
+import Staff from "../../class/admin/Staff";
+import Admin from "../../class/admin/Admin";
+import OrderController from "../../class/controllers/OrderController";
 import "../css/Admin/BalanceTable.css";
 
 const BalanceTable = () => {

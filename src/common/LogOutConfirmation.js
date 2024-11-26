@@ -33,8 +33,10 @@ const LogOutConfirmation = ({ closeModal }) => {
                 <h2>Are you sure you want to log out?</h2>
             </div>
             <div className='modal-body'>
-                <button className='modalButton secondary' onClick={ confirmSignOut }>Yes</button>
-                <button className='modalButton primary' onClick={ closeModal }>No</button>
+                <div className='modal-body-section'>
+                    <button className='modalButton secondary' onClick={ confirmSignOut }>Yes</button>
+                    <button className='modalButton primary' onClick={ closeModal }>No</button>
+                </div>
             </div>
 
         </div>

@@ -13,10 +13,23 @@
 .siteLogo.admin {
     color: var(--secondary00);
     text-align: center;
+    font-size: 36px;
 }
 
 .siteLogo.staff {
-    color: var(--secondary01);
+    color: var(--dark00);
+    text-align: center;
+    font-size: 36px;
+}
+
+.sectionHeader {
+    margin: 40px 0;
+    color: var(--dark00);
+    font-size: 2.5rem;
+    font-family: 'Abril Fatface';
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 .primaryButton {

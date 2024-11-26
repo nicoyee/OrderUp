@@ -10,7 +10,7 @@ import Modal from 'react-modal';
 import { UserContext } from "../App";
 import OrderController from "../class/controllers/OrderController"; 
 import PaymentController from "../class/controllers/PaymentController";
-import OrderStatusIndicator from "../common/UserStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 
 
 const CustomerProfileBalance = () => {
@@ -128,7 +128,7 @@ const CustomerProfileBalance = () => {
                             {balanceTransactions.map((transaction) => (
                                 <tr key={transaction.id} onClick={() =>handlePay(transaction.id)}>
                                     <td className='refNum'>{transaction.id}</td>
-                                    <td><OrderStatusIndicator status={transaction.status} /></td>
+                                    <td><StatusIndicator status={transaction.status} /></td>
                                     <td>₱{transaction.remainingBalance}</td>
                                     <td className='transactionDate'>{formatDate(transaction.createdDate)}</td>       
                                 </tr>

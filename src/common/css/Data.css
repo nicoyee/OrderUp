@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     font-family: 'Inter';
-    background-color: var(--light01);
-    border: 1px solid var(--gray00);
-    border-radius: 10px;
+    background-color: white;
+    /* border: 1px solid var(--gray00); */
+    border-radius: 10px; 
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
     overflow: hidden;
 }
@@ -21,8 +21,8 @@
 }
 
 .dataCard-header h1 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 .dataCard-header svg {
@@ -178,6 +178,7 @@
 /* Input */
 .dataCard select, .dataCard input, .dataCard textarea {
     padding: 5px 10px;
+    max-width: 150px;
     font-family: 'Roboto';
     font-weight: 500;
     border-radius: 5px;
@@ -212,4 +213,9 @@
     color: var(--light00);
     background-color: var(--secondary00);
     pointer-events: none;
+}
+
+
+.dataCard.staff .dataCard-tab button.active {
+    background-color: var(--dark00);
 }

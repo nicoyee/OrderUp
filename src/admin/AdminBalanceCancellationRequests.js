@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import OrderController from '../class/controllers/OrderController';
-import "../css/Admin/OrderCancellationRequests.css";
-import Admin from '../class/admin/Admin';
-import Staff from '../class/admin/Staff';
+import "./css/AdminBalanceCancellationRequests.css";
 
-const OrderCancellationRequests = () => {
+import { FaCheck } from "react-icons/fa6";
+import { FaBan } from "react-icons/fa";
+
+import React, { useContext, useState, useEffect } from "react";
+
+import Admin from '../class/admin/Admin';
+
+const AdminBalanceCancellationRequests = () => {
+
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const cancellationRequests = await Staff.fetchCancellationRequests();
-                const refundRequests = await Staff.fetchRefundRequests();
+                const cancellationRequests = await Admin.fetchCancellationRequests();
+                const refundRequests = await Admin.fetchRefundRequests();
 
                 const allRequests = [
                     ...cancellationRequests.map(req => ({ ...req, type: 'cancellation' })),
@@ -31,9 +35,9 @@ const OrderCancellationRequests = () => {
     const handleConfirm = async (request) => {
         try {
             if (request.type === 'cancellation') {
-                await Staff.approveCancellation(request.id);
+                await Admin.approveCancellation(request.id);
             } else if (request.type === 'refund') {
-                await Staff.approveRefund(request.id);
+                await Admin.approveRefund(request.id);
             }
             setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
@@ -44,9 +48,9 @@ const OrderCancellationRequests = () => {
     const handleReject = async (request) => {
         try {
             if (request.type === 'cancellation') {
-                await Staff.rejectCancellation(request.id);
+                await Admin.rejectCancellation(request.id);
             } else if (request.type === 'refund') {
-                await Staff.rejectRefund(request.id);
+                await Admin.rejectRefund(request.id);
             }
             setRequests((prev) => prev.filter(req => req.id !== request.id));
         } catch (error) {
@@ -54,15 +58,21 @@ const OrderCancellationRequests = () => {
         }
     };
 
-
     return (
-        <div className="cancellationTableContainer">
-            <h2>Order Cancellation Requests</h2>
-            {requests.length === 0 ? (
-                <p className="noRequestsMessage">No cancellation requests available.</p>
+        <div id="adminBalanceCancellationRequests" className="dataCard table">
+
+            <div className="dataCard-header">
+                <h1>Cancellation Requests</h1>
+            </div>
+
+            { requests.length === 0 ? (
+                <div className="dataCard-content info">
+                    <p>No cancellation requests at this moment</p>
+                </div>
             ) : (
-                <div className="tableWrapper">
-                    <table className="cancellationTable">
+                <div className="dataCard-content full">
+                    <table>
+
                         <thead>
                             <tr>
                                 <th>Request ID</th>
@@ -72,26 +82,47 @@ const OrderCancellationRequests = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            {requests.map((request) => (
+                            { requests.map((request) => (
                                 <tr key={request.id}>
                                     <td>{request.id}</td>
                                     <td>{request.userEmail}</td>
                                     <td>{request.referenceNumber}</td>
                                     <td>{request.status}</td>
                                     <td>
-                                        <button className="confirmButton" onClick={() => handleConfirm(request)}>Confirm</button>
-                                        <button className="rejectButton" onClick={() => handleReject(request)}>Reject</button>
+                                        <div className="tableCell">
+                                            <button 
+                                                className="secondaryButton tooltip green" 
+                                                onClick={() => handleConfirm(request)}
+                                            >
+                                                <span>Accept</span>
+                                                <FaCheck/>
+                                            </button>
+                                            <button 
+                                                className="secondaryButton tooltip red" 
+                                                onClick={() => handleReject(request)}
+                                            >
+                                                <span>Reject</span>
+                                                <FaBan/>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
+
                     </table>
                 </div>
             )}
+
+            <div className="dataCard-footer">
+                
+            </div>
+
         </div>
     );
+    
 };
 
-
-export default OrderCancellationRequests;
+export default AdminBalanceCancellationRequests;

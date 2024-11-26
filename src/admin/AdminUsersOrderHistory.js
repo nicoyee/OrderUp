@@ -7,7 +7,6 @@ import Modal from 'react-modal';
 
 import Admin from '../class/admin/Admin';
 
-import OrderStatusIndicator from "../common/UserStatusIndicator";
 import OrderDetails from "./AdminUsersOrderDetails";
 
 const AdminUsersOrderHistory = ({ closeOrderHistory, selectedUser }) => {

@@ -13,6 +13,7 @@
 }
 
 .modal {
+    min-width: 400px;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -22,30 +23,8 @@
     animation: fadeInForm 0.1s forwards;
 }
 
-.modal .modalButton {
-    padding: 10px 15px;
-    color: white;
-    font-size: 15px;
-    font-weight: 500;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.modal .modalButton.primary {
-    background-color: var(--dark02);
-}
-
-.modal .modalButton.primary:hover {
-    background-color: #252727;
-}
-
-.modal .modalButton.secondary {
-    background-color: #FF3838;
-}
-
-.modal .modalButton.secondary:hover {
-    background-color: var(--primary00);
+.modal.form {
+    width: 480px;
 }
 
 .modal > div {
@@ -54,7 +33,6 @@
 
 .modal .modal-header {
     margin-bottom: 10px;
-    display: flex;
     flex-direction: column;
     gap: 5px;
 }
@@ -108,14 +86,93 @@
 }
 
 .modal .modal-body {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal .modal-body-section {
+    padding: 1px;
+    width: 100%;
     display: flex;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.modal.form .modal-body-section {
+    gap: 5px;
+}
+
+.modal .modal-body-section.vertical {
+    flex-direction: column;
 }
 
 .modal .modal-footer {
     margin-top: 10px;
-    display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.modal label {
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.modal input, .modal textarea, .modal select {
+    padding: 15px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.1s ease-in;
+}
+
+.modal.auth input {
+    min-width: unset;
+}
+
+.modal textarea {
+    overflow-y: auto;
+}
+
+.modal input:focus, .modal textarea:focus, .modal select:focus {
+    outline: 1.5px solid #2d79f3;
+}
+
+.modal .modalButton {
+    flex: 1;
+    padding: 10px 15px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.modal .modalButton.primary {
+    background-color: var(--dark02);
+}
+
+.modal .modalButton.primary:hover {
+    background-color: #252727;
+}
+
+.modal .modalButton.secondary {
+    background-color: #FF3838;
+}
+
+.modal .modalButton.secondary:hover {
+    background-color: var(--primary00);
+}
+
+.modal .modalButton.submit {
+    padding: 15px;
 }
 
 /*

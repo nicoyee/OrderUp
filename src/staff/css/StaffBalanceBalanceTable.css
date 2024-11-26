@@ -1,0 +1,13 @@
+#staffBalanceBalanceTable {
+    flex: 1;
+}
+
+#staffBalanceBalanceTable .dataCard-content {
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    #staffBalanceBalanceTable table {
+        table-layout: auto;
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Staff from '../class/admin/Staff';
+import Staff from '../../class/admin/Staff';
 import "../css/Admin/MenuTable.css";
 
 const MenuStaff = ({ dishes, setDishes }) => {

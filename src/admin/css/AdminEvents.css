@@ -1,0 +1,46 @@
+#adminEvents .dataCard {
+    flex: 1;
+}
+
+#adminEvents .dataCard-content {
+    overflow-x: auto;
+}
+
+#adminEvents table {
+    table-layout: auto;
+}
+
+#adminEvents th, #adminEvents td {
+    text-align: center;
+}
+
+#adminEvents td.image-cell {
+    width: 150px;
+    min-width: 150px;
+}
+
+#adminEvents .tableCell.text {
+
+}
+
+#adminEvents .statusIndicator {
+    justify-self: center;
+}
+
+#adminEvents td img {
+    width: 100%;
+    height: auto;
+    min-width: 200px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+/*
+@media only screen and (max-width: 768px) {
+    #adminEvents table {
+        table-layout: auto;
+    }
+}
+*/

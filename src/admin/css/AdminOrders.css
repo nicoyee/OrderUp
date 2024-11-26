@@ -6,8 +6,6 @@
     overflow-x: auto;
 }
 
-@media only screen and (max-width: 768px) {
-    #adminOrders table {
-        table-layout: auto;
-    }
+#adminOrders table {
+    table-layout: auto;
 }

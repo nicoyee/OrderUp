@@ -1,4 +1,4 @@
-import "./css/AdminDishes.css";
+import "./css/StaffDishes.css";
 
 import { RiApps2AddLine } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
@@ -10,11 +10,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import Modal from 'react-modal';
 import { toast, Flip } from 'react-toastify';
 
-import Admin from '../class/admin/Admin.js';
+import Staff from '../class/admin/Staff';
 
-import CreateDish from "./AdminDishesCreateDish";
+import CreateDish from "./StaffDishesCreateDish.js";
 
-const AdminDishes = () => {
+const StaffDishes = () => {
 
     const [ dishes, setDishes ] = useState([]);
     const [ dishCategory, setDishCategory ] = useState('All');
@@ -28,7 +28,7 @@ const AdminDishes = () => {
     useEffect(() => {
         const fetchDishes = async () => {
             try {
-                const dishesData = await Admin.getDishes().then((res) => {
+                const dishesData = await Staff.getDishes().then((res) => {
                     return res?.docs
                         ?.map((doc) => ({
                             id: doc.id,
@@ -114,7 +114,7 @@ const AdminDishes = () => {
 
             // If there's a new photo file, upload it first
             if (editedDish.photoFile) {
-                const photoURL = await Admin.uploadDishPhoto(editedDish.photoFile);
+                const photoURL = await Staff.uploadDishPhoto(editedDish.photoFile);
                 updatedDishData = {
                     ...updatedDishData,
                     photoURL: photoURL
@@ -124,7 +124,7 @@ const AdminDishes = () => {
             // Clean up temporary photo data
             delete updatedDishData.photoFile;
 
-            await Admin.editDish(dishId, updatedDishData);
+            await Staff.editDish(dishId, updatedDishData);
 
             setDishes(prevDishes =>
                 prevDishes.map(dish =>
@@ -171,7 +171,7 @@ const AdminDishes = () => {
         if (isConfirmed) {
             try {
                 // If confirmed, mark the event as deleted
-                await Admin.deleteDish(dishId);
+                await Staff.deleteDish(dishId);
                 setDishes(dishes.filter(dish => dish.id !== dishId)); // Optionally remove it from the UI
             } catch (error) {
                 console.error('Error marking dish as deleted:', error);
@@ -180,11 +180,11 @@ const AdminDishes = () => {
     };
 
     return (
-        <div id="adminDishes" className="dashboard-content">
+        <div id="staffDishes" className="dashboard-content">
 
             <div className="dashboard-section">
 
-                <div className="userInfo admin">
+                <div className="userInfo staff">
                     <div className="userInfo-left">
                         <span className="vertical">
                             <h1>Dashboard</h1>
@@ -406,4 +406,4 @@ const AdminDishes = () => {
 
 };
 
-export default AdminDishes;
+export default StaffDishes;

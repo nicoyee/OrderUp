@@ -1,0 +1,11 @@
+#staffOrders .dataCard {
+    flex: 1;
+}
+
+#staffOrders .dataCard-content {
+    overflow-x: auto;
+}
+
+#staffOrders table {
+    table-layout: auto;
+}

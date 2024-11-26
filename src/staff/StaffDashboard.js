@@ -1,35 +1,28 @@
 import "../common/css/Dashboard.css";
 
-import { BiSolidDashboard } from "react-icons/bi";
-import { FaUserFriends } from "react-icons/fa";
 import { MdFastfood } from "react-icons/md";
 import { FaBoxes } from "react-icons/fa";
 import { MdEventNote } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { HiOutlineLogin } from "react-icons/hi";
-import { HiMiniPresentationChartLine } from "react-icons/hi2";
 
 import React, { useState, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 
 import { UserContext } from "../App";
 
 import LogOutConfirmation from '../common/LogOutConfirmation.js';
 
-import Header from "./AdminHeader";
-import Analytics from "./AdminAnalytics";
-import Users from "./AdminUsers";
-import Dishes from "./AdminDishes";
-import Orders from "./AdminOrders";
-import Events from "./AdminEvents";
-import Balance from "./AdminBalance";
+import Header from "./StaffHeader.js";
+import Dishes from "./StaffDishes.js";
+import Orders from "./StaffOrders.js";
+import Events from "./StaffEvents.js";
+import Balance from "./StaffBalance.js";
 
-const AdminDashboard = () => {
+const StaffDashboard = () => {
 
-  const navigate = useNavigate();
   const user = useContext(UserContext);
-  const [ dashboardContent, setDashboardContent ] = useState('overview');
+  const [dashboardContent, setDashboardContent] = useState('dishes');
   const [ modal, showModal ] = useState(false);
 
   const openModal = () => {
@@ -50,28 +43,20 @@ const AdminDashboard = () => {
 
     <div className="dashboardContainer">
 
-      <Header />
+        <Header />
 
-      <div id='adminDashboard' className="dashboard">
+        <div id='staffDashboard' className="dashboard">
 
         <div className="dashboard-nav">
 
-          <h1 className="siteLogo admin">RiceBoy</h1>
+          <h1 className="siteLogo staff">RiceBoy</h1>
 
           <div className="dashboard-nav-section">
             <ul>
-              <li className={dashboardContent === 'overview' ? 'active' : ''} onClick={() => handleNavClick('overview')}><span><BiSolidDashboard /> <a>Overview</a></span></li>
-              <li className={dashboardContent === 'users' ? 'active' : ''} onClick={() => handleNavClick('users')}><span><FaUserFriends /> <a>Users</a></span></li>
               <li className={dashboardContent === 'dishes' ? 'active' : ''} onClick={() => handleNavClick('dishes')}><span><MdFastfood /> <a>Dishes</a></span></li>
               <li className={dashboardContent === 'orders' ? 'active' : ''} onClick={() => handleNavClick('orders')}><span><FaBoxes /> <a>Orders</a></span></li>
               <li className={dashboardContent === 'events' ? 'active' : ''} onClick={() => handleNavClick('events')}><span><MdEventNote /> <a>Events</a></span></li>
               <li className={dashboardContent === 'balance' ? 'active' : ''} onClick={() => handleNavClick('balance')}><span><FaMoneyCheckDollar /> <a>Balance</a></span></li>
-            </ul>
-          </div>
-
-          <div className="dashboard-nav-section">
-            <ul>
-              <li onClick={() => navigate('/financedashboard')}><span><HiMiniPresentationChartLine  /> <a>Finance Dashboard</a></span></li>
             </ul>
           </div>
 
@@ -85,12 +70,7 @@ const AdminDashboard = () => {
         </div>
         <div className="dashboard-main">
 
-          {dashboardContent === 'overview' && (
-            <Analytics />
-          )}
-          {dashboardContent === 'users' && (
-            <Users />
-          )}
+
           {dashboardContent === 'dishes' && (
             <Dishes />
           )}
@@ -121,4 +101,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default StaffDashboard;

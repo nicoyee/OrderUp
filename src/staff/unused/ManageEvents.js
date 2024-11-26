@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EditEvent from './EditEvent';
 import '../css/Admin/ManageEvents.css';
-import Staff from '../class/admin/Staff';
+import Staff from '../../class/admin/Staff';
 
 const ManageEvents = ({ modalIsOpen, setModalIsOpen }) => {
     const [events, setEvents] = useState([]);

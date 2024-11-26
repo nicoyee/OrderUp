@@ -1,16 +1,17 @@
-import "./css/AdminOrders.css";
+import "./css/StaffOrders.css";
 
 import { CgEye } from "react-icons/cg";
 
 import React, { useEffect, useState, useContext } from 'react';
 import Modal from 'react-modal';
 
-import Admin from '../class/admin/Admin';
+import Admin from "../class/admin/Admin";
+import Staff from '../class/admin/Staff';
 
 import Loading from '../common/Loading';
-import OrderDetails from './AdminOrdersOrderDetails';
+import OrderDetails from './StaffOrdersOrderDetails.js';
 
-const AdminOrders = () => {
+const StaffOrders = () => {
 
     const [ users, setUsers ] = useState([]);
     const [ orders, setOrders ] = useState([]);
@@ -28,7 +29,7 @@ const AdminOrders = () => {
                 
                 const allOrders = [];
                 for (const user of usersData) {
-                    const userOrders = await Admin.fetchOrderHistory(user.email);
+                    const userOrders = await Staff.fetchOrderHistory(user.email);
                     allOrders.push(...userOrders);
                 }
                 allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
@@ -48,7 +49,7 @@ const AdminOrders = () => {
           if(!order.userEmail) {
             throw new Error("User email is missing from order");
           }
-          await Admin.updateCustomerOrderStatus(order.userEmail, order.referenceNumber, newStatus); // Using OrderController function
+          await Staff.updateCustomerOrderStatus(order.userEmail, order.referenceNumber, newStatus); // Using OrderController function
           console.log("Order status updated successfully.");
           setOrders((prevOrders) =>
             prevOrders.map((o) =>
@@ -79,10 +80,10 @@ const AdminOrders = () => {
     };
 
     return (
-        <div id="adminOrders" className="dashboard-content">
+        <div id="staffOrders" className="dashboard-content">
 
             <div className="dashboard-section">
-                <div className="userInfo admin">
+                <div className="userInfo staff">
                     <span className="vertical">
                         <h1>Dashboard</h1>
                         <h3>Orders</h3>
@@ -200,4 +201,4 @@ const AdminOrders = () => {
 
 };
 
-export default AdminOrders;
+export default StaffOrders;

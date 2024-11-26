@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/Admin/EditEvent.css';
-import Staff from '../class/admin/Staff';
+import Staff from '../../class/admin/Staff';
 
 const EditEvent = ({ event, onUpdateEvent, onCancel }) => {
   const [updatedEvent, setUpdatedEvent] = useState({ ...event });

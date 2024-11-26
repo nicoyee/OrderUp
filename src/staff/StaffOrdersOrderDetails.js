@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 
 import StatusIndicator from "../common/UserStatusIndicator";
 
-const AdminUsersOrderDetails = ({ closeOrderDetailsModal, order }) => {
+const StaffOrdersOrderDetails = ({ closeOrderDetailsModal, order }) => {
 
     const formatDate = (timestamp) => {
         if (timestamp && timestamp.seconds) {
@@ -122,4 +122,4 @@ const AdminUsersOrderDetails = ({ closeOrderDetailsModal, order }) => {
     
 };
 
-export default AdminUsersOrderDetails;
+export default StaffOrdersOrderDetails;

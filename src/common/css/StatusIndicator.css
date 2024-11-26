@@ -19,6 +19,7 @@
     text-transform: uppercase;
     border-radius: 15px;
     text-align: center;
+    background-color: var(--gray01);
 }
 
 .statusIndicator.pending h1 {
@@ -37,7 +38,6 @@
     background-color: #285766;
 }
 
-.statusIndicator.paid h1 {
+.statusIndicator.paid h1, .statusIndicator.ongoing h1 {
     background-color: #34c759;
 }
-

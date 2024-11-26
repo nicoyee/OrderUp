@@ -45,7 +45,7 @@ const SignUp = ({ closeModal, setLogin, isStaffSignUp }) => {
     };
 
     return (
-        <form id='authForm' className="modal" onSubmit={ signUp }>
+        <form id='authForm' className="modal auth" onSubmit={ signUp }>
             <div className='modal-header'>
                 <span>
                 { isStaffSignUp ? (

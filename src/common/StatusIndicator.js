@@ -1,6 +1,6 @@
-import "./css/OrderStatusIndicator.css";
+import "./css/StatusIndicator.css";
 
-const OrderStatusIndicator = ({ status }) => {
+const StatusIndicator = ({ status }) => {
     const getDisplayText = (status) => {
       switch (status) {
         case 'pending':
@@ -13,6 +13,8 @@ const OrderStatusIndicator = ({ status }) => {
           return 'Unpaid';
         case 'paid':
           return 'Paid';
+        case 'ongoing':
+          return 'Ongoing';
         default:
           return status;
       }
@@ -25,4 +27,4 @@ const OrderStatusIndicator = ({ status }) => {
     );
 };
   
-export default OrderStatusIndicator;
+export default StatusIndicator;

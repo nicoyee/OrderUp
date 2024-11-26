@@ -1,7 +1,7 @@
 import "../css/Header.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthController from "../class/controllers/AuthController";
+import AuthController from "../../class/controllers/AuthController";
 
 const HeaderStaff = ({ user }) => {
   const [profileContext, showProfileContext] = useState(false);

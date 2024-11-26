@@ -1,8 +1,8 @@
-// import '../css/Admin/FinanceDashboard.css';
-// import '../common/css/Bootstrap.css';
+import '../css/Admin/FinanceDashboard.css';
+import '../common/css/Bootstrap.css';
 
 import React, { useEffect, useState } from "react";
-import PaymentController from "../../class/controllers/PaymentController";
+import PaymentController from "../class/controllers/PaymentController";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";

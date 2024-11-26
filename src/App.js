@@ -10,13 +10,13 @@ import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";
 import DashboardAdmin from "./admin/AdminDashboard.js";
-import DashboardCustomer from "./customer/CustomerDashboard";
-import DashboardStaff from "./staff/DashboardStaff";
+import DashboardCustomer from "./customer/CustomerDashboard.js";
+import DashboardStaff from "./staff/StaffDashboard.js";
 import CartPage from "./customer/CartPage";
 import Checkout from "./customer/Checkout.jsx";
 import CustomerProfile from "./customer/CustomerProfile";
 import AdminProfile from "./admin/unused/AdminProfile.js";
-import FinanceDashboard from './admin/unused/FinanceDashboard.jsx';
+import FinanceDashboard from './admin/FinanceDashboard.jsx';
 import { UserType } from "./constants";
 import { FService } from "./class/controllers/FirebaseService.ts";
 import { onAuthStateChanged } from "firebase/auth";

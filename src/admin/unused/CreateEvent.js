@@ -27,7 +27,6 @@ const CreateEvent = ({ modalIsOpen, setModalIsOpen, setEvents }) => {
         setSocialLink('');
         setPhoto(null);
     };
-   
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();

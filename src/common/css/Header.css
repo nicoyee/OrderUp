@@ -60,3 +60,13 @@
     transform: scaleX(1);
     transform-origin: bottom left;
 }
+
+.header.staff, .header.admin {
+    display: none;
+}
+
+@media only screen and (max-width: 1200px) {
+    .header.staff, .header.admin {
+        display: flex;
+    }
+}

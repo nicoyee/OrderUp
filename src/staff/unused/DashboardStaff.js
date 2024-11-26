@@ -3,10 +3,8 @@
 
 import React, { useState, useContext } from "react";
 
-import { UserContext } from "../App";
+import { UserContext } from "../../App";
 
-// import HeaderStaff from "../admin/AdminHeader";
-import Header from "../admin/AdminHeader";
 import MenuStaff from "./MenuStaff";
 import OrderHistory from "./OrderHistory";
 import ManageEvents from "./ManageEvents";

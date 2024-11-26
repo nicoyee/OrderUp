@@ -6,11 +6,11 @@ import Modal from 'react-modal';
 
 import LogOutConfirmation from '../common/LogOutConfirmation.js';
 
-const AdminHeader = () => {
+const StaffHeader = () => {
 
     const navigate = useNavigate();
+
     const [ modal, showModal ] = useState(false);
-    const [ dropDown, showDropdown ] = useState(false);
 
     const openModal = () => {
         showModal(true);
@@ -23,7 +23,7 @@ const AdminHeader = () => {
     };
 
     return (
-        <div className="header admin">
+        <div className="header staff">
             <div className="header-wrapper">
                 <div className="header-left">
                     <h1 className="siteLogo admin" onClick={() => navigate("/dashboard")}>RiceBoy</h1>
@@ -46,4 +46,4 @@ const AdminHeader = () => {
     );
 }
 
-export default AdminHeader;
+export default StaffHeader;

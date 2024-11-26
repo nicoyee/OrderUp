@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { UserContext } from "../App";
-import Admin from "../class/admin/Admin";
-import Staff from "../class/admin/Staff";
-import OrderDetailsModal from "../admin/unused/OrderDetailsModal";
+import { UserContext } from "../../App";
+import Admin from "../../class/admin/Admin";
+import Staff from "../../class/admin/Staff";
+import OrderDetailsModal from "../../admin/unused/OrderDetailsModal";
 import '../css/Admin/OrderHistoryAdmin.css';
 
 const OrderHistory = () => {

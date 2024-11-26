@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 import Admin from '../class/admin/Admin';
 import { UserType } from '../constants';
 
-import UserStatusIndicator from "../common/OrderStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 import OrderHistory from "./AdminUsersOrderHistory";
 import SignUp from '../auth/SignUp';
 
@@ -113,10 +113,7 @@ const AdminUsers = () => {
                     <div className="dataCard-header">
                         <div className="dataCard-header-section">
                             <div className="dataCard-header-left">
-                                <span className="cardTitleIcon">
-                                    <FaUserFriends />
-                                    <h1>Users</h1>
-                                </span>    
+                                <h1>User Details</h1>
                             </div>
                             <div className="dataCard-header-right">
                                 <div className="dataCard-tab">
@@ -143,10 +140,10 @@ const AdminUsers = () => {
                                 <tr key={user.id}>
                                     <td className="refNum">{ user.id }</td>
                                     <td>{ user.email }</td>
-                                    <td><UserStatusIndicator status={ user.userType } /></td>
+                                    <td><StatusIndicator status={ user.userType } /></td>
                                     <td>
                                         { user.banned ? (
-                                            <UserStatusIndicator status={ "banned" } />
+                                            <StatusIndicator status={ "banned" } />
                                         ) : (
                                             <div className="tableCell">
                                             { user.userType === UserType.CUSTOMER && (
