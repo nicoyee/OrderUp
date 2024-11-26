@@ -205,7 +205,13 @@
     color: white;
 }
 
-.modal {
+div[role="dialog"].modal {
+    min-width: unset;
+    padding: unset;
+    border-radius: unset;
+}
+
+.custom-bootstrap-modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -222,13 +228,13 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal.hide {
+.custom-bootstrap-modal.hide {
     opacity: 0;
     visibility: hidden;
 }
 
 /* Header Styling */
-.modal .modal-header {
+.custom-bootstrap-modal .modal-header {
     border-bottom: 1px solid #dee2e6;
     padding-bottom: 10px;
     display: flex;
@@ -236,14 +242,14 @@
     align-items: center;
 }
 
-.modal .modal-title {
+.custom-bootstrap-modal .modal-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: #333;
 }
 
 /* Body Styling */
-.modal .modal-body {
+.custom-bootstrap-modal .modal-body {
     font-size: 1rem;
     color: #495057;
     line-height: 1.6;
@@ -251,18 +257,18 @@
     padding-bottom: 20px;
 }
 
-.modal .modal-body p {
+.custom-bootstrap-modal .modal-body p {
     margin: 0.5em 0;
 }
 
 /* Strong text in body */
-.modal .modal-body p strong {
+.custom-bootstrap-modal .modal-body p strong {
     font-weight: 600;
     color: #333;
 }
 
 /* Footer Styling */
-.modal .modal-footer {
+.custom-bootstrap-modal .modal-footer {
     display: flex;
     justify-content: flex-end;
     padding-top: 10px;
@@ -270,48 +276,48 @@
 }
 
 /* Button Styles */
-.modal .btn {
+.custom-bootstrap-modal .btn {
     padding: 8px 16px;
     font-size: 0.875rem;
     font-weight: 500;
     transition: background-color 0.2s ease;
 }
 
-.modal .btn-secondary {
+.custom-bootstrap-modal .btn-secondary {
     background-color: #6c757d;
     border: none;
     color: #fff;
 }
 
-.modal .btn-secondary:hover {
+.custom-bootstrap-modal .btn-secondary:hover {
     background-color: #5a6268;
 }
 
-.modal .btn-danger {
+.custom-bootstrap-modal .btn-danger {
     background-color: #dc3545;
     border: none;
     color: #fff;
 }
 
-.modal .btn-danger:hover {
+.custom-bootstrap-modal .btn-danger:hover {
     background-color: #c82333;
 }
 
 /* Alert Styling */
-.modal .alert {
+.custom-bootstrap-modal .alert {
     margin: 10px 0;
     font-size: 0.875rem;
     border-radius: 6px;
 }
 
 /* Success and Error Messages */
-.modal .alert-danger {
+.custom-bootstrap-modal .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
 
-.modal .alert-success {
+.custom-bootstrap-modal .alert-success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;

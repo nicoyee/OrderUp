@@ -140,7 +140,7 @@ const FinanceDashboard = () => {
   };
 
   return (
-    <div className="finance-dashboard bootstrap-scope">
+    <div id = "financeDashboard" className="finance-dashboard bootstrap-scope">
       <HeaderAdmin />
       <div className="content">
         <h1>Finance Dashboard</h1>
@@ -231,7 +231,8 @@ const FinanceDashboard = () => {
           </div>
         </div>
       </div>
-      <Modal show={showModal} onHide={handleCloseModal}>
+
+      <Modal show={showModal} onHide={ handleCloseModal } dialogClassName="custom-bootstrap-modal">
       <Modal.Header closeButton>
          <Modal.Title>Payment Details</Modal.Title>
           </Modal.Header>
