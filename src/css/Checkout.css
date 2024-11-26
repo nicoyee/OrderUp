@@ -127,13 +127,13 @@
   border-radius: 50%;
 }
 
-.checkout-modal .payment-option .description {
+.checkout-modal .payment-option .checkout-description {
   font-size: 14px;
   color: #333;
   transition: color 0.3s;
 }
 
-.checkout-modal .payment-option:hover .description {
+.checkout-modal .payment-option:hover .checkout-description {
   color: #007BFF; /* Added hover effect */
 }
 

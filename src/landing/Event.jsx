@@ -50,7 +50,8 @@ const Event = ({ setLandingContent }) => {
       {loading ? (
         <p>Loading events...</p>
       ) : (
-        <Slider {...settings} className="eventSlider">
+
+          <Slider {...settings} className="eventSlider">
           {events.length === 0 ? (
             <p>No events available.</p>
           ) : (
@@ -67,7 +68,8 @@ const Event = ({ setLandingContent }) => {
               </div>
             ))
           )}
-        </Slider>
+          </Slider>
+       
       )}
     </div>
   );

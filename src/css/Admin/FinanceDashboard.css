@@ -240,6 +240,8 @@ div[role="dialog"].modal {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: unset;
+    flex-direction: unset;
 }
 
 .custom-bootstrap-modal .modal-title {
@@ -255,6 +257,7 @@ div[role="dialog"].modal {
     line-height: 1.6;
     padding-top: 20px;
     padding-bottom: 20px;
+    margin-right: 60px;
 }
 
 .custom-bootstrap-modal .modal-body p {
@@ -321,4 +324,16 @@ div[role="dialog"].modal {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
+}
+
+.custom-bootstrap-modal .btn-close {
+    color: black;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 1px solid gray;
+}
+
+.custom-bootstrap-modal .btn-close:hover {
+    background-color: gray;
 }
