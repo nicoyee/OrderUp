@@ -1,0 +1,63 @@
+#adminUsersOrderHistory {
+    width: 490px;
+    gap: 10px;
+}
+
+#adminUsersOrderHistory .orderHistory {
+    max-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+#adminUsersOrderHistory .orderHistory-header, #adminUsersOrderHistory .orderHistory-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark00);
+    background-color: var(--light00);
+    border-radius: 8px;
+}
+
+#adminUsersOrderHistory .orderHistory-header {
+    padding: 5px 10px;
+    background-color: var(--secondary00);
+    margin-bottom: -4px;
+}
+
+#adminUsersOrderHistory .orderHistory-header h1 {
+    color: var(--light01);
+    font-family: 'Roboto Condensed';
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+#adminUsersOrderHistory .dataCard-content.info {
+    padding: 15px 0;
+}
+
+#adminUsersOrderHistory .orderHistory-ref, #adminUsersOrderHistory .orderHistory-action {
+    flex: 2;
+}
+
+#adminUsersOrderHistory .orderHistory-item .orderHistory-ref h1 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#adminUsersOrderHistory .modal-header-section {
+    display: flex;
+    flex-direction: column;
+}
+
+#adminUsersOrderHistory .modal-header-section h1 {
+    color: var(--primary00);
+    font-size: 14px;
+}
+
+#adminUsersOrderHistory .modal-header-section h2 {
+    font-size: 24px;
+    font-weight: 300;
+}

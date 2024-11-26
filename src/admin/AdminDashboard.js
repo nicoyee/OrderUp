@@ -1,119 +1,124 @@
-import "./css/AdminDashboard.css";
+import "../common/css/Dashboard.css";
+
+import { BiSolidDashboard } from "react-icons/bi";
+import { FaUserFriends } from "react-icons/fa";
+import { MdFastfood } from "react-icons/md";
+import { FaBoxes } from "react-icons/fa";
+import { MdEventNote } from "react-icons/md";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { HiOutlineLogin } from "react-icons/hi";
+import { HiMiniPresentationChartLine } from "react-icons/hi2";
 
 import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
 
 import { UserContext } from "../App";
 
-import OrderHistoryAdmin from "./OrderHistoryAdmin";
-import HeaderAdmin from "./HeaderAdmin";
-import AdminMenu from "./AdminMenu";
-import CreateDish from "./CreateDish";
-import ManageUsers from "./ManageUsers";
-import ManageEvents from "./ManageEvents";
-import BalanceTable from "./BalanceTable";
-import AdminSales from "./AdminSales";
-import OrderCancellationRequests from "./OrderCancellationRequests";
+import LogOutConfirmation from '../common/LogOutConfirmation.js';
 
-import { MdFastfood } from "react-icons/md";
-import { FaBoxes } from "react-icons/fa";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
+import Header from "./AdminHeader";
+import Analytics from "./AdminAnalytics";
+import Users from "./AdminUsers";
+import Dishes from "./AdminDishes";
+import Orders from "./AdminOrders";
+import Events from "./AdminEvents";
+import Balance from "./AdminBalance";
 
 const AdminDashboard = () => {
 
-    const user = useContext(UserContext);
-    const [dashboardContent, setDashboardContent] = useState('dishes');
+  const navigate = useNavigate();
+  const user = useContext(UserContext);
+  const [ dashboardContent, setDashboardContent ] = useState('overview');
+  const [ modal, showModal ] = useState(false);
 
-    const [dishes, setDishes] = useState([]);
-    const [events, setEvents] = useState([]);
-    const [createDishModalIsOpen, setCreateDishModalIsOpen] = useState(false);
-    const [manageUsersModalIsOpen, setManageUsersModalIsOpen] = useState(false);
-    const [manageEventsModalIsOpen, setManageEventsModalIsOpen] = useState(false);
-    const [adminSalesModalIsOpen, setAdminSalesModalIsOpen] = useState(false);
+  const openModal = () => {
+      showModal(true);
+      document.body.classList.add('modal-open');
+  };
 
-    const handleNavClick = (content) => {
-        setDashboardContent(content);
-    };
+  const closeModal = () => {
+      showModal(false);
+      document.body.classList.remove('modal-open');
+  };
 
-    const navigate = useNavigate();
+  const handleNavClick = (content) => {
+    setDashboardContent(content);
+  };
 
-    return (
+  return (
 
-        <div className="dashboardContainer">
+    <div className="dashboardContainer">
 
-            <HeaderAdmin user={user} />
+      <Header />
 
-            <div id="adminDashboard">
-                <div className="dashboard-nav">
-                    <div className="dashboard-nav-section">
-                        <label>Admin Dashboard</label>
-                        <ul>
-                            <li onClick={() => handleNavClick('dishes')}><span><MdFastfood /> <a>Dishes</a></span></li>
-                            <li onClick={() => handleNavClick('orders')}><span><FaBoxes /> <a>Orders</a></span></li>
-                            <li onClick={() => handleNavClick('balance')}><span><FaMoneyCheckDollar /> <a>Balance</a></span></li>
-                        </ul>
-                    </div>
-                    <div className="dashboard-nav-section">
-                        <label>Admin Actions</label>
-                        <ul>
-                            <li onClick={() => setCreateDishModalIsOpen(true)}><span><button>Create Dish</button></span></li>
-                            <li onClick={() => setManageUsersModalIsOpen(true)}><span><button>Manage Users</button></span></li>
-                            <li onClick={() => setManageEventsModalIsOpen(true)}><span><button >Manage Events</button></span></li>
-                            <li onClick={() => setAdminSalesModalIsOpen(true)}><span><button>Sales Overview</button></span></li>
-                            <li onClick={() => navigate('/financedashboard')}><span><button>Finance Dashboard</button></span></li>
-                        </ul>
-                    </div>
-                    
-                </div>
-                <div className="dashboard-main">
-                    {dashboardContent === 'dishes' && (
-                        <AdminMenu dishes={dishes} setDishes={setDishes} />
-                    )}
-                    {dashboardContent === 'orders' && (
-                        <OrderHistoryAdmin />
-                    )}
-                    {dashboardContent === 'balance' && (
-                        <div className="balanceContainer">
-                            <BalanceTable />
-                            <OrderCancellationRequests />
-                        </div>
-                    )}
-                </div>
-            </div>
+      <div id='adminDashboard' className="dashboard">
 
-        {/* Modals */}
-        {createDishModalIsOpen && (
-          <CreateDish
-            setDishes={setDishes}
-            modalIsOpen={createDishModalIsOpen}
-            setModalIsOpen={setCreateDishModalIsOpen}
-          />
-        )}
-        {manageUsersModalIsOpen && (
-          <ManageUsers
-            modalIsOpen={manageUsersModalIsOpen}
-            setModalIsOpen={setManageUsersModalIsOpen}
-          />
-        )}
-        {manageEventsModalIsOpen && (
-          <ManageEvents
-            setEvents={setEvents}
-            modalIsOpen={manageEventsModalIsOpen}
-            setModalIsOpen={setManageEventsModalIsOpen}
-          />
-        )}
-        {adminSalesModalIsOpen && (
-          <AdminSales
-            show={adminSalesModalIsOpen}
-            handleClose={() => setAdminSalesModalIsOpen(false)}
-            userEmail={user.email} // Pass user email for fetching sales data
-          />
-        )}
+        <div className="dashboard-nav">
+
+          <h1 className="siteLogo admin">RiceBoy</h1>
+
+          <div className="dashboard-nav-section">
+            <ul>
+              <li className={dashboardContent === 'overview' ? 'active' : ''} onClick={() => handleNavClick('overview')}><span><BiSolidDashboard /> <a>Overview</a></span></li>
+              <li className={dashboardContent === 'users' ? 'active' : ''} onClick={() => handleNavClick('users')}><span><FaUserFriends /> <a>Users</a></span></li>
+              <li className={dashboardContent === 'dishes' ? 'active' : ''} onClick={() => handleNavClick('dishes')}><span><MdFastfood /> <a>Dishes</a></span></li>
+              <li className={dashboardContent === 'orders' ? 'active' : ''} onClick={() => handleNavClick('orders')}><span><FaBoxes /> <a>Orders</a></span></li>
+              <li className={dashboardContent === 'events' ? 'active' : ''} onClick={() => handleNavClick('events')}><span><MdEventNote /> <a>Events</a></span></li>
+              <li className={dashboardContent === 'balance' ? 'active' : ''} onClick={() => handleNavClick('balance')}><span><FaMoneyCheckDollar /> <a>Balance</a></span></li>
+            </ul>
+          </div>
+
+          <div className="dashboard-nav-section">
+            <ul>
+              <li onClick={() => navigate('/financedashboard')}><span><HiMiniPresentationChartLine  /> <a>Finance Dashboard</a></span></li>
+            </ul>
+          </div>
+
+          <div className="dashboard-nav-section">
+            <h2>{user.email}</h2>
+            <ul>
+              <li onClick={ openModal }><span><HiOutlineLogin /> <a>Log out</a></span></li>
+            </ul>
+          </div>
+
+        </div>
+        <div className="dashboard-main">
+
+          {dashboardContent === 'overview' && (
+            <Analytics />
+          )}
+          {dashboardContent === 'users' && (
+            <Users />
+          )}
+          {dashboardContent === 'dishes' && (
+            <Dishes />
+          )}
+          {dashboardContent === 'orders' && (
+            <Orders />
+          )}
+          {dashboardContent === 'events' && (
+            <Events />
+          )}
+          {dashboardContent === 'balance' && (
+            <Balance />
+          )}
 
         </div>
 
-    );
+      </div>
 
+      <Modal
+          isOpen={ modal }
+          onRequestClose={ closeModal }
+          className={`${ modal ? 'modal-open' : '' }`}
+          overlayClassName="modalOverlay"
+      >
+          <LogOutConfirmation closeModal={ closeModal } />
+      </Modal>
+  
+    </div>
+  );
 };
 
 export default AdminDashboard;

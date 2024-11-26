@@ -1,0 +1,42 @@
+#staffEvents .dataCard {
+    flex: 1;
+}
+
+#staffEvents .dataCard-content {
+    overflow-x: auto;
+}
+
+#staffEvents table {
+    table-layout: auto;
+}
+
+#staffEvents th, #staffEvents td {
+    text-align: center;
+}
+
+#staffEvents td.image-cell {
+    width: 150px;
+    min-width: 150px;
+}
+
+#staffEvents .statusIndicator {
+    justify-self: center;
+}
+
+#staffEvents td img {
+    width: 100%;
+    height: auto;
+    min-width: 200px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+/*
+@media only screen and (max-width: 768px) {
+    #staffEvents table {
+        table-layout: auto;
+    }
+}
+*/

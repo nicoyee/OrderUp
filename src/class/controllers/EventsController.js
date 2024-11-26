@@ -41,21 +41,20 @@ class EventsController {
 
     static async update(eventId, eventData) {
         try {
-            let photoURL = eventData.photoURL;
-            if (eventData.photo && typeof eventData.photo !== 'string') {
-                // Upload updated photo to storage
-                photoURL = await FService.uploadPhoto(eventData.photo, 'events');
-            }
-            const updatedEvent = {
-                ...eventData,
-                photoURL,
-                socialLink: eventData.socialLink.trim()
-            };
-            // Update event document in Firestore
-            await FService.updateDocument('events', eventId, updatedEvent);
-            return updatedEvent;
+            await FService.updateDocument('events', eventId, eventData);
+            console.log('Event updated successfully:', eventData);
         } catch (error) {
             console.error('Error updating event:', error);
+            throw error;
+        }
+    }
+
+    static async uploadEventPhoto(photo) {
+        try {
+            const photoURL = await FService.uploadPhoto(photo, 'events');
+            return photoURL;
+        } catch (error) {
+            console.error('Error uploading event photo:', error);
             throw error;
         }
     }

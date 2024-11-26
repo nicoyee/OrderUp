@@ -1,0 +1,27 @@
+#staffDishes .activeRow {
+    background-color: var(--gray01);
+}
+
+#staffDishes .dataCard {
+    flex: 1;
+}
+
+#staffDishes .dataCard-content {
+    overflow-x: auto;
+}
+
+#staffDishes th, #staffDishes td {
+    text-align: center;
+}
+
+#staffDishes td img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #staffDishes table {
+        table-layout: auto;
+    }
+}

@@ -1,0 +1,13 @@
+#adminBalanceCancellationRequests {
+    flex: 1;
+}
+
+#adminBalanceCancellationRequests .dataCard-content {
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    #adminBalanceCancellationRequests table {
+        table-layout: auto;
+    }
+}

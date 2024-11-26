@@ -1,0 +1,11 @@
+#logOutConfirmation {
+    width: 400px;
+}
+
+#logOutConfirmation .modal-body {
+    gap: 15px;
+}
+
+#logOutConfirmation .modalButton {
+    flex: 1;
+}

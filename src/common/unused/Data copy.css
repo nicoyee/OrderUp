@@ -1,0 +1,128 @@
+.dataCard {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light00);
+    border-radius: 6px;
+    border: 1px solid var(--gray00);
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.dataCard .dataCard-header {
+    padding: 30px 30px 20px 30px;
+    display: flex;
+    border-bottom: 1px solid var(--gray00);
+}
+
+.dataCard .dataCard-header .dataCard-header-left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.dataCard .dataCard-header .dataCard-header-left svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary00);
+}
+
+.dataCard .dataCard-header .dataCard-header-left h1 {
+    color: var(--secondary00);
+    font-family: 'Inter';
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.dataCard .dataCard-footer {
+    padding: 20px 0;
+    border-top: 1px solid var(--gray00);
+}
+
+.dataCard .dataCard-text-section {
+    padding: 30px;
+    text-align: center;
+}
+
+.dataCard .dataCard-text-section h1 {
+    color: var(--gray01);
+    font-size: 18px;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+.dataCard-table-full {
+    
+}
+
+.dataCard-content-full {
+    
+}
+
+.dataCard-content-in {
+    padding: 20px;
+}
+
+.dataCard table {
+    width: 100%;
+    border-collapse: collapse;
+    gap: 10px;
+}
+
+.dataCard table thead th {
+    padding: 5px 30px;
+    color: var(--gray01);
+    font-size: 14px;
+    font-family: 'Roboto Condensed';
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 1px solid var(--gray00);
+    border-top: 1px solid var(--gray00);
+    cursor: pointer;
+}
+
+.dataCard table thead th:hover {
+    color: var(--dark00);
+}
+
+.dataCard table tbody tr {
+    background-color: #ffff;
+    border-bottom: 1px solid var(--gray00);
+    transition: all .1s ease;
+}
+
+.dataCard table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.dataCard table tbody tr:nth-child(even) {
+    background-color: var(--light02);
+}
+
+.dataCard table tbody tr:hover {
+    background-color: var(--gray00);
+    cursor: pointer;
+}
+
+.dataCard table tbody td {
+    padding: 10px 30px;
+    font-family: 'Roboto';
+    font-size: 14px;
+}
+
+.dataCard.analytics {
+    flex: 1;
+    min-width: 300px;
+}
+
+.dataCard.analytics .dataCard-header {
+    padding-bottom: 0;
+    border: none;
+}
+
+.dataCard.analytics .dataCard-content-in {
+    min-height: 300px;
+}
+
+.dataCard .button-01 {
+
+}

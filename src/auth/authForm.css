@@ -31,7 +31,6 @@
     height: 50px;
     display: flex;
     align-items: center;
-    gap: 15px;
     border: 1.5px solid #ecedec;
     border-radius: 10px;
     overflow: hidden;

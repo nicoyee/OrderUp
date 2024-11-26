@@ -8,5 +8,4 @@ class Dish {
   }
 }
 
-
-export { Dish};
+export { Dish };

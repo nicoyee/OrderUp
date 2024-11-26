@@ -10,7 +10,7 @@ import Modal from 'react-modal';
 import { UserContext } from "../App";
 import OrderController from "../class/controllers/OrderController"; 
 import PaymentController from "../class/controllers/PaymentController";
-import OrderStatusIndicator from "../common/OrderStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 
 
 const CustomerProfileBalance = () => {
@@ -113,43 +113,43 @@ const CustomerProfileBalance = () => {
     }
 
     return (
-        <div id='customerProfileBalance' className="dataCard">
+        <div id='customerProfileBalance' className="dataCard table">
 
             <div className="dataCard-header">
-              <div className="dataCard-header-left">
+              <span className="cardTitleIcon">
                 <FaCoins />
                 <h1>Remaining Balance</h1>
-              </div>
+              </span>    
             </div>
 
             {balanceTransactions.length === 0 ? (
-                <div className="dataCard-text-section">
-
-                    <h1>No balance found for this user</h1>
-
+                <div className="dataCard-content info">
+                    <p>No balance found for this user</p>
                 </div>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Ref#</th>
-                            <th>Status</th>
-                            <th>Balance</th>
-                            <th>Date</th>                               
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {balanceTransactions.map((transaction) => (
-                            <tr key={transaction.id} onClick={() =>handlePay(transaction.id)}>
-                                <td className='refNum'>{transaction.id}</td>
-                                <td><OrderStatusIndicator status={transaction.status} /></td>
-                                <td>₱{transaction.remainingBalance}</td>
-                                <td className='transactionDate'>{formatDate(transaction.createdDate)}</td>       
+                <div className="dataCard-content full">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ref#</th>
+                                <th>Status</th>
+                                <th>Balance</th>
+                                <th>Date</th>                               
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {balanceTransactions.map((transaction) => (
+                                <tr key={transaction.id} onClick={() =>handlePay(transaction.id)}>
+                                    <td className='refNum'>{transaction.id}</td>
+                                    <td><StatusIndicator status={transaction.status} /></td>
+                                    <td>₱{transaction.remainingBalance}</td>
+                                    <td className='transactionDate'>{formatDate(transaction.createdDate)}</td>       
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>     
             )}
 
             <div className="dataCard-footer">

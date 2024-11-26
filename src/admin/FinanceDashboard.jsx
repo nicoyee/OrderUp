@@ -8,7 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import * as XLSX from 'xlsx';
 
-import HeaderAdmin from "./HeaderAdmin";
+import HeaderAdmin from "./AdminHeader";
 
 const FinanceDashboard = () => {
   const [payments, setPayments] = useState([]);

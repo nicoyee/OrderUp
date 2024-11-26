@@ -1,0 +1,7 @@
+#adminUsers .dataCard {
+    flex: 1;
+}
+
+#adminUsers .dataCard tr {
+    cursor: default;
+}

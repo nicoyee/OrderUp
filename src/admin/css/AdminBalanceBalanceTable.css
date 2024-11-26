@@ -1,0 +1,13 @@
+#adminBalanceBalanceTable {
+    flex: 1;
+}
+
+#adminBalanceBalanceTable .dataCard-content {
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    #adminBalanceBalanceTable table {
+        table-layout: auto;
+    }
+}

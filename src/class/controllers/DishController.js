@@ -41,6 +41,16 @@ class DishController {
             throw error;
         }
     }
+
+    static async uploadDishPhoto(photo) {
+        try {
+            const photoURL = await FService.uploadPhoto(photo, 'dishes');
+            return photoURL;
+        } catch (error) {
+            console.error('Error uploading dish photo:', error);
+            throw error;
+        }
+    }
 }
 
 export default DishController;

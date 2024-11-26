@@ -1,5 +1,4 @@
 import "./css/CustomerProfileOrders.css";
-import "../common/css/Data.css";
 
 import { FaBoxesStacked } from "react-icons/fa6";
 
@@ -12,7 +11,7 @@ import OrderController from "../class/controllers/OrderController";
 import PaymentController from "../class/controllers/PaymentController";
 
 import OrderInfo from "./CustomerProfileOrderInfo";
-import OrderStatusIndicator from "../common/OrderStatusIndicator";
+import StatusIndicator from "../common/UserStatusIndicator";
 
 const CustomerProfileOrders = () => {
 
@@ -138,38 +137,44 @@ const CustomerProfileOrders = () => {
   }
 
   return (
-      <div id='customerProfileOrders' className="dataCard">
+      <div id='customerProfileOrders' className="dataCard table">
 
-          <div className="dataCard-header">
-            <div className="dataCard-header-left">
-              <FaBoxesStacked />
-              <h1>My Orders</h1>
-            </div>
+        <div className="dataCard-header">
+          <span className="cardTitleIcon">
+            <FaBoxesStacked />
+            <h1>My Orders</h1>
+          </span>
+        </div>
+
+        {userOrders.length === 0 ? (
+          <div className="dataCard-content info">
+            <p>No orders found for this user</p>
           </div>
+        ) : (
 
-          <div className="dataCard-table-full">
-
-              <table>
-                  <thead>
+          <div className="dataCard-content full">
+            <table>
+                <thead>
                   <tr>
-                      <th>Reference #</th>
+                      <th>Ref#</th>
                       <th>Status</th>
                       <th>Date</th>
                   </tr>
-                  </thead>
+                </thead>
 
-                  <tbody>
-                    {userOrders.map((order) => (
-                      <tr key={order.referenceNumber} onClick={() => handleViewOrder(order)}>
-                        <td className='refNum'>{order.referenceNumber}</td>
-                        <td><OrderStatusIndicator status={order.status} /></td>
-                        <td>{formatDate(order.createdDate)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-              </table>
-
+                <tbody>
+                  {userOrders.map((order) => (
+                    <tr key={order.referenceNumber} onClick={() => handleViewOrder(order)}>
+                      <td className='refNum'>{order.referenceNumber}</td>
+                      <td><StatusIndicator status={order.status} /></td>
+                      <td>{formatDate(order.createdDate)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+            </table>
           </div>
+
+        )}
 
           <div className="dataCard-footer">
 

@@ -22,6 +22,10 @@ class Admin extends User {
         return await DishController.update(id, newData);
     }
 
+    static async uploadDishPhoto(photo) {
+        return await DishController.uploadDishPhoto(photo);
+    }
+
     // CRUD User
     static async fetchUsers() {
         return await AdminController.fetch();
@@ -54,6 +58,10 @@ class Admin extends User {
 
     static async updateEvent(eventId, eventData) {
         return await EventsController.update(eventId, eventData);
+    }
+
+    static async uploadEventPhoto(photo) {
+        return await EventsController.uploadEventPhoto(photo);
     }
 
     static async deleteEvent(eventId) {
