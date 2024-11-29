@@ -79,11 +79,6 @@ const AdminEvents = () => {
                     photoFile: files[0], // Store the actual file object
                 }));
             }
-        } else if (type === 'date') {
-            setEditedEvent(prev => ({
-                ...prev,
-                [name]: new Date(value).toISOString(), // Convert date to ISO format
-            }));
         } else {
             setEditedEvent(prev => ({
                 ...prev,

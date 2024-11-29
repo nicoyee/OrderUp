@@ -1,6 +1,7 @@
 // Customer.js
 import CartController from "./controllers/CartController.js";
 import OrderController from "./controllers/OrderController.js";
+import EventsController from "./controllers/EventsController.js";
 import User from "./User";
 import { FService } from "./controllers/FirebaseService.ts";
 
@@ -35,6 +36,10 @@ class Customer extends User {
 
     static async getBestSellers() {
         return await CartController.getBestSellers();
+    }
+
+    static async fetchEvents() {
+        return await EventsController.fetch();
     }
 
 

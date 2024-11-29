@@ -24,11 +24,12 @@
 
 .sectionHeader {
     margin: 40px 0;
-    color: var(--dark00);
-    font-size: 2.5rem;
-    font-family: 'Abril Fatface';
+    margin-top: 20px;
+    color: var(--primary01);
+    font-size: 4rem;
+    font-family: 'Kare';
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-align: center;
 }
 

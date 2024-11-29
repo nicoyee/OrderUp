@@ -13,7 +13,7 @@ class EventsController {
                 description,
                 location,
                 status,
-                date: date.toISOString(),
+                date: date,
                 socialLink,
                 photoURL
             };
@@ -27,11 +27,12 @@ class EventsController {
     }
     static async fetch() {
         try {
-          const querySnapshot = await FService.getDocuments('events');
-          const events = querySnapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() }))
-            .filter(event => !event.deleted); 
-          return events;
+            const querySnapshot = await FService.getDocuments('events');
+            const events = querySnapshot.docs
+                .map(doc => ({ id: doc.id, ...doc.data() }))
+                .filter(event => !event.deleted)
+                .sort((a, b) => a.eventName.localeCompare(b.eventName));
+            return events;
         } catch (error) {
           console.error('Error fetching events:', error);
           throw error;

@@ -35,6 +35,31 @@
     gap: 15px;
 }
 
+.dashboard-section__header {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    text-align: center;
+}
+
+.dashboard-section__header h1 {
+    margin-top: -20px;
+    font-family: 'Kare';
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--primary00);
+    letter-spacing: 2px;
+}
+
+.dashboard-section__header p {
+    font-family: 'Open Sans';
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--secondary01);
+}
+
 /* Dashboard Navigation */
 
 .dashboard-nav {
