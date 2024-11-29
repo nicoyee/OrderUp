@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'; // For accessing the URL
 
 
 import Header from "./CustomerHeader";
+import Events from "./CustomerEvents";
 import Bestsellers from "./CustomerBestsellers";
 import Banner from "./CustomerBanner";
 import Cart from "./CustomerCart";
@@ -41,6 +42,8 @@ const CustomerDashboard = () => {
       <div id='customerDashboard'>
 
         <Banner />
+
+        <Events />
 
         <Bestsellers />
 

@@ -5,7 +5,6 @@ import './common/css/Dashboard.css';
 
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-import Modal from 'react-modal';
 import { ToastContainer } from 'react-toastify';
 
 import Landing from "./landing/Landing";

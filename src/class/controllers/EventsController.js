@@ -13,7 +13,7 @@ class EventsController {
                 description,
                 location,
                 status,
-                date: date.toISOString(),
+                date: date,
                 socialLink,
                 photoURL
             };
@@ -32,7 +32,8 @@ class EventsController {
             const querySnapshot = await FService.getDocuments('events');
             const events = querySnapshot.docs
                 .map(doc => ({ id: doc.id, ...doc.data() }))
-                .filter(event => !event.deleted);
+                .filter(event => !event.deleted)
+                .sort((a, b) => a.eventName.localeCompare(b.eventName));
             return events;
         } catch (error) {
             console.error('Error fetching events:', error);
