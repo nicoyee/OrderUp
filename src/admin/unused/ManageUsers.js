@@ -46,7 +46,6 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
         try {
             await Admin.banUser(userId);
             setUsers(users.filter(user => user.id !== userId));
-            console.log('User banned successfully');
         } catch (error) {
             console.error('Error banning user:', error);
         }
@@ -73,7 +72,6 @@ const ManageUsers = ({ modalIsOpen, setModalIsOpen }) => {
     const handleSignUp = async (name, email, password) => {
         try {
             await AuthController.signUp(name, email, password, UserType.STAFF);
-            console.log("User successfully signed up as staff!");
             setStaffModalIsOpen(false);
         } catch (error) {
             console.error("Error signing up user:", error);

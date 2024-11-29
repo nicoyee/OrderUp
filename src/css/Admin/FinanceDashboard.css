@@ -204,3 +204,136 @@
     background-color: #2980b9;
     color: white;
 }
+
+div[role="dialog"].modal {
+    min-width: unset;
+    padding: unset;
+    border-radius: unset;
+}
+
+.custom-bootstrap-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa; /* Softer background */
+    padding: 40px;
+    z-index: 1000;
+    border-radius: 12px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-bootstrap-modal.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Header Styling */
+.custom-bootstrap-modal .modal-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: unset;
+    flex-direction: unset;
+}
+
+.custom-bootstrap-modal .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Body Styling */
+.custom-bootstrap-modal .modal-body {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 60px;
+}
+
+.custom-bootstrap-modal .modal-body p {
+    margin: 0.5em 0;
+}
+
+/* Strong text in body */
+.custom-bootstrap-modal .modal-body p strong {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Footer Styling */
+.custom-bootstrap-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Button Styles */
+.custom-bootstrap-modal .btn {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.custom-bootstrap-modal .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: #fff;
+}
+
+.custom-bootstrap-modal .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.custom-bootstrap-modal .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.custom-bootstrap-modal .btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Alert Styling */
+.custom-bootstrap-modal .alert {
+    margin: 10px 0;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+/* Success and Error Messages */
+.custom-bootstrap-modal .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.custom-bootstrap-modal .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.custom-bootstrap-modal .btn-close {
+    color: black;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 1px solid gray;
+}
+
+.custom-bootstrap-modal .btn-close:hover {
+    background-color: gray;
+}

@@ -23,7 +23,6 @@ const OrderHistoryAdmin = () => {
             allOrders.push(...userOrders);
           }
           allOrders.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
-          console.log("Orders Fetched:", allOrders);
           setOrders(allOrders);
       } catch (error) {
         console.error("Error fetching order IDs:", error);
@@ -54,8 +53,7 @@ const OrderHistoryAdmin = () => {
       if(!order.userEmail) {
         throw new Error("User email is missing from order");
       }
-      await Admin.updateCustomerOrderStatus(order.userEmail, order.referenceNumber, newStatus); // Using OrderController function
-      console.log("Order status updated successfully.");
+      await Admin.updateCustomerOrderStatus(order.userEmail, order.referenceNumber, newStatus);
       setOrders((prevOrders) =>
         prevOrders.map((o) =>
           o.referenceNumber === order.referenceNumber ? { ...o, status: newStatus }: o

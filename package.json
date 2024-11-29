@@ -20,6 +20,8 @@
     "dotenv": "^16.4.5",
     "embla-carousel-fade": "^8.5.1",
     "embla-carousel-react": "^8.5.1",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.37.2",
     "express": "^4.21.0",
     "firebase": "^10.13.1",
     "framer-motion": "^11.1.7",

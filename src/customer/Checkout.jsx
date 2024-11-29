@@ -179,7 +179,7 @@ const Checkout = ({ onClose, cartItems }) => {
                 onChange={handleChange}
               />
               <span className="circle"></span>
-              <span className="description">
+              <span className="checkout-description">
                 Downpayment - Pay 40% ({downpaymentAmount.toFixed(2)}) <br />
               </span>
             </label>
@@ -193,7 +193,7 @@ const Checkout = ({ onClose, cartItems }) => {
                 onChange={handleChange}
               />
               <span className="circle"></span>
-              <span className="description">
+              <span className="checkout-description">
                 Full Payment - Pay total amount ({totalAmount.toFixed(2)}) <br />
               </span>
             </label>

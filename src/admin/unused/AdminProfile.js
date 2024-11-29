@@ -61,7 +61,6 @@ const AdminProfile = () => {
     try {
       const userDocRef = doc(db, "users", userId);
       await updateDoc(userDocRef, { name: newName });
-      console.log("Username updated successfully in Firestore");
     } catch (error) {
       console.error("Error updating username: ", error);
     }
@@ -122,16 +121,13 @@ const AdminProfile = () => {
             throw error;
           }
         });
-        console.log("Old profile picture deleted successfully");
       }
 
       const newImageRef = ref(storage, `profile/${userId}/${Date.now()}_profile.jpg`);
       await uploadBytes(newImageRef, imageBlob);
-      console.log("New profile picture uploaded successfully");
 
       const newImageUrl = await getDownloadURL(newImageRef);
       await updateDoc(userDocRef, { profilePicture: newImageUrl });
-      console.log("Profile picture URL updated successfully in Firestore");
     } catch (error) {
       console.error("Error updating profile picture: ", error);
       throw error;
