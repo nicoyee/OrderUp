@@ -1,12 +1,10 @@
 import '../common/css/Dashboard.css';
 import './css/CustomerDashboard.css';
 
-
 import { UserContext } from '../App';
 
 import React, { useState, useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; // For accessing the URL
-
+import { useLocation } from 'react-router-dom';
 
 import Header from "./CustomerHeader";
 import Events from "./CustomerEvents";
