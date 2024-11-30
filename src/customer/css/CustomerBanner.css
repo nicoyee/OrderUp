@@ -41,7 +41,8 @@
 
 #customerBanner .customerBanner-caption-buttons {
     display: flex;
-    gap: 50px;
+    align-items: center;
+    gap: 25px;
 }
 
 #customerBanner .customerBanner-caption-buttons a {
@@ -58,6 +59,13 @@
     color: var(--primary01);
     text-decoration: underline;
     cursor: pointer;
+}
+
+#customerBanner .customerBanner-caption-buttons p {
+    color: var(--light00);
+    font-family: 'Inter';
+    font-size: 2em;
+    user-select: none;
 }
 
 @media only screen and (max-width: 768px) {
