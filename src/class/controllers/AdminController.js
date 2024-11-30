@@ -51,9 +51,7 @@ class AdminController{
         try {
             await setDoc(doc(FService.db, 'users', userId), {
                 banned: true
-            }, { merge: true }); // Use merge to update only the 'banned' field without overwriting other data
-    
-            console.log('User marked as banned successfully');
+            }, { merge: true });
         } catch (error) {
             console.error('Error banning user:', error);
             throw error;
@@ -79,8 +77,6 @@ class AdminController{
                 uid: user.uid,
                 profilePicture: ''
             });
-
-            console.log('Staff added successfully:', user);
             return user;
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {

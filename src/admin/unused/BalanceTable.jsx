@@ -22,7 +22,6 @@ const BalanceTable = () => {
                 }
                 allBalances.sort((a, b) => b.createdDate.seconds - a.createdDate.seconds);
                 setBalances(allBalances);
-                console.log('Balances Fetched:', allBalances);
             } catch (err) {
                 console.error("Error fetching balances:", err);
             }
@@ -44,7 +43,6 @@ const BalanceTable = () => {
                 balance.id === transactionId ? { ...balance, status: newStatus } : balance
             );
             setBalances(updatedBalances);
-            console.log(`Balance status updated to ${newStatus} for ${userEmail}`);
         } catch (error) {
             console.error("Error updating balance status:", error);
         }

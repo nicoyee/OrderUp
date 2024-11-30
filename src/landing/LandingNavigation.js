@@ -65,6 +65,7 @@ const LandingNavigation = ({ setLandingContent }) => {
 
             </div>
 
+
             <div className='landingNavigation-center'>
                     <div className={`landingNavigation-title navTitle-${alignment}`}>
                         <p>Embrace</p>
@@ -83,7 +84,7 @@ const LandingNavigation = ({ setLandingContent }) => {
 
             <div className='landingNavigation-right'>
                     
-                <EventsButton setAlignment={ setAlignment } />
+            <EventsButton setAlignment={ setAlignment } setLandingContent={ setLandingContent } />
 
             </div>
 

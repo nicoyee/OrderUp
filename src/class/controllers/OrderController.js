@@ -105,7 +105,6 @@ class OrderController {
                 try {
                     const path = `Orders/${userEmail}/orders`;
                     await FService.updateDocument(path, referenceNumber, { status: newStatus });
-                    console.log("Order status updated successfully.");
                 } catch (error) {
                     console.error("Error updating order status:", error);
                     throw error;
@@ -176,7 +175,6 @@ class OrderController {
                     } else {
                         // Proceed to update the status of the specific transaction
                         await FService.updateDocument(balanceDocPath, transactionId, { status: newStatus });
-                        console.log("Transaction status updated successfully.");
                     }
                 } catch (error) {
                     console.error("Error updating transaction status:", error);
@@ -227,8 +225,6 @@ class OrderController {
         
                     const requestId = this.generateReferenceNumber(); 
                     await FService.setDocument("cancellationRequests", requestId, cancellationRequest);
-            
-                    console.log("Cancellation request created successfully.");
                     return requestId; 
                 } catch (error) {
                     console.error("Error requesting cancellation:", error);
@@ -255,8 +251,6 @@ class OrderController {
 
                     const requestId = this.generateReferenceNumber(); // Generate a unique ID for the refund request
                     await FService.setDocument("refundRequests", requestId, refundRequest);
-
-                    console.log("Refund request created successfully.");
                     return requestId;
                 } catch (error) {
                     console.error("Error requesting refund:", error);
@@ -300,7 +294,6 @@ class OrderController {
                         }
 
                         await deleteDoc(requestDocRef);
-                        console.log("Cancellation request confirmed and removed.");
                     } else {
                         throw new Error("Cancellation request not found.");
                     }
@@ -328,7 +321,6 @@ class OrderController {
                         }
                         
                         await deleteDoc(requestDocRef);
-                        console.log("Refund request confirmed and removed.");
                     } else {
                         throw new Error("Refund request not found.");
                     }
@@ -348,7 +340,6 @@ class OrderController {
         
                         await this.updateStatus(userEmail, referenceNumber, "pending");
                         await deleteDoc(requestDocRef);
-                        console.log("Order cancellation request rejected and order status reverted to pending.");
                     } else {
                         throw new Error("Cancellation request not found.");
                     }
@@ -367,7 +358,6 @@ class OrderController {
                         const { userEmail, referenceNumber } = requestData;
                         await this.updateStatus(userEmail, referenceNumber, "downpayment-paid");
                         await deleteDoc(requestDocRef);
-                        console.log("Refund request rejected and transaction status reverted to paid.");
                     } else {
                         throw new Error("Refund request not found.");
                     }

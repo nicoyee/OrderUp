@@ -26,7 +26,8 @@ const CustomerMenu = () => {
             id: doc.id,
             ...doc.data(),
             menuType: doc.data().menuType,
-          }));
+          }))
+          .filter((dish) => !dish.deleted);
           setDishes(dishesData);
           setLoading(false);
         })

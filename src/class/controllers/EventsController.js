@@ -19,14 +19,12 @@ class EventsController {
             };
             // Add new event document to Firestore
             const docRef = await FService.addDocument('events', newEvent);
-            console.log('Event created successfully:', { id: docRef.id, ...newEvent });
             return { id: docRef.id, ...newEvent };
         } catch (error) {
             console.error('Error creating event:', error);
             throw error;
         }
     }
-
     static async fetch() {
         try {
             const querySnapshot = await FService.getDocuments('events');
@@ -36,11 +34,11 @@ class EventsController {
                 .sort((a, b) => a.eventName.localeCompare(b.eventName));
             return events;
         } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
+          console.error('Error fetching events:', error);
+          throw error;
         }
     }
-    
+      
 
     static async update(eventId, eventData) {
         try {
@@ -67,8 +65,6 @@ class EventsController {
             await setDoc(doc(FService.db, 'events', eventId), {
                 deleted: true
             }, { merge: true });
-    
-            console.log('Event marked as deleted successfully');
         } catch (error) {
             console.error('Error marking event as deleted:', error);
             throw error;
