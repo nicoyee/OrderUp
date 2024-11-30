@@ -23,9 +23,15 @@ const CustomerBanner = () => {
 
         <div className='customerBanner-caption-buttons'>
 
+          <a href='#customerEvents'>
+            Our Events
+          </a>
+
+          <p>·</p>
+
           <a href='#customerMenu'>
             Our Menu
-          </a>  
+          </a>
 
         </div>
       </div>
