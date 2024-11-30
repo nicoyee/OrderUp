@@ -19,17 +19,17 @@
 
 .customerEvents__carousel {
     max-width: 80rem;
+    display: flex;
+    align-items: center;
     
     margin: auto;
     --slide-height: 19rem;
     --slide-spacing: 2rem;
-    --slide-size: 32%;
+    --slide-size: 31.5%;
 }
 
 .customerEvents__carousel-viewport {
-    padding: 20px;
     overflow: hidden;
-    
 }
 
 .customerEvents__carousel-container {
@@ -82,6 +82,7 @@
     background-color: white;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+    overflow: hidden;
 }
 
 .customerEvents__carousel-slide-text-name {
@@ -118,10 +119,11 @@
 }
 
 .customerEvents__carousel-slide-text-info {
+    max-width: 100%;
     display: flex;
     margin-top: auto;
     align-self: flex-end;
-    flex-wrap: wrap;
+
     gap: 5px;
     overflow: hidden;
 }
@@ -147,20 +149,34 @@
     text-overflow: ellipsis;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 80rem) {
     .customerEvents__carousel {
         width: 100%;
+        --slide-spacing: 2rem;
+    }
+    .customerEvents__carousel-viewport {
+        padding: 2rem;
+        margin: 0 -1rem;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .customerEvents__carousel {
         --slide-spacing: 1rem;
     }
     .customerEvents__carousel-viewport {
+        padding: 20px;
         margin: 0 -1rem;
     }
     .customerEvents__carousel-slide {
-        flex: 0 0 50%;
+        flex: 0 0 49%;
     }
 }
 
 @media only screen and (max-width: 600px) {
+    .customerEvents__carousel-viewport {
+        padding: 0 5rem;
+    }
     .customerEvents__carousel-slide {
         flex: 0 0 100%;
     }

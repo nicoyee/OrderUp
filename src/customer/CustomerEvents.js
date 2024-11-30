@@ -3,16 +3,18 @@ import '../common/css/embla.css';
 
 import { MdOutlineDateRange } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
-import { TbLocation } from "react-icons/tb";
-import { TbCurrentLocation } from "react-icons/tb";
 
-
-
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { format } from 'date-fns';
 
 import Customer from '../class/Customer.ts';
+
+import {
+    PrevButton,
+    NextButton,
+    usePrevNextButtons
+} from '../common/EmblaCarouselArrowButtons';
 
 const CustomerEvents = () => {
 
@@ -22,6 +24,13 @@ const CustomerEvents = () => {
 
     const [ loading, setLoading ] = useState(true);
     const [ events, setEvents ] = useState([]);
+
+    const {
+        prevBtnDisabled,
+        nextBtnDisabled,
+        onPrevButtonClick,
+        onNextButtonClick
+    } = usePrevNextButtons(emblaApi);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -51,6 +60,7 @@ const CustomerEvents = () => {
             
             <div className='dashboard-section'>
                 <section className="customerEvents__carousel">
+                    <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
                     <div className="customerEvents__carousel-viewport" ref={emblaRef}>
                         <div className="customerEvents__carousel-container">
                         { events.map((event) => (
@@ -69,7 +79,7 @@ const CustomerEvents = () => {
                                     </div>
 
                                     <div className='customerEvents__carousel-slide-text-info'>
-                                        <span><MdOutlineDateRange /> <h2>{ format(new Date(event.date), 'MMMM d yyyy') }</h2> </span>
+                                        <span><MdOutlineDateRange /> <h2>{ format(new Date(event.date), 'MMM d yyyy') }</h2> </span>
                                         <h2>·</h2>
                                         <span><GrMapLocation /> <h2>{ event.location }</h2> </span>
                                     </div>
@@ -78,6 +88,7 @@ const CustomerEvents = () => {
                         ))}
                         </div>
                     </div>
+                    <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
                 </section>
             </div>
 
