@@ -146,7 +146,7 @@ const CustomerMenu = () => {
                       <p>{dish.description}</p>
                     </div>
                     <div className='customerMenu-itemSub-price'>
-                      <h3>${dish.price}</h3>
+                      <h3>₱{dish.price}</h3>
                     </div>
                   </div>
               </div>

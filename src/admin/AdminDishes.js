@@ -315,7 +315,7 @@ const AdminDishes = () => {
                                         />
                                     ) : (
                                         <>
-                                            ${ dish.price }
+                                            ₱{ dish.price }
                                         </>
                                     )}
                                     </td>
