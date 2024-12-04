@@ -186,7 +186,7 @@ const CartPage = () => {
                   onChange={() => handleSelectItem(dishId)}
                   className="cart-item-checkbox"
                 />
-                <div>
+                <div className="item-info">
                   <span className="item-name">{cartItems[dishId].name}</span>
                   <div className="item-quantity">
                     <button
